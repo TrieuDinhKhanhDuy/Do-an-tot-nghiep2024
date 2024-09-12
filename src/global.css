@@ -15,7 +15,6 @@ html, body {
     line-height: 1.6;
     /*Vô hiệu hóa cuộn ngang*/
     overflow-x: hidden; 
-    /* width: 1440px; */
 }
 
 ul {
