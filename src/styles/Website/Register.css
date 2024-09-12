@@ -1,0 +1,98 @@
+/* Container styles */
+.register-container {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 50px 0;
+    max-width: 1200px;
+    margin: 70px auto 0; /* Cập nhật khoảng cách hai bên container và top margin */
+    font-family: 'Inter', sans-serif;
+    border: 1px solid #CCCCCC;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Thêm đổ bóng phía dưới */
+    margin-bottom: 80px;
+}
+
+
+.register-container img {
+    width: 50%; /* Hình ảnh chiếm 50% chiều rộng container */
+    object-fit: cover;
+}
+
+.register-container-form {
+    width: 35%; /* Form chiếm 40% chiều rộng container */
+    margin-left: -50px;
+}
+
+/* Title styles */
+.register-container__title {
+    color: #3C4A8F;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+/* Tabs styles */
+.register-container__tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    font-size: 20px;
+}
+
+.register-container__tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #333;
+}
+
+.register-container__tab--active {
+    color: #3C4A8F;
+    border-bottom: 2px solid #3C4A8F;
+}
+
+/* Form styles */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.register-form__input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* Checkbox container styles */
+.register-form__checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.register-form__checkbox {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.register-form__label {
+    font-size: 16px;
+}
+
+/* Button styles */
+.register-form__submit-btn {
+    padding: 12px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #3C4A8F;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.register-form__submit-btn:hover {
+    background-color: #2c3670;
+}

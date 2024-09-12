@@ -1,0 +1,108 @@
+.contactForm-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 40px;
+  }
+  
+  .contactForm-title {
+    text-align: center;
+    font-size: 35px;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+  
+  .contactForm-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    gap: 20px;
+  }
+  
+  .contactForm-info {
+    width: 49%;
+  }
+  
+  .contactForm-info h3 {
+    font-size: 22px;
+    font-weight: bold;
+  }
+  
+  .contactForm-info p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  .contactForm-map {
+    width: 48%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .contactForm-map img {
+    width: 100%;
+  }
+  
+  .contactForm-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  
+  .contactForm-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  .contactForm-group {
+    flex: 1;
+    margin-right: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .contactForm-group:last-child {
+    margin-right: 0;
+  }
+  
+  .contactForm-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .contactForm-group input,
+  .contactForm-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .contactForm-group input:focus,
+  .contactForm-group textarea:focus {
+    border-color: #007bff;
+  }
+  
+  .contactForm-group textarea {
+    resize: vertical;
+    height: 100px;
+  }
+  
+  .contactForm-button {
+    background-color: #405187;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+  }
+  

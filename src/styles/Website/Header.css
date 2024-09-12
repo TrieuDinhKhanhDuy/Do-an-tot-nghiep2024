@@ -1,0 +1,33 @@
+.header-container{
+    display: flex;
+    padding: 0 110px;
+    justify-content: space-between;
+    align-items: center;
+    background: #405187;
+    color:white;
+    height: 100px;
+}
+.header-container img{
+    width: 130px;
+    height: 95px;
+}
+.header-container ul  {
+    display: flex;
+   
+}
+.header-container ul li{
+    margin-right: 40px;
+    font-weight: 600;
+}
+.header-container .header-icons{
+    display: flex;
+    align-items: center;
+}
+.header-container .header-icons svg{
+    font-size: 20px;
+    font-weight: 550;
+}
+.header-container .header-icons span{
+    font-size: 15px;
+    font-weight: 550;
+}

@@ -1,0 +1,227 @@
+.mainContent-container{
+    margin-top: 20px;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+.mainContent-container .mainContent-top h3{
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.mainContent-container .mainContent-top .mainContent-top-image{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.mainContent-container .mainContent-top .mainContent-top-image img{
+width: 24%;
+}
+.mainContent-container .mainContent-top a{
+    display: flex;
+  justify-content: flex-end; 
+  font-size: 20px;
+  color: #405187;
+  text-decoration: underline;
+  font-weight: 600;
+  margin-top: 5px;
+}
+.mainContent-container .mainContent-top .mainContent-top-content{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left {
+    display: flex;
+    width: 49%;
+    border: 1px solid #DCDCDC;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Thêm đổ bóng */
+}
+
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left .mainContent-top-left-content {
+    display: flex;
+    flex-direction: column; /* Đặt các phần tử con thành hàng dọc */
+    align-items: flex-start;
+    margin-left: 15px;
+    margin-top: 10px; /* Đặt các phần tử con sát về bên trái */
+  }
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left .mainContent-top-left-image{
+    width: 49%;
+}
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left .mainContent-top-left-image img{
+    width: 100%;
+}
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left .mainContent-top-left-content p {
+    margin-bottom: 40px;
+}
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left .mainContent-top-left-content button {
+    padding: 5px 60px;
+    background: #405187;
+    color:white;
+    border-radius: 10px;
+    text-align: center;
+}
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left .mainContent-top-left-content button a{
+    color:white;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 16px;
+    text-align: center;
+}
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left .mainContent-top-left-content h3{
+    font-weight: 550;
+}
+
+/****/
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-right {
+    display: flex;
+    width: 49%;
+    border: 1px solid #DCDCDC;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Thêm đổ bóng */
+}
+
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-right .mainContent-top-right-content {
+    display: flex;
+    flex-direction: column; /* Đặt các phần tử con thành hàng dọc */
+    align-items: flex-start;
+    margin-left: 15px;
+    margin-top: 10px; /* Đặt các phần tử con sát về bên trái */
+  }
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-right .mainContent-top-right-image{
+    width: 49%;
+}
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-right .mainContent-top-right-image img{
+    width: 100%;
+}
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-right .mainContent-top-right-content p {
+    margin-bottom: 40px;
+}
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-right .mainContent-top-right-content button {
+    padding: 5px 60px;
+    background: #405187;
+    color:white;
+    border-radius: 10px;
+    text-align: center;
+}
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-right .mainContent-top-right-content button a{
+    color:white;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 16px;
+    text-align: center;
+}
+.mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-right .mainContent-top-right-content h3{
+    font-weight: 550;
+}
+
+
+
+.mainContent-container .mainContent-center {
+    margin-top: 15px;
+    margin-left: 60px;
+    margin-right: 60px;
+    display: flex;
+    flex-wrap: wrap; /* Cho phép các khối linh hoạt và tự động xuống hàng khi cần */
+    gap: 20px; /* Khoảng cách giữa các khối */
+}
+
+.mainContent-container .mainContent-center h2 {
+    font-weight: 900;
+    font-size: 20px;
+    text-align: center;
+    width: 100%; /* Đảm bảo tiêu đề chiếm toàn bộ chiều rộng */
+}
+
+.mainContent-container .mainContent-center .mainContent-center-items {
+    display: flex;
+    width: calc(50% - 10px); /* Mỗi khối chiếm 50% chiều rộng container trừ khoảng cách giữa các khối */
+    margin-bottom: 20px; /* Khoảng cách giữa các hàng */
+}
+
+.mainContent-container .mainContent-center .mainContent-center-items img {
+    margin-right: 10px; /* Khoảng cách giữa ảnh và nội dung */
+}
+.mainContent-center-items-content-h3 {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    margin-bottom: 0;
+}
+
+.mainContent-center-items-content-h3 h3 {
+    font-size: 30px; /* Kích thước chữ của h3 */
+    font-weight: 600;
+    margin: 0;
+    margin-right: 10px;; /* Loại bỏ margin mặc định */
+}
+
+.mainContent-center-items-content-h3 span {
+    margin-left: 10px; /* Khoảng cách giữa h3 và span */
+    font-size: 16px; /* Kích thước chữ của span, có thể điều chỉnh theo nhu cầu */
+    font-weight: normal; /* Đặt font-weight của span nếu cần */
+}
+
+.mainContent-center-items-content-h3 p {
+    margin-top: 0;
+    font-weight: 550;
+    font-size: 20px;
+
+}
+.mainContent-container .mainContent-bottom {
+    background: #DCDCDC;
+    width: 100vw; /* Đặt chiều rộng của phần tử thành toàn bộ chiều rộng của viewport */
+    position: relative; /* Để không bị ảnh hưởng bởi các phần tử khác */
+    left: 50%; /* Đặt phần tử về giữa theo chiều ngang */
+    right: 50%; /* Đặt phần tử về giữa theo chiều ngang */
+    margin-left: -50vw; /* Đưa phần tử về bên trái một nửa chiều rộng của viewport */
+    margin-right: -50vw; /* Đưa phần tử về bên phải một nửa chiều rộng của viewport */
+}
+
+/* Thiết lập tiêu đề bên trong phần footer */
+.mainContent-container .mainContent-bottom h3 {
+    text-align: center;
+    font-size: 25px;
+    padding-top: 15px;;
+}
+.mainContent-container .mainContent-bottom .mainContent-bottom-content{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+.mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items{
+    background: white;
+    width: 32%;
+    position: relative;
+    border-radius: 10px;
+}
+.mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items img{
+    width: 100%;
+}
+.mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items p{
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-weight: 550;
+    margin-bottom: 20px;
+}
+.mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items a{
+ position: absolute;
+ bottom: 2px;
+ right: 10px;  
+ text-decoration: underline;
+ font-weight: bold;
+}
+ .mainContent-bottom-a{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 60px;
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 18px;
+ }
+
+
+
+

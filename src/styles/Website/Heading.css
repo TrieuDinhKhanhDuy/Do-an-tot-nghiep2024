@@ -1,0 +1,26 @@
+.heading-container{
+    margin-top: 30px;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+.heading-container h3{
+    text-align: center;
+    font-size: 25px;
+    font-weight: 550;
+}
+.heading-container .heading-items{
+    display: flex;
+    justify-content: space-between;
+}
+.heading-container .heading-items .heading-items1{
+    width: 18%;
+}
+.heading-container .heading-items .heading-items1 img{
+    width: 100%;
+    margin-bottom: 10px;
+}
+.heading-container .heading-items .heading-items1 p{
+    text-align: center;
+    font-weight: medium;
+}
+

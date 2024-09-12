@@ -1,0 +1,106 @@
+/* Container styles */
+.login-container {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 20px 0;
+    max-width: 1200px;
+    margin: 70px auto ; /* Cập nhật khoảng cách hai bên container và top margin */
+    font-family: 'Inter', sans-serif;
+    border: 1px solid #CCCCCC;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Thêm đổ bóng phía dưới */
+    margin-bottom: 80px;
+}
+
+.login-container img {
+    width: 55%; /* Hình ảnh chiếm 50% chiều rộng container */
+    object-fit: contain;
+    
+}
+
+.login-container-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 35%; /* Form chiếm 40% chiều rộng container */
+    margin-left: -50px;
+}
+
+/* Title styles */
+.login-container__title {
+    color: #3C4A8F;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+/* Tabs styles */
+.login-container__tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    font-size: 20px;
+}
+
+.login-container__tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #333;
+}
+
+.login-container__tab--active {
+    color: #3C4A8F;
+    border-bottom: 2px solid #3C4A8F;
+}
+
+/* Form styles */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-form__input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* Checkbox container styles */
+.login-form__checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.login-form__checkbox {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.login-form__label {
+    font-size: 16px;
+}
+
+.login-form__checkbox-container p {
+    margin-left: auto;
+    font-weight: 600;
+}
+
+/* Button styles */
+.login-form__submit-btn {
+    padding: 12px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #3C4A8F;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.login-form__submit-btn:hover {
+    background-color: #2c3670;
+}
