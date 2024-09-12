@@ -6,6 +6,7 @@
     background: #405187;
     color:white;
     height: 100px;
+    width: 100%;
 }
 .header-container img{
     width: 130px;

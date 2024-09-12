@@ -44,12 +44,12 @@ const BookingForm = () => {
         <div className="bookingForm-steps">
           <div className="bookingForm-step">
             <div className="bookingForm-icon">📍</div>
-            <p>Chọn thông tin hành trình và ấn tìm chuyến</p>
+            <p>Chọn thông tin hành </p>
           </div>
           <div className="bookingForm-arrow"><FaCircleArrowRight /></div>
           <div className="bookingForm-step">
             <div className="bookingForm-icon">🚌</div>
-            <p>Chọn chuyến, chỗ ngồi phù hợp và điền thông tin</p>
+            <p>Chọn chuyến,chỗ </p>
           </div>
           <div className="bookingForm-arrow"><FaCircleArrowRight /></div>
           <div className="bookingForm-step">
