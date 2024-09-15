@@ -1,0 +1,195 @@
+.container {
+    /* padding: 0px 20px 20px 20px; */
+    width: 1320px;
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd; /* Added border between two sections */
+  }
+  .pay-container{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+
+  }
+  .payment-section{
+    margin: 10px;
+    width: 70%;
+  }
+  
+  .payment-section, .customer-info {
+    border: 1px solid #ddd; 
+    padding: 20px;
+    border-radius: 8px;
+    margin: 10px;
+    
+  }
+  
+  .payment-section h2, .customer-info h2 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .payment-section p, .customer-info p {
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .payment-options {
+    margin-bottom: 20px;
+  }
+  
+  .option {
+    margin-bottom: 10px;
+  }
+  
+  .option input {
+    margin-right: 10px;
+  }
+  
+  .price-summary {
+    padding-top: 10px;
+  }
+  
+  .price-summary p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .price-summary .total {
+    font-weight: bold;
+  }
+  
+  .info-box {
+    background-color: #e6f7ff; /* Light blue background */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #007bff; /* Blue text */
+    margin-bottom: 15px;
+  }
+  
+  hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 15px 0;
+  }
+  
+  .agreement-text {
+    font-size: 14px;
+    color: #555;
+    margin-top: 20px;
+  }
+  
+  .agreement-text a {
+    color: #007bff;
+    text-decoration: none;
+    margin-left: 5px;
+  }
+  
+  .agreement-text a:hover {
+    text-decoration: underline;
+  }
+  
+  .customer-info h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .pay-button, .cancel-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .pay-button {
+    background-color: #405187;
+    color: white;
+  }
+  
+  .cancel-button {
+    background-color: #ccc;
+    color: white;
+    cursor: not-allowed;
+  }
+  .header-payment{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .option-item{
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+    line-height: 60px;
+    margin-bottom: 10px;
+  }
+
+  /* tiketcss */
+
+  .ticket-container {
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    width: 350px;
+  }
+  
+  .ticket-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .ticket-table td {
+    padding: 4px 0;
+    border: none;
+  }
+  
+  .section-title {
+    font-weight: bold;
+    background-color: white;
+    text-align: left;
+    padding: 5px 0;
+    font-size: 17px;
+    color: #405187;
+    text-align: center;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .btn-primary {
+    background-color: #405187; 
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .btn-secondary {
+    background-color: #ccc;
+    color: #333;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+  }
+  
+  .btn-primary:hover {
+    background-color: #2952cc; /* Slightly darker shade for hover */
+  }

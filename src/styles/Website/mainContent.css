@@ -1,9 +1,9 @@
 .mainContent-container{
-    margin-top: 20px;
-    margin-left: 60px;
-    margin-right: 60px;
+    width: 1320px;
+    margin: 0 auto;
 }
 .mainContent-container .mainContent-top h3{
+    margin-top: 20px;
     text-align: center;
     font-size: 25px;
     font-weight: bold;
@@ -169,13 +169,7 @@ width: 24%;
 
 }
 .mainContent-container .mainContent-bottom {
-    background: #DCDCDC;
-    width: 100vw; /* Đặt chiều rộng của phần tử thành toàn bộ chiều rộng của viewport */
-    position: relative; /* Để không bị ảnh hưởng bởi các phần tử khác */
-    left: 50%; /* Đặt phần tử về giữa theo chiều ngang */
-    right: 50%; /* Đặt phần tử về giữa theo chiều ngang */
-    margin-left: -50vw; /* Đưa phần tử về bên trái một nửa chiều rộng của viewport */
-    margin-right: -50vw; /* Đưa phần tử về bên phải một nửa chiều rộng của viewport */
+    
 }
 
 /* Thiết lập tiêu đề bên trong phần footer */
@@ -195,6 +189,8 @@ width: 24%;
     width: 32%;
     position: relative;
     border-radius: 10px;
+    border: 1px solid rgba(175, 175, 175, 0.505);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 .mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items img{
     width: 100%;

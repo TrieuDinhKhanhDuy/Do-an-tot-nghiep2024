@@ -1,0 +1,77 @@
+/* Invoice.css */
+.invoice-container {
+    width: 1320px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  .invoice-container-item{
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .ticket-code {
+    font-weight: bold;
+  }
+  
+  .section-divider {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    margin: 10px 0;
+  }
+  
+  /* Table Styles */
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .left-section, .right-section {
+    width: 50%;
+    vertical-align: top;
+    padding: 10px;
+  }
+  
+  td {
+    padding: 5px;
+  }
+  
+  /* Vehicle Information with Driver's Image */
+  .vehicle-info-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .driver-image img {
+    border-radius: 50%;
+    width: 100px;
+    /* height: 50px; */
+  }
+  
+  /* Pricing Section */
+  .pricing-left {
+    width: 50%;
+    vertical-align: top;
+    padding: 10px;
+  }
+  
+  .pricing-right {
+    text-align: right;
+    padding: 10px;
+  }
+  
+  .pricing-right p {
+    margin: 5px 0;
+  }
+  
+  .status-pay {
+    color: blue;
+    font-weight: bold;
+  }
+  

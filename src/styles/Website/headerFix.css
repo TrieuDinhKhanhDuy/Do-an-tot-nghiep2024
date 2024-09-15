@@ -1,0 +1,83 @@
+/* Header container */
+.header {
+    width: 100%;
+   
+  }
+  
+  /* Top section containing logo and right-side actions */
+  .header__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 70px 10px;
+    background-color: white; /* White background for the top section */
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+  }
+  
+  /* Logo styles */
+  .header__logo {
+    flex-shrink: 0;
+  }
+  
+  .header__logo-img {
+    height: 90px;
+  }
+  
+  /* Right-side actions (Trợ giúp, Đăng nhập, Đăng ký, etc.) */
+  .header__top-actions {
+    flex-grow: 1;
+    text-align: right;
+  }
+  
+  .header__top-list {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    /* padding: 0; */
+    /* margin: 0; */
+  }
+  
+  .header__top-list li {
+    margin-left: 20px;
+  }
+  
+  .header__top-list a {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+  }
+  
+  .header__top-list a:hover {
+    color: #007bff;
+  }
+  
+  /* Bottom navigation bar */
+  .header__nav {
+    background-color: #0056b3; /* Blue background */
+    width: 100%;
+  }
+  
+  .header__nav-list {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .header__nav-list li {
+    margin: 0 20px;
+  }
+  
+  .header__nav-list a {
+    text-decoration: none;
+    color: white; /* White text for the navigation items */
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .header__nav-list a:hover {
+    color: #ffcc00; /* Hover color for links */
+  }
+  

@@ -1,135 +1,149 @@
 .bookingForm-container {
+  width: 1320px;
+  margin: 0 auto;
+  padding: 20px;
+  /* Cách 2 bên 60px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  /* Màu nền trắng */
+  border-radius: 7px;
+  /* Đường bo tròn */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Hiệu ứng đổ bóng nhẹ */
+  border: 1px solid rgba(128, 128, 128, 0.5);
+  /* Màu viền nhạt hơn với alpha 0.3 */
+}
 
-    padding: 20px ; /* Cách 2 bên 60px */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #fff; /* Màu nền trắng */
-    border-radius: 7px; /* Đường bo tròn */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng nhẹ */
-    border: 1px solid rgba(128, 128, 128, 0.5); /* Màu viền nhạt hơn với alpha 0.3 */
-  }
-  
-  .bookingForm-search {
-    display: flex;
-    justify-content: space-between  ;
-    margin-bottom: 30px;
-    width: 100%; /* Điều chỉnh kích thước form để vừa với padding */
-    margin-top: 30px;
-  }
-  
-  .bookingForm-input {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid rgba(128, 128, 128, 0.5); /* Màu viền nhạt hơn với alpha 0.3 */
-    flex: 1; /* Đảm bảo các khối có kích thước bằng nhau */
-    max-width: 340px; /* Giới hạn kích thước tối đa của khối */
-    padding-top: 10px;
-  }
-  
-  .bookingForm-input label {
-    font-weight: bold;
-    margin-bottom: 5px;
-   
-  }
-  .bookingForm-input select,
-  .bookingForm-input input {
-    padding: 10px; /* Giảm kích thước padding để giảm chiều cao */
-    font-size: 16px; /* Giảm kích thước font chữ */
-    border: none; /* Bỏ viền */
-    border-radius: 8px;
-    width: 100%; /* Đảm bảo input và select chiếm toàn bộ chiều rộng của khối */
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .bookingForm-input select:focus,
-  .bookingForm-input input:focus {
-    outline: 2px solid rgba(59, 89, 152, 0.4); /* Đổi màu outline khi focus */
-  }
-  .bookingForm-input-top{
-    display: flex;
-  }
-  .bookingForm-input-top svg{
-    font-size: 17px;
-    margin-right: 5px;
-    margin-top: 5px;
-    margin-left: 5px;
-  }
-  
-  .bookingForm-button {
-    display: flex;
-    align-items: center; /* Căn giữa theo chiều dọc */
-    justify-content: center;
-    padding: 15px 80px; /* Điều chỉnh padding nếu cần */
-    font-size: 20px;
-    background-color: #3b5998;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-  }
-  
-  .bookingForm-button:hover {
-    background-color: #333;
-  }
-  
-  .bookingForm-button svg {
-    margin-right: 8px; /* Khoảng cách giữa icon và văn bản */
-  }
-  
-  
-  .bookingForm-process {
-    border-top: 1px solid #B0B0B0;
-    text-align: center;
-    margin-top: 20px;
-    width: 100%; /* Đảm bảo quá trình chiếm 100% không bị ảnh hưởng bởi padding */
-  }
-  
-  .bookingForm-process h2 {
-    margin-top: 30px;
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: 600;
-    
-  }
-  
-  .bookingForm-steps {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 30px;
-  }
-  
-  .bookingForm-step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin: 0 30px;
-  }
-  
-  .bookingForm-icon {
-    font-size: 60px;
-    margin-bottom: 15px;
-    background-color: #f2f2f2;
-    border: 2px dashed #999;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 30px 40px;
-  }
-  
-  .bookingForm-arrow {
-    font-size: 40px;
-    margin-top: 50px;
-    border-radius: 50px;
-  }
-  
-  .bookingForm-step p {
-    font-size: 16px;
-    max-width: 160px;
-    margin-top: 10px;
-  }
- 
+.bookingForm-search {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  width: 100%;
+  margin-top: 30px;
+  height: 120px;
+}
+
+.bookingForm-input {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(128, 128, 128, 0.5);
+  flex: 1;
+  max-width: 320px;
+  padding-top: 10px;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+.bookingForm-input label {
+  font-weight: bold;
+  margin-bottom: 5px;
+
+}
+
+.bookingForm-input select,
+.bookingForm-input input {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+}
+
+.bookingForm-input select:focus,
+.bookingForm-input input:focus {
+  outline: 2px solid rgba(59, 89, 152, 0.4);
+  /* Đổi màu outline khi focus */
+}
+
+.bookingForm-input-top {
+  display: flex;
+}
+
+.bookingForm-input-top svg {
+  font-size: 17px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.bookingForm-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  padding-top: 10px;
+  margin: 10px;
+  font-size: 20px;
+  background-color: #3b5998;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.bookingForm-button:hover {
+  background-color: #002897;
+}
+
+.bookingForm-button svg {
+  margin-right: 8px;
+}
+
+
+.bookingForm-process {
+  border-top: 1px solid #B0B0B0;
+  text-align: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.bookingForm-process h2 {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+
+}
+
+.bookingForm-steps {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.bookingForm-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0 30px;
+}
+
+.bookingForm-icon {
+  font-size: 60px;
+  margin-bottom: 15px;
+  background-color: #f2f2f2;
+  border: 2px dashed #999;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 40px;
+}
+
+.bookingForm-arrow {
+  font-size: 40px;
+  margin-top: 50px;
+  border-radius: 50px;
+}
+
+.bookingForm-step p {
+  font-size: 16px;
+  max-width: 160px;
+  margin-top: 10px;
+}

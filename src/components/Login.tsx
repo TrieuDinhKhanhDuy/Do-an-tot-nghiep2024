@@ -13,7 +13,6 @@ const Login = (props: Props) => {
     };
     return (
         <>
-            <Header />
             <div className="login-container">
                 <img src={Login1} alt="" />
                 <div className="login-container-form">

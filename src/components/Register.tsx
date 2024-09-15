@@ -13,7 +13,6 @@ const Register = (props: Props) => {
     };
     return (
         <>
-            <Header />
             <div className="register-container">
                 <img src={Register1} alt="" />
                 <div className="register-container-form">

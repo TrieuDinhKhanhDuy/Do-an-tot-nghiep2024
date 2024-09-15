@@ -1,14 +1,10 @@
-import Header from "@/components/Header";
-import React from "react";
 import "../../../../styles/Website/Contact.css";
 import contact1 from "../../../../assets/image/Contact.png";
 
-type Props = {};
 
-const Contact = (props: Props) => {
+const Contact = () => {
     return (
         <>
-            <Header />
             <div className="contactForm-container">
                 <h2 className="contactForm-title">LIÊN HỆ</h2>
 
