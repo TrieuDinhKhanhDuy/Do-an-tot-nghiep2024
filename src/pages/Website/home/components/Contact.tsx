@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import React from "react";
 import "../../../../styles/Website/Contact.css";
 import contact1 from "../../../../assets/image/Contact.png";
+import Footer from "@/components/Footer";
 
 type Props = {};
 
@@ -82,6 +83,7 @@ const Contact = (props: Props) => {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     );
 };

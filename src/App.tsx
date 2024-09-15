@@ -6,6 +6,8 @@ import Register from "./components/Register"; // Import Register component
 import Login from "./components/Login";
 import Contact from "./pages/Website/home/components/Contact";
 import Footer from "./components/Footer";
+import News from "./pages/Website/home/components/News";
+import Gioithieu from "./pages/Website/home/components/Gioithieu";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
       <Route path='/contact' element={<Contact />} />
+      <Route path='/news' element={<News />} />
+      <Route path='/gioithieu' element={<Gioithieu />} />
       
       {/* Route cho trang chủ */}
       <Route path='/' element={

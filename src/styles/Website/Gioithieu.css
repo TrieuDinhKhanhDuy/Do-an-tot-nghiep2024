@@ -1,0 +1,15 @@
+.gioithieu-container{
+    margin-top: 40px;
+    margin-left:  60px;
+    margin-right: 60px;
+    margin-bottom: 40px;
+}
+.gioithieu-h2{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.gioithieu-container img{
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

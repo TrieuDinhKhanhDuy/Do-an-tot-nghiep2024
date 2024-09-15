@@ -3,6 +3,7 @@ import Header from "./Header";
 import "../styles/Website/Register.css";
 import Register1 from "../assets/image/Register.png";
 import Heading from "./Heading";
+import Footer from "./Footer";
 type Props = {};
 
 const Register = (props: Props) => {
@@ -73,6 +74,7 @@ const Register = (props: Props) => {
                 </div>
             </div>
             <Heading />
+            <Footer />
         </>
     );
 };
