@@ -1,5 +1,6 @@
 import "../../../../styles/Website/Contact.css";
 import contact1 from "../../../../assets/image/Contact.png";
+import Footer from "@/components/Footer";
 
 
 const Contact = () => {
@@ -78,6 +79,7 @@ const Contact = () => {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     );
 };

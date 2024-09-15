@@ -3,6 +3,7 @@ import Header from "./Header";
 import "../styles/Website/Login.css";
 import Login1 from "../assets/image/Login2.png";
 import Heading from "./Heading";
+import Footer from "./Footer";
 type Props = {};
 
 const Login = (props: Props) => {
@@ -63,6 +64,7 @@ const Login = (props: Props) => {
                 </div>
             </div>
             <Heading />
+            <Footer />
         </>
     );
 };
