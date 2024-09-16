@@ -6,7 +6,6 @@ import Register from "./components/Register"; // Import Register component
 import Login from "./components/Login";
 import Contact from "./pages/Website/home/components/Contact";
 import Footer from "./components/Footer";
-<<<<<<< HEAD
 import List from "./pages/Website/home/list";
 import Pay from "./pages/Website/home/pay";
 import Bill from "./pages/Website/home/bill";
@@ -14,32 +13,35 @@ import DetailBill from "./pages/Website/home/detailBill";
 import MyTicket from "./pages/Website/home/myTicket";
 import BusTracking from "./pages/Website/home/busTracking";
 import HeaderFix from "./components/HeaderFix";
-=======
 import News from "./pages/Website/home/components/News";
 import Gioithieu from "./pages/Website/home/components/Gioithieu";
->>>>>>> f68392aced7c855414212d6c180096fe03e7554a
 
 function App() {
   return (
     <Routes>
-<<<<<<< HEAD
 
 
 
-=======
       {/* Route cho phụ*/}
-      <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
       <Route path='/contact' element={<Contact />} />
       <Route path='/news' element={<News />} />
       <Route path='/gioithieu' element={<Gioithieu />} />
-      
->>>>>>> f68392aced7c855414212d6c180096fe03e7554a
+
       {/* Route cho trang chủ */}
+      <Route path='/register' element={
+        <>
+          <div className="home-container">
+            <HeaderFix />
+            <Register />
+            <Footer />
+          </div>
+        </>
+      } />
       <Route path='/' element={
         <>
           <div className="home-container">
-            <Header />
+            <HeaderFix />
             <PageHome />
             <Footer />
           </div>
@@ -59,7 +61,7 @@ function App() {
       <Route path='/register' element={
         <>
           <div className="home-container">
-            <Header />
+            <HeaderFix />
             <Register />
             <Footer />
           </div>
@@ -69,7 +71,7 @@ function App() {
       <Route path='/contact' element={
         <>
           <div className="home-container">
-            <Header />
+            <HeaderFix />
             <Contact />
             <Footer />
           </div>
@@ -79,7 +81,7 @@ function App() {
       <Route path='/list' element={
         <>
           <div className="list-container">
-            <Header />
+            <HeaderFix />
             <List />
             <Footer />
           </div>
@@ -89,7 +91,7 @@ function App() {
       <Route path='/pay' element={
         <>
           <div className="list-container">
-            <Header />
+            <HeaderFix />
             <Pay />
             <Footer />
           </div>
@@ -99,7 +101,7 @@ function App() {
       <Route path='/bill' element={
         <>
           <div className="list-container">
-            <Header />
+            <HeaderFix />
             <Bill />
             <Footer />
           </div>
@@ -109,7 +111,7 @@ function App() {
       <Route path='/detailbill' element={
         <>
           <div className="list-container">
-            <Header />
+            <HeaderFix />
             <DetailBill />
             <Footer />
           </div>
@@ -119,7 +121,7 @@ function App() {
       <Route path='/myticket' element={
         <>
           <div className="list-container">
-            <Header />
+            <HeaderFix />
             <MyTicket />
             <Footer />
           </div>
@@ -129,7 +131,7 @@ function App() {
       <Route path='/bustracking' element={
         <>
           <div className="list-container">
-            <Header />
+            <HeaderFix />
             <BusTracking />
             <Footer />
           </div>

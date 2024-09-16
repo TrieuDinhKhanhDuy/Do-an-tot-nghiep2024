@@ -1,4 +1,4 @@
-.header-container{
+/* .header-container{
     display: flex;
     padding: 0 110px;
     justify-content: space-between;
@@ -136,5 +136,5 @@
   }
   
   .logout:hover {
-    color: red;
-  }
+    color: rgb(255, 255, 255);
+  } */
