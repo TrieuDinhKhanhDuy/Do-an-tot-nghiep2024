@@ -1,10 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import "./global.css";
 import PageHome from "./pages/Website/home/page";
-import Register from "./components/Register"; // Import Register component
+import Register from "./components/Register";
 import Login from "./components/Login";
 import Contact from "./pages/Website/home/components/Contact";
 import Footer from "./components/Footer";
+import News from "./pages/Website/home/components/News";
+import Gioithieu from "./pages/Website/home/components/Gioithieu";
 import List from "./pages/Website/home/list";
 import Pay from "./pages/Website/home/pay";
 import Bill from "./pages/Website/home/bill";
@@ -12,17 +14,18 @@ import DetailBill from "./pages/Website/home/detailBill";
 import MyTicket from "./pages/Website/home/myTicket";
 import BusTracking from "./pages/Website/home/busTracking";
 import HeaderFix from "./components/HeaderFix";
-import News from "./pages/Website/home/components/News";
-import Gioithieu from "./pages/Website/home/components/Gioithieu";
+import NewsDetails from "./pages/Website/home/components/NewsDetails"
+import DichVuVanTai from "./pages/Website/home/components/DichVuVanTai";
 
 function App() {
   return (
     <Routes>
-      <Route path='/gioithieu' element={
+
+      <Route path='/dichvuvantai' element={
         <>
           <div className="home-container">
             <HeaderFix />
-            <Gioithieu />
+            <DichVuVanTai />
             <Footer />
           </div>
         </>
@@ -36,30 +39,11 @@ function App() {
           </div>
         </>
       } />
-      <Route path='/register' element={
+      <Route path='/gioithieu' element={
         <>
           <div className="home-container">
             <HeaderFix />
-            <Register />
-            <Footer />
-          </div>
-        </>
-      } />
-      <Route path='/' element={
-        <>
-          <div className="home-container">
-            <HeaderFix />
-            <PageHome />
-            <Footer />
-          </div>
-        </>
-      } />
-
-      <Route path='/login' element={
-        <>
-          <div className="home-container">
-            <HeaderFix />
-            <Login />
+            <Gioithieu />
             <Footer />
           </div>
         </>
@@ -73,6 +57,15 @@ function App() {
           </div>
         </>
       } />
+      <Route path='/register' element={
+        <>
+          <div className="home-container">
+            <HeaderFix />
+            <Register />
+            <Footer />
+          </div>
+        </>
+      } />
       <Route path='/list' element={
         <>
           <div className="list-container">
@@ -82,10 +75,18 @@ function App() {
           </div>
         </>
       } />
-
+      <Route path='/' element={
+        <>
+          <div className="home-container">
+            <HeaderFix />
+            <PageHome />
+            <Footer />
+          </div>
+        </>
+      } />
       <Route path='/pay' element={
         <>
-          <div className="list-container">
+          <div className="home-container">
             <HeaderFix />
             <Pay />
             <Footer />
@@ -95,7 +96,7 @@ function App() {
 
       <Route path='/bill' element={
         <>
-          <div className="list-container">
+          <div className="home-container">
             <HeaderFix />
             <Bill />
             <Footer />
@@ -105,7 +106,7 @@ function App() {
 
       <Route path='/detailbill' element={
         <>
-          <div className="list-container">
+          <div className="home-container">
             <HeaderFix />
             <DetailBill />
             <Footer />
@@ -113,9 +114,19 @@ function App() {
         </>
       } />
 
+      <Route path='/bustracking' element={
+        <>
+          <div className="home-container">
+            <HeaderFix />
+            <BusTracking />
+            <Footer />
+          </div>
+        </>
+      } />
+
       <Route path='/myticket' element={
         <>
-          <div className="list-container">
+          <div className="home-container">
             <HeaderFix />
             <MyTicket />
             <Footer />
@@ -123,11 +134,21 @@ function App() {
         </>
       } />
 
-      <Route path='/bustracking' element={
+      <Route path='/newsdetail' element={
         <>
-          <div className="list-container">
+          <div className="home-container">
             <HeaderFix />
-            <BusTracking />
+            <NewsDetails />
+            <Footer />
+          </div>
+        </>
+      } />
+
+      <Route path='/login' element={
+        <>
+          <div className="home-container">
+            <HeaderFix />
+            <Login />
             <Footer />
           </div>
         </>

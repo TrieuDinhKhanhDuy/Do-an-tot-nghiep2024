@@ -1,4 +1,3 @@
-import React from "react";
 import '../../../../styles/Website/BokingForm.css';
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { AiOutlineCalendar } from "react-icons/ai";

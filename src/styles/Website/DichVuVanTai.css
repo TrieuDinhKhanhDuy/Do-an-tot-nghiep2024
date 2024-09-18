@@ -1,0 +1,123 @@
+.dichVu-container{
+    margin-top: 30px;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+.dichVu-container-top p h3{
+    display: inline-block;
+    padding-right: 5px;
+    color: #405187;
+}
+.dichVu-container-top h4{
+    color: #405187;
+    margin-bottom: 15px;
+}
+.dichVu-container-top img{
+    width: 100%;
+    margin-bottom: 25px;
+}
+.dichVu-container-center{
+    margin-top: 40px;
+}
+.dichVu-container-center-h3-title {
+    text-align: center;
+    font-size: 40px;
+    color: #405187;
+}
+.dichVu-container-center-items{
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+.dichVu-container-center-items .dichvu-contaner-center-items-item1 .dichvu-contaner-center-items-item1-title{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.dichVu-container-center-items .dichvu-contaner-center-items-item1 .dichvu-contaner-center-items-item1-title button {
+    color: white;
+    background: #405187;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 40px;
+    font-size: 30px;
+    width: 250px;
+    font-weight: 600;
+}
+.dichVu-container-center-items .dichvu-contaner-center-items-item1 ul {
+    background: #405187;
+    padding: 10px 20px;
+    border-radius: 10px;
+    list-style-type: none; /* Loại bỏ dấu chấm mặc định */
+    padding-left: 30px; /* Tạo khoảng cách cho dấu chấm */
+}
+
+.dichVu-container-center-items .dichvu-contaner-center-items-item1 ul li {
+    position: relative; /* Để cho phép pseudo-element ::before sử dụng vị trí tuyệt đối */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px; /* Khoảng cách giữa các phần tử li */
+    padding-left: 40px; /* Để đảm bảo khoảng cách giữa dấu chấm và nội dung */
+}
+
+.dichVu-container-center-items .dichvu-contaner-center-items-item1 ul li::before {
+    content: '•'; /* Dấu chấm tròn */
+    font-size: 40px; /* Kích thước của dấu chấm */
+    color: #D9D9D9; /* Màu của dấu chấm */
+    position: absolute; /* Đặt dấu chấm với vị trí tuyệt đối */
+    left: 0; /* Đặt dấu chấm nằm bên trái của phần tử li */
+    top: 50%; /* Đặt dấu chấm ở giữa theo chiều dọc */
+    transform: translateY(-50%); /* Căn giữa dấu chấm theo chiều dọc */
+}
+.dichVu-container-center-items .dichvu-contaner-center-items-item1 ul li span{
+    font-size: 10px;
+    font-weight: 300 !important;
+}
+.dichVu-container-center-hotline{
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-between   ;
+}
+.dichVu-container-center-hotline h3:nth-child(1){
+    color: white;
+    background: #405187;
+    text-align: left;
+    padding:10px 35px;
+    font-weight: 600;
+    width: 50%;
+    border-radius: 0 40px 0 0; /* Làm tròn góc trên bên phải */
+}
+.dichVu-container-center-hotline h3:nth-child(2){
+color:#405187 ;
+text-align: center;
+width: 50%;
+font-weight: 600;
+}
+.dichVu-container-center-hotline-bottom{
+    background: #405187;
+   height: 50px;
+
+}
+.dichVu-container-bottom{
+    margin-top: 35px;
+}
+.dichVu-container-bottom .dichVu-container-bottom-content p h3 {
+    display: inline-block;
+    padding-right: 5px;
+    color: #405187;
+}
+.dichVu-container-bottom  h4{
+    color: #405187;
+    margin-bottom: 20px;
+    margin-top: 5px;
+}
+.dichVu-container-bottom img{
+    width: 100%;
+}
+
+
+
+
