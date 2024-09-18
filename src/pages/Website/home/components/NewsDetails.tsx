@@ -1,8 +1,5 @@
-import Banner from "@/components/Banner";
-import Header from "@/components/Header";
 import "../../../../styles/Website/NewsDetail.css";
 import newDetail1 from "../../../../assets/image/newDetail1.png";
-import Footer from "@/components/Footer";
 
 const NewsDetails = () => {
     return (

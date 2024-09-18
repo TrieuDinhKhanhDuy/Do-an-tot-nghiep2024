@@ -1,4 +1,3 @@
-import React from 'react';
 import '../styles/Website/Footer.css';
 import logo from "../assets/image/logofix.png";
 import momoLogo from "../assets/image/momologo.jpg";
@@ -45,7 +44,7 @@ const Footer = () => {
           <h5>Kết nối với chúng tôi</h5>
           <div className="social-media">
             <div className="facebook-plugin">
-              <iframe 
+              <iframe
                 src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook&tabs=timeline&width=300&height=200&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
                 width="300"
                 height="200"

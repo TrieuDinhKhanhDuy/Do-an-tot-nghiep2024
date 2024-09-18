@@ -1,10 +1,7 @@
-import React from "react";
 import "../../../../styles/Website/DichVuVanTai.css";
-import Header from "@/components/Header";
-import Banner from "@/components/Banner";
+
 import dichvu from "../../../../assets/image/dichvu.png";
 import dichvu2 from "../../../../assets/image/dichvu2.png";
-import Footer from "@/components/Footer";
 const DichVuVanTai = () => {
     return (
         <>

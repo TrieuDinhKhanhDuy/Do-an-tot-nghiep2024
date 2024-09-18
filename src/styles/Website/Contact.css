@@ -39,6 +39,8 @@
     width: 48%;
     display: flex;
     justify-content: flex-end;
+    width: 614px;
+    height: 850px;
   }
   
   .contactForm-map img {

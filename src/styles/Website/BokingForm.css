@@ -1,19 +1,15 @@
 .bookingForm-container {
   width: 1320px;
-  margin: 0 auto;
+  margin: 0  auto;
+  margin-top: 20px;
   padding: 20px;
-  /* Cách 2 bên 60px */
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #fff;
-  /* Màu nền trắng */
   border-radius: 7px;
-  /* Đường bo tròn */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* Hiệu ứng đổ bóng nhẹ */
   border: 1px solid rgba(128, 128, 128, 0.5);
-  /* Màu viền nhạt hơn với alpha 0.3 */
 }
 
 .bookingForm-search {

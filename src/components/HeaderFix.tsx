@@ -9,10 +9,12 @@ import { useRef, useState } from "react";
 const HeaderFix = () => {
     const [isOpen, setIsOpen] = useState(false);
     const submenuRef = useRef<HTMLDivElement>(null);
-
+    const [isClose, setClose] = useState(true);
     const toggleSubmenu = () => {
         setIsOpen(!isOpen);
+        setClose(!isClose)
     };
+    
     return (
         <>
             <header className="header">
@@ -41,8 +43,10 @@ const HeaderFix = () => {
 
                             <li><img src={homeIcon} className="home_icon" alt="" /></li>
                             <li><div className="row_white"></div></li>
-                            <li className="link-submenu" onClick={toggleSubmenu} ><img src={option_icon} className="option_icon" alt="" />
-
+                            <li className="link-submenu" onClick={toggleSubmenu} >
+                                <div className={`sp-link-submenu ${isClose ? 'close' : ''}`} ref={submenuRef}>
+                                    <img src={option_icon} className="option_icon" alt="" />
+                                </div>
 
 
                             </li>

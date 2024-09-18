@@ -235,19 +235,19 @@ const List = () => {
                                                 <label>Giá:</label>
                                                 <input type="text" value="0d" disabled />
                                                 <label>Họ tên:</label>
-                                                <input type="text" />
+                                                <input type="text" placeholder="Họ tên.." />
                                                 <label>Số điện thoại:</label>
-                                                <input type="text" />
+                                                <input type="text" placeholder="Số điện thoại.."/>
                                                 <label>Email:</label>
-                                                <input type="email" />
+                                                <input type="email" placeholder="Email.." />
                                                 <label>Ghi chú:</label>
-                                                <textarea className="form-node" name="" id=""></textarea>
+                                                <textarea className="form-node" name="" id="" placeholder="Ghi chú.."></textarea>
                                                 <label>Điểm đi:</label>
-                                                <input type="text" />
+                                                <input type="text" disabled />
                                                 <label>Điểm đến:</label>
-                                                <input type="text" />
+                                                <input type="text" disabled/>
                                                 <label>Mã khuyến mãi:</label>
-                                                <input type="text" />
+                                                <input type="text" placeholder="Mã khuyến mại.."/>
                                                 <div className="legend">
                                                     <div className="legend-item"><span className="empty-seat"></span> Ghế trống</div>
                                                     <div className="legend-item"><span className="booked-seat"></span> Ghế đã đặt</div>

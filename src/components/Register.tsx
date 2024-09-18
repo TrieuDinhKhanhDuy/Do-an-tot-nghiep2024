@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-import Header from "./Header";
+import  { useState } from "react";
 import "../styles/Website/Register.css";
 import Register1 from "../assets/image/Register.png";
 import Heading from "./Heading";
-import Footer from "./Footer";
 
 
 const Register = () => {
