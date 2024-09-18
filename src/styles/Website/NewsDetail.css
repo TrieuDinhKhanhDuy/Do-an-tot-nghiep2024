@@ -1,0 +1,32 @@
+.newDetails-container{         
+    margin-top: 30px;
+    margin-left: 60px;
+    margin-right: 60px;   
+}
+.newDetails-container-title h2{
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 40px;
+    font-weight: 700;
+}
+.newDetails-container .newDetails-container-main p{
+font-size: thin;
+}
+.newDetails-container .newDetails-container-main img{
+    width: 100%;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+.newDetails-container .newDetails-container-main {
+    border-bottom: 1px solid black;
+}
+.newDetails-container-bottom{
+    margin-top: 20px;
+}
+.newDetails-container-bottom h3{
+    font-size: 30px;
+}
+.newDetails-container-bottom p{
+    font-weight: 600;
+    margin-top: 10px;
+}
