@@ -1,15 +1,13 @@
-import React from 'react'
 import "../styles/Website/Heading.css"
 import heading1 from "../assets/image/heading1.png"
 import heading2 from "../assets/image/heading2.png"
 import heading3 from "../assets/image/heading3.png"
 import heading4 from "../assets/image/heading4.png"
-type Props = {}
 
-const Heading = (props: Props) => {
+const Heading = () => {
   return (
     <div className='heading-container'>
-        <h3>Kết nối ngay để nhận những ưu đãi tốt nhất</h3>
+        <h2>Kết nối ngay để nhận những ưu đãi tốt nhất</h2>
         <div className="heading-items">
             <div className="heading-items1">
                 <img src={heading1} alt="" />

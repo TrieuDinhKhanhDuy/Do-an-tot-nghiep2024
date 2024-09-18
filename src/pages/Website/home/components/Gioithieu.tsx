@@ -8,7 +8,6 @@ type Props = {}
 const Gioithieu = (props: Props) => {
   return (
    <>
-    <Header />
 <div className="gioithieu-container">
     <div className="gioithieu-h2">
         <h2>HÀ LAN – “ SỨ MỆNH TIÊN PHONG”</h2>
@@ -38,7 +37,6 @@ Cùng với đó, dựa trên nền tảng số, Công ty đã thực hiện tá
 Với triết lý kinh doanh: “ SỨ MỆNH TIÊN PHONG”, Hà Lan dành tất cả nguồn lực mình đang có để sẵn sàng thực hiện sứ mệnh của một công ty vận tải hàng đầu với 5 tiêu chuẩn số 1, Tiên phong trong hành động và sáng tạo trong suy nghĩ để củng cố và xây dựng một Hà Lan vững mạnh.</p>
     </div>
 </div>
-<Footer />
     </>
    
 

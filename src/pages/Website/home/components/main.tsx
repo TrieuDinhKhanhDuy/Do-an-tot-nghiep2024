@@ -41,7 +41,7 @@ const Main = () => {
                     </div>
                     <div className="mainContent-top-right">
                         <div className="mainContent-top-right-content">
-                            <h3>Danh sách điểm đón trả</h3>
+                            <h3>Danh sách điểm</h3>
                             <p>
                                 Địa chỉ chi tiết các điểm thuộc nhà xe chúng tôi
                             </p>
@@ -114,7 +114,7 @@ const Main = () => {
             </div>
     
             <div className="mainContent-bottom">
-                <h3>Tin tức mới nhất</h3>
+                <h2>Tin tức mới nhất</h2>
                  <div className="mainContent-bottom-content">
                  <div className="mainContent-bottom-items">
                     <img src={tintuc1} alt="" />
@@ -135,7 +135,6 @@ const Main = () => {
                     <a href="">Chi tiết</a>
                 </div>
                  </div>
-                 <a href="" className="mainContent-bottom-a">Xem thêm</a>  
             </div>
         </div>
     );

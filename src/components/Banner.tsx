@@ -1,11 +1,8 @@
-import React from 'react';
-import banner from '../assets/image/banner.png'; // Thay đổi đường dẫn nếu cần
+import banner from '../assets/image/banner.png'; 
 
-type Props = {};
-
-const Banner = (props: Props) => {
+const Banner = () => {
   return (
-    <img src={banner} alt="banner"  style={{width : "100%" , objectFit : "cover"}}/>
+    <img src={banner} alt="banner"  style={{width : "100%", maxHeight: "700px" , objectFit : "cover"}}/>
   );
 };
 

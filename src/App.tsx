@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import Header from "./components/Header";
 import "./global.css";
 import PageHome from "./pages/Website/home/page";
 import Register from "./components/Register"; // Import Register component
@@ -19,16 +18,24 @@ import Gioithieu from "./pages/Website/home/components/Gioithieu";
 function App() {
   return (
     <Routes>
-
-
-
-      {/* Route cho phụ*/}
-      <Route path='/login' element={<Login />} />
-      <Route path='/contact' element={<Contact />} />
-      <Route path='/news' element={<News />} />
-      <Route path='/gioithieu' element={<Gioithieu />} />
-
-      {/* Route cho trang chủ */}
+      <Route path='/gioithieu' element={
+        <>
+          <div className="home-container">
+            <HeaderFix />
+            <Gioithieu />
+            <Footer />
+          </div>
+        </>
+      } />
+      <Route path='/news' element={
+        <>
+          <div className="home-container">
+            <HeaderFix />
+            <News />
+            <Footer />
+          </div>
+        </>
+      } />
       <Route path='/register' element={
         <>
           <div className="home-container">
@@ -57,17 +64,6 @@ function App() {
           </div>
         </>
       } />
-
-      <Route path='/register' element={
-        <>
-          <div className="home-container">
-            <HeaderFix />
-            <Register />
-            <Footer />
-          </div>
-        </>
-      } />
-
       <Route path='/contact' element={
         <>
           <div className="home-container">
@@ -77,7 +73,6 @@ function App() {
           </div>
         </>
       } />
-
       <Route path='/list' element={
         <>
           <div className="list-container">

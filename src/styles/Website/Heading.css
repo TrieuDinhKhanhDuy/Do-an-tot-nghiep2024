@@ -2,10 +2,11 @@
   width: 1320px;
   margin: 0 auto;
 }
-.heading-container h3{
+.heading-container h2{
     text-align: center;
-    font-size: 25px;
+    font-size: 30px;
     font-weight: 550;
+    color: #405187;
 }
 .heading-container .heading-items{
     display: flex;
