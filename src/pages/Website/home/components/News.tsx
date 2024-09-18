@@ -1,19 +1,13 @@
-import Banner from '@/components/Banner'
-import Header from '@/components/Header'
-import React from 'react'
+
 import "../../../../styles/Website/News.css"
 import news1 from "../../../../assets/image/news1.png"
 import news2 from "../../../../assets/image/news2.png"
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import Footer from '@/components/Footer'
-type Props = {}
 
-const News = (props: Props) => {
+const News = () => {
   return (
     <>
-      <Header />
-      <Banner />
       <div className="news-container">
       <h3 className='news-h3'>Tin Tức</h3>
       <div className="news">
@@ -110,7 +104,6 @@ const News = (props: Props) => {
             <a href="#" className="news-pagination-item next"><MdKeyboardDoubleArrowRight /> </a>
         </div>
     </div>
-    <Footer />
     
     </>
   )

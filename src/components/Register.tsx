@@ -4,9 +4,9 @@ import "../styles/Website/Register.css";
 import Register1 from "../assets/image/Register.png";
 import Heading from "./Heading";
 import Footer from "./Footer";
-type Props = {};
 
-const Register = (props: Props) => {
+
+const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => {
@@ -14,6 +14,7 @@ const Register = (props: Props) => {
     };
     return (
         <>
+            {/* <HeaderFix/> */}
             <div className="register-container">
                 <img src={Register1} alt="" />
                 <div className="register-container-form">
@@ -73,7 +74,6 @@ const Register = (props: Props) => {
                 </div>
             </div>
             <Heading />
-            <Footer />
         </>
     );
 };

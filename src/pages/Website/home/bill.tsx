@@ -12,7 +12,7 @@ const Bill = () => {
                 </div>
                 <div className="invoice-container-item">
                     {/* Header */}
-                    <div className="header">
+                    <div className="header_bill">
                         <h2>Hóa đơn điện tử</h2>
                         <p className="ticket-code">Mã vé: 012913914</p>
                     </div>

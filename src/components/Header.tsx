@@ -25,8 +25,8 @@ const Header = () => {
             <div className="header-icons">
                 <div
                     className="menu"
-                    onMouseEnter={toggleSubmenu}
-                    onMouseLeave={toggleSubmenu}
+                    onClick={toggleSubmenu}
+                    // onMouseLeave={toggleSubmenu}
                 >
                     <button className="menu-button"><FaRegUser/></button>
                     {isSubmenuOpen && (

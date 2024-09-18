@@ -64,7 +64,6 @@ const Login = (props: Props) => {
                 </div>
             </div>
             <Heading />
-            <Footer />
         </>
     );
 };
