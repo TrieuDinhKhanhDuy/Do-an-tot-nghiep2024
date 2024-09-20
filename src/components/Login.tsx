@@ -15,7 +15,7 @@ const Login = (props: Props) => {
     return (
         <>
             <div className="login-container">
-                <img src={Login1} alt="" />
+                <img src={Login1} alt="" className="img-hidden"/>
                 <div className="login-container-form">
                     <h2 className="login-container__title">
                       Đăng nhập tài khoản

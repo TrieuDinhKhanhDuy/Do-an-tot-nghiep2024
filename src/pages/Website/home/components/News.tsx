@@ -1,6 +1,5 @@
 
 import "../../../../styles/Website/News.css"
-import news1 from "../../../../assets/image/news1.png"
 import news2 from "../../../../assets/image/news2.png"
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
@@ -13,7 +12,7 @@ const News = () => {
       <div className="news">
       <div className="news__main">
         <img 
-          src={news1}
+          src={news2}
           alt="Main News" 
           className="news__main-image" 
         />

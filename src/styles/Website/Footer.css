@@ -11,14 +11,14 @@
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    max-width: 1200px;
+    width: 1200px;
     margin: 0 auto;
 }
 
 .footer-section {
     flex: 1;
     padding: 10px;
-    min-width: 200px;
+    /* min-width: 200px; */
 }
 
 .footer-logo {
@@ -55,8 +55,7 @@
     gap: 20px;
 }
 
-.facebook-plugin,
-.map-embed {
+.facebook-plugin,.map-embed {
     width: 100%;
     max-width: 300px;
 }
@@ -67,4 +66,10 @@
     margin-top: 20px;
     font-size: 12px;
     color: #ccc;
+}
+@media only screen and (min-width: 46.25em) and (max-width: 63.9375em){
+    .footer-container{
+        width: 824px;
+    }
+
 }

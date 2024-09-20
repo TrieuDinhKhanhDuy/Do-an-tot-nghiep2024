@@ -1,11 +1,10 @@
 .container {
-    /* padding: 0px 20px 20px 20px; */
     width: 1320px;
     margin: 20px auto;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ddd; /* Added border between two sections */
+    border: 1px solid #ddd; 
   }
   .pay-container{
     margin-top: 20px;
@@ -65,11 +64,11 @@
   }
   
   .info-box {
-    background-color: #e6f7ff; /* Light blue background */
+    background-color: #e6f7ff;
     padding: 10px;
     border-radius: 5px;
     font-size: 14px;
-    color: #007bff; /* Blue text */
+    color: #007bff; 
     margin-bottom: 15px;
   }
   
@@ -137,7 +136,6 @@
     margin-bottom: 10px;
   }
 
-  /* tiketcss */
 
   .ticket-container {
     border: none;
@@ -191,5 +189,5 @@
   }
   
   .btn-primary:hover {
-    background-color: #2952cc; /* Slightly darker shade for hover */
+    background-color: #2952cc;
   }

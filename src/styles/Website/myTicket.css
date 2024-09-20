@@ -1,4 +1,3 @@
-/* Tickets.css */
 .tickets-container {
     width: 1320px;
     margin: 20px auto;
@@ -28,7 +27,6 @@
     margin-right: 5px;
 }
 
-/* Updated CSS for Tickets.css */
 .status {
     width: 110px;
     height: 30px;
@@ -96,4 +94,10 @@
 .page-btn:hover,
 .page-number:hover {
     background-color: #ddd;
+}
+
+@media only screen and (min-width: 46.25em) and (max-width: 63.9375em){
+    .tickets-container {
+        width: 824px;
+    }
 }

@@ -48,29 +48,29 @@
     background: #405187;
     padding: 10px 20px;
     border-radius: 10px;
-    list-style-type: none; /* Loại bỏ dấu chấm mặc định */
-    padding-left: 30px; /* Tạo khoảng cách cho dấu chấm */
+    list-style-type: none; 
+    padding-left: 30px; 
 }
 
 .dichVu-container-center-items .dichvu-contaner-center-items-item1 ul li {
-    position: relative; /* Để cho phép pseudo-element ::before sử dụng vị trí tuyệt đối */
+    position: relative;
     color: white;
     display: flex;
     flex-direction: column;
     font-size: 20px;
     font-weight: 600;
-    margin-bottom: 10px; /* Khoảng cách giữa các phần tử li */
-    padding-left: 40px; /* Để đảm bảo khoảng cách giữa dấu chấm và nội dung */
+    margin-bottom: 10px; 
+    padding-left: 40px;
 }
 
 .dichVu-container-center-items .dichvu-contaner-center-items-item1 ul li::before {
-    content: '•'; /* Dấu chấm tròn */
-    font-size: 40px; /* Kích thước của dấu chấm */
-    color: #D9D9D9; /* Màu của dấu chấm */
-    position: absolute; /* Đặt dấu chấm với vị trí tuyệt đối */
-    left: 0; /* Đặt dấu chấm nằm bên trái của phần tử li */
-    top: 50%; /* Đặt dấu chấm ở giữa theo chiều dọc */
-    transform: translateY(-50%); /* Căn giữa dấu chấm theo chiều dọc */
+    content: '•';
+    font-size: 40px; 
+    color: #D9D9D9; 
+    position: absolute;
+    left: 0; 
+    top: 50%;
+    transform: translateY(-50%); 
 }
 .dichVu-container-center-items .dichvu-contaner-center-items-item1 ul li span{
     font-size: 10px;
@@ -88,7 +88,7 @@
     padding:10px 35px;
     font-weight: 600;
     width: 50%;
-    border-radius: 0 40px 0 0; /* Làm tròn góc trên bên phải */
+    border-radius: 0 40px 0 0;
 }
 .dichVu-container-center-hotline h3:nth-child(2){
 color:#405187 ;

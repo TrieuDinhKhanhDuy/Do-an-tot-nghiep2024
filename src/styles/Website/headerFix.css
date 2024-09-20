@@ -4,7 +4,6 @@
    position: relative;
  }
 
- /* Top section containing logo and right-side actions */
  .header__top {
    display: flex;
    justify-content: space-between;
@@ -24,7 +23,6 @@
 
  }
 
- /* Right-side actions (Trợ giúp, Đăng nhập, Đăng ký, etc.) */
  .header__top-actions {
    flex-grow: 1;
    text-align: right;
@@ -36,7 +34,7 @@
    display: flex;
    justify-content: flex-end;
    padding: 24px 100px;
-   position: relative;
+
  }
 
  .header__top-list li {
@@ -57,8 +55,9 @@
    background-color: #405187;
    width: 75%;
    float: right;
-   padding: 0px 130px;
+   padding: 0px 130px;  
    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+   position: relative;
  }
 
  .header__nav-list {
@@ -98,16 +97,17 @@
 
  .option_icon {
    width: 25px;
-  margin-left: 5px;
-  
-   
+   margin-left: 5px;
+
+
  }
- .sp-link-submenu{
-  width: 35px;
-  height: 100%;
-  border-radius: 5px  ;
-  position: absolute;
-  background-color: #28396F;
+
+ .sp-link-submenu {
+   width: 35px;
+   height: 100%;
+   border-radius: 5px;
+   position: absolute;
+   background-color: #28396F;
  }
 
 
@@ -234,13 +234,38 @@
    right: 5.6%;
    min-width: 160px;
    z-index: 1;
-  border-radius: 0px 0px 5px 5px;
+   border-radius: 0px 0px 5px 5px;
 
  }
 
  .open {
    max-height: 300px;
  }
- .close{
-  background-color: #405187;
+
+ .close {
+   background-color: #405187;
+ }
+
+ @media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+   .header__nav {
+     padding: 0px 0px 0px;
+     width: 550px;
+   }
+
+   .header__logo {
+     padding-left: 60px;
+   }
+
+   .header__logo-img {
+     height: 70px;
+     width: 100px;
+   }
+
+   .header__nav-list{
+    margin-right: 50px;
+   }
+   .header__top-list{
+    padding: 0;
+      margin: 2px 22px 3px;
+   }
  }

@@ -1,7 +1,6 @@
-/* Block: news-container */
 .news-container {
     padding: 20px;
-    max-width: 1440px;
+    width: 1320px;
     margin: 0 auto;
 }
   
@@ -13,15 +12,13 @@
     font-weight: 700;
 }
   
-/* Block: news */
 .news {
     display: flex;
     gap: 20px;
 }
   
-/* Element: __main for main news section */
 .news__main {
-    width:50%;
+    width:60%;
 }
   
 .news__main-image {
@@ -55,9 +52,9 @@
 }
 
 .news-related-items {
-    display: flex;  /* Sắp xếp ngang */
-    gap: 15px;  /* Khoảng cách giữa ảnh và nội dung */
-    margin-bottom:30px;
+    display: flex; 
+    gap: 15px;  
+    margin-bottom: 10px;
 }
 
 .news-related-items img {
@@ -107,7 +104,6 @@
     margin-top: 40px;
 }
 
-/* Element: __item for pagination items */
 .news-pagination-item {
     display: inline-flex;
     align-items: center;
@@ -123,28 +119,43 @@
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-/* Hover effect for pagination items */
 .news-pagination-item:hover {
     background-color: #e0e0e0;
     border-color: #ccc;
 }
 
-/* Modifier: prev and next for navigation arrows */
 .news-pagination-item.prev,
 .news-pagination-item.next {
     font-weight: bold;
     font-size: 18px;
 }
 
-/* Modifier: active for the current page */
 .news-pagination-item.active {
     background-color: #007bff;
     color: white;
     border-color: #007bff;
 }
 
-/* Styling for icons */
 .news-pagination-item svg {
     font-size: 23px;
     color: #333;
+}
+@media only screen and (min-width: 46.25em) and (max-width: 63.9375em){
+    .news-container {
+        padding: 20px;
+        width: 824px;
+        margin: 0 auto;
+    }
+    .news-related-items img {
+        width: 190px;
+        height: auto;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    .news-list-items-content p:nth-child(2) {
+        margin-bottom: 10px;
+    }
+    .new-list-items-image{
+        width: 500px;
+    }
 }

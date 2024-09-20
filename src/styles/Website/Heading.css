@@ -24,3 +24,9 @@
     font-weight: medium;
 }
 
+@media only screen and (min-width: 46.25em) and (max-width: 63.9375em){
+    .heading-container{
+        width: 824px;
+        margin: 0 auto;
+      }
+}

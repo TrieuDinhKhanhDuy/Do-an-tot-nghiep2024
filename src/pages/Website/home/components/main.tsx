@@ -20,10 +20,9 @@ const Main = () => {
                 <div className="mainContent-top-image">
                     <img src={image1} alt="" />
                     <img src={image2} alt="" />
-                    <img src={image3} alt="" />
-                    <img src={image4} alt="" />
+                    <img src={image3} alt="" className="img-hidden" />
+                    <img src={image4} alt="" className="img-hidden"/>
                 </div>
-                <a href="#">Xem thêm</a>
                 <div className="mainContent-top-content">
                     <div className="mainContent-top-left">
                         <div className="mainContent-top-left-content">
@@ -118,21 +117,21 @@ const Main = () => {
                  <div className="mainContent-bottom-content">
                  <div className="mainContent-bottom-items">
                     <img src={tintuc1} alt="" />
-                    <p>Hồ Na Hang - Tuyên Quang, đẹp mơ mộng
+                    <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
                     </p>
-                    <a href="">Chi tiết</a>
+                    <a href="">18/10/2024</a>
                 </div>
                 <div className="mainContent-bottom-items">
                     <img src={tintuc2} alt="" />
                     <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
                     </p>
-                    <a href="">Chi tiết</a>
+                    <a href="">18/10/2024</a>
                 </div>
                 <div className="mainContent-bottom-items">
                     <img src={tintuc3} alt="" />
-                    <p>NHỮNG CON ĐƯỜNG ĐẸP NHẤT Ở HÀ NỘI
+                    <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
                     </p>
-                    <a href="">Chi tiết</a>
+                    <a href="">18/10/2024</a>
                 </div>
                  </div>
             </div>

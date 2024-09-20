@@ -14,7 +14,7 @@ const Register = () => {
         <>
             {/* <HeaderFix/> */}
             <div className="register-container">
-                <img src={Register1} alt="" />
+                <img src={Register1} alt="" className="img-hidden" />
                 <div className="register-container-form">
                     <h2 className="register-container__title">
                         Đăng ký tài khoản

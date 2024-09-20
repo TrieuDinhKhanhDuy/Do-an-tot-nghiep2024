@@ -107,4 +107,18 @@
     margin-top: 10px;
     transition: background-color 0.3s;
   }
+
+  @media only screen and (min-width: 46.25em) and (max-width: 63.9375em){
+    .contactForm-container {
+      max-width: 842px;
+    }
+    .contactForm-map {
+      width: 48%;
+      display: flex;
+      justify-content: flex-end;
+      width: 614px;
+      height: 1186px;
+    }
+    
+  }
   

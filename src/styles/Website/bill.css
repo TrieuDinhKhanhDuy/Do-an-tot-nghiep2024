@@ -1,4 +1,3 @@
-/* Invoice.css */
 .invoice-container {
     width: 1320px;
     margin: 20px auto;
@@ -24,7 +23,6 @@
     margin: 10px 0;
   }
   
-  /* Table Styles */
   .info-table {
     width: 100%;
     border-collapse: collapse;
@@ -41,7 +39,6 @@
     padding: 5px;
   }
   
-  /* Vehicle Information with Driver's Image */
   .vehicle-info-content {
     display: flex;
     justify-content: space-between;
@@ -54,7 +51,6 @@
     /* height: 50px; */
   }
   
-  /* Pricing Section */
   .pricing-left {
     width: 50%;
     vertical-align: top;
@@ -74,4 +70,9 @@
     color: blue;
     font-weight: bold;
   }
-  
+  @media only screen and (min-width: 46.25em) and (max-width: 63.9375em){
+    .invoice-container {
+      width: 824px;
+
+    }
+  }
