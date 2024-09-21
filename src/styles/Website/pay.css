@@ -191,3 +191,22 @@
   .btn-primary:hover {
     background-color: #2952cc;
   }
+  @media only screen and (max-width: 46.1875em){
+    .container {
+      width: 380px;
+      margin: 20px auto;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ddd; 
+    }
+    .pay-container{
+      flex-direction: column;
+    }
+    .payment-section, .customer-info{
+      width: 350px;
+    }
+    .ticket-container{
+      width: 100%;  
+    }
+  }

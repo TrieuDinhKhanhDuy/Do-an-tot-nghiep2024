@@ -7,7 +7,7 @@ import heading4 from "../assets/image/heading4.png"
 const Heading = () => {
   return (
     <div className='heading-container'>
-        <h2>Kết nối ngay để nhận những ưu đãi tốt nhất</h2>
+        <h2 className="link-h2">Kết nối ngay để nhận những ưu đãi tốt nhất</h2>
         <div className="heading-items">
             <div className="heading-items1">
                 <img src={heading1} alt="" />

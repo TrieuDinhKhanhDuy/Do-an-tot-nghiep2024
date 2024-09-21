@@ -16,10 +16,10 @@ const Main = () => {
     return (
         <div className="mainContent-container">
             <div className="mainContent-top">
-                <h3>Ưu đãi dành cho bạn</h3>
+                <h3 className="link-h2" >Ưu đãi dành cho bạn</h3>
                 <div className="mainContent-top-image">
                     <img src={image1} alt="" />
-                    <img src={image2} alt="" />
+                    <img src={image2} alt="" className="img-hidden-mobile" />
                     <img src={image3} alt="" className="img-hidden" />
                     <img src={image4} alt="" className="img-hidden"/>
                 </div>
@@ -55,7 +55,7 @@ const Main = () => {
                 </div>
             </div>
             <div className="mainContent-center">
-                <h2>Chất lượng hàng đầu, hành trình an toàn</h2>
+                <h2 className="link-h2" >Chất lượng hàng đầu, hành trình an toàn</h2>
                 <div className="mainContent-center-items">
                     <img src={imageitem1} alt="" />
                     <div className="mainContent-center-items-content">
@@ -113,7 +113,7 @@ const Main = () => {
             </div>
     
             <div className="mainContent-bottom">
-                <h2>Tin tức mới nhất</h2>
+                <h2 className="link-h2" >Tin tức mới nhất</h2>
                  <div className="mainContent-bottom-content">
                  <div className="mainContent-bottom-items">
                     <img src={tintuc1} alt="" />
@@ -121,13 +121,13 @@ const Main = () => {
                     </p>
                     <a href="">18/10/2024</a>
                 </div>
-                <div className="mainContent-bottom-items">
+                <div className="mainContent-bottom-items img-hidden-mobile">
                     <img src={tintuc2} alt="" />
                     <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
                     </p>
                     <a href="">18/10/2024</a>
                 </div>
-                <div className="mainContent-bottom-items">
+                <div className="mainContent-bottom-items img-hidden-mobile">
                     <img src={tintuc3} alt="" />
                     <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
                     </p>

@@ -55,7 +55,7 @@
    background-color: #405187;
    width: 75%;
    float: right;
-   padding: 0px 130px;  
+   padding: 0px 130px;
    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
    position: relative;
  }
@@ -231,7 +231,7 @@
    display: block;
    position: absolute;
    top: 100%;
-   right: 5.6%;
+   right: 6%;
    min-width: 160px;
    z-index: 1;
    border-radius: 0px 0px 5px 5px;
@@ -246,7 +246,81 @@
    background-color: #405187;
  }
 
+
+
+ @media only screen and (max-width: 46.1875em) {
+  .header {
+    width: 100%;
+    box-shadow: 0px;
+    position: relative;
+  }
+   .header__nav {
+     padding: 0px 0px 0px;
+     width: 100%;
+   }
+
+   .header__logo {
+     padding-left: 6%;
+   }
+
+   .header__logo-img {
+     height: 50px;
+     width: 70px;
+   }
+
+   .header__nav-list {
+     margin-right: 10%;
+   }
+
+   .header__top-list {
+     padding: 0;
+     margin: 0px 5% 0px;
+   }
+   .header__nav {
+    background-color: #405187;
+    clip-path: polygon(0% 0, 100% 0, 100% 100%, 0 100%);
+  }
+  .list_conten li {
+    margin: 0%;
+
+  }
+  .header__top-list a {
+    text-decoration: none;
+    color: #405187;
+    font-size: 8px;
+  }
+
+  .header__top-list {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    padding: 4.8% 0px;
+ 
+  }
+  .submenu {
+    /* max-height: 0; */
+    overflow: hidden;
+    transition: max-height 0.06s ease-out;
+    display: block;
+    position: absolute;
+    top: 180%;
+    right: 5%;
+    min-width: 160px;
+    z-index: 1;
+    border-radius: 0px 0px 5px 5px;
+ 
+  }
+  .ticket-code {
+    margin-top: 10px;
+  }
+ }
+
  @media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+  .header {
+    width: 100%;
+    box-shadow: 0px;
+    position: relative;
+  }
    .header__nav {
      padding: 0px 0px 0px;
      width: 550px;
@@ -261,11 +335,12 @@
      width: 100px;
    }
 
-   .header__nav-list{
-    margin-right: 50px;
+   .header__nav-list {
+     margin-right: 50px;
    }
-   .header__top-list{
-    padding: 0;
-      margin: 2px 22px 3px;
+
+   .header__top-list {
+     padding: 0;
+     margin: 2px 22px 3px;
    }
  }

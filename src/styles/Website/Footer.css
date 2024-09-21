@@ -67,6 +67,12 @@
     font-size: 12px;
     color: #ccc;
 }
+
+@media only screen and (max-width: 46.1875em){
+    .footer-container{
+        width: 380px;
+    }
+}
 @media only screen and (min-width: 46.25em) and (max-width: 63.9375em){
     .footer-container{
         width: 824px;
