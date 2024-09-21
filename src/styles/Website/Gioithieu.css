@@ -13,3 +13,17 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
+@media only screen and (max-width: 46.1875em) {
+    .gioithieu-container{
+        max-width: 380px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .gioithieu-h2{
+        font-size: 13px;
+        margin-top: 70px;
+    }
+    .gioithieu-content{
+        font-size: 14px;
+    }
+}
