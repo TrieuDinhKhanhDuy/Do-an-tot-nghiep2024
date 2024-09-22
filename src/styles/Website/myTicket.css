@@ -96,8 +96,49 @@
     background-color: #ddd;
 }
 
-@media only screen and (min-width: 46.25em) and (max-width: 63.9375em){
+/* Responsive for mobile */
+@media only screen and (max-width: 46.1875em) {
     .tickets-container {
-        width: 824px;
+        width: 100%;
+        padding: 10px;
+    }
+    .tickets-container h2{
+        margin-top: 20px;
+        margin-bottom: 10px;
+        text-align: center;
+        color: #405187;
+    }
+
+    .tickets-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .tickets-table th,
+    .tickets-table td {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .status {
+        font-size: 12px;
+        width: 90px;
+        height: 25px;
+    }
+
+    .detail-button {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+    }
+
+    .page-number,
+    .page-btn {
+        padding: 6px 10px;
+        font-size: 12px;
     }
 }
