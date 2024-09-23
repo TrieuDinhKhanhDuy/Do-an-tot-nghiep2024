@@ -1,17 +1,17 @@
-import image1 from "../../../../assets/image/image.png";
-import image2 from "../../../../assets/image/image2.png";
-import image3 from "../../../../assets/image/image3.png";
-import image4 from "../../../../assets/image/image4.png";
-import image9 from "../../../../assets/image/image 9.png";
-import image10 from "../../../../assets/image/image 10.png";
-import "../../../../styles/Website/mainContent.css";
-import imageitem1 from "../../../../assets/image/imageitem1.png";
-import imageitem2 from "../../../../assets/image/imageitem2.png";
-import item3 from "../../../../assets/image/item3.png";
-import item4 from "../../../../assets/image/item4.png";
-import tintuc1 from "../../../../assets/image/tin tuc 1.png"
-import tintuc2 from "../../../../assets/image/tin tuc 2.png"
-import tintuc3 from "../../../../assets/image/tin tuc 3.png"
+import image1 from "../../../assets/image/image.png";
+import image2 from "../../../assets/image/image2.png";
+import image3 from "../../../assets/image/image3.png";
+import image4 from "../../../assets/image/image4.png";
+import image9 from "../../../assets/image/image 9.png";
+import image10 from "../../../assets/image/image 10.png";
+import "../../../styles/Website/mainContent.css";
+import imageitem1 from "../../../assets/image/imageitem1.png";
+import imageitem2 from "../../../assets/image/imageitem2.png";
+import item3 from "../../../assets/image/item3.png";
+import item4 from "../../../assets/image/item4.png";
+import tintuc1 from "../../../assets/image/tin tuc 1.png"
+import tintuc2 from "../../../assets/image/tin tuc 2.png"
+import tintuc3 from "../../../assets/image/tin tuc 3.png"
 const Main = () => {
     return (
         <div className="mainContent-container">
@@ -113,7 +113,9 @@ const Main = () => {
             </div>
     
             <div className="mainContent-bottom">
-                <h2 className="link-h2" >Tin tức mới nhất</h2>
+                <a href="/news"><h2 className="link-h2" >Tin tức mới nhất</h2></a>
+                
+                
                  <div className="mainContent-bottom-content">
                  <div className="mainContent-bottom-items">
                     <img src={tintuc1} alt="" />

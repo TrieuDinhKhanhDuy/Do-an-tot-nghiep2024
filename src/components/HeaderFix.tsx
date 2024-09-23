@@ -4,6 +4,7 @@ import logoBlue from "../assets/image/logofixpading.png"
 import homeIcon from "../assets/icons/homeicon.png"
 import option_icon from "../assets/icons/whitecloroption.jpg"
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 
 const HeaderFix = () => {
@@ -22,10 +23,10 @@ const HeaderFix = () => {
                 <div className="header__top">
                     <div className="header__top-actions">
                         <ul className="header__top-list">
-                            <li><a href="/">Trợ giúp</a></li>
-                            <li><a href="/">Đăng nhập</a></li>
-                            <li><a href="/">Đăng ký</a></li>
-                            <li><a href="/">VIETNAM - Tiếng Việt</a></li>
+                            <li><a href="/help?">Trợ giúp</a></li>
+                            <li><a href="/login">Đăng nhập</a></li>
+                            <li><a href="/register">Đăng ký</a></li>
+                            <li><a href="/vie?">VIETNAM - Tiếng Việt</a></li>
                         </ul>
                     </div>
                 </div>
@@ -33,21 +34,20 @@ const HeaderFix = () => {
                 <div className="header__nav">
                     <ul className="header__nav-list">
                         <div className="list_conten">
-                            <li><a href="/">Tra cứu</a></li>
-                            <li><a href="/">Tin tức</a></li>
-                            <li><a href="/">Liên hệ</a></li>
-                            <li><a href="/">Giới thiệu</a></li>
+                            <li><a href="/bustracking">Tra cứu</a></li>
+                            <li><a href="/news">Tin tức</a></li>
+                            <li><a href="/contact">Liên hệ</a></li>
+                            <li><a href="/about">Giới thiệu</a></li>
                         </div>
                         <div className="list_icon">
 
 
-                            <li><img src={homeIcon} className="home_icon" alt="" /></li>
+                            <li><Link to={"/"} ><img src={homeIcon} className="home_icon" alt="" /></Link></li>
                             <li><div className="row_white"></div></li>
                             <li className="link-submenu" onClick={toggleSubmenu} >
                                 <div className={`sp-link-submenu ${isClose ? 'close' : ''}`} ref={submenuRef}>
                                     <img src={option_icon} className="option_icon" alt="" />
                                 </div>
-
 
                             </li>
 
@@ -79,7 +79,7 @@ const HeaderFix = () => {
 
                         <div className="menu-options_fix">
                             <div className="menu-item_fix">
-                                <span role="img" aria-label="ticket">🎟️</span> Vé của tôi
+                              <Link to={"/myticket"} >  <span role="img" aria-label="ticket">🎟️</span> Vé của tôi</Link>
                             </div>
                             <div className="menu-item_fix">
                                 <span role="img" aria-label="offer">🎫</span> Ưu đãi

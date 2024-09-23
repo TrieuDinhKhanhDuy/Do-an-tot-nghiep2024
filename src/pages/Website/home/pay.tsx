@@ -1,6 +1,7 @@
 import "../../../styles/Website/pay.css"
 import vnpayLogo from "../../../assets/image/vnpaylogo.png"
 import momoLogo from "../../../assets/image/momologo.jpg"
+import { Link } from "react-router-dom"
 const Pay = () => {
     return (
         <>
@@ -117,7 +118,8 @@ const Pay = () => {
                                 </tbody>
                             </table>
                             <div className="button-container">
-                                <button className="btn-primary">Thanh toán</button>
+                                <Link to={'/bill'}><button className="btn-primary">Thanh toán</button></Link>
+                                
                                 <button className="btn-secondary" >Hủy thanh toán</button>
                             </div>
                         </div>

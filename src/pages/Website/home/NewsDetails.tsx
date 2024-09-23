@@ -1,5 +1,5 @@
-import "../../../../styles/Website/NewsDetail.css";
-import newDetail1 from "../../../../assets/image/newDetail1.png";
+import "../../../styles/Website/NewsDetail.css";
+import newDetail1 from "../../../assets/image/newDetail1.png";
 
 const NewsDetails = () => {
     return (

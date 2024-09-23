@@ -1,6 +1,4 @@
-import "../../../../styles/Website/Contact.css";
-import contact1 from "../../../../assets/image/Contact.png";
-import Footer from "@/components/Footer";
+import "../../../styles/Website/Contact.css";
 
 
 const Contact = () => {

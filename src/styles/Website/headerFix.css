@@ -33,7 +33,7 @@
    list-style: none;
    display: flex;
    justify-content: flex-end;
-   padding: 24px 100px;
+   padding: 20px 100px;
 
  }
 
@@ -55,7 +55,7 @@
    background-color: #405187;
    width: 75%;
    float: right;
-   padding: 0px 130px;
+   padding: 4px 130px;
    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
    position: relative;
  }
@@ -227,7 +227,7 @@
  .submenu {
    max-height: 0;
    overflow: hidden;
-   transition: max-height 0.06s ease-out;
+   transition: max-height 0.4s ease-out;
    display: block;
    position: absolute;
    top: 100%;

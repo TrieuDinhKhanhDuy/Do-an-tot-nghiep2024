@@ -1,7 +1,6 @@
-import "../../../../styles/Website/DichVuVanTai.css";
-
-import dichvu from "../../../../assets/image/dichvu.png";
-import dichvu2 from "../../../../assets/image/dichvu2.png";
+import "../../../styles/Website/DichVuVanTai.css";
+import dichvu from "../../../assets/image/dichvu.png";
+import dichvu2 from "../../../assets/image/dichvu2.png";
 const DichVuVanTai = () => {
     return (
         <>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "../../../styles/Website/myTicket.css"
 
 interface Ticket {
@@ -91,14 +92,13 @@ const MyTicket = () => {
                                 </td>
                                 <td>{ticket.price}</td>
                                 <td>
-                                    <button className="detail-button">{ticket.buttonLabel}</button>
+                                    <Link to={'/detailbill'}><button className="detail-button">{ticket.buttonLabel}</button></Link>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
 
-                {/* Pagination */}
                 <div className="pagination">
                     <button className="page-btn">«</button>
                     <button className="page-number active">1</button>

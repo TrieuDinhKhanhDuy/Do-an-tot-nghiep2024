@@ -1,7 +1,23 @@
-
+import Swal from 'sweetalert2'
 import "../../../styles/Website/bill.css"
+import { useNavigate } from 'react-router-dom';
 
 const Bill = () => {
+    const nav = useNavigate()
+    Swal.fire({
+        title: "Đặt vé thành công",
+        text: "Bạn có muốn về trang chủ?",
+        icon: "success",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Xem hóa đơn",
+        confirmButtonText: "Về Trang Chủ"
+      }).then((result) => {
+        if (result.isConfirmed) {
+         nav('/')
+        }
+      });
     return (
         <>
             <div className="invoice-container">

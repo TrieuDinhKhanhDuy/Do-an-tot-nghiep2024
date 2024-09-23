@@ -4,6 +4,7 @@ import { CiSearch } from "react-icons/ci";
 import "../../../styles/Website/List.css"
 import "../../../styles/Website/BokingForm.css"
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const List = () => {
     const scheduleData = Array(10).fill({
@@ -256,7 +257,8 @@ const List = () => {
                                                 </div>
                                                 <div className="btn">
                                                     <button className="checkVoucher" type="button">Kiểm tra mã</button>
-                                                    <button className="submit" type="submit">Tiếp tục</button>
+                                                    <Link to={'/pay'}><button className="submit" type="submit">Tiếp tục</button></Link>
+                                                    
                                                 </div>
                                             </form>
                                         </div>

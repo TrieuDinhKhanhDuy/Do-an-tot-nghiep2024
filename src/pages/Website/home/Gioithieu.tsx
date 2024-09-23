@@ -1,8 +1,5 @@
-import React from 'react'
-import "../../../../styles/Website/Gioithieu.css"
-import Header from '@/components/Header'
-import gioithieu1 from "../../../../assets/image/gioithieu1.png"
-import Footer from '@/components/Footer'
+import "../../../styles/Website/Gioithieu.css"
+import gioithieu1 from "../../../assets/image/gioithieu1.png"
 type Props = {}
 
 const Gioithieu = (props: Props) => {

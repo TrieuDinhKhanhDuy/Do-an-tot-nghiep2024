@@ -1,7 +1,7 @@
 import Banner from '@/components/Banner'
 import React from 'react'
-import BookingForm from './components/BookingForm'
-import Main from './components/main'
+import BookingForm from './BookingForm'
+import Main from './main'
 import Heading from '@/components/Heading'
 
 type Props = {}

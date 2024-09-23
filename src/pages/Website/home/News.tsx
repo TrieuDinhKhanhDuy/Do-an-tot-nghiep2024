@@ -1,6 +1,6 @@
 
-import "../../../../styles/Website/News.css"
-import news2 from "../../../../assets/image/news2.png"
+import "../../../styles/Website/News.css"
+import news2 from "../../../assets/image/news2.png"
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
