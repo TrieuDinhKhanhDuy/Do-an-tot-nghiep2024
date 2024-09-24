@@ -2,7 +2,7 @@
   max-width: 1320px;
   margin: 0 auto;
   padding: 20px;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .contactForm-title {
@@ -61,10 +61,11 @@
 
 .contactForm-group {
   flex: 1;
-  margin-right: 10px;
   margin-bottom: 15px;
 }
-
+.mgleft-5px{
+  margin-right: 10px;
+}
 .contactForm-group:last-child {
   margin-right: 0;
 }

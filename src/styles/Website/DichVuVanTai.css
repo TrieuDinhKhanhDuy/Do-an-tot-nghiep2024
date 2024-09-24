@@ -1,7 +1,8 @@
 .dichVu-container {
+    width: 1320px;
+    margin: 0 auto;
     margin-top: 30px;
-    margin-left: 60px;
-    margin-right: 60px;
+
 }
 
 .dichVu-container-top p h3 {

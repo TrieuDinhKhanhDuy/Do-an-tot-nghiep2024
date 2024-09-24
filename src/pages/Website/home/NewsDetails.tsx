@@ -1,9 +1,16 @@
 import "../../../styles/Website/NewsDetail.css";
 import newDetail1 from "../../../assets/image/newDetail1.png";
+import Breadcrumb from "@/components/Breadcrumb";
 
 const NewsDetails = () => {
+        const duongDan = [
+          { nhan: 'Trang Chủ', duongDan: '/' },
+          { nhan: 'Tin Tức', duongDan: 'news' },
+          { nhan: 'Đề hạ Tuyên Quang...', duongDan: 'newsdetail' },
+      ];
     return (
         <>
+      <Breadcrumb items={duongDan} />
 
             <div className="newDetails-container">
                 <div className="newDetails-container-title">

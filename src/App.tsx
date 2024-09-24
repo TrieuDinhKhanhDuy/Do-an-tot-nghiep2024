@@ -15,6 +15,8 @@ import BusTracking from "./pages/Website/home/busTracking";
 import NewsDetails from "./pages/Website/home/NewsDetails"
 import DichVuVanTai from "./pages/Website/home/DichVuVanTai";
 import ClientLayout from "./layouts/clientLayout";
+import LocationTable from "./pages/Website/home/locationTable";
+import BusRoutes from "./pages/Website/home/busRoutes";
 
 
 const routerConfig = [
@@ -77,6 +79,14 @@ const routerConfig = [
       {
         path: "/bustracking",
         element: <BusTracking/>,
+      },
+      {
+        path: "/locationtable",
+        element: <LocationTable/>,
+      },
+      {
+        path: "/busroutes",
+        element: <BusRoutes/>,
       },
       {
         path: '/*',

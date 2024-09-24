@@ -31,7 +31,7 @@ const Main = () => {
                                 Danh sách các tuyến đường của nhà xe chúng tôi
                             </p>
                             <button>
-                                <a href="">Chi tiết</a>
+                                <a href="/locationtable">Chi tiết</a>
                             </button>
                         </div>
                         <div className="mainContent-top-left-image">
@@ -45,7 +45,7 @@ const Main = () => {
                                 Địa chỉ chi tiết các điểm thuộc nhà xe chúng tôi
                             </p>
                             <button>
-                                <a href="">Chi tiết</a>
+                                <a href="/busroutes">Chi tiết</a>
                             </button>
                         </div>
                         <div className="mainContent-top-right-image">

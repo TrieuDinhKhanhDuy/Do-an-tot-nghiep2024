@@ -3,7 +3,7 @@ import "../styles/Website/headerFix.css"
 import logoBlue from "../assets/image/logofixpading.png"
 import homeIcon from "../assets/icons/homeicon.png"
 import option_icon from "../assets/icons/whitecloroption.jpg"
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 
@@ -15,6 +15,28 @@ const HeaderFix = () => {
         setIsOpen(!isOpen);
         setClose(!isClose)
     };
+    const handleItemClick = () => {
+        setIsOpen(false); 
+        setClose(true)
+      };
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+          if (submenuRef.current && !submenuRef.current.contains(event.target as Node)) {
+            setIsOpen(false);
+            setClose(true)
+          }
+        };
+    
+        if (isOpen) {
+          document.addEventListener('mousedown', handleClickOutside);
+        } else {
+          document.removeEventListener('mousedown', handleClickOutside);
+        }
+    
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, [isOpen]);
     
     return (
         <>
@@ -79,13 +101,13 @@ const HeaderFix = () => {
 
                         <div className="menu-options_fix">
                             <div className="menu-item_fix">
-                              <Link to={"/myticket"} >  <span role="img" aria-label="ticket">🎟️</span> Vé của tôi</Link>
+                              <Link to={"/myticket"} onClick={handleItemClick} >   <span role="img" aria-label="ticket">🎟️</span> Vé của tôi</Link>
                             </div>
                             <div className="menu-item_fix">
-                                <span role="img" aria-label="offer">🎫</span> Ưu đãi
+                                <span role="img" aria-label="offer" onClick={handleItemClick} >🎫</span> Ưu đãi
                             </div>
                             <div className="menu-item_fix">
-                                <span role="img" aria-label="settings">⚙️</span> Cài đặt
+                                <span role="img" aria-label="settings" onClick={handleItemClick} >⚙️</span> Cài đặt
                             </div>
                         </div>
 

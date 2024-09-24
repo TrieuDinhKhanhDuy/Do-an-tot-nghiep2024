@@ -1,12 +1,19 @@
 
+import Breadcrumb from "@/components/Breadcrumb";
 import "../../../styles/Website/bill.css"
 
 const DetailBill = () => {
+    const duongDan = [
+        { nhan: 'Trang Chủ', duongDan: '/' },
+        { nhan: 'Vé Của Tôi', duongDan: 'myticket' },
+        { nhan: 'Chi Tiết Vé', duongDan: 'detailbill' },
+    ];
     return (
         <>
+                      <Breadcrumb items={duongDan} />
+
             <div className="invoice-container">
                 <div className="schedule-header">
-                   
                 </div>
                 <div className="invoice-container-item">
                     {/* Header */}

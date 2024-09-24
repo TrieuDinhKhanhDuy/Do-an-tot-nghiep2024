@@ -2,10 +2,16 @@ import "../../../styles/Website/pay.css"
 import vnpayLogo from "../../../assets/image/vnpaylogo.png"
 import momoLogo from "../../../assets/image/momologo.jpg"
 import { Link } from "react-router-dom"
+import Breadcrumb from "@/components/Breadcrumb"
 const Pay = () => {
+    const duongDan = [
+        { nhan: 'Trang Chủ', duongDan: '/' },
+        { nhan: 'List Vé', duongDan: 'list' },
+        { nhan: 'Thanh Toán', duongDan: 'pay' },
+    ];
     return (
         <>
-
+                        <Breadcrumb items={duongDan} />
             <div className="container">
                 <div className="schedule-header payseting">
                     <div className="header-item step2">Chọn chỗ</div>
@@ -13,7 +19,6 @@ const Pay = () => {
                     <div className="header-item step2">Hoàn Thành</div>
                 </div>
                 <div className="pay-container">
-                    {/* Payment Section */}
                     <div className="payment-section">
                         <div className="header-payment">
                             <h2>Xác nhận để thanh toán</h2>

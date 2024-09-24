@@ -1,7 +1,9 @@
-import  { useState } from "react";
+import { useState } from "react";
 import "../styles/Website/Register.css";
 import Register1 from "../assets/image/Register.png";
 import Heading from "./Heading";
+import Breadcrumb from "./Breadcrumb";
+import { Link } from "react-router-dom";
 
 
 const Register = () => {
@@ -10,9 +12,13 @@ const Register = () => {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+    const duongDan = [
+        { nhan: 'Trang Chủ', duongDan: '/' },
+        { nhan: 'Đăng Ký', duongDan: 'register' },
+    ];
     return (
         <>
-            {/* <HeaderFix/> */}
+            <Breadcrumb items={duongDan} />
             <div className="register-container">
                 <img src={Register1} alt="" className="img-hidden" />
                 <div className="register-container-form">
@@ -20,12 +26,16 @@ const Register = () => {
                         Đăng ký tài khoản
                     </h2>
                     <div className="register-container__tabs">
+                      
                         <span className="register-container__tab">
-                            Đăng Nhập
+                        <Link to={'/login'} > Đăng Nhập</Link>
                         </span>
+
+                        
                         <span className="register-container__tab register-container__tab--active">
-                            Đăng Ký
-                        </span>
+                        <Link to={'/register'}> Đăng Ký</Link>
+                        </span> 
+
                     </div>
                     <form className="register-form">
                         <input

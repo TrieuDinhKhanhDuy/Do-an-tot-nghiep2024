@@ -4,6 +4,8 @@ import "../styles/Website/Login.css";
 import Login1 from "../assets/image/Login2.png";
 import Heading from "./Heading";
 import Footer from "./Footer";
+import Breadcrumb from "./Breadcrumb";
+import { Link } from "react-router-dom";
 type Props = {};
 
 const Login = (props: Props) => {
@@ -12,8 +14,13 @@ const Login = (props: Props) => {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+    const duongDan = [
+        { nhan: 'Trang Chủ', duongDan: '/' },
+        { nhan: 'Đăng Nhập', duongDan: 'login' },
+      ];
     return (
         <>
+         <Breadcrumb items={duongDan} />
             <div className="login-container">
                 <img src={Login1} alt="" className="img-hidden"/>
                 <div className="login-container-form">
@@ -22,10 +29,10 @@ const Login = (props: Props) => {
                     </h2>
                     <div className="login-container__tabs">
                         <span className="login-container__tab login-container__tab--active">
-                           Đăng Nhập
+                         <Link to={'/login'}>Đăng Nhập</Link>
                         </span>
                         <span className="login-container__tab">
-                            Đăng Ký
+                            <Link to={'/register'}>Đăng Ký </Link>
                         </span>
                     </div>
                     <form className="login-form">

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "../../../styles/Website/myTicket.css"
+import Breadcrumb from "@/components/Breadcrumb";
 
 interface Ticket {
     route: string;
@@ -61,8 +62,14 @@ const MyTicket = () => {
             statusClass: 'status-confirmed',
         },
     ];
+    const duongDan = [
+        { nhan: 'Trang Chủ', duongDan: '/' },
+        { nhan: 'Vé Của Tôi', duongDan: 'myticket' },
+    ];
     return (
         <>
+                      <Breadcrumb items={duongDan} />
+
             <div className="tickets-container">
                 {/* Table */}<h2>Vé của tôi</h2>
                 <table className="tickets-table">

@@ -5,6 +5,7 @@ import "../../../styles/Website/List.css"
 import "../../../styles/Website/BokingForm.css"
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Breadcrumb from "@/components/Breadcrumb";
 
 const List = () => {
     const scheduleData = Array(10).fill({
@@ -25,9 +26,13 @@ const List = () => {
         setIsPopupOpen(false);
     };
 
-
+    const duongDan = [
+        { nhan: 'Trang Chủ', duongDan: '/' },
+        { nhan: 'List Vé', duongDan: 'list' },
+    ];
     return (
         <>
+            <Breadcrumb items={duongDan} />
             <div className="bookingForm-container">
                 <div className="bookingForm-search">
                     <div className="bookingForm-input">
@@ -238,7 +243,7 @@ const List = () => {
                                                 <label>Họ tên:</label>
                                                 <input type="text" placeholder="Họ tên.." />
                                                 <label>Số điện thoại:</label>
-                                                <input type="text" placeholder="Số điện thoại.."/>
+                                                <input type="text" placeholder="Số điện thoại.." />
                                                 <label>Email:</label>
                                                 <input type="email" placeholder="Email.." />
                                                 <label>Ghi chú:</label>
@@ -246,9 +251,9 @@ const List = () => {
                                                 <label>Điểm đi:</label>
                                                 <input type="text" disabled />
                                                 <label>Điểm đến:</label>
-                                                <input type="text" disabled/>
+                                                <input type="text" disabled />
                                                 <label>Mã khuyến mãi:</label>
-                                                <input type="text" placeholder="Mã khuyến mại.."/>
+                                                <input type="text" placeholder="Mã khuyến mại.." />
                                                 <div className="legend">
                                                     <div className="legend-item"><span className="empty-seat"></span> Ghế trống</div>
                                                     <div className="legend-item"><span className="booked-seat"></span> Ghế đã đặt</div>
@@ -258,7 +263,7 @@ const List = () => {
                                                 <div className="btn">
                                                     <button className="checkVoucher" type="button">Kiểm tra mã</button>
                                                     <Link to={'/pay'}><button className="submit" type="submit">Tiếp tục</button></Link>
-                                                    
+
                                                 </div>
                                             </form>
                                         </div>

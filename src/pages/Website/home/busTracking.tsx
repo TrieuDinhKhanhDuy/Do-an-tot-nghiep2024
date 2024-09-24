@@ -1,8 +1,15 @@
+import Breadcrumb from "@/components/Breadcrumb";
 import "../../../styles/Website/busTracking.css"
 
 const BusTracking = () => {
+    const duongDan = [
+        { nhan: 'Trang Chủ', duongDan: '/' },
+        { nhan: 'Tra Cứu', duongDan: 'bustracking' },
+    ];
     return (
         <>
+            <Breadcrumb items={duongDan} />
+
             <div className="ticket-info-container">
                 <div className="ticket-form-section">
                     <h2 className="ticket-form-title">Nhập thông tin vé xe</h2>

@@ -1,9 +1,16 @@
+import Breadcrumb from "@/components/Breadcrumb";
 import "../../../styles/Website/Contact.css";
 
 
 const Contact = () => {
+    const duongDan = [
+        { nhan: 'Trang Chủ', duongDan: '/' },
+        { nhan: 'Liên Hệ', duongDan: 'contact' },
+    ];
     return (
         <>
+            <Breadcrumb items={duongDan} />
+
             <div className="contactForm-container">
                 <h2 className="contactForm-title">LIÊN HỆ</h2>
 
@@ -32,13 +39,14 @@ const Contact = () => {
 
                         <form className="contactForm-form">
                             <div className="contactForm-row">
-                                <div className="contactForm-group">
+                                <div className="contactForm-group mgleft-5px">
                                     <label>Họ và tên:</label>
                                     <input
                                         type="text"
                                         placeholder="Nhập họ và tên"
                                     />
                                 </div>
+                                
                                 <div className="contactForm-group">
                                     <label>Số điện thoại:</label>
                                     <input
