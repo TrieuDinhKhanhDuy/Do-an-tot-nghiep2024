@@ -1,7 +1,6 @@
-import image1 from "../../../assets/image/image.png";
-import image2 from "../../../assets/image/image2.png";
-import image3 from "../../../assets/image/image3.png";
-import image4 from "../../../assets/image/image4.png";
+import image1 from "../../../assets/image/banner_voucher.jfif";
+import image2 from "../../../assets/image/banner_voucher2.jfif";
+import image3 from "../../../assets/image/banner_voucher3.jfif";
 import image9 from "../../../assets/image/image 9.png";
 import image10 from "../../../assets/image/image 10.png";
 import "../../../styles/Website/mainContent.css";
@@ -21,9 +20,10 @@ const Main = () => {
                     <img src={image1} alt="" />
                     <img src={image2} alt="" className="img-hidden-mobile" />
                     <img src={image3} alt="" className="img-hidden" />
-                    <img src={image4} alt="" className="img-hidden"/>
                 </div>
+                <h3 className="link-h2" >Đa dạng điểm, tuyến đường</h3>
                 <div className="mainContent-top-content">
+               
                     <div className="mainContent-top-left">
                         <div className="mainContent-top-left-content">
                             <h3>Tuyến đường</h3>

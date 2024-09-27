@@ -10,10 +10,6 @@ import {
     faGift,
     faCog,
     faSignOutAlt,
-    faHome,
-    faNewspaper,
-    faPhone,
-    faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
 const HeaderFix = () => {
@@ -52,146 +48,158 @@ const HeaderFix = () => {
 
     return (
         <>
-            <header className="header">
-                <div className="header__top">
-                    <div className="header__top-actions">
-                        <ul className="header__top-list">
-                            <li>
-                                <a href="/help?">Trợ giúp</a>
-                            </li>
-                            <li>
-                                <a href="/login">Đăng nhập</a>
-                            </li>
-                            <li>
-                                <a href="/register">Đăng ký</a>
-                            </li>
-                            <li>
-                                <a href="/vie?">VIETNAM - Tiếng Việt</a>
-                            </li>
+            <header className="header_container">
+            <div className="background_Header"></div>
+                <div className="header">
+
+                    <div className="header__top">
+                        <div className="header__top-actions">
+                            <ul className="header__top-list">
+                                <li>
+                                    <a href="/help?">Trợ giúp</a>
+                                </li>
+                                <li>
+                                    <a href="/login">Đăng nhập</a>
+                                </li>
+                                <li>
+                                    <a href="/register">Đăng ký</a>
+                                </li>
+                                <li>
+                                    <a href="/vie?">VIETNAM - Tiếng Việt</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div className="header__nav">
+                        <ul className="header__nav-list">
+                            <div className="list_conten">
+                                <li>
+                                    <Link to={"/"}>
+                                        <img
+                                            src={homeIcon}
+                                            className="home_icon"
+                                            alt=""
+                                        />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <div className="row_white"></div>
+                                </li>
+                                <li>
+                                    <a href="/">Trang chủ</a>
+                                </li>
+                                <li>
+                                    <a href="/about">Giới thiệu</a>
+                                </li>
+                                <li>
+                                    <a href="/bustracking">Tra cứu</a>
+                                </li>
+                                <li>
+                                    <a href="/news">Tin tức</a>
+                                </li>
+                                <li>
+                                    <a href="/contact">Liên hệ</a>
+                                </li>
+
+                            </div>
+                            <div className="list_icon">
+                                <li
+                                    className="link-submenu"
+                                    onClick={toggleSubmenu}
+                                >
+                                    <div
+                                        className={`sp-link-submenu ${isClose ? "close" : ""}`}
+                                        ref={submenuRef}
+                                    >
+                                        <img
+                                            src={option_icon}
+                                            className="option_icon"
+                                            alt=""
+                                        />
+                                    </div>
+                                </li>
+                            </div>
                         </ul>
                     </div>
-                </div>
 
-                <div className="header__nav">
-                    <ul className="header__nav-list">
-                        <div className="list_conten">
-                            <li>
-                                <a href="/bustracking">Tra cứu</a>
-                            </li>
-                            <li>
-                                <a href="/news">Tin tức</a>
-                            </li>
-                            <li>
-                                <a href="/contact">Liên hệ</a>
-                            </li>
-                            <li>
-                                <a href="/about">Giới thiệu</a>
-                            </li>
-                        </div>
-                        <div className="list_icon">
-                            <li>
-                                <Link to={"/"}>
-                                    <img
-                                        src={homeIcon}
-                                        className="home_icon"
-                                        alt=""
-                                    />
-                                </Link>
-                            </li>
-                            <li>
-                                <div className="row_white"></div>
-                            </li>
-                            <li
-                                className="link-submenu"
-                                onClick={toggleSubmenu}
-                            >
-                                <div
-                                    className={`sp-link-submenu ${isClose ? "close" : ""}`}
-                                    ref={submenuRef}
-                                >
-                                    <img
-                                        src={option_icon}
-                                        className="option_icon"
-                                        alt=""
-                                    />
+                    <div className="header__logo">
+                        <img src={logoBlue} className="header__logo-img" />
+                    </div>
+
+                    <div
+                        className={`submenu ${isOpen ? "open" : ""}`}
+                        ref={submenuRef}
+                    >
+                        <div className="user-menu_fix">
+                            <div className="user-info_fix">
+                                <div className="user-avatar_fix">
+                                    <span role="img" aria-label="avatar">
+                                        👤
+                                    </span>
                                 </div>
-                            </li>
-                        </div>
-                    </ul>
-                </div>
-
-                <div className="header__logo">
-                    <img src={logoBlue} className="header__logo-img" />
-                </div>
-
-                <div
-                    className={`submenu ${isOpen ? "open" : ""}`}
-                    ref={submenuRef}
-                >
-                    <div className="user-menu_fix">
-                        <div className="user-info_fix">
-                            <div className="user-avatar_fix">
-                                <span role="img" aria-label="avatar">
-                                    👤
-                                </span>
+                                <div className="user-details_fix">
+                                    <span className="user-name_fix">
+                                        Admin hieu
+                                    </span>
+                                    <span className="user-role_fix">admin</span>
+                                </div>
                             </div>
-                            <div className="user-details_fix">
-                                <span className="user-name_fix">
-                                    Admin hieu
-                                </span>
-                                <span className="user-role_fix">admin</span>
-                            </div>
-                        </div>
 
-                        <div className="menu-options_fix">
-                            <div className="menu-item_fix">
-                                <Link
-                                    to={"/myticket"}
-                                    onClick={handleItemClick}
-                                >
-                                    {" "}
-                                    <span role="img" aria-label="ticket">
+                            <div className="menu-options_fix">
+                                <div className="menu-item_fix">
+                                    <Link
+                                        to={"/myticket"}
+                                        onClick={handleItemClick}
+                                    >
                                         {" "}
-                                        <FontAwesomeIcon icon={faTicket} />
+                                        <span role="img" aria-label="ticket">
+                                            {" "}
+                                            <FontAwesomeIcon icon={faTicket} />
+                                        </span>{" "}
+                                        Vé của tôi
+                                    </Link>
+                                </div>
+                                <div className="menu-item_fix">
+                                    <span
+                                        role="img"
+                                        aria-label="offer"
+                                        onClick={handleItemClick}
+                                    >
+                                        {" "}
+                                        <FontAwesomeIcon icon={faGift} />
                                     </span>{" "}
-                                    Vé của tôi
-                                </Link>
+                                    Ưu đãi
+                                </div>
+                                <div className="menu-item_fix">
+                                    <span
+                                        role="img"
+                                        aria-label="settings"
+                                        onClick={handleItemClick}
+                                    >
+                                        {" "}
+                                        <FontAwesomeIcon icon={faCog} />
+                                    </span>{" "}
+                                    Cài đặt
+                                </div>
                             </div>
-                            <div className="menu-item_fix">
-                                <span
-                                    role="img"
-                                    aria-label="offer"
-                                    onClick={handleItemClick}
-                                >
-                                    {" "}
-                                    <FontAwesomeIcon icon={faGift} />
-                                </span>{" "}
-                                Ưu đãi
-                            </div>
-                            <div className="menu-item_fix">
-                                <span
-                                    role="img"
-                                    aria-label="settings"
-                                    onClick={handleItemClick}
-                                >
-                                    {" "}
-                                    <FontAwesomeIcon icon={faCog} />
-                                </span>{" "}
-                                Cài đặt
-                            </div>
-                        </div>
 
-                        <div
-                            className="logout_fix"
-                            style={{ display: "flex", alignItems: "center" }}
-                        >
-                            <span style={{ marginRight: "10px" }}>
-                                <FontAwesomeIcon icon={faSignOutAlt} />
-                            </span>
-                            Đăng xuất
+                            <div
+                                className="logout_fix"
+                                style={{ display: "flex", alignItems: "center" }}
+                            >
+                                <span style={{ marginRight: "10px" }}>
+                                    <FontAwesomeIcon icon={faSignOutAlt} />
+                                </span>
+                                Đăng xuất
+                            </div>
                         </div>
                     </div>
+
                 </div>
+
+              
+
             </header>
         </>
     );

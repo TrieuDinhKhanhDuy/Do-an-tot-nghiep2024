@@ -1,6 +1,5 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/Website/NotFound.css'; // Đảm bảo bạn có file CSS cho styling
+import '../styles/Website/NotFound.css';
 
 const NotFound = () => {
   return (
