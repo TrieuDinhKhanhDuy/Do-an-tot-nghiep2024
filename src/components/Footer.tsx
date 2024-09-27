@@ -2,7 +2,8 @@ import '../styles/Website/Footer.css';
 import logo from "../assets/image/logofix.png";
 import momoLogo from "../assets/image/momologo.jpg";
 import vnpayLogo from "../assets/image/vnpaylogo.png";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 const Footer = () => {
   return (
@@ -19,11 +20,11 @@ const Footer = () => {
         <div className="footer-section">
           <h5>Thông tin liên hệ</h5>
           <ul className="footer-list">
-            <li>📍 Địa Chỉ: 1</li>
-            <li>📍 Địa Chỉ: 1</li>
-            <li>📍 Địa Chỉ: 1</li>
-            <li>📞 Hotline:</li>
-            <li>📧 Email:</li>
+            <li><FontAwesomeIcon icon={faMapMarkerAlt} /> Địa Chỉ: 1</li>
+            <li><FontAwesomeIcon icon={faMapMarkerAlt} /> Địa Chỉ: 1</li>
+            <li><FontAwesomeIcon icon={faMapMarkerAlt} /> Địa Chỉ: 1</li>
+            <li><FontAwesomeIcon icon={faPhone} /> Hotline:</li>
+            <li><FontAwesomeIcon icon={faEnvelope} /> Email:</li>
           </ul>
         </div>
         <div className="footer-section">

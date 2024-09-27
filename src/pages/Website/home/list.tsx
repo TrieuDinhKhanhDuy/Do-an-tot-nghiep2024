@@ -1,11 +1,15 @@
-import { FaMapMarkerAlt } from "react-icons/fa";
-import { AiOutlineCalendar } from "react-icons/ai";
-import { CiSearch } from "react-icons/ci";
-import "../../../styles/Website/List.css"
-import "../../../styles/Website/BokingForm.css"
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import Breadcrumb from "@/components/Breadcrumb";
+import {
+    faCalendarAlt,
+    faMapMarkerAlt,
+    faClock,faTimes
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+import { CiSearch } from "react-icons/ci";
+import { Link } from "react-router-dom";
+import "../../../styles/Website/BokingForm.css";
+import "../../../styles/Website/List.css";
 
 const List = () => {
     const scheduleData = Array(10).fill({
@@ -37,7 +41,7 @@ const List = () => {
                 <div className="bookingForm-search">
                     <div className="bookingForm-input">
                         <div className="bookingForm-input-top">
-                            <span><FaMapMarkerAlt /></span>
+                            <span><FontAwesomeIcon icon={faMapMarkerAlt} /></span>
                             <label>Điểm đi</label>
                         </div>
                         <select>
@@ -46,7 +50,7 @@ const List = () => {
                     </div>
                     <div className="bookingForm-input">
                         <div className="bookingForm-input-top">
-                            <span><FaMapMarkerAlt /></span>
+                            <span><FontAwesomeIcon icon={faMapMarkerAlt} /></span>
                             <label>Điểm đến</label>
                         </div>
                         <select>
@@ -55,7 +59,7 @@ const List = () => {
                     </div>
                     <div className="bookingForm-input">
                         <div className="bookingForm-input-top">
-                            <span><AiOutlineCalendar /></span>
+                            <span><FontAwesomeIcon icon={faCalendarAlt} /></span>
                             <label >Ngày khởi hành</label>
                         </div>
                         <input type="date" defaultValue="2024-08-27" />
@@ -89,7 +93,7 @@ const List = () => {
                                     <tr key={index}>
                                         <td>
                                             <div className="schedule-time-route">
-                                                <span className="time"><span className="time-icon">🕒</span>{item.time}</span>
+                                                <span className="time"><span className="time-icon"><FontAwesomeIcon icon={faClock} /></span>{item.time}</span>
                                                 <span className="route">{item.route}</span>
                                             </div>
                                         </td>
@@ -114,7 +118,7 @@ const List = () => {
                     {isPopupOpen && (
                         <div className="popup-overlay">
                             <div className="popup-content">
-                                <button className="close-btn" onClick={handleClosePopup}>×</button>
+                                <button className="close-btn" onClick={handleClosePopup}><FontAwesomeIcon icon={faTimes} /></button>
                                 <div className="seat-selection">
                                     {/* Phần chọn ghế */}
                                     <div className="seat-layout">

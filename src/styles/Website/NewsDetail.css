@@ -1,7 +1,6 @@
 .newDetails-container {         
-    margin-top: 20px;
-    margin-left: 60px;
-    margin-right: 60px;
+    margin-top: 40px;
+    margin: 0 auto;
     width: 1320px;   
 }
 
@@ -10,6 +9,7 @@
     margin-bottom: 50px;
     font-size: 40px;
     font-weight: 700;
+    margin-top: 40px;
 }
 
 .newDetails-container .newDetails-container-main p {

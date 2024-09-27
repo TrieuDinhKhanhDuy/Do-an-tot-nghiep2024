@@ -3,52 +3,55 @@ import vnpayLogo from "../../../assets/image/vnpaylogo.png"
 import momoLogo from "../../../assets/image/momologo.jpg"
 import { Link } from "react-router-dom"
 import Breadcrumb from "@/components/Breadcrumb"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWallet, faCreditCard } from '@fortawesome/free-solid-svg-icons';
+
 const Pay = () => {
     const duongDan = [
         { nhan: 'Trang Chủ', duongDan: '/' },
         { nhan: 'List Vé', duongDan: 'list' },
         { nhan: 'Thanh Toán', duongDan: 'pay' },
     ];
+
     return (
         <>
-                        <Breadcrumb items={duongDan} />
+            <Breadcrumb items={duongDan} />
             <div className="container">
                 <div className="schedule-header payseting">
                     <div className="header-item step2">Chọn chỗ</div>
-                    <div className="header-item ">Thanh Toán</div>
+                    <div className="header-item">Thanh Toán</div>
                     <div className="header-item step2">Hoàn Thành</div>
                 </div>
                 <div className="pay-container">
                     <div className="payment-section">
                         <div className="header-payment">
-                            <h2>Xác nhận để thanh toán</h2>
-                            <p style={{ fontSize: "12px", }} >Xin hãy thanh toán trong vòng <span style={{ color: "red", fontWeight: "bold" }} >01 : 20 : 30</span></p>
+                            <h2><FontAwesomeIcon icon={faCreditCard} style={{color:'#405187'}}/> Xác nhận để thanh toán</h2>
+                            <p style={{ fontSize: "12px" }}>Xin hãy thanh toán trong vòng <span style={{ color: "red", fontWeight: "bold" }}>01 : 20 : 30</span></p>
                         </div>
                         <div className="info-box">
-                            <p style={{ fontSize: '15px', textAlign: "center" }} >Tất cả thông tin của card sẽ được mã hoá, bảo mật và bảo vệ</p>
+                            <p style={{ fontSize: '15px', textAlign: "center" }}>Tất cả thông tin của card sẽ được mã hoá, bảo mật và bảo vệ</p>
                         </div>
                         <div className="payment-options">
                             <div className="option-item">
-
                                 <div className="option">
                                     <input type="radio" id="momo" name="payment" />
-                                    <label htmlFor="momo">MoMo E-Wallet</label>
-
+                                    <label htmlFor="momo">
+                                        MoMo E-Wallet
+                                    </label>
                                 </div>
                                 <div className="logo-pay-img">
-                                    <img src={momoLogo} alt="" style={{ width: "60px", boxShadow: "1px 1px 1px 1px  rgba(110, 110, 110, 0.515)", borderRadius: "5px" }} />
+                                    <img src={momoLogo} alt="" style={{ width: "60px", boxShadow: "1px 1px 1px 1px rgba(110, 110, 110, 0.515)", borderRadius: "5px" }} />
                                 </div>
-
                             </div>
-
                             <div className="option-item">
                                 <div className="option">
                                     <input type="radio" id="vnpay" name="payment" />
-                                    <label htmlFor="vnpay">VNPay</label>
-
+                                    <label htmlFor="vnpay">
+                                        VNPay
+                                    </label>
                                 </div>
                                 <div className="logo-pay-img">
-                                    <img src={vnpayLogo} alt="" style={{ width: "60px", boxShadow: "1px 1px 1px 1px  rgba(110, 110, 110, 0.515)", borderRadius: "5px" }} />
+                                    <img src={vnpayLogo} alt="" style={{ width: "60px", boxShadow: "1px 1px 1px 1px rgba(110, 110, 110, 0.515)", borderRadius: "5px" }} />
                                 </div>
                             </div>
                         </div>
@@ -59,8 +62,6 @@ const Pay = () => {
                             <hr />
                             <p className="total">Tổng tiền: <span>290.000đ</span></p>
                         </div>
-
-
 
                         <p className="agreement-text">
                             Khi nhấp vào "Thanh toán", bạn đồng ý rằng bạn đã đọc và hiểu
@@ -124,8 +125,7 @@ const Pay = () => {
                             </table>
                             <div className="button-container">
                                 <Link to={'/bill'}><button className="btn-primary">Thanh toán</button></Link>
-                                
-                                <button className="btn-secondary" >Hủy thanh toán</button>
+                                <button className="btn-secondary">Hủy thanh toán</button>
                             </div>
                         </div>
                     </div>

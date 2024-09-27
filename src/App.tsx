@@ -17,6 +17,7 @@ import DichVuVanTai from "./pages/Website/home/DichVuVanTai";
 import ClientLayout from "./layouts/clientLayout";
 import LocationTable from "./pages/Website/home/locationTable";
 import BusRoutes from "./pages/Website/home/busRoutes";
+import NotFound from "./components/NoutFound";
 
 
 const routerConfig = [
@@ -90,7 +91,7 @@ const routerConfig = [
       },
       {
         path: '/*',
-        element: <h1>404 not found !!</h1>,
+        element: <NotFound />
       },
     ],
   },

@@ -1,9 +1,17 @@
-import Swal from 'sweetalert2'
-import "../../../styles/Website/bill.css"
-import { useNavigate } from 'react-router-dom';
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faUser,
+    faPhone,
+    faEnvelope,
+    faCar,
+    faFileInvoice,
+} from "@fortawesome/free-solid-svg-icons";
+import "../../../styles/Website/bill.css";
 
 const Bill = () => {
-    const nav = useNavigate()
+    const nav = useNavigate();
     Swal.fire({
         title: "Đặt vé thành công",
         text: "Bạn có muốn về trang chủ?",
@@ -12,65 +20,91 @@ const Bill = () => {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         cancelButtonText: "Xem hóa đơn",
-        confirmButtonText: "Về Trang Chủ"
-      }).then((result) => {
+        confirmButtonText: "Về Trang Chủ",
+    }).then((result) => {
         if (result.isConfirmed) {
-         nav('/')
+            nav("/");
         }
-      });
+    });
+
     return (
         <>
             <div className="invoice-container">
                 <div className="schedule-header">
                     <div className="header-item step2">Chọn chỗ</div>
                     <div className="header-item step2">Thanh Toán</div>
-                    <div className="header-item ">Hoàn Thành</div>
+                    <div className="header-item">Hoàn Thành</div>
                 </div>
                 <div className="invoice-container-item">
-                    {/* Header */}
                     <div className="header_bill">
-                        <h2>Hóa đơn điện tử</h2>
+                        <h2>
+                            <FontAwesomeIcon icon={faFileInvoice} style={{color:'#405187'}} /> Hóa đơn
+                            điện tử
+                        </h2>
                         <p className="ticket-code">Mã vé: 012913914</p>
                     </div>
 
-                    {/* Divider after Header */}
                     <hr className="section-divider" />
 
-                    {/* Table Layout for Information Sections */}
                     <table className="info-table">
                         <tbody>
-                            {/* Row 1: Customer Information and Vehicle Information */}
                             <tr>
                                 <td className="left-section-bill">
                                     <strong>Thông tin hành khách</strong>
-                                    <p>Họ và tên: Phạm Trung Hiếu</p>
-                                    <p>Số điện thoại: 0345476764</p>
-                                    <p>Email: hieubackkhoa@gmail.com</p>
+                                    <p>
+                                        <FontAwesomeIcon icon={faUser} /> Họ và
+                                        tên: Phạm Trung Hiếu
+                                    </p>
+                                    <p>
+                                        <FontAwesomeIcon icon={faPhone} /> Số
+                                        điện thoại: 0345476764
+                                    </p>
+                                    <p>
+                                        <FontAwesomeIcon icon={faEnvelope} />{" "}
+                                        Email: hieubackkhoa@gmail.com
+                                    </p>
                                 </td>
                                 <td className="right-section-bill vehicle-info">
                                     <div className="vehicle-info-content">
                                         <div>
                                             <strong>Thông tin xe</strong>
-                                            <p>Tên tài xế: Phạm Trung Hiếu</p>
-                                            <p>Số điện thoại: 0345476764</p>
-                                            <p>Biển số xe: 98C - 099.00</p>
+                                            <p>
+                                                <FontAwesomeIcon
+                                                    icon={faUser}
+                                                />{" "}
+                                                Tên tài xế: Phạm Trung Hiếu
+                                            </p>
+                                            <p>
+                                                <FontAwesomeIcon
+                                                    icon={faPhone}
+                                                />{" "}
+                                                Số điện thoại: 0345476764
+                                            </p>
+                                            <p>
+                                                <FontAwesomeIcon icon={faCar} />{" "}
+                                                Biển số xe: 98C - 099.00
+                                            </p>
                                         </div>
-                                        {/* Driver's Image Beside the Text */}
+
                                         <div className="driver-image">
-                                            <img src="https://static.vecteezy.com/system/resources/previews/018/865/413/non_2x/car-driver-simple-flat-icon-illustration-free-vector.jpg" alt="Driver" />
+                                            <div className="driver-image">
+                                                {" "}
+                                                <img
+                                                    src="https://static.vecteezy.com/system/resources/previews/018/865/413/non_2x/car-driver-simple-flat-icon-illustration-free-vector.jpg"
+                                                    alt="Driver"
+                                                />{" "}
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
 
-                            {/* Divider between sections */}
                             <tr>
                                 <td colSpan={2}>
                                     <hr className="section-divider" />
                                 </td>
                             </tr>
 
-                            {/* Row 2: Route Information and Additional Information */}
                             <tr>
                                 <td className="left-section-bill">
                                     <strong>Thông tin chính</strong>
@@ -87,36 +121,36 @@ const Bill = () => {
                                 </td>
                             </tr>
 
-                            {/* Divider between sections */}
                             <tr>
                                 <td colSpan={2}>
                                     <hr className="section-divider" />
                                 </td>
                             </tr>
 
-                            {/* Row 3: Pricing Information */}
                             <tr>
                                 <td className="pricing-left">
                                     <p>Giá vé:</p>
                                     <p>Mã giảm giá:</p>
-                                    <p><strong>Tổng tiền:</strong></p>
+                                    <p>
+                                        <strong>Tổng tiền:</strong>
+                                    </p>
                                     <p>Tình trạng:</p>
                                 </td>
                                 <td className="pricing-right">
                                     <p>300,000đ</p>
                                     <p>80,000đ</p>
-                                    <p><strong>220,000đ</strong></p>
+                                    <p>
+                                        <strong>220,000đ</strong>
+                                    </p>
                                     <p className="status-pay">Đã thanh toán</p>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-
                 </div>
-
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Bill
+export default Bill;

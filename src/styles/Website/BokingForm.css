@@ -122,7 +122,7 @@
 }
 
 .bookingForm-icon {
-  font-size: 60px;
+  font-size: 80px;
   margin-bottom: 15px;
   background-color: #f2f2f2;
   border: 2px dashed #999;
@@ -130,14 +130,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 30px 40px;
-  width: 160px;
+  padding: 40px 50px;
+  width: 180px;
 }
+.bookingForm-icon svg{
+  color: #224498;
+}
+
 
 .bookingForm-arrow {
   font-size: 40px;
   margin-top: 50px;
   border-radius: 50px;
+}
+.bookingForm-arrow svg{
+  color: rgba(128, 128, 128, 0.785);
 }
 
 .bookingForm-step p {
