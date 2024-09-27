@@ -2,7 +2,7 @@
     width: 1200px;
     margin: 20px auto;
     background-color: white;
-    border-radius: 8px;
+    border-radius: 20px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     border: 1px solid #ddd; 
   }
@@ -10,6 +10,7 @@
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
+    border-radius: 20px;
 
   }
   .payment-section{
@@ -20,7 +21,7 @@
   .payment-section, .customer-info {
     border: 1px solid #ddd; 
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 20px;
     margin: 10px;
     
   }

@@ -11,6 +11,7 @@ import item4 from "../../../assets/image/item4.png";
 import tintuc1 from "../../../assets/image/tin tuc 1.png"
 import tintuc2 from "../../../assets/image/tin tuc 2.png"
 import tintuc3 from "../../../assets/image/tin tuc 3.png"
+import PopularRoutes from "@/components/PopularRoutes";
 const Main = () => {
     return (
         <div className="mainContent-container">
@@ -21,6 +22,8 @@ const Main = () => {
                     <img src={image2} alt="" className="img-hidden-mobile" />
                     <img src={image3} alt="" className="img-hidden" />
                 </div>
+
+               
                 <h3 className="link-h2" >Đa dạng điểm, tuyến đường</h3>
                 <div className="mainContent-top-content">
                
@@ -38,6 +41,8 @@ const Main = () => {
                             <img src={image9} alt="" />
                         </div>
                     </div>
+
+
                     <div className="mainContent-top-right">
                         <div className="mainContent-top-right-content">
                             <h3>Danh sách điểm</h3>
@@ -53,6 +58,7 @@ const Main = () => {
                         </div>
                     </div>
                 </div>
+                <PopularRoutes/>
             </div>
             <div className="mainContent-center">
                 <h2 className="link-h2" >Chất lượng hàng đầu, hành trình an toàn</h2>

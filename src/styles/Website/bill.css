@@ -1,8 +1,8 @@
 .invoice-container {
-  width: 1320px;
+  width: 1200px;
   margin: 20px auto;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 20px;
 }
 
 .invoice-container-item {
