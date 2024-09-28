@@ -23,10 +23,10 @@ const Main = () => {
                     <img src={image3} alt="" className="img-hidden" />
                 </div>
 
-               
+
                 <h3 className="link-h2" >Đa dạng điểm, tuyến đường</h3>
                 <div className="mainContent-top-content">
-               
+
                     <div className="mainContent-top-left">
                         <div className="mainContent-top-left-content">
                             <h3>Tuyến đường</h3>
@@ -58,7 +58,7 @@ const Main = () => {
                         </div>
                     </div>
                 </div>
-                <PopularRoutes/>
+                <PopularRoutes />
             </div>
             <div className="mainContent-center">
                 <h2 className="link-h2" >Chất lượng hàng đầu, hành trình an toàn</h2>
@@ -117,31 +117,40 @@ const Main = () => {
                     </div>
                 </div>
             </div>
-    
+
             <div className="mainContent-bottom">
                 <a href="/news"><h2 className="link-h2" >Tin tức mới nhất</h2></a>
-                
-                
-                 <div className="mainContent-bottom-content">
-                 <div className="mainContent-bottom-items">
-                    <img src={tintuc1} alt="" />
-                    <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
-                    </p>
-                    <a href="">18/10/2024</a>
+
+
+                <div className="mainContent-bottom-content">
+                    <div className="mainContent-bottom-items">
+                        <img src={tintuc1} alt="" />
+                        <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
+                        </p>
+                        <div className="flex-route-price">
+                            <a href="">18/10/2024</a>
+                            <a href=""><span>Chi tiết</span></a>
+                        </div>
+                    </div>
+                    <div className="mainContent-bottom-items img-hidden-mobile">
+                        <img src={tintuc2} alt="" />
+                        <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
+                        </p>
+                        <div className="flex-route-price">
+                            <a href="">18/10/2024</a>
+                            <a href=""><span>Chi tiết</span></a>
+                        </div>
+                    </div>
+                    <div className="mainContent-bottom-items img-hidden-mobile">
+                        <img src={tintuc3} alt="" />
+                        <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
+                        </p>
+                        <div className="flex-route-price ">
+                            <a href="">18/10/2024</a>
+                            <a href=""><span>Chi tiết</span></a>
+                        </div>
+                    </div>
                 </div>
-                <div className="mainContent-bottom-items img-hidden-mobile">
-                    <img src={tintuc2} alt="" />
-                    <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
-                    </p>
-                    <a href="">18/10/2024</a>
-                </div>
-                <div className="mainContent-bottom-items img-hidden-mobile">
-                    <img src={tintuc3} alt="" />
-                    <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
-                    </p>
-                    <a href="">18/10/2024</a>
-                </div>
-                 </div>
             </div>
         </div>
     );

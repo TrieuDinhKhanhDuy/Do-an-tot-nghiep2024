@@ -24,10 +24,14 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     border-radius: 20px;
+    transition: transform 0.5s ease-in-out, color 0.5s ease-in-out;
+
 }
 
 .mainContent-container .mainContent-top .mainContent-top-image img:hover {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.603);
+    transform: scale(1.03);
+
 }
 
 
@@ -55,13 +59,15 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     height: 235px;
     cursor: pointer;
+    transition: transform 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 .mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left:hover {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
-
+    transform: scale(1.03);
 }
 .mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-right:hover {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+    transform: scale(1.03);
 
 }
 .mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left .mainContent-top-left-content {
@@ -74,6 +80,7 @@
 
 .mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left .mainContent-top-left-image {
     width: 49%;
+    
 }
 
 .mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left .mainContent-top-left-image img {
@@ -112,6 +119,8 @@
     border-radius: 20px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     height: 235px;
+    transition: transform 0.5s ease-in-out, color 0.5s ease-in-out;
+
 }
 
 .mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-right .mainContent-top-right-content {
@@ -234,29 +243,45 @@
 .mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items {
     background: white;
     width: 32%;
-    position: relative;
     border-radius: 20px;
     border: 1px solid rgba(175, 175, 175, 0.505);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
+    transition: transform 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 .mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items:hover{
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+    transform: scale(1.03);
+}
+.mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items:hover p{
+    color: yellow;
+}
+.mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items:hover span{
+    color: yellow;
 }
 .mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items img {
     width: 100%;
+    max-height: 200px;
+    border-radius: 20px 20px 0 0 ;
 }
-
+.mainContent-bottom-items .flex-route-price{
+    padding: 10px;
+}
+.mainContent-bottom-items .flex-route-price a span{
+    text-decoration: underline;
+    color: black;
+    transition: color 0.5s ease-in-out; 
+}
 .mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items p {
     font-size: 16px;
     margin-top: 10px;
     margin-left: 10px;
     font-weight: bold;
-    margin-bottom: 20px;
+    color: #000;
+    transition: color 0.5s ease-in-out; 
 }
 
 .mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items a {
-    position: absolute;
     bottom: 2px;
     right: 10px;
     font-weight: unset;

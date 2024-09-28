@@ -6,7 +6,7 @@ import laiChauImg from '../assets/image/routeBannerLaichau.jpg';
 const PopularRoutes = () => {
     return (
         <div className="popular-routes-container">
-            <h2>Các tuyến phổ biến</h2>
+            <h2 className='link-h2'>Các tuyến phổ biến</h2>
             <div className="popular-routes">
                 <div className="route-card">
                     <div className="route-image">

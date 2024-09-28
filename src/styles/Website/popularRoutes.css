@@ -40,7 +40,14 @@
   .route-item {
     border-top: 1px solid #ecf0f1;
     padding-top: 10px;
+    transition: transform 0.5s ease-in-out, color 0.5s ease-in-out;
+    cursor: pointer;
+
   }
+.route-item:hover{
+  transform: scale(1.03);
+
+}
   
   .route-destination {
     font-size: 16px;

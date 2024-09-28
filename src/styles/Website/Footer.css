@@ -18,7 +18,7 @@
 .footer-section {
     flex: 1;
     padding: 10px;
-    /* min-width: 200px; */
+    min-width: 200px;
 }
 
 .footer-logo {
@@ -46,7 +46,13 @@
 }
 
 .footer-list li {
-    margin-bottom: 5px;
+    margin-bottom: 15px;
+    font-size: 15px;
+    font-weight: bolder;
+}
+.footer-list li span {
+    font-weight: lighter;
+    font-size: 13px;
 }
 
 .social-media {

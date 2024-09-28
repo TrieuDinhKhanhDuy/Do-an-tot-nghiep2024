@@ -13,9 +13,21 @@ import zllogo from "../../../assets/image/zalologo.png"
 import momoLogo from "../../../assets/image/momologo.jpg"
 import vnpaylogo from "../../../assets/image/vnpaylogo.png"
 import smslogo from "../../../assets/image/smslogo.png"
+import { useEffect, useState } from "react";
 
 
 const BookingForm = () => {
+
+    const [minDate, setMinDate] = useState<string>('');
+
+    useEffect(() => {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        const isoDate = tomorrow.toISOString().split('T')[0];
+
+        setMinDate(isoDate);
+    }, []);
     return (
         <div className="bookingForm-container">
             <div className="bookingForm-search">
@@ -48,7 +60,12 @@ const BookingForm = () => {
                         </span>
                         <label>Ngày khởi hành</label>
                     </div>
-                    <input type="date" defaultValue="2024-08-27" />
+                    <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        min={minDate}
+                    />
                 </div>
                 <div className="bookingForm-button">
                     <FontAwesomeIcon icon={faSearch} size="lg" />
@@ -102,7 +119,7 @@ const BookingForm = () => {
                                 <img src={smslogo} alt="sms" className="social-icon" />
                             </div>
                         </li>
-                        <li className="purchase-item"> 3. Gọi điện đến hotline:   <span className="hotline-number">034567678</span></li>
+                        <li className="purchase-item"> 3. Gọi điện đến hotline:   <span className="hotline-number">02345556555</span></li>
                         <li className="purchase-item">
                             4. Mua trực tiếp tại quầy giao dịch:
                             <div className="booking-step-map">

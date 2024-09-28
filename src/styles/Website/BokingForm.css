@@ -267,6 +267,12 @@
   height: 450px;
   background-color: #B0B0B0;
 }
+.booking-step-map{
+  padding: 10px;
+}
+.booking-step-map iframe{
+  border-radius: 20px;
+}
 @media only screen and (max-width: 46.1875em) {
   .bookingForm-search {
     flex-direction: column;

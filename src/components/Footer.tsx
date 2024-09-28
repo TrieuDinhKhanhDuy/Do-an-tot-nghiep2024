@@ -18,17 +18,17 @@ const Footer = () => {
           </div>
         </div>
         <div className="footer-section">
-          <h5>Thông tin liên hệ</h5>
+          <h3>Thông tin liên hệ</h3>
           <ul className="footer-list">
-            <li><FontAwesomeIcon icon={faMapMarkerAlt} /> Địa Chỉ: 1</li>
-            <li><FontAwesomeIcon icon={faMapMarkerAlt} /> Địa Chỉ: 1</li>
-            <li><FontAwesomeIcon icon={faMapMarkerAlt} /> Địa Chỉ: 1</li>
-            <li><FontAwesomeIcon icon={faPhone} /> Hotline:</li>
-            <li><FontAwesomeIcon icon={faEnvelope} /> Email:</li>
+            <li><FontAwesomeIcon icon={faMapMarkerAlt} /> Địa Chỉ: <span>Tòa Nhà Sông Dà - 18 Đ. Phạm Hùng, Mỹ Đình, Nam Từ Liêm, Hà Nội</span></li>
+            <li><FontAwesomeIcon icon={faMapMarkerAlt} /> Địa Chỉ: <span>Zen Tower - 12 Khuất Duy Tiến, Thanh Xuân Trung, Thanh Xuân, Hà Nội</span></li>
+            <li><FontAwesomeIcon icon={faMapMarkerAlt} /> Địa Chỉ: <span>Tầng 3, Toà nhà 101 Láng Hạ, Phường Láng Hạ, Quận Đống Đa, Hà Nội</span></li>
+            <li><FontAwesomeIcon icon={faPhone} /> Hotline: <span className='hotline-number' >02345556555</span></li>
+            <li><FontAwesomeIcon icon={faEnvelope} /> Email: <span>xekhachhongnhung@gmail.com</span> </li>
           </ul>
         </div>
         <div className="footer-section">
-          <h5>Chính sách dịch vụ</h5>
+          <h3>Chính sách dịch vụ</h3>
           <ul className="footer-list">
             <li>Đặt vé online</li>
             <li>Kiểm tra vé</li>
@@ -42,7 +42,7 @@ const Footer = () => {
           </ul>
         </div>
         <div className="footer-section">
-          <h5>Kết nối với chúng tôi</h5>
+          <h3>Kết nối với chúng tôi</h3>
           <div className="social-media">
             <div className="facebook-plugin">
               <iframe
