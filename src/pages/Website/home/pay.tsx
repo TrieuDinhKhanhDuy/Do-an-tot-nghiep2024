@@ -4,7 +4,7 @@ import momoLogo from "../../../assets/image/momologo.jpg"
 import { Link } from "react-router-dom"
 import Breadcrumb from "@/components/Breadcrumb"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWallet, faCreditCard } from '@fortawesome/free-solid-svg-icons';
+import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
 
 const Pay = () => {
     const duongDan = [

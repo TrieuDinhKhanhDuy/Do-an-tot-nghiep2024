@@ -26,15 +26,15 @@ const Register = () => {
                         Đăng ký tài khoản
                     </h2>
                     <div className="register-container__tabs">
-                      
+
                         <span className="register-container__tab">
-                        <Link to={'/login'} > Đăng Nhập</Link>
+                            <Link to={'/login'} > Đăng Nhập</Link>
                         </span>
 
-                        
+
                         <span className="register-container__tab register-container__tab--active">
-                        <Link to={'/register'}> Đăng Ký</Link>
-                        </span> 
+                            <Link to={'/register'}> Đăng Ký</Link>
+                        </span>
 
                     </div>
                     <form className="register-form">

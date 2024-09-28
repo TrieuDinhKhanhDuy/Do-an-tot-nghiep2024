@@ -47,7 +47,7 @@ const NotFound = () => {
               <div className="g" />
             </div>
           </div>
-        
+
         </div>
         <div className="bottom">
           <div className="base1" />
@@ -55,13 +55,13 @@ const NotFound = () => {
           <div className="base3" />
         </div>
       </div>
-        {/* Nút quay về trang chủ ở đây */}
-        <Link to="/" className="home_button">
-            Quay lại trang chủ
-          </Link>
-      
+      {/* Nút quay về trang chủ ở đây */}
+      <Link to="/" className="home_button">
+        Quay lại trang chủ
+      </Link>
+
     </div>
-    
+
   );
 };
 
