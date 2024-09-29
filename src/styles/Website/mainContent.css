@@ -8,7 +8,7 @@
     text-align: center;
     font-size: 30px;
     font-weight: bold;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     color: #405187;
 }
 
@@ -21,10 +21,11 @@
 
 .mainContent-container .mainContent-top .mainContent-top-image img {
     width: 32%;
+    height: 180px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     border-radius: 20px;
-    transition: transform 0.5s ease-in-out, color 0.5s ease-in-out;
+    transition: transform 0.1s ease-in-out, color 0.9s ease-in-out;
 
 }
 
@@ -57,9 +58,9 @@
     border: 1px solid #DCDCDC;
     border-radius: 20px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    height: 235px;
+    height: 200px;
     cursor: pointer;
-    transition: transform 0.5s ease-in-out, color 0.5s ease-in-out;
+    transition: transform 0.1s ease-in-out, color 0.9s ease-in-out;
 }
 .mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left:hover {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
@@ -85,10 +86,12 @@
 
 .mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left .mainContent-top-left-image img {
     width: 100%;
+    border-radius: 20px;
+    max-height: 200px;
 }
 
 .mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left .mainContent-top-left-content p {
-    margin-bottom: 40px;
+    margin-bottom: 10px;
 }
 
 .mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left .mainContent-top-left-content button {
@@ -109,6 +112,8 @@
 
 .mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-left .mainContent-top-left-content h3 {
     font-weight: 550;
+    margin-top: 15px;
+
 }
 
 /****/
@@ -118,8 +123,8 @@
     border: 1px solid #DCDCDC;
     border-radius: 20px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    height: 235px;
-    transition: transform 0.5s ease-in-out, color 0.5s ease-in-out;
+    height: 200px;
+    transition: transform 0.1s ease-in-out, color 0.9s ease-in-out;
 
 }
 
@@ -136,10 +141,13 @@
 
 .mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-right .mainContent-top-right-image img {
     width: 100%;
+    border-radius: 20px;
+    max-height: 190px;
+
 }
 
 .mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-right .mainContent-top-right-content p {
-    margin-bottom: 40px;
+    margin-bottom: 10px;
 }
 
 .mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-right .mainContent-top-right-content button {
@@ -160,6 +168,7 @@
 
 .mainContent-container .mainContent-top .mainContent-top-content .mainContent-top-right .mainContent-top-right-content h3 {
     font-weight: 550;
+    margin-top: 15px;
 }
 
 
@@ -247,17 +256,17 @@
     border: 1px solid rgba(175, 175, 175, 0.505);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    transition: transform 0.5s ease-in-out, color 0.5s ease-in-out;
+    transition: transform 0.1s ease-in-out, color 0.9s ease-in-out;
 }
 .mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items:hover{
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
     transform: scale(1.03);
 }
 .mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items:hover p{
-    color: yellow;
+    color: #ffcc00;
 }
 .mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items:hover span{
-    color: yellow;
+    color: #ffcc00;
 }
 .mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items img {
     width: 100%;
@@ -270,7 +279,7 @@
 .mainContent-bottom-items .flex-route-price a span{
     text-decoration: underline;
     color: black;
-    transition: color 0.5s ease-in-out; 
+    transition: color 0.1s ease-in-out; 
 }
 .mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items p {
     font-size: 16px;
@@ -278,7 +287,7 @@
     margin-left: 10px;
     font-weight: bold;
     color: #000;
-    transition: color 0.5s ease-in-out; 
+    transition: color 0.1s ease-in-out; 
 }
 
 .mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items a {

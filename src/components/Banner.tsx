@@ -1,4 +1,4 @@
-import banner from '../assets/image/bannerbus2 - Copy.jpg'; 
+import banner from '../assets/image/bannerbus5.jpg'; 
 import '../styles/Website/banner.css'
 
 const Banner = () => {

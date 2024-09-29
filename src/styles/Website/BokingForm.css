@@ -15,9 +15,9 @@
 .bookingForm-search {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 5px;
   width: 100%;
-  margin-top: 30px;
+  margin-top: 10px;
   height: 120px;
 }
 
@@ -33,17 +33,16 @@
   margin: 10px;
   border-radius: 20px;
   box-shadow: 0 14px 20px rgba(0, 0, 0, 0.1);
+  height: 70%;
 }
 
 .bookingForm-input label {
   font-weight: bold;
-  margin-bottom: 5px;
-
 }
 
 .bookingForm-input select,
 .bookingForm-input input {
-  padding: 10px;
+  padding: 5px;
   font-size: 16px;
   border: none;
   border-radius: 8px;
@@ -72,6 +71,7 @@
   align-items: center;
   justify-content: center;
   width: 220px;
+  height: 70%;
   margin: 10px;
   font-size: 20px;
   background-color: #3b5998;
@@ -162,7 +162,10 @@
 .booking-section {
   display: flex;
   justify-content: space-between;
-  padding: 20px;
+  padding-left: 20px;
+  padding-bottom: 0;
+  padding-top: 20px;
+  padding-right: 20px;
   width: 100%;
 }
 
@@ -272,6 +275,9 @@
 }
 .booking-step-map iframe{
   border-radius: 20px;
+}
+.payment-title{
+  margin-bottom: 10px;
 }
 @media only screen and (max-width: 46.1875em) {
   .bookingForm-search {
