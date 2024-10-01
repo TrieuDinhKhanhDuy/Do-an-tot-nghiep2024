@@ -1,5 +1,5 @@
 .heading-container {
-    width: 1320px;
+    width: 1200px;
     margin: 0 auto;
 }
 
@@ -12,16 +12,19 @@
 
 .heading-container .heading-items {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 .heading-container .heading-items .heading-items1 {
     width: 18%;
+    /* background-color: red; */
 }
 
 .heading-container .heading-items .heading-items1 img {
-    width: 100%;
+    width: 50%;
     margin-bottom: 10px;
+    text-align: center;
+    margin-left: 25%;
 }
 
 .heading-container .heading-items .heading-items1 p {

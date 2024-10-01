@@ -1,15 +1,12 @@
-import React, { useState } from "react";
-import Header from "./Header";
+import { useState } from "react";
 import "../styles/Website/Login.css";
 import Login1 from "../assets/image/Login2.png";
 import Heading from "./Heading";
-import Footer from "./Footer";
 import Breadcrumb from "./Breadcrumb";
 import { Link } from "react-router-dom";
-import { FaFacebookF, FaGoogle } from "react-icons/fa"; 
 type Props = {};
 
-const Login = (props: Props) => {
+const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => {
@@ -18,19 +15,19 @@ const Login = (props: Props) => {
     const duongDan = [
         { nhan: 'Trang Chủ', duongDan: '/' },
         { nhan: 'Đăng Nhập', duongDan: 'login' },
-      ];
+    ];
     return (
         <>
-         <Breadcrumb items={duongDan} />
+            <Breadcrumb items={duongDan} />
             <div className="login-container">
-                <img src={Login1} alt="" className="img-hidden"/>
+                <img src={Login1} alt="" className="img-hidden" />
                 <div className="login-container-form">
                     <h2 className="login-container__title">
-                      Đăng nhập tài khoản
+                        Đăng nhập tài khoản
                     </h2>
                     <div className="login-container__tabs">
                         <span className="login-container__tab login-container__tab--active">
-                         <Link to={'/login'}>Đăng Nhập</Link>
+                            <Link to={'/login'}>Đăng Nhập</Link>
                         </span>
                         <span className="login-container__tab">
                             <Link to={'/register'}>Đăng Ký </Link>
@@ -69,17 +66,6 @@ const Login = (props: Props) => {
                         >
                             Đăng nhập
                         </button>
-                            <div className="social-register">
-                        <p className="social-register__text">Hoặc</p>
-                        <div className="social-register__buttons">
-                            <button className="social-register__btn facebook-btn">
-                                <FaFacebookF /> Đăng nhập với Facebook
-                            </button>
-                            <button className="social-register__btn google-btn">
-                                <FaGoogle /> Đăng nhập với Google
-                            </button>
-                        </div>
-                    </div>
                     </form>
                 </div>
             </div>

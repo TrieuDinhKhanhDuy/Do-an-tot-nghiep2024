@@ -1,7 +1,6 @@
-import image1 from "../../../assets/image/image.png";
-import image2 from "../../../assets/image/image2.png";
-import image3 from "../../../assets/image/image3.png";
-import image4 from "../../../assets/image/image4.png";
+import image1 from "../../../assets/image/banner_voucher.jfif";
+import image2 from "../../../assets/image/banner_voucher2.jfif";
+import image3 from "../../../assets/image/banner_voucher3.jfif";
 import image9 from "../../../assets/image/image 9.png";
 import image10 from "../../../assets/image/image 10.png";
 import "../../../styles/Website/mainContent.css";
@@ -12,6 +11,7 @@ import item4 from "../../../assets/image/item4.png";
 import tintuc1 from "../../../assets/image/tin tuc 1.png"
 import tintuc2 from "../../../assets/image/tin tuc 2.png"
 import tintuc3 from "../../../assets/image/tin tuc 3.png"
+import PopularRoutes from "@/components/PopularRoutes";
 const Main = () => {
     return (
         <div className="mainContent-container">
@@ -21,9 +21,12 @@ const Main = () => {
                     <img src={image1} alt="" />
                     <img src={image2} alt="" className="img-hidden-mobile" />
                     <img src={image3} alt="" className="img-hidden" />
-                    <img src={image4} alt="" className="img-hidden"/>
                 </div>
+
+
+                <h3 className="link-h2" >Đa dạng điểm, tuyến đường</h3>
                 <div className="mainContent-top-content">
+
                     <div className="mainContent-top-left">
                         <div className="mainContent-top-left-content">
                             <h3>Tuyến đường</h3>
@@ -38,6 +41,8 @@ const Main = () => {
                             <img src={image9} alt="" />
                         </div>
                     </div>
+
+
                     <div className="mainContent-top-right">
                         <div className="mainContent-top-right-content">
                             <h3>Danh sách điểm</h3>
@@ -53,6 +58,7 @@ const Main = () => {
                         </div>
                     </div>
                 </div>
+                <PopularRoutes />
             </div>
             <div className="mainContent-center">
                 <h2 className="link-h2" >Chất lượng hàng đầu, hành trình an toàn</h2>
@@ -111,31 +117,40 @@ const Main = () => {
                     </div>
                 </div>
             </div>
-    
+
             <div className="mainContent-bottom">
                 <a href="/news"><h2 className="link-h2" >Tin tức mới nhất</h2></a>
-                
-                
-                 <div className="mainContent-bottom-content">
-                 <div className="mainContent-bottom-items">
-                    <img src={tintuc1} alt="" />
-                    <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
-                    </p>
-                    <a href="">18/10/2024</a>
+
+
+                <div className="mainContent-bottom-content">
+                    <div className="mainContent-bottom-items">
+                        <img src={tintuc1} alt="" />
+                        <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
+                        </p>
+                        <div className="flex-route-price">
+                            <a href="">18/10/2024</a>
+                            <a href=""><span>Chi tiết</span></a>
+                        </div>
+                    </div>
+                    <div className="mainContent-bottom-items img-hidden-mobile">
+                        <img src={tintuc2} alt="" />
+                        <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
+                        </p>
+                        <div className="flex-route-price">
+                            <a href="">18/10/2024</a>
+                            <a href=""><span>Chi tiết</span></a>
+                        </div>
+                    </div>
+                    <div className="mainContent-bottom-items img-hidden-mobile">
+                        <img src={tintuc3} alt="" />
+                        <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
+                        </p>
+                        <div className="flex-route-price ">
+                            <a href="">18/10/2024</a>
+                            <a href=""><span>Chi tiết</span></a>
+                        </div>
+                    </div>
                 </div>
-                <div className="mainContent-bottom-items img-hidden-mobile">
-                    <img src={tintuc2} alt="" />
-                    <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
-                    </p>
-                    <a href="">18/10/2024</a>
-                </div>
-                <div className="mainContent-bottom-items img-hidden-mobile">
-                    <img src={tintuc3} alt="" />
-                    <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
-                    </p>
-                    <a href="">18/10/2024</a>
-                </div>
-                 </div>
             </div>
         </div>
     );

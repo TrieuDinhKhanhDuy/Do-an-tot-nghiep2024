@@ -1,0 +1,44 @@
+.scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+  
+  .scroll-to-top__button {
+    background-color: #405187;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .scroll-to-top__button:hover {
+    background-color: yellow;
+    transform: scale(1.1);
+  }
+  
+  .scroll-to-top__button:focus {
+    outline: none;
+  }
+  
+  .scroll-to-top__button:active {
+    background-color: rgb(171, 171, 0);
+  }
+  
+  .scroll-to-top__button.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .client_layout_container{
+    position: relative;
+    height: 100%;
+  }
+  .scroll-to-top__button:focus {
+    outline: none; 
+  }

@@ -1,13 +1,8 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faUser,
-    faPhone,
-    faEnvelope,
-    faCar,
-    faFileInvoice,
-} from "@fortawesome/free-solid-svg-icons";
+
 import "../../../styles/Website/bill.css";
+import { faCar, faEnvelope, faFileInvoice, faPhone, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const DetailBill = () => {
     const duongDan = [

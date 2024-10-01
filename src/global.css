@@ -3,7 +3,6 @@
     margin: 0 ;
     padding: 0;
     box-sizing: border-box;
-    
 }
 
 html, body {
@@ -11,6 +10,7 @@ html, body {
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
     overflow-x: hidden; 
+    scroll-behavior: smooth;
 }
 
 ul {
@@ -26,9 +26,15 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: revert;
     padding: revert;
 }
+.link-h2{
+    transition: transform 0.5s ease-in-out, color 0.5s ease-in-out;
+
+}
 .link-h2:hover{
     text-decoration: underline;
     cursor: pointer;
+    transform: scale(1.01);
+
 }
 @media only screen and (max-width: 46.1875em){
 

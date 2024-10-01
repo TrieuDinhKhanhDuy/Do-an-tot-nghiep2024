@@ -1,8 +1,9 @@
-import banner from '../assets/image/banner.png'; 
+import banner from '../assets/image/bannerbus5.jpg'; 
+import '../styles/Website/banner.css'
 
 const Banner = () => {
   return (
-    <img src={banner} alt="banner"  style={{width : "100%", maxHeight: "700px" , objectFit : "cover"}}/>
+    <img className='img_banner' src={banner} alt="banner"  />
   );
 };
 
