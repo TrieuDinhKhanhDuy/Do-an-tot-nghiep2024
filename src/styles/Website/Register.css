@@ -92,6 +92,72 @@
 .register-form__submit-btn:hover {
     background-color: #2c3670;
 }
+.social-register {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.social-register__text {
+    font-size: 14px;
+    margin-bottom: 10px;
+    opacity: 0.6;
+    text-transform: uppercase;
+    text-align: center;
+    position: relative;
+}
+
+.social-register__text::before,
+.social-register__text::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background-color: rgba(128, 128, 128, 0.658); /* Màu của đường kẻ */
+}
+
+.social-register__text::before {
+    left: 0;
+}
+
+.social-register__text::after {
+    right: 0;
+}
+
+
+.social-register__buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; 
+}
+
+.social-register__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    color: white;
+    flex: 1; 
+}
+
+.facebook-btn {
+    background-color: #3b5998;
+}
+
+.google-btn {
+    background-color: #FCC301;
+}
+
+.social-register__btn svg {
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+
 @media only screen and (max-width: 46.1875em){
     .register-container{
         width: 380px;

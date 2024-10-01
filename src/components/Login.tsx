@@ -6,6 +6,7 @@ import Heading from "./Heading";
 import Footer from "./Footer";
 import Breadcrumb from "./Breadcrumb";
 import { Link } from "react-router-dom";
+import { FaFacebookF, FaGoogle } from "react-icons/fa"; 
 type Props = {};
 
 const Login = (props: Props) => {
@@ -61,12 +62,24 @@ const Login = (props: Props) => {
                             </label>
                             <p>Quên mật khẩu</p>
                         </div>
+                    
                         <button
                             type="submit"
                             className="login-form__submit-btn"
                         >
                             Đăng nhập
                         </button>
+                            <div className="social-register">
+                        <p className="social-register__text">Hoặc</p>
+                        <div className="social-register__buttons">
+                            <button className="social-register__btn facebook-btn">
+                                <FaFacebookF /> Đăng nhập với Facebook
+                            </button>
+                            <button className="social-register__btn google-btn">
+                                <FaGoogle /> Đăng nhập với Google
+                            </button>
+                        </div>
+                    </div>
                     </form>
                 </div>
             </div>
