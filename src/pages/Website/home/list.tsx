@@ -2,7 +2,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 import {
     faCalendarAlt,
     faMapMarkerAlt,
-    faClock,faTimes
+    faClock, faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
@@ -232,6 +232,7 @@ const List = () => {
                                                         <button className="seat">B16</button>
                                                     </div>
                                                 </div>
+
                                             </div>
 
                                         </div>
@@ -258,12 +259,7 @@ const List = () => {
                                                 <input type="text" disabled />
                                                 <label>Mã khuyến mãi:</label>
                                                 <input type="text" placeholder="Mã khuyến mại.." />
-                                                <div className="legend">
-                                                    <div className="legend-item"><span className="empty-seat"></span> Ghế trống</div>
-                                                    <div className="legend-item"><span className="booked-seat"></span> Ghế đã đặt</div>
-                                                    <div className="legend-item"><span className="chosen-seat"></span> Ghế đã chọn</div>
-                                                    <div className="legend-item"><span className="no-seat"></span> Ghế không bán</div>
-                                                </div>
+
                                                 <div className="btn">
                                                     <button className="checkVoucher" type="button">Kiểm tra mã</button>
                                                     <Link to={'/pay'}><button className="submit" type="submit">Tiếp tục</button></Link>
@@ -271,6 +267,13 @@ const List = () => {
                                                 </div>
                                             </form>
                                         </div>
+
+                                    </div>
+                                    <div className="legend">
+                                        <div className="legend-item"><span className="empty-seat"></span> Ghế trống</div>
+                                        <div className="legend-item"><span className="booked-seat"></span> Ghế đã đặt</div>
+                                        <div className="legend-item"><span className="chosen-seat"></span> Ghế đã chọn</div>
+                                        <div className="legend-item"><span className="no-seat"></span> Ghế không bán</div>
                                     </div>
                                 </div>
                             </div>

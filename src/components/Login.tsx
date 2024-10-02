@@ -4,7 +4,7 @@ import Login1 from "../assets/image/Login2.png";
 import Heading from "./Heading";
 import Breadcrumb from "./Breadcrumb";
 import { Link } from "react-router-dom";
-type Props = {};
+import { FaFacebookF, FaGoogle } from "react-icons/fa";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -66,6 +66,17 @@ const Login = () => {
                         >
                             Đăng nhập
                         </button>
+                        <div className="social-register">
+                        <p className="social-register__text">Hoặc</p>
+                        <div className="social-register__buttons">
+                            <button className="social-register__btn facebook-btn">
+                                <FaFacebookF />  Facebook
+                            </button>
+                            <button className="social-register__btn google-btn">
+                                <FaGoogle />  Google
+                            </button>
+                        </div>
+                    </div>
                     </form>
                 </div>
             </div>

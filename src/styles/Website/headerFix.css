@@ -125,10 +125,10 @@
 
  .sp-link-submenu {
    width: 35px;
-   height: 100%;
+   height: 0;
    border-radius: 5px;
    position: absolute;
-   background-color: #28396F;
+   background-color: #405187;
  }
 
 
@@ -266,8 +266,8 @@
  }
 
  .close {
-   background-color: #405187;
-   height: 0;
+   background-color: #28396F;
+   height: 100%;
  }
 
 

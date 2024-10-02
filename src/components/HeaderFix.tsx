@@ -13,38 +13,37 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const HeaderFix = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const submenuRef = useRef<HTMLDivElement>(null);
-    const [isClose, setClose] = useState(true);
-    const toggleSubmenu = () => {
-        setIsOpen(!isOpen);
-        setClose(!isClose);
-    };
+ const [isOpen, setIsOpen] = useState(false);
+  const submenuRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLLIElement>(null);
+
+  const toggleSubmenu = () => {
+    setIsOpen(!isOpen);
+  };
     const handleItemClick = () => {
         setIsOpen(false);
-        setClose(true);
     };
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (
-                submenuRef.current &&
-                !submenuRef.current.contains(event.target as Node)
-            ) {
-                setIsOpen(false);
-                setClose(true);
-            }
-        };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        submenuRef.current &&
+        !submenuRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false); 
+      }
+    };
 
-        if (isOpen) {
-            document.addEventListener("mousedown", handleClickOutside);
-        } else {
-            document.removeEventListener("mousedown", handleClickOutside);
-        }
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [isOpen]);
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
     return (
         <>
@@ -107,9 +106,10 @@ const HeaderFix = () => {
                                 <li
                                     className="link-submenu"
                                     onClick={toggleSubmenu}
+                                    ref={buttonRef}
                                 >
                                     <div
-                                        className={`sp-link-submenu ${isClose ? "close" : ""}`}
+                                        className={`sp-link-submenu ${isOpen ? "close" : ""}`}
                                         ref={submenuRef}
                                     >
                                         <img

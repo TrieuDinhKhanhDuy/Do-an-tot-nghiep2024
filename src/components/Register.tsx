@@ -4,7 +4,6 @@ import Register1 from "../assets/image/Register.png";
 import Heading from "./Heading";
 import Breadcrumb from "./Breadcrumb";
 import { Link } from "react-router-dom";
-import { FaFacebookF, FaGoogle } from "react-icons/fa"; // Thêm icon Facebook và Google
 
 
 const Register = () => {
@@ -31,8 +30,6 @@ const Register = () => {
                         <span className="register-container__tab">
                         <Link to={'/login'} > Đăng Nhập</Link>
                         </span>
-
-                        
                         <span className="register-container__tab register-container__tab--active">
                         <Link to={'/register'}> Đăng Ký</Link>
                         </span> 
@@ -81,17 +78,7 @@ const Register = () => {
                         </button>
                     </form>
                     
-                    <div className="social-register">
-                        <p className="social-register__text">Hoặc</p>
-                        <div className="social-register__buttons">
-                            <button className="social-register__btn facebook-btn">
-                                <FaFacebookF /> Đăng ký với Facebook
-                            </button>
-                            <button className="social-register__btn google-btn">
-                                <FaGoogle /> Đăng ký với Google
-                            </button>
-                        </div>
-                    </div>
+
                 </div>
             </div>
             <Heading />
