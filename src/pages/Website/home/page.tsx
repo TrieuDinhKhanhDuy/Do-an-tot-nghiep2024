@@ -2,6 +2,7 @@ import Banner from '@/components/Banner'
 import BookingForm from './BookingForm'
 import Main from './main'
 import Heading from '@/components/Heading'
+import ScrollToTopButton from '@/components/ScrollToTopButton'
 
 
 const Page = () => {
@@ -12,6 +13,7 @@ const Page = () => {
    <BookingForm />
    <Main />
    <Heading />
+   <ScrollToTopButton />
    </>
   )
 }

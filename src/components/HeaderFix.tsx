@@ -161,15 +161,17 @@ const HeaderFix = () => {
                                     </Link>
                                 </div>
                                 <div className="menu-item_fix">
-                                    <span
-                                        role="img"
-                                        aria-label="offer"
+                                <Link
+                                        to={"/listvoucher"}
                                         onClick={handleItemClick}
                                     >
                                         {" "}
-                                        <FontAwesomeIcon icon={faGift} />
-                                    </span>{" "}
-                                    Ưu đãi
+                                        <span role="img" aria-label="ticket">
+                                            {" "}
+                                            <FontAwesomeIcon icon={faGift} />
+                                        </span>{" "}
+                                        Voucher
+                                    </Link>
                                 </div>
                                 <div className="menu-item_fix">
                                     <span

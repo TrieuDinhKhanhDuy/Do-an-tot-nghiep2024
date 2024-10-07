@@ -1,9 +1,11 @@
-import banner from '../assets/image/bannerbus5.jpg'; 
 import '../styles/Website/banner.css'
 
 const Banner = () => {
   return (
-    <img className='img_banner' src={banner} alt="banner"  />
+    // <img className='img_banner' src={banner} alt="banner"  />
+    <div className="img_banner">
+      
+    </div>
   );
 };
 

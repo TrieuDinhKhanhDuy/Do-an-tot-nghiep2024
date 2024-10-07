@@ -4,12 +4,14 @@
     width: 1200px;   
 }
 
-.newDetails-container-title h2 {
-    text-align: center;
-    margin-bottom: 50px;
+.newDetails-container-title h3 {
     font-size: 40px;
     font-weight: 700;
-    margin-top: 40px;
+    margin-top: 30px;
+}
+.newDetails-container-title a {
+    font-weight: unset;
+    color: gray;
 }
 
 .newDetails-container .newDetails-container-main p {

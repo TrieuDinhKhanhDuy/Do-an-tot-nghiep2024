@@ -18,6 +18,8 @@ import ClientLayout from "./layouts/clientLayout";
 import LocationTable from "./pages/Website/home/locationTable";
 import BusRoutes from "./pages/Website/home/busRoutes";
 import NotFound from "./components/NoutFound";
+import DetailVoucher from "./pages/Website/home/detailVoucher";
+import ListVoucher from "./pages/Website/home/listVoucher";
 
 
 const routerConfig = [
@@ -70,7 +72,7 @@ const routerConfig = [
         element: <Bill />,
       },
       {
-        path: "/detailbill",
+        path: "/billdetail",
         element: <DetailBill />,
       },
       {
@@ -88,6 +90,14 @@ const routerConfig = [
       {
         path: "/busroutes",
         element: <BusRoutes/>,
+      },
+      {
+        path: "/voucherdetail",
+        element: <DetailVoucher/>,
+      },
+      {
+        path: "/listvoucher",
+        element: <ListVoucher/>,
       },
       {
         path: '/*',

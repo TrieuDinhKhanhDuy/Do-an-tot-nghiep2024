@@ -1,6 +1,8 @@
 import "../../../styles/Website/NewsDetail.css";
+import "../../../styles/Website/mainContent.css";
 import newDetail1 from "../../../assets/image/newDetail1.png";
 import Breadcrumb from "@/components/Breadcrumb";
+import HighlightNews from "@/components/HighlightNews";
 
 const NewsDetails = () => {
         const duongDan = [
@@ -14,7 +16,7 @@ const NewsDetails = () => {
 
             <div className="newDetails-container">
                 <div className="newDetails-container-title">
-                    <h2>Đề hạ Tuyên Quang và những câu chuyện xung quanh</h2>
+                    <h3>Đề hạ Tuyên Quang và những câu chuyện xung quanh</h3>
                 </div>
                 <div className="newDetails-container-main">
                     <p>
@@ -50,13 +52,8 @@ const NewsDetails = () => {
                     </p>
                     <br />
                 </div>
-                <div className="newDetails-container-bottom">
-                    <h3>Các tin tức khác</h3>
-                    <p>Khám phá thác bản ba</p>
-                    <p>Chính sách bảo mật</p>
-                    <p>Suối khoáng Mỹ Lâmt</p>
-                    <p>Cam sành Hàm Yên</p>
-                    <p>Khu du lịch sinh thái Thác Lăn</p>
+                <div className="mainContent-container">
+                   <HighlightNews/>
                 </div>
             </div>
         </>

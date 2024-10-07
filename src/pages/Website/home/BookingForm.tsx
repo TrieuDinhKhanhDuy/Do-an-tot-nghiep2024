@@ -15,18 +15,17 @@ import vnpaylogo from "../../../assets/image/vnpaylogo.png"
 import smslogo from "../../../assets/image/smslogo.png"
 import { useEffect, useState } from "react";
 
-
 const BookingForm = () => {
-
     const [minDate, setMinDate] = useState<string>('');
 
     useEffect(() => {
         const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setDate(tomorrow.getDate());
 
         const isoDate = tomorrow.toISOString().split('T')[0];
 
         setMinDate(isoDate);
+
     }, []);
     return (
         <div className="bookingForm-container">
