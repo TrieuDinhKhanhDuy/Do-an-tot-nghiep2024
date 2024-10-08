@@ -10,6 +10,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import image1 from "../../../assets/image/banner_voucher.jfif";
 import image2 from "../../../assets/image/banner_voucher2.jfif";
 import image3 from "../../../assets/image/banner_voucher3.jfif";
+import Breadcrumb from "@/components/Breadcrumb";
 const vouchers = [
     { id: 1, title: "Flash Sale", imageUrl: image2, description: "Thứ 3 hàng tuần - Flash Sale đến 50%" },
     { id: 2, title: "Giảm 25%", imageUrl: image1, description: "Giảm 25% cho khách hàng lần đầu" },
@@ -45,13 +46,19 @@ const ListVoucher = () => {
     };
 
     const handleClickLinkDetailVoucher = () => {
-        window.location.href = '/voucherdetail'; 
+        window.location.href = '/voucherdetail';
     };
+
+    const duongDan = [
+        { nhan: "Trang Chủ", duongDan: "/" },
+        { nhan: "Voucher", duongDan: "listvoucher" },
+    ];
     return (
         <>
+
             <div className="flash-sale-banner">
             </div>
-
+            <Breadcrumb items={duongDan} />
             <div className="voucher-carousel-container">
                 <h1 className="voucher-carousel-title">Ưu đãi nổi bật</h1>
                 <Slider {...settings}>

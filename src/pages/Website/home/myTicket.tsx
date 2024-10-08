@@ -104,7 +104,7 @@ const MyTicket = () => {
                                 </td>
                                 <td>{ticket.price}</td>
                                 <td>
-                                    <Link to={"/detailbill"}>
+                                    <Link to={"/billdetail"}>
                                         <button className="detail-button">
                                             {ticket.buttonLabel}
                                         </button>

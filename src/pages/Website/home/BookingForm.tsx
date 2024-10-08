@@ -14,6 +14,7 @@ import momoLogo from "../../../assets/image/momologo.jpg"
 import vnpaylogo from "../../../assets/image/vnpaylogo.png"
 import smslogo from "../../../assets/image/smslogo.png"
 import { useEffect, useState } from "react";
+import { Select } from 'antd';
 
 const BookingForm = () => {
     const [minDate, setMinDate] = useState<string>('');
@@ -37,9 +38,41 @@ const BookingForm = () => {
                         </span>
                         <label>Điểm đi</label>
                     </div>
-                    <select>
-                        <option>Chọn điểm lên</option>
-                    </select>
+                    <Select
+                        showSearch
+                        className="custom-select"
+                        placeholder="Chọn điểm lên"
+                        optionFilterProp="label"
+                        filterSort={(optionA, optionB) =>
+                            (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                        }
+                        options={[
+                            {
+                                value: '1',
+                                label: 'Hà Nội',
+                            },
+                            {
+                                value: '2',
+                                label: 'Hòa Bình',
+                            },
+                            {
+                                value: '3',
+                                label: 'Thái Nguyên',
+                            },
+                            {
+                                value: '4',
+                                label: 'Tuyên Quang',
+                            },
+                            {
+                                value: '5',
+                                label: 'Lai Châu',
+                            },
+                            {
+                                value: '6',
+                                label: 'Tam Đảo',
+                            },
+                        ]}
+                    />
                 </div>
                 <div className="bookingForm-input">
                     <div className="bookingForm-input-top">
@@ -48,9 +81,41 @@ const BookingForm = () => {
                         </span>
                         <label>Điểm đến</label>
                     </div>
-                    <select>
-                        <option>Chọn điểm đến</option>
-                    </select>
+                    <Select
+                        showSearch
+                        className="custom-select"
+                        placeholder="Chọn điểm đến"
+                        optionFilterProp="label"
+                        filterSort={(optionA, optionB) =>
+                            (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                        }
+                        options={[
+                            {
+                                value: '1',
+                                label: 'Hà Nội',
+                            },
+                            {
+                                value: '2',
+                                label: 'Hòa Bình',
+                            },
+                            {
+                                value: '3',
+                                label: 'Thái Nguyên',
+                            },
+                            {
+                                value: '4',
+                                label: 'Tuyên Quang',
+                            },
+                            {
+                                value: '5',
+                                label: 'Lai Châu',
+                            },
+                            {
+                                value: '6',
+                                label: 'Tam Đảo',
+                            },
+                        ]}
+                    />
                 </div>
                 <div className="bookingForm-input">
                     <div className="bookingForm-input-top">
@@ -122,8 +187,7 @@ const BookingForm = () => {
                         <li className="purchase-item">
                             4. Mua trực tiếp tại quầy giao dịch:
                             <div className="booking-step-map">
-                                <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345093705!2d144.95373531531592!3d-37.81627937975148!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf577e9fdf4a64dbb!2sFederation+Square!5e0!3m2!1sen!2sau!4v1548059447096"
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.1063645750455!2d105.77569377572404!3d21.02842968062079!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313454b2f431c099%3A0xe44043bacd461128!2zQuG6v24gWGUgTeG7uSDEkMOsbmg!5e0!3m2!1svi!2s!4v1728287236739!5m2!1svi!2s"
                                     width="100%"
                                     height="100%"
                                     style={{ border: '0' }}

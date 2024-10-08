@@ -279,6 +279,15 @@
 .payment-title{
   margin-bottom: 10px;
 }
+
+.custom-select .ant-select-selector {
+  border: none !important; 
+  box-shadow: none !important; 
+}
+
+.custom-select:hover .ant-select-selector {
+  border: none !important; /* Đảm bảo không có border khi hover */
+}
 @media only screen and (max-width: 46.1875em) {
   .bookingForm-search {
     flex-direction: column;
