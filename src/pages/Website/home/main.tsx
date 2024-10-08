@@ -9,19 +9,11 @@ import item4 from "../../../assets/image/item4.png";
 import PopularRoutes from "@/components/PopularRoutes";
 import HighlightVoucher from "@/components/HighlightVoucher";
 import HighlightNews from "@/components/HighlightNews";
-import { useState } from "react";
-import CustomDatePicker from "@/components/AllNewBookingForm";
-import dayjs, { Dayjs } from 'dayjs';
+
 
 
 const Main = () => {
 
-    const [date, setDate] = useState<Dayjs | null>(null);
-
-    const handleChange = (date: Dayjs | null, dateString: string | string[]) => { // Thay đổi kiểu ở đây
-        setDate(date);
-        console.log('Selected date:', dateString);
-    };
 
     return (
         <div className="mainContent-container">
