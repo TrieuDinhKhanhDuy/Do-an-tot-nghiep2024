@@ -77,7 +77,7 @@
    float: right;
    padding: 4px 20px;
    border-bottom: 1px;
-   border-radius: 50px 0;
+   border-radius: 50px 50px;
    position: relative;
  }
 

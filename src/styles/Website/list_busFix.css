@@ -1,0 +1,140 @@
+/* Container chính */
+.bus-comp-container {
+    display: flex;
+    padding: 20px 0px;
+    gap: 20px;
+}
+
+/* Phần bên trái */
+.bus-comp-left-sidebar {
+    width: 250px;
+}
+
+.bus-comp-sort-options {
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.bus-comp-sort-options p {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.bus-comp-sort-options div {
+    margin-bottom: 10px;
+}
+
+.bus-comp-sort-options label {
+    margin-left: 5px;
+}
+
+.bus-comp-banner {
+    width: 100%;
+}
+
+.bus-comp-banner img {
+    width: 100%;
+    border-radius: 20px;
+}
+
+/* Phần bên phải - danh sách xe */
+.bus-comp-list {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bus-comp-option {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s ease-in-out, color 0.9s ease-in-out;
+    cursor: pointer;
+}
+.bus-comp-option:hover .bus-comp-action button{
+    background-color: #002897;
+}
+.bus-comp-option:hover .bus-comp-price{
+    font-size: 20px;
+}
+.bus-comp-option:hover {
+    transform: scale(1.03);
+}
+.bus-comp-image-container {
+    flex-shrink: 0;
+}
+
+.bus-comp-image {
+    width: 200px;
+    height: 150px;
+    border-radius: 20px;
+}
+
+/* Thông tin xe */
+.bus-comp-info {
+    flex-grow: 1;
+    margin-left: 20px;
+}
+
+.bus-comp-info h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.bus-comp-info p {
+    margin: 5px 0;
+}
+
+/* Giá và nút chọn chỗ */
+.bus-comp-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.bus-comp-price {
+    font-size: 18px;
+    color: #ffcc00;
+    font-weight: bold;
+    transition: transform 0.1s ease-in-out, color 0.9s ease-in-out;
+
+}
+
+.bus-comp-action button {
+    padding: 8px 12px;
+    border: none;
+    background-color: #405187;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.bus-comp-action button:hover {
+    background-color: #002897;
+}
+
+.bus-comp-info-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.bus-comp-old-price {
+    text-decoration: line-through;
+    color: #999;
+
+}
+
+.bus-comp-support-online {
+    color: #405187;
+}

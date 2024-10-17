@@ -2,65 +2,38 @@ import { Link } from "react-router-dom";
 import "../../../styles/Website/myTicket.css";
 import Breadcrumb from "@/components/Breadcrumb";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock,faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-
-interface Ticket {
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import {
+    faTicket,
+    faGift,
+    faCog,
+    faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
+interface BusOption {
+    id: number;
     route: string;
     time: string;
-    date: string;
-    status: string;
-    price: string;
-    buttonLabel: string;
-    statusClass: string; // To control color
+    type: string;
+    availableSeats: number;
+    cancelbtn: string;
+    phoneDriver: string;
+    paystatus: boolean;
+    image: string;
 }
-
 const MyTicket = () => {
-    const tickets: Ticket[] = [
+    const busOptions: BusOption[] = [
         {
-            route: "Mỹ Đình - Tuyên Quang",
-            time: "08:10",
-            date: "31/09/2024",
-            status: "Đã đặt vé",
-            price: "120.000đ",
-            buttonLabel: "Chi tiết",
-            statusClass: "status-confirmed",
+            id: 1,
+            route: 'Mỹ Đình - Tuyên Quang',
+            time: '08:10',
+            type: 'Xe giường nằm',
+            availableSeats: 28,
+            cancelbtn: 'Hủy Vé',
+            image: '/src/assets/image/bus_giuongnam.png',
+            paystatus: true,
+            phoneDriver: '0345677678',
         },
-        {
-            route: "Mỹ Đình - Lai Châu",
-            time: "10:10",
-            date: "31/10/2024",
-            status: "Vé hết hạn",
-            price: "120.000đ",
-            buttonLabel: "Chi tiết",
-            statusClass: "status-expired",
-        },
-        {
-            route: "Mỹ Đình - Lai Châu",
-            time: "10:10",
-            date: "31/10/2024",
-            status: "Đã hủy",
-            price: "120.000đ",
-            buttonLabel: "Chi tiết",
-            statusClass: "status-cancelled",
-        },
-        {
-            route: "Mỹ Đình - Tuyên Quang",
-            time: "08:10",
-            date: "31/09/2024",
-            status: "Đã đặt vé",
-            price: "120.000đ",
-            buttonLabel: "Chi tiết",
-            statusClass: "status-confirmed",
-        },
-        {
-            route: "Mỹ Đình - Tuyên Quang",
-            time: "08:10",
-            date: "31/09/2024",
-            status: "Đã đặt vé",
-            price: "120.000đ",
-            buttonLabel: "Chi tiết",
-            statusClass: "status-confirmed",
-        },
+
     ];
     const duongDan = [
         { nhan: "Trang Chủ", duongDan: "/" },
@@ -71,62 +44,126 @@ const MyTicket = () => {
             <Breadcrumb items={duongDan} />
 
             <div className="tickets-container">
-                {/* Table */}
-                <h2>Vé của tôi</h2>
-                <table className="tickets-table">
-                    <thead>
-                        <tr>
-                            <th>Tuyến đi</th>
-                            <th>Thời gian</th>
-                            <th>Ngày</th>
-                            <th>Trạng thái</th>
-                            <th>Giá vé</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tickets.map((ticket, index) => (
-                            <tr key={index}>
-                                <td>{ticket.route}</td>
-                                <td>
-                                    <span className="time-icon">
-                                        <FontAwesomeIcon icon={faClock} />
-                                    </span>{" "}
-                                    {ticket.time}
-                                </td>
-                                <td>{ticket.date}</td>
-                                <td>
-                                    <span
-                                        className={`status ${ticket.statusClass}`}
-                                    >
-                                        {ticket.status}
-                                    </span>
-                                </td>
-                                <td>{ticket.price}</td>
-                                <td>
-                                    <Link to={"/billdetail"}>
-                                        <button className="detail-button">
-                                            {ticket.buttonLabel}
-                                        </button>
-                                    </Link>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div className="bus-comp-container">
+                    <div className="bus-comp-left-sidebar">
+                        <div className="bus-comp-sort-options">
+                            <div className="menu-options_fix">
+                                <div className="user-info_fix menu-item_fix">
+                                    <div className="user-avatar_fix  ">
+                                        <span role="img" aria-label="avatar">
 
-                <div className="pagination">
-                    <button className="page-btn">
-                        <FontAwesomeIcon icon={faChevronLeft} />
-                    </button>
-                    <button className="page-number active">1</button>
-                    <button className="page-number">2</button>
-                    <button className="page-number">3</button>
-                    <button className="page-number">4</button>
-                    <button className="page-number">5</button>
-                    <button className="page-btn">
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </button>
+                                        </span>
+                                    </div>
+                                    <div className="user-details_fix">
+                                        <span className="user-name_fix ">
+                                            Admin hieu
+                                        </span>
+                                        <span className="user-role_fix menu-item_fix">admin</span>
+                                    </div>
+                                </div>
+                                <div className="menu-item_fix insite">
+                                    <Link
+                                        to={"/myticket"}
+                                    >
+                                        {" "}
+                                        <span role="img" aria-label="ticket">
+                                            {" "}
+                                            <FontAwesomeIcon icon={faTicket} />
+                                        </span>{" "}
+                                        Vé của tôi
+                                    </Link>
+                                </div>
+                                <div className="menu-item_fix">
+                                    <Link
+                                        to={"/listvoucher"}
+                                    >
+                                        {" "}
+                                        <span role="img" aria-label="ticket">
+                                            {" "}
+                                            <FontAwesomeIcon icon={faGift} />
+                                        </span>{" "}
+                                        Voucher
+                                    </Link>
+                                </div>
+                                <div className="menu-item_fix">
+                                    <span
+                                        role="img"
+                                        aria-label="settings"
+                                    >
+                                        {" "}
+                                        <FontAwesomeIcon icon={faCog} />
+                                    </span>{" "}
+                                    Cài đặt
+                                </div>
+                                <div
+                                    className="logout_fix menu-item_fix"
+                                    style={{ display: "flex", alignItems: "center" }}
+                                >
+                                    <span style={{ marginRight: "10px" }}>
+                                        <FontAwesomeIcon icon={faSignOutAlt} />
+                                    </span>
+                                    Đăng xuất
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div className="bus-comp-list" >
+                        <div className="schedule-header">
+                            <div className="header-item">Vé Đã Đặt</div>
+                            <div className="header-item step2">Vé Hết Hạn</div>
+                            <div className="header-item step2">Vé Đã Hủy</div>
+                        </div>
+                        <Link to={'/billdetail'} >
+                            {busOptions.map((option) => (
+
+                                <div key={option.id} className="bus-comp-option"  >
+                                    <div className="bus-comp-image-container">
+                                        <img src={option.image} alt={option.route} className="bus-comp-image" />
+                                    </div>
+                                    <div className="bus-comp-info">
+                                        <div className="bus-comp-info-header">
+                                            <h3>{option.route}</h3>
+                                            <p className="bus-comp-cancelBtn">{option.cancelbtn}</p>
+                                        </div>
+                                        <div className="bus-comp-info-header">
+                                            <p>🕒 {option.time} </p>
+                                            <h3 >{option.phoneDriver}</h3>
+                                        </div>
+                                        <div className="bus-comp-info-header">
+                                            <p>{option.type}</p>
+                                            {option.paystatus && (
+                                                <p className="bus-comp-support-online">Đã Thanh Toán</p>
+                                            )}                                        </div>
+
+
+                                        <div className="bus-comp-info-header">
+                                            <p>Ghế Số: {option.availableSeats} </p>
+                                            <div className="bus-comp-action">
+                                                <button>Chi Tiết</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            ))}
+                        </Link>
+                        <div className="pagination">
+                            <button className="page-btn">
+                                <FontAwesomeIcon icon={faChevronLeft} />
+                            </button>
+                            <button className="page-number active">1</button>
+                            <button className="page-number">2</button>
+                            <button className="page-number">3</button>
+                            <button className="page-number">4</button>
+                            <button className="page-number">5</button>
+                            <button className="page-btn">
+                                <FontAwesomeIcon icon={faChevronRight} />
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

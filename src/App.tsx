@@ -6,7 +6,6 @@ import Login from "./components/Login";
 import Contact from "./pages/Website/home/Contact";
 import News from "./pages/Website/home/News";
 import Gioithieu from "./pages/Website/home/Gioithieu";
-import List from "./pages/Website/home/list";
 import Pay from "./pages/Website/home/pay";
 import Bill from "./pages/Website/home/bill";
 import DetailBill from "./pages/Website/home/detailBill";
@@ -20,6 +19,7 @@ import BusRoutes from "./pages/Website/home/busRoutes";
 import NotFound from "./components/NoutFound";
 import DetailVoucher from "./pages/Website/home/detailVoucher";
 import ListVoucher from "./pages/Website/home/listVoucher";
+import List_BusFix from "./pages/Website/home/list_bus";
 
 
 const routerConfig = [
@@ -33,7 +33,7 @@ const routerConfig = [
       },
       {
         path: "/list",
-        element: <List />,
+        element: <List_BusFix />,
       },
       {
         path: "/myticket",

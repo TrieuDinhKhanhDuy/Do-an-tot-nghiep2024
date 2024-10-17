@@ -3,7 +3,7 @@
     margin: 20px auto;
     border: 1px solid #ddd;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 20px;
 }
 
 .tickets-table {
@@ -95,7 +95,24 @@
 .page-number:hover {
     background-color: #ddd;
 }
-
+.bus-comp-sort-options .menu-options_fix .menu-item_fix{
+    color: black;
+}
+.bus-comp-sort-options .menu-options_fix .logout_fix{
+    color: black;
+}
+.bus-comp-sort-options .menu-options_fix{
+    padding: 10px;
+}
+.bus-comp-cancelBtn{
+    font-weight: lighter;
+    color: gray;
+    cursor: pointer;
+}
+.bus-comp-cancelBtn:hover {
+    color: red;
+    text-decoration: underline;
+}
 /* Responsive for mobile */
 @media only screen and (max-width: 46.1875em) {
     .tickets-container {
