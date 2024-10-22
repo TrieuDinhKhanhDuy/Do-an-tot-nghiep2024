@@ -20,13 +20,14 @@ const vouchers = [
 ];
 const ListVoucher = () => {
     const settings = {
-        centerMode: true,
         centerPadding: '20px',
         dots: true,
         infinite: true,
         speed: 600,
         slidesToShow: 3,
         slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000, 
         responsive: [
             {
                 breakpoint: 1024,
@@ -45,6 +46,59 @@ const ListVoucher = () => {
         ],
     };
 
+    const settings2 = {
+        centerPadding: '20px',
+        dots: true,
+        infinite: true,
+        speed: 600,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 4000, 
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                },
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+        ],
+    };
+
+    const settings3 = {
+        centerPadding: '20px',
+        dots: true,
+        infinite: true,
+        speed: 600,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 5000, 
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                },
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+        ],
+    };
     const handleClickLinkDetailVoucher = () => {
         window.location.href = '/voucherdetail';
     };
@@ -75,7 +129,7 @@ const ListVoucher = () => {
             </div>
             <div className="voucher-carousel-container">
                 <h1 className="voucher-carousel-title">Ưu đãi chớp nhoáng</h1>
-                <Slider {...settings}>
+                <Slider {...settings3}>
                     {vouchers.map(voucher => (
                         <div className="magin_outside">
                             <div key={voucher.id} className="voucher-card">
@@ -89,7 +143,7 @@ const ListVoucher = () => {
             </div>
             <div className="voucher-carousel-container">
                 <h1 className="voucher-carousel-title">Ưu đãi đối tác</h1>
-                <Slider {...settings}>
+                <Slider {...settings2}>
                     {vouchers.map(voucher => (
                         <div className="magin_outside">
                             <div key={voucher.id} className="voucher-card">
