@@ -127,6 +127,7 @@ const ListVoucher = () => {
                     ))}
                 </Slider>
             </div>
+            {/* ưu đã */}
             <div className="voucher-carousel-container">
                 <h1 className="voucher-carousel-title">Ưu đãi chớp nhoáng</h1>
                 <Slider {...settings3}>
