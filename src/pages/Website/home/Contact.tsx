@@ -1,12 +1,20 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import "../../../styles/Website/Contact.css";
+import { useForm } from "react-hook-form";
+import ContactsType from "@/types/IContacts";
+import { useContact } from "@/hooks/useContact";
 
 
 const Contact = () => {
+
+    const { register, handleSubmit } = useForm<ContactsType>();
+    const {handleAddContact} = useContact();
+    
     const duongDan = [
         { nhan: 'Trang Chủ', duongDan: '/' },
         { nhan: 'Liên Hệ', duongDan: 'contact' },
     ];
+
     return (
         <>
             <Breadcrumb items={duongDan} />
@@ -37,38 +45,55 @@ const Contact = () => {
                             phungthihongnhung21@gmail.com.
                         </p>
 
-                        <form className="contactForm-form">
+                        <form className="contactForm-form" onSubmit={handleSubmit(handleAddContact)}>
                             <div className="contactForm-row">
                                 <div className="contactForm-group mgleft-5px">
                                     <label>Họ và tên:</label>
                                     <input
                                         type="text"
                                         placeholder="Nhập họ và tên"
+                                        {...register("name")}
                                     />
                                 </div>
-                                
+
                                 <div className="contactForm-group">
                                     <label>Số điện thoại:</label>
                                     <input
                                         type="text"
                                         placeholder="Nhập số điện thoại"
+                                        {...register("phone")}
+
                                     />
                                 </div>
                             </div>
 
                             <div className="contactForm-group">
                                 <label>Email:</label>
-                                <input type="email" placeholder="Nhập email" />
+                                <input
+                                    type="email"
+                                    placeholder="Nhập email"
+                                    {...register("email")}
+
+                                />
                             </div>
 
                             <div className="contactForm-group">
                                 <label>Tiêu đề:</label>
-                                <input type="text" placeholder="Nhập tiêu đề" />
+                                <input
+                                    type="text"
+                                    placeholder="Nhập tiêu đề"
+                                    {...register("title")}
+
+                                />
                             </div>
 
                             <div className="contactForm-group">
                                 <label>Nội dung liên hệ:</label>
-                                <textarea placeholder="Nhập nội dung của bạn"></textarea>
+                                <textarea
+                                    placeholder="Nhập nội dung của bạn"
+                                    {...register("message")}
+
+                                ></textarea>
                             </div>
 
                             <button
@@ -81,12 +106,12 @@ const Contact = () => {
                     </div>
 
                     <div className="contactForm-map">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.1063645750455!2d105.77569377572404!3d21.02842968062079!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313454b2f431c099%3A0xe44043bacd461128!2zQuG6v24gWGUgTeG7uSDEkMOsbmg!5e0!3m2!1svi!2s!4v1728287236739!5m2!1svi!2s" 
-                        width="100%"
-                        height="100%"
-                        style={{ border: '0' }}
-                        allowFullScreen={true}
-                        loading="lazy"
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.1063645750455!2d105.77569377572404!3d21.02842968062079!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313454b2f431c099%3A0xe44043bacd461128!2zQuG6v24gWGUgTeG7uSDEkMOsbmg!5e0!3m2!1svi!2s!4v1728287236739!5m2!1svi!2s"
+                            width="100%"
+                            height="100%"
+                            style={{ border: '0' }}
+                            allowFullScreen={true}
+                            loading="lazy"
                         ></iframe>
                     </div>
                 </div>
