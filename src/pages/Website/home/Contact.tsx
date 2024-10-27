@@ -1,19 +1,46 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import "../../../styles/Website/Contact.css";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import ContactsType from "@/types/IContacts";
 import { useContact } from "@/hooks/useContact";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Contact = () => {
+    const contactSchema = z.object({
+        name: z.string().nonempty("Họ và tên không được để trống").min(6, "Họ và tên phải có ít nhất 6 ký tự"),
+        phone: z.string()
+            .nonempty("Số điện thoại không được để trống")
+            .regex(/^[0-9]{10}$/, "Số điện thoại phải có 10 chữ số"),
+        email: z.string().nonempty("Email không được để trống").email("Email không hợp lệ"),
+        title: z.string().nonempty("Tiêu đề không được để trống"),
+        message: z.string().nonempty("Nội dung liên hệ không được để trống"),
+    });
 
-    const { register, handleSubmit } = useForm<ContactsType>();
-    const {handleAddContact} = useContact();
+    const { register, handleSubmit, formState: { errors } } = useForm<ContactsType>({
+        resolver: zodResolver(contactSchema),
+    });
+    const { handleAddContact } = useContact();
     
     const duongDan = [
         { nhan: 'Trang Chủ', duongDan: '/' },
         { nhan: 'Liên Hệ', duongDan: 'contact' },
     ];
+
+    const onSubmit = (data: ContactsType) => {
+        handleAddContact(data);
+        toast.success("Gửi liên hệ thành công!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    };
 
     return (
         <>
@@ -33,19 +60,10 @@ const Contact = () => {
                             tiện, đồng hành với hơn 10 triệu hành trình mỗi năm,
                             Hà Lan đã và đang đổi mới mạnh mẽ hơn nữa để nâng
                             cao hiệu quả, sức cạnh tranh của doanh nghiệp thị
-                            trường Tỉnh Thái Nguyên và trên cả nước. Cùng với
-                            việc đầu tư phát triển, mở rộng mạng lưới, tuyến
-                            mới, lộ trình mới và đầu tư cơ sở vật chất, những
-                            dòng xe chất lượng cao. Hà Lan còn tập trung và đẩy
-                            mạnh áp dụng công nghệ và chuyển đổi số vào hoạt
-                            động sản xuất kinh doanh. Địa chỉ: 271 – 273 Dương
-                            Tự Minh, P.Tân Long, Tp.Thái Nguyên. Xe hợp đồng:
-                            0989 759 759. Chuyển phát nhanh: 1900 0092. Tuyển
-                            dụng: 0977 306 567. Email:
-                            phungthihongnhung21@gmail.com.
+                            trường Tỉnh Thái Nguyên và trên cả nước.
                         </p>
 
-                        <form className="contactForm-form" onSubmit={handleSubmit(handleAddContact)}>
+                        <form className="contactForm-form" onSubmit={handleSubmit(onSubmit)}>
                             <div className="contactForm-row">
                                 <div className="contactForm-group mgleft-5px">
                                     <label>Họ và tên:</label>
@@ -54,6 +72,7 @@ const Contact = () => {
                                         placeholder="Nhập họ và tên"
                                         {...register("name")}
                                     />
+                                    {errors.name && <p className="error" style={{color:"red"}}>{errors.name.message}</p>}
                                 </div>
 
                                 <div className="contactForm-group">
@@ -62,8 +81,8 @@ const Contact = () => {
                                         type="text"
                                         placeholder="Nhập số điện thoại"
                                         {...register("phone")}
-
                                     />
+                                    {errors.phone && <p className="error" style={{color:"red"}}>{errors.phone.message}</p>}
                                 </div>
                             </div>
 
@@ -73,8 +92,8 @@ const Contact = () => {
                                     type="email"
                                     placeholder="Nhập email"
                                     {...register("email")}
-
                                 />
+                                {errors.email && <p className="error" style={{color:"red"}}>{errors.email.message}</p>}
                             </div>
 
                             <div className="contactForm-group">
@@ -83,8 +102,8 @@ const Contact = () => {
                                     type="text"
                                     placeholder="Nhập tiêu đề"
                                     {...register("title")}
-
                                 />
+                                {errors.title && <p className="error" style={{color:"red"}}>{errors.title.message}</p>}
                             </div>
 
                             <div className="contactForm-group">
@@ -92,14 +111,11 @@ const Contact = () => {
                                 <textarea
                                     placeholder="Nhập nội dung của bạn"
                                     {...register("message")}
-
                                 ></textarea>
+                                {errors.message && <p className="error" style={{color:"red"}}>{errors.message.message}</p>}
                             </div>
 
-                            <button
-                                type="submit"
-                                className="contactForm-button"
-                            >
+                            <button type="submit" className="contactForm-button">
                                 GỬI THƯ
                             </button>
                         </form>
@@ -116,6 +132,8 @@ const Contact = () => {
                     </div>
                 </div>
             </div>
+
+            <ToastContainer />
         </>
     );
 };
