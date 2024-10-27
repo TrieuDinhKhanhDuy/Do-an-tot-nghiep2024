@@ -20,6 +20,8 @@ import NotFound from "./components/NoutFound";
 import DetailVoucher from "./pages/Website/home/detailVoucher";
 import ListVoucher from "./pages/Website/home/listVoucher";
 import List_BusFix from "./pages/Website/home/list_bus";
+import { ToastContainer } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css";
 
 
 const routerConfig = [
@@ -110,7 +112,11 @@ const routerConfig = [
 function App() {
   const routes = useRoutes(routerConfig);
   return (
-    <>{routes}</>
+    <>
+    {routes}
+    <ToastContainer position="top-right" autoClose={3000} />
+    </>
+    
   );
 }
 

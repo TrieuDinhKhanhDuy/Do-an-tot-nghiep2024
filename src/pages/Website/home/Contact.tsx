@@ -5,8 +5,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ContactsType from "@/types/IContacts";
 import { useContact } from "@/hooks/useContact";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const Contact = () => {
     const contactSchema = z.object({
@@ -29,19 +27,6 @@ const Contact = () => {
         { nhan: 'Liên Hệ', duongDan: 'contact' },
     ];
 
-    const onSubmit = (data: ContactsType) => {
-        handleAddContact(data);
-        toast.success("Gửi liên hệ thành công!", {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-    };
-
     return (
         <>
             <Breadcrumb items={duongDan} />
@@ -60,10 +45,19 @@ const Contact = () => {
                             tiện, đồng hành với hơn 10 triệu hành trình mỗi năm,
                             Hà Lan đã và đang đổi mới mạnh mẽ hơn nữa để nâng
                             cao hiệu quả, sức cạnh tranh của doanh nghiệp thị
-                            trường Tỉnh Thái Nguyên và trên cả nước.
+                            trường Tỉnh Thái Nguyên và trên cả nước. Cùng với
+                            việc đầu tư phát triển, mở rộng mạng lưới, tuyến
+                            mới, lộ trình mới và đầu tư cơ sở vật chất, những
+                            dòng xe chất lượng cao. Hà Lan còn tập trung và đẩy
+                            mạnh áp dụng công nghệ và chuyển đổi số vào hoạt
+                            động sản xuất kinh doanh. Địa chỉ: 271 – 273 Dương
+                            Tự Minh, P.Tân Long, Tp.Thái Nguyên. Xe hợp đồng:
+                            0989 759 759. Chuyển phát nhanh: 1900 0092. Tuyển
+                            dụng: 0977 306 567. Email:
+                            phungthihongnhung21@gmail.com.
                         </p>
 
-                        <form className="contactForm-form" onSubmit={handleSubmit(onSubmit)}>
+                        <form className="contactForm-form" onSubmit={handleSubmit(handleAddContact)}>
                             <div className="contactForm-row">
                                 <div className="contactForm-group mgleft-5px">
                                     <label>Họ và tên:</label>
@@ -132,8 +126,6 @@ const Contact = () => {
                     </div>
                 </div>
             </div>
-
-            <ToastContainer />
         </>
     );
 };
