@@ -7,6 +7,12 @@ import ContactsType from "@/types/IContacts";
 import { useContact } from "@/hooks/useContact";
 
 const Contact = () => {
+
+    const duongDan = [
+        { nhan: 'Trang Chủ', duongDan: '/' },
+        { nhan: 'Liên Hệ', duongDan: 'contact' },
+    ];
+
     const contactSchema = z.object({
         name: z.string().nonempty("Họ và tên không được để trống").min(6, "Họ và tên phải có ít nhất 6 ký tự"),
         phone: z.string()
@@ -17,15 +23,16 @@ const Contact = () => {
         message: z.string().nonempty("Nội dung liên hệ không được để trống"),
     });
 
-    const { register, handleSubmit, formState: { errors } } = useForm<ContactsType>({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactsType>({
         resolver: zodResolver(contactSchema),
     });
     const { handleAddContact } = useContact();
-    
-    const duongDan = [
-        { nhan: 'Trang Chủ', duongDan: '/' },
-        { nhan: 'Liên Hệ', duongDan: 'contact' },
-    ];
+
+    const onSubmit = (data: ContactsType) => {
+        handleAddContact(data);
+        reset();
+    };
+
 
     return (
         <>
@@ -57,7 +64,7 @@ const Contact = () => {
                             phungthihongnhung21@gmail.com.
                         </p>
 
-                        <form className="contactForm-form" onSubmit={handleSubmit(handleAddContact)}>
+                        <form className="contactForm-form" onSubmit={handleSubmit(onSubmit)}>
                             <div className="contactForm-row">
                                 <div className="contactForm-group mgleft-5px">
                                     <label>Họ và tên:</label>
@@ -66,7 +73,7 @@ const Contact = () => {
                                         placeholder="Nhập họ và tên"
                                         {...register("name")}
                                     />
-                                    {errors.name && <p className="error" style={{color:"red"}}>{errors.name.message}</p>}
+                                    {errors.name && <p className="error" style={{ color: "red" }}>{errors.name.message}</p>}
                                 </div>
 
                                 <div className="contactForm-group">
@@ -76,7 +83,7 @@ const Contact = () => {
                                         placeholder="Nhập số điện thoại"
                                         {...register("phone")}
                                     />
-                                    {errors.phone && <p className="error" style={{color:"red"}}>{errors.phone.message}</p>}
+                                    {errors.phone && <p className="error" style={{ color: "red" }}>{errors.phone.message}</p>}
                                 </div>
                             </div>
 
@@ -87,7 +94,7 @@ const Contact = () => {
                                     placeholder="Nhập email"
                                     {...register("email")}
                                 />
-                                {errors.email && <p className="error" style={{color:"red"}}>{errors.email.message}</p>}
+                                {errors.email && <p className="error" style={{ color: "red" }}>{errors.email.message}</p>}
                             </div>
 
                             <div className="contactForm-group">
@@ -97,7 +104,7 @@ const Contact = () => {
                                     placeholder="Nhập tiêu đề"
                                     {...register("title")}
                                 />
-                                {errors.title && <p className="error" style={{color:"red"}}>{errors.title.message}</p>}
+                                {errors.title && <p className="error" style={{ color: "red" }}>{errors.title.message}</p>}
                             </div>
 
                             <div className="contactForm-group">
@@ -106,7 +113,7 @@ const Contact = () => {
                                     placeholder="Nhập nội dung của bạn"
                                     {...register("message")}
                                 ></textarea>
-                                {errors.message && <p className="error" style={{color:"red"}}>{errors.message.message}</p>}
+                                {errors.message && <p className="error" style={{ color: "red" }}>{errors.message.message}</p>}
                             </div>
 
                             <button type="submit" className="contactForm-button">

@@ -4,6 +4,7 @@ interface ContactsType {
     email: string;
     phone: number;
     title: string;
+    is_active: number;
     message: string;
     created_at: string;
     updated_at: string;

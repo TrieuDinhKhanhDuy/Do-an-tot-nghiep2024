@@ -6,6 +6,7 @@ export function useContact() {
     
     
     function handleAddContact(values: ContactsType) {
+        // const contactData = { ...values, is_active: 0 };
         addContact(values)
             .then(() => {
                 toast.success("Gửi liên hệ thành công!", {
