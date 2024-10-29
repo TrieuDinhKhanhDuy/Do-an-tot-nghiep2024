@@ -22,7 +22,6 @@
 .login-container-form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     width: 35%;
     margin-left: -50px;
 }
@@ -92,7 +91,7 @@
     color: #fff;
     background-color: #3C4A8F;
     border: none;
-    border-radius: 15px;
+    border-radius: 10px;
     cursor: pointer;
     margin-top: 10px;
 }
