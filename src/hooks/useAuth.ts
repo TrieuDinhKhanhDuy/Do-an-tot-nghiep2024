@@ -1,7 +1,6 @@
-
 import { useState } from 'react';
-import { login } from '../service/authService';
-import { UserLoginType } from '@/types/IUser';
+import { login, handleRegister } from '../service/authService';
+import { UserLoginType, UserType } from '@/types/IUser';
 
 const useAuth = () => {
     const [loading, setLoading] = useState(false);
@@ -14,8 +13,6 @@ const useAuth = () => {
         try {
             const loginData: UserLoginType = { email, password };
             const response = await login(loginData);
-
-            // Đăng nhập thành công, token đã được lưu vào localStorage
             console.log('Đăng nhập thành công:', response);
         } catch (error) {
             setError('Đăng nhập không thành công');
@@ -24,7 +21,22 @@ const useAuth = () => {
         }
     };
 
-    return { handleLogin, loading, error };
+    const registerUser = async (userData: UserType) => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const response = await handleRegister(userData);
+            console.log('Đăng ký thành công:', response);
+            return response; 
+        } catch (error) {
+            setError('Đăng ký không thành công');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return { handleLogin, registerUser, loading, error };
 };
 
 export default useAuth;

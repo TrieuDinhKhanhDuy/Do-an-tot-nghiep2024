@@ -8,11 +8,10 @@ import { TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import useAuth from "../hooks/useAuth"; // Import hook useAuth
 
-
+import {  handleRegister } from '../service/authService';
 interface Register {
     name: string; 
     phone: string;
@@ -39,12 +38,13 @@ const schema = z
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const { registerUser, handleLogin, loading, error } = useAuth(); // Sử dụng hook
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<Register>({
-        resolver: zodResolver(schema),
+        resolver: zodResolver(schema), 
     });
 
     const duongDan = [
@@ -57,32 +57,14 @@ const Register = () => {
     };
 
     const onSubmit = async (data: Register) => {
-        try {
-            const response = await axios.post(
-                "http://doantotnghiep_backend.test/api/register",
-                {
-                    name: data.name, 
-                    phone: data.phone,
-                    address: data.address,
-                    email: data.email,
-                    password: data.password,
-                    password_confirmation: data.password_confirmation,
-                }
-            );
-            console.log(" successful:", response.data);
-            toast.success("Đăng ký thành công!");
-        } catch (error) {
-            if (axios.isAxiosError(error) && error.response) {
-                console.error("Error:", error.response.data);
-                toast.error(error.response.data.message || "Đăng ký thất bại. Vui lòng thử lại.");
-            } else {
-                console.error("Error:", error);
-                toast.error("Đã xảy ra lỗi không mong muốn.");
-            }
+        await handleRegister(data); 
+        if (error) {
+            toast.error(error); 
+        } else {
+            await handleLogin(data.email, data.password);
         }
     };
     
-
     return (
         <>
             <Breadcrumb items={duongDan} />
@@ -160,8 +142,8 @@ const Register = () => {
                                 Hiện mật khẩu
                             </label>
                         </div>
-                        <button type="submit" className="register-form__submit-btn">
-                            Đăng ký
+                        <button type="submit" className="register-form__submit-btn" disabled={loading}>
+                            {loading ? "Đang đăng ký..." : "Đăng ký"}
                         </button>
                     </form>
                 </div>
