@@ -4,110 +4,150 @@ import Register1 from "../assets/image/Register.png";
 import Heading from "./Heading";
 import Breadcrumb from "./Breadcrumb";
 import { Link } from "react-router-dom";
-import { TextField } from '@mui/material';
+import { TextField } from "@mui/material";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+
+interface Register {
+    name: string; 
+    phone: string;
+    address: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
+}
+
+// Định nghĩa schema validation với zod
+const schema = z
+    .object({
+        name: z.string().min(1, "Tên là bắt buộc"), 
+        phone: z.string().regex(/^(\d{10})$/, "Số điện thoại không hợp lệ"),
+        address: z.string().min(6, "Địa chỉ phải ít nhất 6 ký tự"),
+        email: z.string().email("Email không hợp lệ"),
+        password: z.string().min(8, "Mật khẩu ít nhất 8 ký tự"),
+        password_confirmation: z.string().min(8, "Xác nhận mật khẩu là bắt buộc"),
+    })
+    .refine((data) => data.password === data.password_confirmation, {
+        path: ["password_confirmation"],
+        message: "Xác nhận mật khẩu không khớp",
+    });
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<Register>({
+        resolver: zodResolver(schema),
+    });
+
+    const duongDan = [
+        { nhan: "Trang Chủ", duongDan: "/" },
+        { nhan: "Đăng Ký", duongDan: "register" },
+    ];
 
     const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
+        setShowPassword((prev) => !prev);
     };
-    const duongDan = [
-        { nhan: 'Trang Chủ', duongDan: '/' },
-        { nhan: 'Đăng Ký', duongDan: 'register' },
-    ];
+
+    const onSubmit = async (data: Register) => {
+        try {
+            const response = await axios.post(
+                "http://doantotnghiep_backend.test/api/register",
+                {
+                    name: data.name, 
+                    phone: data.phone,
+                    address: data.address,
+                    email: data.email,
+                    password: data.password,
+                    password_confirmation: data.password_confirmation,
+                }
+            );
+            console.log(" successful:", response.data);
+            toast.success("Đăng ký thành công!");
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                console.error("Error:", error.response.data);
+                toast.error(error.response.data.message || "Đăng ký thất bại. Vui lòng thử lại.");
+            } else {
+                console.error("Error:", error);
+                toast.error("Đã xảy ra lỗi không mong muốn.");
+            }
+        }
+    };
+    
+
     return (
         <>
             <Breadcrumb items={duongDan} />
             <div className="register-container">
                 <img src={Register1} alt="" className="img-hidden" />
                 <div className="register-container-form">
-                    <h2 className="register-container__title">
-                        Đăng ký tài khoản
-                    </h2>
+                    <h2 className="register-container__title">Đăng ký tài khoản</h2>
                     <div className="register-container__tabs">
-
                         <span className="register-container__tab">
-                            <Link to={'/login'} > Đăng Nhập</Link>
+                            <Link to="/login">Đăng Nhập</Link>
                         </span>
                         <span className="register-container__tab register-container__tab--active">
-                            <Link to={'/register'}> Đăng Ký</Link>
+                            <Link to="/register">Đăng Ký</Link>
                         </span>
-
                     </div>
-                    <form className="register-form">
+                    <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
                         <TextField
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    borderRadius: '10px',
-                                },
-                            }}
                             fullWidth
                             margin="normal"
                             label="Họ Và Tên"
-                            type="text"
-
+                            {...register("name")} 
+                            error={!!errors.name}
+                            helperText={errors.name?.message}
                         />
                         <TextField
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    borderRadius: '10px',
-                                },
-                            }}
                             fullWidth
                             margin="normal"
                             label="Số Điện Thoại"
-                            type="text"
-
+                            {...register("phone")}
+                            error={!!errors.phone}
+                            helperText={errors.phone?.message}
                         />
                         <TextField
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    borderRadius: '10px',
-                                },
-                            }}
                             fullWidth
                             margin="normal"
                             label="Địa Chỉ"
-                            type="text"
-
+                            {...register("address")}
+                            error={!!errors.address}
+                            helperText={errors.address?.message}
                         />
                         <TextField
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    borderRadius: '10px',
-                                },
-                            }}
                             fullWidth
                             margin="normal"
                             label="Email"
-                            type="email"
-
+                            {...register("email")}
+                            error={!!errors.email}
+                            helperText={errors.email?.message}
                         />
                         <TextField
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    borderRadius: '10px',
-                                },
-                            }}
                             fullWidth
                             margin="normal"
                             label="Mật Khẩu"
                             type={showPassword ? "text" : "password"}
-
+                            {...register("password")}
+                            error={!!errors.password}
+                            helperText={errors.password?.message}
                         />
                         <TextField
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    borderRadius: '10px',
-                                },
-                            }}
                             fullWidth
                             margin="normal"
                             label="Xác Nhận Mật Khẩu"
                             type={showPassword ? "text" : "password"}
-
+                            {...register("password_confirmation")}
+                            error={!!errors.password_confirmation}
+                            helperText={errors.password_confirmation?.message}
                         />
                         <div className="register-form__checkbox-container">
                             <input
@@ -116,25 +156,18 @@ const Register = () => {
                                 onChange={togglePasswordVisibility}
                                 className="register-form__checkbox"
                             />
-                            <label
-                                htmlFor="show-password"
-                                className="register-form__label"
-                            >
+                            <label htmlFor="show-password" className="register-form__label">
                                 Hiện mật khẩu
                             </label>
                         </div>
-                        <button
-                            type="submit"
-                            className="register-form__submit-btn"
-                        >
+                        <button type="submit" className="register-form__submit-btn">
                             Đăng ký
                         </button>
                     </form>
-
-
                 </div>
             </div>
             <Heading />
+            <ToastContainer />
         </>
     );
 };
