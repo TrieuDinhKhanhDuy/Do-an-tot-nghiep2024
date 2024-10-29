@@ -11,44 +11,54 @@ import {
     faCog,
     faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import { logout } from "@/service/authService";
 
 const HeaderFix = () => {
- const [isOpen, setIsOpen] = useState(false);
-  const submenuRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLLIElement>(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const submenuRef = useRef<HTMLDivElement>(null);
+    const buttonRef = useRef<HTMLLIElement>(null);
 
-  const toggleSubmenu = () => {
-    setIsOpen(!isOpen);
-  };
+    const toggleSubmenu = () => {
+        setIsOpen(!isOpen);
+    };
     const handleItemClick = () => {
         setIsOpen(false);
     };
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        submenuRef.current &&
-        !submenuRef.current.contains(event.target as Node) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false); 
-      }
-    };
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                submenuRef.current &&
+                !submenuRef.current.contains(event.target as Node) &&
+                buttonRef.current &&
+                !buttonRef.current.contains(event.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        };
 
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+        if (isOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isOpen]);
+
+    const handleLogout = async () => {
+        try {
+            await logout("current"); 
+            
+        } catch (error) {
+            console.error("Đăng xuất thất bại:", error);
+        }
     };
-  }, [isOpen]);
 
     return (
         <>
             <header className="header_container" id="header_id">
-            <div className="background_Header"></div>
+                <div className="background_Header"></div>
                 <div className="header">
 
                     <div className="header__top">
@@ -161,7 +171,7 @@ const HeaderFix = () => {
                                     </Link>
                                 </div>
                                 <div className="menu-item_fix">
-                                <Link
+                                    <Link
                                         to={"/listvoucher"}
                                         onClick={handleItemClick}
                                     >
@@ -189,6 +199,7 @@ const HeaderFix = () => {
                             <div
                                 className="logout_fix"
                                 style={{ display: "flex", alignItems: "center" }}
+                                onClick={handleLogout}
                             >
                                 <span style={{ marginRight: "10px" }}>
                                     <FontAwesomeIcon icon={faSignOutAlt} />
@@ -200,7 +211,7 @@ const HeaderFix = () => {
 
                 </div>
 
-              
+
 
             </header>
         </>
