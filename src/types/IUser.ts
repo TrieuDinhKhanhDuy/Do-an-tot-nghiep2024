@@ -1,4 +1,4 @@
-export type UserRegisterType = {
+export type UserType = {
     id: number;
     name_role: string;
     email: string;
@@ -14,4 +14,5 @@ export type UserLoginType = {
 export type LoginResponse = {
     access_token: string;
     token_type: string;
+    user: UserType;
 }

@@ -29,7 +29,7 @@ const Banner = () => {
         {banners.map((bannerData, index) => (
           <div key={index} className="slider-item">  
             <img
-              src={url_image_backend + bannerData.image_url}
+              // src={url_image_backend + bannerData.image_url}
               alt={`Banner ${index + 1}`}
               className="img_banner"
             />

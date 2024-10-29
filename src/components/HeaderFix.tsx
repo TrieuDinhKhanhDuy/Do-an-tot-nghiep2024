@@ -17,6 +17,8 @@ const HeaderFix = () => {
     const [isOpen, setIsOpen] = useState(false);
     const submenuRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLLIElement>(null);
+    const [user, setUser] = useState<any>(null);
+
 
     const toggleSubmenu = () => {
         setIsOpen(!isOpen);
@@ -25,6 +27,12 @@ const HeaderFix = () => {
         setIsOpen(false);
     };
     useEffect(() => {
+        // Kiểm tra và tải thông tin người dùng từ localStorage
+        const userData = localStorage.getItem('user');
+        if (userData) {
+            setUser(JSON.parse(userData));
+        }
+
         const handleClickOutside = (event: MouseEvent) => {
             if (
                 submenuRef.current &&
@@ -46,10 +54,12 @@ const HeaderFix = () => {
         };
     }, [isOpen]);
 
+
+
     const handleLogout = async () => {
         try {
-            await logout("current"); 
-            
+            await logout("current");
+
         } catch (error) {
             console.error("Đăng xuất thất bại:", error);
         }
@@ -150,9 +160,9 @@ const HeaderFix = () => {
                                 </div>
                                 <div className="user-details_fix">
                                     <span className="user-name_fix">
-                                        Admin hieu
+                                    {/* {user.name} */}
                                     </span>
-                                    <span className="user-role_fix">admin</span>
+                                    {/* <span className="user-role_fix">{user.role}</span> */}
                                 </div>
                             </div>
 
