@@ -7,12 +7,14 @@ import {
     faChevronRight
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import "../../../styles/Website/BokingForm.css";
 import "../../../styles/Website/list_busFix.css";
 import "../../../styles/Website/list.css";
+import DbRecord from "@/types/IBus";
+import axios from "axios";
 
 interface BusOption {
     id: number;
@@ -76,6 +78,8 @@ const List_BusFix = () => {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isPopupBus45Open, setIsPopupBus45Open] = useState(false);
+    const [buses, setBuses] = useState<DbRecord[]>([]);
+    const url_image_backend = 'http://doantotnghiep_backend.test/storage/';
 
     const handleSeatSelectBus45 = () => {
         setIsPopupBus45Open(true);
@@ -97,6 +101,22 @@ const List_BusFix = () => {
         { nhan: 'Trang Chủ', duongDan: '/' },
         { nhan: 'List Vé', duongDan: 'list' },
     ];
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await axios.get(
+                    "http://doantotnghiep_backend.test/api/trips",
+                );
+                setBuses(res.data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchData();
+    }, []);
+
+
     return (
         <>
             <Breadcrumb items={duongDan} />
@@ -207,31 +227,32 @@ const List_BusFix = () => {
                                 </div>
 
                             </div>
-                            {busOptions.map((option) => (
-                                <div key={option.id} className="bus-comp-option" onClick={handleSeatSelect}>
+                            {buses.map((buses) => (
+                                <div key={buses.id} className="bus-comp-option" onClick={handleSeatSelect}>
                                     {/* Hình ảnh xe */}
                                     <div className="bus-comp-image-container">
-                                        <img src={option.image} alt={option.route} className="bus-comp-image" />
+                                        <img src={url_image_backend + buses.bus.image} alt={url_image_backend + buses.bus.image} className="bus-comp-image" />
                                     </div>
                                     {/* Thông tin xe */}
                                     <div className="bus-comp-info">
                                         <div className="bus-comp-info-header">
-                                            <h3>{option.route}</h3>
-                                            <p className="bus-comp-price">{option.price}</p>
+                                            <h3>{buses.route.route_name}</h3>
+                                            <p className="bus-comp-price">{buses.route.route_price}</p>
                                         </div>
                                         <div className="bus-comp-info-header">
-                                            <p>🕒 {option.time} </p>
-                                            {option.oldPrice && <p className="bus-comp-old-price">{option.oldPrice}</p>}
+                                            <p>🕒 {buses.time_start} </p>
+                                            <p className="bus-comp-old-price">200000đ</p>
                                         </div>
                                         <div className="bus-comp-info-header">
-                                            <p>{option.type}</p>
-                                            {option.onlineSupport && (
+                                            <p>{buses.route.description}</p>
+                                            {/* {option.onlineSupport && (
                                                 <p className="bus-comp-support-online">Hỗ trợ thanh toán online</p>
-                                            )}                                        </div>
+                                            )}                                         */}
+                                        </div>
 
 
                                         <div className="bus-comp-info-header">
-                                            <p>{option.availableSeats} Chỗ trống</p>
+                                            <p>{buses.bus.total_seats} Chỗ trống</p>
                                             {/* Nút chọn chỗ */}
                                             <div className="bus-comp-action">
                                                 <button>Chọn chỗ</button>

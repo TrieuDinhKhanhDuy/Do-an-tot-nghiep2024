@@ -5,3 +5,7 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+.slick-slider {
+    position: absolute;
+    z-index: 1; 
+  }
