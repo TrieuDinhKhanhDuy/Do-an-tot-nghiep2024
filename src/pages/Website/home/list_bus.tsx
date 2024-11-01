@@ -16,70 +16,19 @@ import "../../../styles/Website/list.css";
 import DbRecord from "@/types/IBus";
 import axios from "axios";
 
-interface BusOption {
-    id: number;
-    route: string;
-    time: string;
-    type: string;
-    availableSeats: number;
-    price: string;
-    oldPrice?: string; // Giá cũ (nếu có)
-    onlineSupport: boolean;
-    image: string;
-}
 
 const List_BusFix = () => {
-    const busOptions: BusOption[] = [
-        {
-            id: 1,
-            route: 'Mỹ Đình - Tuyên Quang',
-            time: '08:10',
-            type: 'Xe giường nằm',
-            availableSeats: 28,
-            price: '120.000đ',
-            image: '/src/assets/image/bus_giuongnam.png',
-            onlineSupport: true,
-            oldPrice: '180.000đ', // Giá cũ gạch ngang
-        },
-        {
-            id: 2,
-            route: 'Mỹ Đình - Tuyên Quang',
-            time: '08:10',
-            type: 'Xe 45 chỗ',
-            availableSeats: 28,
-            price: '120.000đ',
-            image: '/src/assets/image/bus45cho.jpg',
-            onlineSupport: true,
-            oldPrice: '180.000đ', // Giá cũ gạch ngang
-        },
-        {
-            id: 3,
-            route: 'Mỹ Đình - Tuyên Quang',
-            time: '08:10',
-            type: 'Xe giường nằm',
-            availableSeats: 28,
-            price: '120.000đ',
-            image: '/src/assets/image/bus_giuongnam.png',
-            onlineSupport: true,
-            oldPrice: '180.000đ', // Giá cũ gạch ngang
-        },
-        {
-            id: 3,
-            route: 'Mỹ Đình - Tuyên Quang',
-            time: '08:10',
-            type: 'Xe giường nằm',
-            availableSeats: 28,
-            price: '120.000đ',
-            image: '/src/assets/image/bus_giuongnam.png',
-            onlineSupport: true,
-            oldPrice: '180.000đ', // Giá cũ gạch ngang
-        },
-    ];
+
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isPopupBus45Open, setIsPopupBus45Open] = useState(false);
     const [buses, setBuses] = useState<DbRecord[]>([]);
     const url_image_backend = 'http://doantotnghiep_backend.test/storage/';
+
+    const searchParams = new URLSearchParams(location.search);
+    const startLocation = searchParams.get("start");
+    const endLocation = searchParams.get("end");
+    const date = searchParams.get("date");
 
     const handleSeatSelectBus45 = () => {
         setIsPopupBus45Open(true);
@@ -103,18 +52,24 @@ const List_BusFix = () => {
     ];
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchFilteredTrips = async () => {
             try {
-                const res = await axios.get(
-                    "http://doantotnghiep_backend.test/api/trips",
-                );
+                const res = await axios.get("http://doantotnghiep_backend.test/api/home", {
+                    params: {
+                        start_stop_id: startLocation,
+                        end_stop_id: endLocation,
+                        date: date,
+                    },
+                });
                 setBuses(res.data);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
-        fetchData();
-    }, []);
+        fetchFilteredTrips();
+    }, [startLocation, endLocation, date]);
+
+
 
 
     return (
@@ -228,23 +183,23 @@ const List_BusFix = () => {
 
                             </div>
                             {buses.map((buses) => (
-                                <div key={buses.id} className="bus-comp-option" onClick={handleSeatSelect}>
+                                <div key={buses.trip_id} className="bus-comp-option" onClick={handleSeatSelect}>
                                     {/* Hình ảnh xe */}
                                     <div className="bus-comp-image-container">
-                                        <img src={url_image_backend + buses.bus.image} alt={url_image_backend + buses.bus.image} className="bus-comp-image" />
+                                        <img src={url_image_backend + buses.bus_image} alt={url_image_backend + buses.bus_image} className="bus-comp-image" />
                                     </div>
                                     {/* Thông tin xe */}
                                     <div className="bus-comp-info">
                                         <div className="bus-comp-info-header">
-                                            <h3>{buses.route.route_name}</h3>
-                                            <p className="bus-comp-price">{buses.route.route_price}</p>
+                                            <h3>{buses.route_name}</h3>
+                                            <p className="bus-comp-price">{buses.fare}</p>
                                         </div>
                                         <div className="bus-comp-info-header">
                                             <p>🕒 {buses.time_start} </p>
                                             <p className="bus-comp-old-price">200000đ</p>
                                         </div>
                                         <div className="bus-comp-info-header">
-                                            <p>{buses.route.description}</p>
+                                            <p>{buses.name_bus}</p>
                                             {/* {option.onlineSupport && (
                                                 <p className="bus-comp-support-online">Hỗ trợ thanh toán online</p>
                                             )}                                         */}
@@ -252,7 +207,7 @@ const List_BusFix = () => {
 
 
                                         <div className="bus-comp-info-header">
-                                            <p>{buses.bus.total_seats} Chỗ trống</p>
+                                            <p>{buses.total_seats} Chỗ trống</p>
                                             {/* Nút chọn chỗ */}
                                             <div className="bus-comp-action">
                                                 <button>Chọn chỗ</button>
