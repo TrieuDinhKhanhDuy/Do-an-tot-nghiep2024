@@ -1,34 +1,32 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import {
-    faCalendarAlt,
-    faMapMarkerAlt,
     faTimes,
     faChevronLeft,
     faChevronRight
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import "../../../styles/Website/BokingForm.css";
 import "../../../styles/Website/list_busFix.css";
 import "../../../styles/Website/list.css";
 import DbRecord from "@/types/IBus";
 import axios from "axios";
+import BookingFormComponent from "@/components/BookingForm";
+import { useLocation } from 'react-router-dom';
 
-
+interface BookingFormData {
+    startLocation: string;
+    endLocation: string;
+    departureDate: string;
+}
 const List_BusFix = () => {
-
-
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isPopupBus45Open, setIsPopupBus45Open] = useState(false);
     const [buses, setBuses] = useState<DbRecord[]>([]);
     const url_image_backend = 'http://doantotnghiep_backend.test/storage/';
-
-    const searchParams = new URLSearchParams(location.search);
-    const startLocation = searchParams.get("start");
-    const endLocation = searchParams.get("end");
-    const date = searchParams.get("date");
+    const [searchParams, setSearchParams] = useState<BookingFormData | null>(null);
+    const location = useLocation();
 
     const handleSeatSelectBus45 = () => {
         setIsPopupBus45Open(true);
@@ -51,62 +49,55 @@ const List_BusFix = () => {
         { nhan: 'List Vé', duongDan: 'list' },
     ];
 
+    const fetchFilteredTrips = async () => {
+        if (!searchParams) return; // Không gọi API nếu chưa có tham số tìm kiếm
+
+        try {
+            const res = await axios.get("http://doantotnghiep_backend.test/api/home/show", {
+                params: {
+                    start_stop_id: searchParams.startLocation,
+                    end_stop_id: searchParams.endLocation,
+                    date: searchParams.departureDate,
+                },
+            });
+            setBuses(res.data); // Cập nhật danh sách chuyến đi
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            alert("Chưa có thông tin chuyến.");
+        }
+    };
+
+
     useEffect(() => {
-        const fetchFilteredTrips = async () => {
-            try {
-                const res = await axios.get("http://doantotnghiep_backend.test/api/home", {
-                    params: {
-                        start_stop_id: startLocation,
-                        end_stop_id: endLocation,
-                        date: date,
-                    },
-                });
-                setBuses(res.data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
+        const queryParams = new URLSearchParams(location.search);
+        const startLocation = queryParams.get('start');
+        const endLocation = queryParams.get('end');
+        const departureDate = queryParams.get('date');
+
+        if (startLocation && endLocation && departureDate) {
+            setSearchParams({
+                startLocation,
+                endLocation,
+                departureDate,
+            });
+        }
+    }, [location.search]);
+
+    useEffect(() => {
         fetchFilteredTrips();
-    }, [startLocation, endLocation, date]);
+    }, [searchParams]);
 
 
-
+    const handleSearch = (data: BookingFormData) => {
+        setSearchParams(data); // Cập nhật tham số tìm kiếm
+    };
 
     return (
         <>
             <Breadcrumb items={duongDan} />
             <div className="bookingForm-container">
-                <div className="bookingForm-search">
-                    <div className="bookingForm-input">
-                        <div className="bookingForm-input-top">
-                            <span><FontAwesomeIcon icon={faMapMarkerAlt} /></span>
-                            <label>Điểm đi</label>
-                        </div>
-                        <select>
-                            <option>Chọn điểm lên</option>
-                        </select>
-                    </div>
-                    <div className="bookingForm-input">
-                        <div className="bookingForm-input-top">
-                            <span><FontAwesomeIcon icon={faMapMarkerAlt} /></span>
-                            <label>Điểm đến</label>
-                        </div>
-                        <select>
-                            <option>Chọn điểm đến</option>
-                        </select>
-                    </div>
-                    <div className="bookingForm-input">
-                        <div className="bookingForm-input-top">
-                            <span><FontAwesomeIcon icon={faCalendarAlt} /></span>
-                            <label >Ngày khởi hành</label>
-                        </div>
-                        <input type="date" defaultValue="2024-08-27" />
-                    </div>
-                    <div className="bookingForm-button">
-                        <CiSearch size={28} /> {/* Thay đổi kích thước icon nếu cần */}
-                        <button>Tìm chuyến</button>
-                    </div>
-                </div>
+                <BookingFormComponent onSearch={handleSearch} />
+
 
                 <div className="bus-schedule-container">
                     {/* Group 1: Header Group */}

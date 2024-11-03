@@ -1,9 +1,7 @@
 import {
     faBus,
-    faCalendarAlt,
     faCreditCard,
     faMapMarkerAlt,
-    faSearch,
     faTicketAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,136 +11,27 @@ import zllogo from "../../../assets/image/zalologo.png";
 import momoLogo from "../../../assets/image/momologo.jpg";
 import vnpaylogo from "../../../assets/image/vnpaylogo.png";
 import smslogo from "../../../assets/image/smslogo.png";
-import { useEffect, useState } from "react";
-import { Select } from "antd";
-import axios from "axios";
+import BookingFormComponent from "@/components/BookingForm";
 import { useNavigate } from "react-router-dom";
-import { useForm,Controller } from "react-hook-form";
 
-type BookingFormData = {
+
+interface BookingFormData {
     startLocation: string;
     endLocation: string;
     departureDate: string;
 }
+
 const BookingForm = () => {
-    const [formData, setFormData] = useState<any[]>([]);
-    const [minDate, setMinDate] = useState<string>("");
+
     const navigate = useNavigate();
-    const { register, handleSubmit,control  } = useForm<BookingFormData>();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await axios.get("http://doantotnghiep_backend.test/api/stops");
-                setFormData(res.data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate());
-        setMinDate(tomorrow.toISOString().split("T")[0]);
-    }, []);
-
-    const onSubmit = (data: BookingFormData) => {
+    const handleSearch = (data: BookingFormData) => {
         navigate(`/list?start=${data.startLocation}&end=${data.endLocation}&date=${data.departureDate}`);
     };
 
-
-
     return (
         <div className="bookingForm-container">
-            <form className="bookingForm-search" onSubmit={handleSubmit(onSubmit)}>
-                <div className="bookingForm-input">
-                    <div className="bookingForm-input-top">
-                        <span>
-                            <FontAwesomeIcon icon={faMapMarkerAlt} />
-                        </span>
-                        <label>Điểm đi</label>
-                    </div>
-                    <Controller
-                        name="startLocation"
-                        control={control}
-                        render={({ field }) => (
-                            <Select
-                                showSearch
-                                className="custom-select"
-                                placeholder="Chọn điểm đi"
-                                optionFilterProp="label"
-                                {...field} // Gán các thuộc tính của field
-                                options={formData.map((location) => ({
-                                    value: location.id,
-                                    label: (
-                                        <span
-                                            style={{
-                                                fontWeight: location.parent_id === null ? "bold" : "normal",
-                                                fontSize: location.parent_id === null ? "16px" : "14px"
-                                            }}
-                                        >
-                                            {location.stop_name}
-                                        </span>
-                                    ),
-                                }))}
-                            />
-                        )}
-                    />
-                </div>
-
-                <div className="bookingForm-input">
-                    <div className="bookingForm-input-top">
-                        <span>
-                            <FontAwesomeIcon icon={faMapMarkerAlt} />
-                        </span>
-                        <label>Điểm đến</label>
-                    </div>
-                    <Controller
-                        name="endLocation"
-                        control={control}
-                        render={({ field }) => (
-                            <Select
-                                showSearch
-                                className="custom-select"
-                                placeholder="Chọn điểm đến"
-                                optionFilterProp="label"
-                                {...field} // Gán các thuộc tính của field
-                                options={formData.map((location) => ({
-                                    value: location.id,
-                                    label: (
-                                        <span
-                                            style={{
-                                                fontWeight: location.parent_id === null ? "bold" : "normal",
-                                                fontSize: location.parent_id === null ? "16px" : "14px"
-                                            }}
-                                        >
-                                            {location.stop_name}
-                                        </span>
-                                    ),
-                                }))}
-                            />
-                        )}
-                    />
-                </div>
-
-                <div className="bookingForm-input">
-                    <div className="bookingForm-input-top">
-                        <span>
-                            <FontAwesomeIcon icon={faCalendarAlt} />
-                        </span>
-                        <label>Ngày khởi hành</label>
-                    </div>
-                    <input type="date" id="date" min={minDate}   {...register("departureDate")} />
-                </div>
-
-                <div className="bookingForm-button">
-                    <FontAwesomeIcon icon={faSearch} size="lg" />
-                    <button type="submit">Tìm chuyến</button>
-                </div>
-            </form>
-
+            <BookingFormComponent onSearch={handleSearch} />
             <div className="bookingForm-process"></div>
 
             <div className="booking-section">
