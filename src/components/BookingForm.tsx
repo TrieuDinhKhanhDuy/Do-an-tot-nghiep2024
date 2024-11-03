@@ -11,12 +11,9 @@ import { Select } from "antd";
 import axios from "axios";
 import { useForm, Controller } from "react-hook-form";
 import React from 'react';
+import { BookingFormData } from "@/types/IBooking";
 
-interface BookingFormData {
-    startLocation: string;
-    endLocation: string;
-    departureDate: string;
-}
+
 
 
 interface BookingFormProps {

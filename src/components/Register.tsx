@@ -10,21 +10,13 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastContainer, toast } from "react-toastify";
 import useAuth from "../hooks/useAuth"; // Import hook useAuth
-
-import {  handleRegister } from '../service/authService';
-interface Register {
-    name: string; 
-    phone: string;
-    address: string;
-    email: string;
-    password: string;
-    password_confirmation: string;
-}
+import { handleRegister } from '../service/authService';
+import { UserType } from "@/types/IUser";
 
 // Định nghĩa schema validation với zod
 const schema = z
     .object({
-        name: z.string().min(1, "Tên là bắt buộc"), 
+        name: z.string().min(1, "Tên là bắt buộc"),
         phone: z.string().regex(/^(\d{10})$/, "Số điện thoại không hợp lệ"),
         address: z.string().min(6, "Địa chỉ phải ít nhất 6 ký tự"),
         email: z.string().email("Email không hợp lệ"),
@@ -38,13 +30,13 @@ const schema = z
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const { registerUser, handleLogin, loading, error } = useAuth(); // Sử dụng hook
+    const { handleLogin, loading, error } = useAuth(); // Sử dụng hook
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<Register>({
-        resolver: zodResolver(schema), 
+    } = useForm<UserType>({
+        resolver: zodResolver(schema),
     });
 
     const duongDan = [
@@ -56,15 +48,15 @@ const Register = () => {
         setShowPassword((prev) => !prev);
     };
 
-    const onSubmit = async (data: Register) => {
-        await handleRegister(data); 
+    const onSubmit = async (data: UserType) => {
+        await handleRegister(data);
         if (error) {
-            toast.error(error); 
+            toast.error(error);
         } else {
             await handleLogin(data.email, data.password);
         }
     };
-    
+
     return (
         <>
             <Breadcrumb items={duongDan} />
@@ -85,7 +77,7 @@ const Register = () => {
                             fullWidth
                             margin="normal"
                             label="Họ Và Tên"
-                            {...register("name")} 
+                            {...register("name")}
                             error={!!errors.name}
                             helperText={errors.name?.message}
                         />

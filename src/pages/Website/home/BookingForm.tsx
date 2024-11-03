@@ -13,18 +13,13 @@ import vnpaylogo from "../../../assets/image/vnpaylogo.png";
 import smslogo from "../../../assets/image/smslogo.png";
 import BookingFormComponent from "@/components/BookingForm";
 import { useNavigate } from "react-router-dom";
+import { BookingFormData } from "@/types/IBooking";
 
 
-interface BookingFormData {
-    startLocation: string;
-    endLocation: string;
-    departureDate: string;
-}
+
 
 const BookingForm = () => {
-
     const navigate = useNavigate();
-
     const handleSearch = (data: BookingFormData) => {
         navigate(`/list?start=${data.startLocation}&end=${data.endLocation}&date=${data.departureDate}`);
     };

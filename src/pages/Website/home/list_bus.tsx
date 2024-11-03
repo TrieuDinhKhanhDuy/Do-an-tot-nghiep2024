@@ -14,41 +14,48 @@ import DbRecord from "@/types/IBus";
 import axios from "axios";
 import BookingFormComponent from "@/components/BookingForm";
 import { useLocation } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { format } from 'date-fns';
+import numeral from 'numeral';
+import Swal from "sweetalert2";
+import { BookingFormData } from "@/types/IBooking";
 
-interface BookingFormData {
-    startLocation: string;
-    endLocation: string;
-    departureDate: string;
-}
+
 const List_BusFix = () => {
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [isPopupBus45Open, setIsPopupBus45Open] = useState(false);
+
     const [buses, setBuses] = useState<DbRecord[]>([]);
     const url_image_backend = 'http://doantotnghiep_backend.test/storage/';
     const [searchParams, setSearchParams] = useState<BookingFormData | null>(null);
     const location = useLocation();
-
-    const handleSeatSelectBus45 = () => {
-        setIsPopupBus45Open(true);
-    };
-
-    const handleClosePopupBus45 = () => {
-        setIsPopupBus45Open(false);
-    };
-
-    const handleSeatSelect = () => {
-        setIsPopupOpen(true);
-    };
-
-    const handleClosePopup = () => {
-        setIsPopupOpen(false);
-    };
-
+    const [selectedBus, setSelectedBus] = useState<DbRecord | null>(null); // Lưu trữ thông tin chuyến xe đã chọn
+    const { register, handleSubmit, reset } = useForm();
+    const [selectedSeats, setSelectedSeats] = useState(new Set());
     const duongDan = [
         { nhan: 'Trang Chủ', duongDan: '/' },
         { nhan: 'List Vé', duongDan: 'list' },
     ];
 
+    const [email, setEmail] = useState('');
+    const [sendTicketEmail, setSendTicketEmail] = useState(false); // Trạng thái cho gửi vé về email
+    const handleEmailChange = (event: any) => {
+        setEmail(event.target.value);
+    };
+    const isEmailEntered = email.trim() !== ''; // Kiểm tra xem email đã được nhập hay chưa
+
+    //popup
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isPopupBus45Open, setIsPopupBus45Open] = useState(false);
+    const handleSeatSelectBus45 = () => {
+        setIsPopupBus45Open(true);
+    };
+    const handleClosePopupBus45 = () => {
+        setIsPopupBus45Open(false);
+    };
+    const handleClosePopup = () => {
+        setIsPopupOpen(false);
+    };
+
+    const [seatPrice, setSeatPrice] = useState(0);
     const fetchFilteredTrips = async () => {
         if (!searchParams) return; // Không gọi API nếu chưa có tham số tìm kiếm
 
@@ -61,13 +68,23 @@ const List_BusFix = () => {
                 },
             });
             setBuses(res.data); // Cập nhật danh sách chuyến đi
+            if (res.data.length > 0) {
+                const firstBus = res.data[0];
+                setSeatPrice(parseFloat(firstBus.fare)); // Lấy giá từ dữ liệu chuyến
+            }
         } catch (error) {
             console.error("Error fetching data:", error);
-            alert("Chưa có thông tin chuyến.");
+            Swal.fire({
+                title: "Chưa Có Thông Tin Chuyến!",
+                text: "Không có chuyến phù hợp cho tìm kiếm của ban!",
+                icon: "error",
+                showConfirmButton: false,
+                allowEscapeKey: true,
+            });
         }
     };
 
-
+    //lấy thông tin trên url thực hiện yc, tương tự hàm fetchFilteredTrips()
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const startLocation = queryParams.get('start');
@@ -83,22 +100,63 @@ const List_BusFix = () => {
         }
     }, [location.search]);
 
+    //chạy hàm gọi api theo yêu cầu
     useEffect(() => {
         fetchFilteredTrips();
     }, [searchParams]);
 
 
+    // Cập nhật tham số tìm kiếm
     const handleSearch = (data: BookingFormData) => {
-        setSearchParams(data); // Cập nhật tham số tìm kiếm
+        setSearchParams(data);
     };
+    // Lưu thông tin chuyến xe đã chọn
+    const handleSeatSelectTidcet = (buses: DbRecord) => {
+        setSelectedBus(buses);
+        setIsPopupOpen(true);
+        reset();
+    };
+    // Log thông tin chuyến xe
+    const onSubmitSeatBooking = (data: any) => {
+        Swal.fire({
+            title: `Đặt vé thành công`,
+            icon: "success",
+            showConfirmButton: false,
+            allowEscapeKey: true,
+        });
+        console.log("Thông tin đặt ghế:", data);
+        console.log("Thông tin chuyến xe:", selectedBus);
+    };
+
+    //chọn ghế
+    const MAX_SELECTED_SEATS = 8; // Giới hạn số ghế chọn
+    const toggleSeat = (seat: any) => {
+        const newSelectedSeats = new Set(selectedSeats);
+
+        if (newSelectedSeats.has(seat)) {
+            newSelectedSeats.delete(seat); // Hủy chọn ghế
+        } else {
+            if (newSelectedSeats.size < MAX_SELECTED_SEATS) {
+                newSelectedSeats.add(seat); // Chọn ghế nếu chưa đủ giới hạn
+            } else {
+                Swal.fire({
+                    title: `Bạn Chỉ được đặt tối đa  ${MAX_SELECTED_SEATS} ghế`,
+                    icon: "warning",
+                    showConfirmButton: false,
+                    allowEscapeKey: true,
+                });
+            }
+        }
+        setSelectedSeats(newSelectedSeats);
+    };
+    const isSeatSelected = (seat: any) => selectedSeats.has(seat);
+    const totalPrice = selectedSeats.size * seatPrice;
 
     return (
         <>
             <Breadcrumb items={duongDan} />
             <div className="bookingForm-container">
                 <BookingFormComponent onSearch={handleSearch} />
-
-
                 <div className="bus-schedule-container">
                     {/* Group 1: Header Group */}
                     <div className="schedule-header">
@@ -173,41 +231,44 @@ const List_BusFix = () => {
                                 </div>
 
                             </div>
-                            {buses.map((buses) => (
-                                <div key={buses.trip_id} className="bus-comp-option" onClick={handleSeatSelect}>
-                                    {/* Hình ảnh xe */}
-                                    <div className="bus-comp-image-container">
-                                        <img src={url_image_backend + buses.bus_image} alt={url_image_backend + buses.bus_image} className="bus-comp-image" />
-                                    </div>
-                                    {/* Thông tin xe */}
-                                    <div className="bus-comp-info">
-                                        <div className="bus-comp-info-header">
-                                            <h3>{buses.route_name}</h3>
-                                            <p className="bus-comp-price">{buses.fare}</p>
+                            {buses.map((buses) => {
+                                const formattedTime = format(new Date(`1970-01-01T${buses.time_start}Z`), 'HH:mm');
+                                const formattedFare = numeral(buses.fare).format('0,0');
+
+                                return (
+                                    <div key={buses.trip_id} className="bus-comp-option" onClick={() => handleSeatSelectTidcet(buses)}>
+                                        {/* Hình ảnh xe */}
+                                        <div className="bus-comp-image-container">
+                                            <img src={url_image_backend + buses.bus_image} alt={url_image_backend + buses.bus_image} className="bus-comp-image" />
                                         </div>
-                                        <div className="bus-comp-info-header">
-                                            <p>🕒 {buses.time_start} </p>
-                                            <p className="bus-comp-old-price">200000đ</p>
-                                        </div>
-                                        <div className="bus-comp-info-header">
-                                            <p>{buses.name_bus}</p>
-                                            {/* {option.onlineSupport && (
+                                        {/* Thông tin xe */}
+                                        <div className="bus-comp-info">
+                                            <div className="bus-comp-info-header">
+                                                <h3>{buses.route_name}</h3>
+                                                <p className="bus-comp-price">{formattedFare}VNĐ</p>
+                                            </div>
+                                            <div className="bus-comp-info-header">
+                                                <p>🕒 {formattedTime} </p>
+                                                <p className="bus-comp-old-price">200000đ</p>
+                                            </div>
+                                            <div className="bus-comp-info-header">
+                                                <p>{buses.name_bus}</p>
                                                 <p className="bus-comp-support-online">Hỗ trợ thanh toán online</p>
-                                            )}                                         */}
-                                        </div>
+                                            </div>
 
 
-                                        <div className="bus-comp-info-header">
-                                            <p>{buses.total_seats} Chỗ trống</p>
-                                            {/* Nút chọn chỗ */}
-                                            <div className="bus-comp-action">
-                                                <button>Chọn chỗ</button>
+                                            <div className="bus-comp-info-header">
+                                                <p>{buses.total_seats} Chỗ trống</p>
+                                                {/* Nút chọn chỗ */}
+                                                <div className="bus-comp-action">
+                                                    <button>Chọn chỗ</button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                </div>
-                            ))}
+                                    </div>
+                                )
+                            })}
                             <div className="pagination">
                                 <button className="page-btn">
                                     <FontAwesomeIcon icon={faChevronLeft} />
@@ -223,7 +284,7 @@ const List_BusFix = () => {
                             </div>
                         </div>
                     </div>
-                    {isPopupOpen && (
+                    {isPopupOpen && selectedBus && (
                         <div className="popup-overlay">
                             <div className="popup-content">
                                 <button className="close-btn" onClick={handleClosePopup}><FontAwesomeIcon icon={faTimes} /></button>
@@ -233,112 +294,105 @@ const List_BusFix = () => {
 
                                         <div className="left-section-container">
                                             <div className="left-section">
-
                                                 <div className="seats-grid">
                                                     <h3>Tầng 1</h3>
                                                     <div className="seat-row">
-                                                        <button className="seat">A1</button>
+                                                        <button className={`seat ${isSeatSelected('A1') ? 'selected' : ''}`} onClick={() => toggleSeat('A1')}>A1</button>
                                                         <button className="seat seat-hidded"></button>
+                                                        <button className={`seat ${isSeatSelected('A13') ? 'selected' : ''}`} onClick={() => toggleSeat('A13')}>A13</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className="seat">A22</button>
+                                                        <button className={`seat ${isSeatSelected('A20') ? 'selected' : ''}`} onClick={() => toggleSeat('A20')}>A20</button>
                                                     </div>
                                                     <div className="seat-row">
-                                                        <button className="seat">A2</button>
+                                                        <button className={`seat ${isSeatSelected('A2') ? 'selected' : ''}`} onClick={() => toggleSeat('A2')}>A2</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">A14</button>
+                                                        <button className={`seat ${isSeatSelected('A12') ? 'selected' : ''}`} onClick={() => toggleSeat('A12')}>A12</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">A21</button>
+                                                        <button className={`seat ${isSeatSelected('A19') ? 'selected' : ''}`} onClick={() => toggleSeat('A19')}>A19</button>
                                                     </div>
                                                     <div className="seat-row">
-                                                        <button className="seat">A3</button>
+                                                        <button className={`seat ${isSeatSelected('A3') ? 'selected' : ''}`} onClick={() => toggleSeat('A3')}>A3</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">A13</button>
+                                                        <button className={`seat ${isSeatSelected('A11') ? 'selected' : ''}`} onClick={() => toggleSeat('A11')}>A11</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">A</button>
+                                                        <button className={`seat ${isSeatSelected('A18') ? 'selected' : ''}`} onClick={() => toggleSeat('A18')}>A18</button>
                                                     </div>
                                                     <div className="seat-row">
-                                                        <button className="seat">A4</button>
+                                                        <button className={`seat ${isSeatSelected('A4') ? 'selected' : ''}`} onClick={() => toggleSeat('A4')}>A4</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">A20</button>
+                                                        <button className={`seat ${isSeatSelected('A10') ? 'selected' : ''}`} onClick={() => toggleSeat('A10')}>A10</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">A</button>
+                                                        <button className={`seat ${isSeatSelected('A17') ? 'selected' : ''}`} onClick={() => toggleSeat('A17')}>A17</button>
                                                     </div>
                                                     <div className="seat-row">
-                                                        <button className="seat">A5</button>
+                                                        <button className={`seat ${isSeatSelected('A5') ? 'selected' : ''}`} onClick={() => toggleSeat('A5')}>A5</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">A11</button>
+                                                        <button className={`seat ${isSeatSelected('A9') ? 'selected' : ''}`} onClick={() => toggleSeat('A9')}>A9</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">A18</button>
+                                                        <button className={`seat ${isSeatSelected('A16') ? 'selected' : ''}`} onClick={() => toggleSeat('A16')}>A16</button>
                                                     </div>
                                                     <div className="seat-row">
-                                                        <button className="seat">A6</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className="seat">A10</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className="seat">A17</button>
+                                                        <button className={`seat ${isSeatSelected('A6') ? 'selected' : ''}`} onClick={() => toggleSeat('A6')}>A6</button>
+                                                        <button className={`seat ${isSeatSelected('A7') ? 'selected' : ''}`} onClick={() => toggleSeat('A7')}>A7</button>
+                                                        <button className={`seat ${isSeatSelected('A8') ? 'selected' : ''}`} onClick={() => toggleSeat('A8')}>A8</button>
+                                                        <button className={`seat ${isSeatSelected('A14') ? 'selected' : ''}`} onClick={() => toggleSeat('A14')}>A14</button>
+                                                        <button className={`seat ${isSeatSelected('A15') ? 'selected' : ''}`} onClick={() => toggleSeat('A15')}>A15</button>
                                                     </div>
-                                                    <div className="seat-row">
-                                                        <button className="seat">A7</button>
-                                                        <button className="seat">A8</button>
-                                                        <button className="seat">A9</button>
-                                                        <button className="seat">A15</button>
-                                                        <button className="seat">A16</button>
+
+                                                    <div>
+                                                        <h4>Tổng giá:</h4>
+                                                        <input type="text" readOnly />
                                                     </div>
                                                 </div>
 
                                                 <div className="mg-20" style={{ margin: "20px" }}></div>
                                                 <div className="seats-grid">
                                                     <h3>Tầng 2</h3>
+
                                                     <div className="seat-row">
-                                                        <button className="seat">B1</button>
+                                                        <button className={`seat ${isSeatSelected('B1') ? 'selected' : ''}`} onClick={() => toggleSeat('B1')}>B1</button>
                                                         <button className="seat seat-hidded"></button>
+                                                        <button className={`seat ${isSeatSelected('B13') ? 'selected' : ''}`} onClick={() => toggleSeat('B13')}>B13</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className="seat">B22</button>
+                                                        <button className={`seat ${isSeatSelected('B20') ? 'selected' : ''}`} onClick={() => toggleSeat('B20')}>B20</button>
                                                     </div>
                                                     <div className="seat-row">
-                                                        <button className="seat">B2</button>
+                                                        <button className={`seat ${isSeatSelected('B2') ? 'selected' : ''}`} onClick={() => toggleSeat('B2')}>B2</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">B14</button>
+                                                        <button className={`seat ${isSeatSelected('B12') ? 'selected' : ''}`} onClick={() => toggleSeat('B12')}>B12</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">B21</button>
+                                                        <button className={`seat ${isSeatSelected('B19') ? 'selected' : ''}`} onClick={() => toggleSeat('B19')}>B19</button>
                                                     </div>
                                                     <div className="seat-row">
-                                                        <button className="seat">B3</button>
+                                                        <button className={`seat ${isSeatSelected('B3') ? 'selected' : ''}`} onClick={() => toggleSeat('B3')}>B3</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">B13</button>
+                                                        <button className={`seat ${isSeatSelected('B11') ? 'selected' : ''}`} onClick={() => toggleSeat('B11')}>B11</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">B20</button>
+                                                        <button className={`seat ${isSeatSelected('B18') ? 'selected' : ''}`} onClick={() => toggleSeat('B18')}>B18</button>
                                                     </div>
                                                     <div className="seat-row">
-                                                        <button className="seat">B4</button>
+                                                        <button className={`seat ${isSeatSelected('B4') ? 'selected' : ''}`} onClick={() => toggleSeat('B4')}>B4</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">B12</button>
+                                                        <button className={`seat ${isSeatSelected('B10') ? 'selected' : ''}`} onClick={() => toggleSeat('B10')}>B10</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">B19</button>
+                                                        <button className={`seat ${isSeatSelected('B17') ? 'selected' : ''}`} onClick={() => toggleSeat('B17')}>B17</button>
                                                     </div>
                                                     <div className="seat-row">
-                                                        <button className="seat">B5</button>
+                                                        <button className={`seat ${isSeatSelected('B5') ? 'selected' : ''}`} onClick={() => toggleSeat('B5')}>B5</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">B11</button>
+                                                        <button className={`seat ${isSeatSelected('B9') ? 'selected' : ''}`} onClick={() => toggleSeat('B9')}>B9</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className="seat">B18</button>
+                                                        <button className={`seat ${isSeatSelected('B16') ? 'selected' : ''}`} onClick={() => toggleSeat('B16')}>B16</button>
                                                     </div>
                                                     <div className="seat-row">
-                                                        <button className="seat">B6</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className="seat">B10</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className="seat">B17</button>
+                                                        <button className={`seat ${isSeatSelected('B6') ? 'selected' : ''}`} onClick={() => toggleSeat('B6')}>B6</button>
+                                                        <button className={`seat ${isSeatSelected('B7') ? 'selected' : ''}`} onClick={() => toggleSeat('B7')}>B7</button>
+                                                        <button className={`seat ${isSeatSelected('B8') ? 'selected' : ''}`} onClick={() => toggleSeat('B8')}>B8</button>
+                                                        <button className={`seat ${isSeatSelected('B14') ? 'selected' : ''}`} onClick={() => toggleSeat('B14')}>B14</button>
+                                                        <button className={`seat ${isSeatSelected('B15') ? 'selected' : ''}`} onClick={() => toggleSeat('B15')}>B15</button>
                                                     </div>
-                                                    <div className="seat-row">
-                                                        <button className="seat">B7</button>
-                                                        <button className="seat">B8</button>
-                                                        <button className="seat">B9</button>
-                                                        <button className="seat">B15</button>
-                                                        <button className="seat">B16</button>
-                                                    </div>
+
+
                                                 </div>
 
                                             </div>
@@ -348,30 +402,43 @@ const List_BusFix = () => {
                                         {/* Phần form điền thông tin */}
                                         <div className="right-section">
                                             <h3>Thông tin đặt vé</h3>
-                                            <form>
+                                            <form onSubmit={handleSubmit(onSubmitSeatBooking)}>
                                                 <label>Ghế đã chọn: </label>
-                                                <input type="text" value="A1" disabled />
+                                                <input type="text" value={Array.from(selectedSeats).join(', ')} disabled {...register('seat')} />
                                                 <label>Giá:</label>
-                                                <input type="text" value="0d" disabled />
+                                                <input type="text" value={`${totalPrice.toLocaleString()} VNĐ`} disabled {...register('fare')} />
                                                 <label>Họ tên:</label>
-                                                <input type="text" placeholder="Họ tên.." />
+                                                <input type="text" placeholder="Họ tên.." {...register('customerName', { required: true })} />
                                                 <label>Số điện thoại:</label>
-                                                <input type="text" placeholder="Số điện thoại.." />
+                                                <input type="text" placeholder="Số điện thoại.." {...register('phoneNumber', { required: true })} />
                                                 <label>Email:</label>
-                                                <input type="email" placeholder="Email.." />
+                                                <input type="email" placeholder="Email.." {...register('email')} onChange={handleEmailChange} />
+                                                {isEmailEntered && (
+                                                    <div className="send-ticket-radio">
+                                                        <label>
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={sendTicketEmail}
+                                                                {...register('emailCheck')}
+                                                                onChange={() => setSendTicketEmail(true)}
+                                                            />
+                                                            Gửi vé về email
+                                                        </label>
+
+                                                    </div>
+                                                )}
                                                 <label>Ghi chú:</label>
-                                                <textarea className="form-node" name="" id="" placeholder="Ghi chú.."></textarea>
+                                                <textarea className="form-node" placeholder="Ghi chú.." {...register('note')}></textarea>
                                                 <label>Điểm đi:</label>
-                                                <input type="text" disabled />
+                                                <input type="text" value={selectedBus.start_stop_name} disabled /> {/* Điểm đi */}
                                                 <label>Điểm đến:</label>
-                                                <input type="text" disabled />
+                                                <input type="text" value={selectedBus.end_stop_name} disabled /> {/* Điểm đến */}
                                                 <label>Mã khuyến mãi:</label>
-                                                <input type="text" placeholder="Mã khuyến mại.." />
+                                                <input type="text" placeholder="Mã khuyến mại.." {...register('promoCode')} />
 
                                                 <div className="btn">
                                                     <button className="checkVoucher" type="button">Kiểm tra mã</button>
-                                                    <Link to={'/pay'}><button className="submit" type="submit">Tiếp tục</button></Link>
-
+                                                    <button className="submit" type="submit">Tiếp tục</button>
                                                 </div>
                                             </form>
                                         </div>
