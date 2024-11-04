@@ -138,3 +138,7 @@
 .bus-comp-support-online {
     color: #405187;
 }
+.seat.selected {
+    background-color: #3f51b5; /* Màu ghế đã chọn */
+    color: white; /* Đổi màu chữ để dễ nhìn hơn */
+}

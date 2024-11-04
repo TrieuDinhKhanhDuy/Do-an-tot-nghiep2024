@@ -1,9 +1,7 @@
 import {
     faBus,
-    faCalendarAlt,
     faCreditCard,
     faMapMarkerAlt,
-    faSearch,
     faTicketAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,107 +11,27 @@ import zllogo from "../../../assets/image/zalologo.png";
 import momoLogo from "../../../assets/image/momologo.jpg";
 import vnpaylogo from "../../../assets/image/vnpaylogo.png";
 import smslogo from "../../../assets/image/smslogo.png";
-import { useEffect, useState } from "react";
-import { Select } from "antd";
-import axios from "axios";
+import BookingFormComponent from "@/components/BookingForm";
+import { useNavigate } from "react-router-dom";
+import { BookingFormData } from "@/types/IBooking";
+
+
+
 
 const BookingForm = () => {
-    const [minDate, setMinDate] = useState<string>("");
-    const [formData, setFormData] = useState<any[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await axios.get(
-                    "http://doantotnghiep_backend.test/api/home",
-                );
-                setFormData(res.data); 
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        fetchData();
-    }, []);
-    console.log(formData);
-
-    useEffect(() => {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate());
-        const isoDate = tomorrow.toISOString().split("T")[0];
-        setMinDate(isoDate);
-    }, []);
+    const navigate = useNavigate();
+    const handleSearch = (data: BookingFormData) => {
+        navigate(`/list?start=${data.startLocation}&end=${data.endLocation}&date=${data.departureDate}`);
+    };
 
     return (
         <div className="bookingForm-container">
-            <div className="bookingForm-search">
-                <div className="bookingForm-input">
-                    <div className="bookingForm-input-top">
-                        <span>
-                            <FontAwesomeIcon icon={faMapMarkerAlt} />
-                        </span>
-                        <label>Điểm đi</label>
-                    </div>
-                    <Select
-                        showSearch
-                        className="custom-select"
-                        placeholder="Chọn điểm lên"
-                        optionFilterProp="label"
-                        options={formData.map((location) => ({
-                            value: location.id,
-                            label: (
-                                <span style={{ fontWeight: location.parent_id === null ? "bold" : "normal"  ,fontSize: location.parent_id === null ? "16px" : "14px" }}>
-                                    {location.stop_name}
-                                </span>
-                            ),
-                        }))}
-                    />
-                </div>
-                <div className="bookingForm-input">
-                    <div className="bookingForm-input-top">
-                        <span>
-                            <FontAwesomeIcon icon={faMapMarkerAlt} />
-                        </span>
-                        <label>Điểm đến</label>
-                    </div>
-                    <Select
-                showSearch
-                className="custom-select"
-                placeholder="Chọn điểm lên"
-                optionFilterProp="label"
-                options={formData.map((location) => ({
-                    value: location.id,
-                    label: (
-                        <span style={{ fontWeight: location.parent_id === null ? "bold" : "normal"  ,fontSize: location.parent_id === null ? "16px" : "14px" }}>
-                            {location.stop_name}
-                        </span>
-                    ),
-                }))}
-            />
-                </div>
-                <div className="bookingForm-input">
-                    <div className="bookingForm-input-top">
-                        <span>
-                            <FontAwesomeIcon icon={faCalendarAlt} />
-                        </span>
-                        <label>Ngày khởi hành</label>
-                    </div>
-                    <input type="date" id="date" name="date" min={minDate} />
-                </div>
-                <div className="bookingForm-button">
-                    <FontAwesomeIcon icon={faSearch} size="lg" />
-                    <a href={"/list"}>
-                        <button>Tìm chuyến</button>
-                    </a>
-                </div>
-            </div>
-
+            <BookingFormComponent onSearch={handleSearch} />
             <div className="bookingForm-process"></div>
 
             <div className="booking-section">
                 <div className="booking-steps">
-                    <h2 className="booking-title title-center">
-                        Quy Trình Đặt Vé Online Đơn Giản
-                    </h2>
+                    <h2 className="booking-title title-center">Quy Trình Đặt Vé Online Đơn Giản</h2>
                     <ul className="steps-list">
                         <li className="step-item">
                             <div className="bookingForm-icon">
@@ -140,73 +58,45 @@ const BookingForm = () => {
                             4. Nhận mã và lên xe.
                         </li>
                     </ul>
-                    <h3 className="payment-title title-center">
-                        Hỗ Trợ Thanh Toán Online
-                    </h3>
+
+                    <h3 className="payment-title title-center">Hỗ Trợ Thanh Toán Online</h3>
                     <div className="info-box">
                         <p style={{ fontSize: "16px", textAlign: "center" }}>
-                            Tất cả thông tin của bạn sẽ được mã hoá, bảo mật và
-                            bảo vệ
+                            Tất cả thông tin của bạn sẽ được mã hoá, bảo mật và bảo vệ.
                         </p>
                     </div>
+
                     <div className="payment-step-options">
                         <div className="payment-methods">
-                            <img
-                                src={momoLogo}
-                                alt="Momo"
-                                className="payment-icon"
-                            />
-                            <img
-                                src={vnpaylogo}
-                                alt="VNPAY"
-                                className="payment-icon"
-                            />
+                            <img src={momoLogo} alt="Momo" className="payment-icon" />
+                            <img src={vnpaylogo} alt="VNPAY" className="payment-icon" />
                         </div>
                         <p className="payment-description">
-                            <h2>Thanh toán bằng QR Code</h2>
-                            Quý khách có thể thanh toán qua Momo và VNPAY
+                            <strong>Thanh toán bằng QR Code</strong><br />
+                            Quý khách có thể thanh toán qua Momo và VNPAY.
                         </p>
                     </div>
                 </div>
+
                 <div className="hr_center"></div>
+
                 <div className="ticket-section">
-                    <h2 className="ticket-title title-center">
-                        Các Hình Thức Mua Vé
-                    </h2>
+                    <h2 className="ticket-title title-center">Các Hình Thức Mua Vé</h2>
                     <ol className="purchase-options">
                         <li className="purchase-item">
-                            1. Trực tiếp lên website, nhanh nhất - tiện nhất.{" "}
-                            <br />
-                            <a
-                                href="https://hongnhung.vn"
-                                className="website-link"
-                            >
-                                hongnhung.vn
-                            </a>
+                            1. Trực tiếp lên website, nhanh nhất - tiện nhất. <br />
+                            <a href="https://hongnhung.vn" className="website-link">hongnhung.vn</a>
                         </li>
                         <li className="purchase-item">
                             2. Qua chat với các ứng dụng:
                             <div className="social-icons">
-                                <img
-                                    src={fblogo}
-                                    alt="Facebook"
-                                    className="social-icon"
-                                />
-                                <img
-                                    src={zllogo}
-                                    alt="Zalo"
-                                    className="social-icon"
-                                />
-                                <img
-                                    src={smslogo}
-                                    alt="SMS"
-                                    className="social-icon"
-                                />
+                                <img src={fblogo} alt="Facebook" className="social-icon" />
+                                <img src={zllogo} alt="Zalo" className="social-icon" />
+                                <img src={smslogo} alt="SMS" className="social-icon" />
                             </div>
                         </li>
                         <li className="purchase-item">
-                            3. Gọi điện đến hotline:{" "}
-                            <span className="hotline-number">02345556555</span>
+                            3. Gọi điện đến hotline: <span className="hotline-number">02345556555</span>
                         </li>
                         <li className="purchase-item">
                             4. Mua trực tiếp tại quầy giao dịch:
@@ -225,6 +115,7 @@ const BookingForm = () => {
                 </div>
             </div>
         </div>
+
     );
 };
 
