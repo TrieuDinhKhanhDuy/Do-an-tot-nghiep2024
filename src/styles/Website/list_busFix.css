@@ -139,6 +139,8 @@
     color: #405187;
 }
 .seat.selected {
-    background-color: #3f51b5; /* Màu ghế đã chọn */
+    background-color: red;
     color: white; /* Đổi màu chữ để dễ nhìn hơn */
+    border: none;
+    box-shadow: 0px;
 }

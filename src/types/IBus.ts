@@ -14,6 +14,8 @@
     start_stop_id: string;     // e.g., "12", assuming this is a string
     end_stop_id: string;       // e.g., "21", assuming this is a string
     bus_image: string;
+    id_end_stop: string;
+    id_start_stop: string;
   };
   
 export default DbRecord  

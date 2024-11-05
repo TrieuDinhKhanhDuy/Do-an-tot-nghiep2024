@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../../styles/Website/BokingForm.css";
 import "../../../styles/Website/list_busFix.css";
 import "../../../styles/Website/list.css";
@@ -19,21 +19,40 @@ import { format } from 'date-fns';
 import numeral from 'numeral';
 import Swal from "sweetalert2";
 import { BookingFormData } from "@/types/IBooking";
+// Định nghĩa kiểu cho từng phương thức thanh toán (methods)
+interface PaymentMethod {
+    id: number;
+    name: string;
+    created_at: string;
+    updated_at: string | null;
+}
+
+// Định nghĩa kiểu cho trạng thái ghế ngồi (seatsStatus)
+interface SeatsStatus {
+    [seatName: string]: string;
+}
+
+// Định nghĩa kiểu tổng quát cho phản hồi API
+interface ApiResponse {
+    methods: PaymentMethod[]; // Mảng các phương thức thanh toán
+    seatsStatus: SeatsStatus; // Trạng thái các ghế
+    seatCount: number; // Số lượng ghế
+}
 
 
 const List_BusFix = () => {
-
     const [buses, setBuses] = useState<DbRecord[]>([]);
     const url_image_backend = 'http://doantotnghiep_backend.test/storage/';
     const [searchParams, setSearchParams] = useState<BookingFormData | null>(null);
     const location = useLocation();
     const [selectedBus, setSelectedBus] = useState<DbRecord | null>(null); // Lưu trữ thông tin chuyến xe đã chọn
-    const { register, handleSubmit, reset } = useForm();
+    const { register, handleSubmit, reset, setValue } = useForm();
     const [selectedSeats, setSelectedSeats] = useState(new Set());
     const duongDan = [
         { nhan: 'Trang Chủ', duongDan: '/' },
         { nhan: 'List Vé', duongDan: 'list' },
     ];
+    const [seatStatus, setSeatStatus] = useState<SeatsStatus>({});
 
     const [email, setEmail] = useState('');
     const [sendTicketEmail, setSendTicketEmail] = useState(false); // Trạng thái cho gửi vé về email
@@ -53,6 +72,8 @@ const List_BusFix = () => {
     };
     const handleClosePopup = () => {
         setIsPopupOpen(false);
+        setSelectedBus(null);
+        reset();
     };
 
     const [seatPrice, setSeatPrice] = useState(0);
@@ -111,12 +132,31 @@ const List_BusFix = () => {
         setSearchParams(data);
     };
     // Lưu thông tin chuyến xe đã chọn
-    const handleSeatSelectTidcet = (buses: DbRecord) => {
+    const handleSeatSelectTidcet = async (buses: DbRecord) => {
         setSelectedBus(buses);
+        nav(`/list?trip_id=${buses.trip_id}&date=${buses.date}`)
         setIsPopupOpen(true);
-        reset();
+
+        try {
+            const res = await axios.get("http://doantotnghiep_backend.test/api/stops", {
+                params: {
+                    trip_id: buses.trip_id,
+                    date: buses.date,
+                },
+            });
+            setSeatStatus(res.data.seatsStatus);
+        } catch (error) {
+            console.error('Lỗi khi lấy dữ liệu:', error);
+        }
     };
+
+    const isAnySeatBooked = () => {
+        return Object.values(seatStatus).some(status => status === 'booked');
+    };
+
+
     // Log thông tin chuyến xe
+    const nav = useNavigate();
     const onSubmitSeatBooking = (data: any) => {
         Swal.fire({
             title: `Đặt vé thành công`,
@@ -126,6 +166,8 @@ const List_BusFix = () => {
         });
         console.log("Thông tin đặt ghế:", data);
         console.log("Thông tin chuyến xe:", selectedBus);
+        reset();
+        nav(`/pay?trip_id=${selectedBus?.trip_id}&bus_id=${selectedBus?.bus_id}&fare=${selectedBus?.fare}&route_id=${selectedBus?.route_id}&time_start=${selectedBus?.time_start}&date=${selectedBus?.date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${selectedBus?.start_stop_name}&location_end=${data?.location_end}&id_end_stop=${selectedBus?.end_stop_name}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${selectedBus?.fare}&note=${data?.note}`);
     };
 
     //chọn ghế
@@ -149,9 +191,15 @@ const List_BusFix = () => {
         }
         setSelectedSeats(newSelectedSeats);
     };
+
     const isSeatSelected = (seat: any) => selectedSeats.has(seat);
     const totalPrice = selectedSeats.size * seatPrice;
-
+    useEffect(() => {
+        setValue('fare', totalPrice); // Cập nhật giá trị của fare
+    }, [totalPrice, setValue]);
+    useEffect(() => {
+        setValue('seat', Array.from(selectedSeats).join(', ')); // Cập nhật giá trị của seat
+    }, [selectedSeats, setValue]);
     return (
         <>
             <Breadcrumb items={duongDan} />
@@ -297,7 +345,7 @@ const List_BusFix = () => {
                                                 <div className="seats-grid">
                                                     <h3>Tầng 1</h3>
                                                     <div className="seat-row">
-                                                        <button className={`seat ${isSeatSelected('A1') ? 'selected' : ''}`} onClick={() => toggleSeat('A1')}>A1</button>
+                                                        <button value={"A1"} disabled className={`seat ${isSeatSelected('A1') ? 'selected' : ''}`} onClick={() => toggleSeat('A1')}>A1</button>
                                                         <button className="seat seat-hidded"></button>
                                                         <button className={`seat ${isSeatSelected('A13') ? 'selected' : ''}`} onClick={() => toggleSeat('A13')}>A13</button>
                                                         <button className="seat seat-hidded"></button>
@@ -308,7 +356,7 @@ const List_BusFix = () => {
                                                         <button className="seat seat-hidded"></button>
                                                         <button className={`seat ${isSeatSelected('A12') ? 'selected' : ''}`} onClick={() => toggleSeat('A12')}>A12</button>
                                                         <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('A19') ? 'selected' : ''}`} onClick={() => toggleSeat('A19')}>A19</button>
+                                                        <button  className={`seat ${isSeatSelected('A19') ? 'selected' : ''}`} onClick={() => toggleSeat('A19')}>A19</button>
                                                     </div>
                                                     <div className="seat-row">
                                                         <button className={`seat ${isSeatSelected('A3') ? 'selected' : ''}`} onClick={() => toggleSeat('A3')}>A3</button>
@@ -403,14 +451,23 @@ const List_BusFix = () => {
                                         <div className="right-section">
                                             <h3>Thông tin đặt vé</h3>
                                             <form onSubmit={handleSubmit(onSubmitSeatBooking)}>
+                                                <label>{selectedBus.route_name}: </label>
                                                 <label>Ghế đã chọn: </label>
-                                                <input type="text" value={Array.from(selectedSeats).join(', ')} disabled {...register('seat')} />
+                                                <input type="text" value={Array.from(selectedSeats).join(', ')} disabled />
+                                                <input
+                                                    type="hidden"
+                                                    {...register('seat')}
+                                                />
                                                 <label>Giá:</label>
-                                                <input type="text" value={`${totalPrice.toLocaleString()} VNĐ`} disabled {...register('fare')} />
+                                                <input type="text" value={`${totalPrice.toLocaleString()} VNĐ`} disabled />
+                                                <input
+                                                    type="hidden"
+                                                    {...register('fare')}
+                                                />
                                                 <label>Họ tên:</label>
-                                                <input type="text" placeholder="Họ tên.." {...register('customerName', { required: true })} />
+                                                <input type="text" placeholder="Họ tên.." {...register('name', { required: true })} />
                                                 <label>Số điện thoại:</label>
-                                                <input type="text" placeholder="Số điện thoại.." {...register('phoneNumber', { required: true })} />
+                                                <input type="text" placeholder="Số điện thoại.." {...register('phone', { required: true })} />
                                                 <label>Email:</label>
                                                 <input type="email" placeholder="Email.." {...register('email')} onChange={handleEmailChange} />
                                                 {isEmailEntered && (
@@ -418,7 +475,7 @@ const List_BusFix = () => {
                                                         <label>
                                                             <input
                                                                 type="checkbox"
-                                                                checked={sendTicketEmail}
+                                                                // checked={sendTicketEmail}
                                                                 {...register('emailCheck')}
                                                                 onChange={() => setSendTicketEmail(true)}
                                                             />
@@ -430,8 +487,16 @@ const List_BusFix = () => {
                                                 <label>Ghi chú:</label>
                                                 <textarea className="form-node" placeholder="Ghi chú.." {...register('note')}></textarea>
                                                 <label>Điểm đi:</label>
+                                                <select id="" {...register('location_start')}  >
+                                                    <option value="Tại Bến">Tại Bến</option>
+                                                    <option value="Dọc Đường">Dọc Đường</option>
+                                                </select>
                                                 <input type="text" value={selectedBus.start_stop_name} disabled /> {/* Điểm đi */}
                                                 <label>Điểm đến:</label>
+                                                <select id=""  {...register('location_end')}>
+                                                    <option value="Tại Bến">Tại Bến</option>
+                                                    <option value="Dọc Đường">Dọc Đường</option>
+                                                </select>
                                                 <input type="text" value={selectedBus.end_stop_name} disabled /> {/* Điểm đến */}
                                                 <label>Mã khuyến mãi:</label>
                                                 <input type="text" placeholder="Mã khuyến mại.." {...register('promoCode')} />
