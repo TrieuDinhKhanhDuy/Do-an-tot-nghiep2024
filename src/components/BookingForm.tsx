@@ -27,7 +27,7 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get("http://doantotnghiep_backend.test/api/stops");
+                const res = await axios.get("http://doantotnghiep_backend.test/api/home");
                 setFormData(res.data);
             } catch (error) {
                 console.error("Error fetching data:", error);
