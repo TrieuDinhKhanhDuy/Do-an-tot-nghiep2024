@@ -14,30 +14,11 @@ import DbRecord from "@/types/IBus";
 import axios from "axios";
 import BookingFormComponent from "@/components/BookingForm";
 import { useLocation } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 import { format } from 'date-fns';
 import numeral from 'numeral';
 import Swal from "sweetalert2";
 import { BookingFormData } from "@/types/IBooking";
-// Định nghĩa kiểu cho từng phương thức thanh toán (methods)
-interface PaymentMethod {
-    id: number;
-    name: string;
-    created_at: string;
-    updated_at: string | null;
-}
 
-// Định nghĩa kiểu cho trạng thái ghế ngồi (seatsStatus)
-interface SeatsStatus {
-    [seatName: string]: string;
-}
-
-// Định nghĩa kiểu tổng quát cho phản hồi API
-interface ApiResponse {
-    methods: PaymentMethod[]; // Mảng các phương thức thanh toán
-    seatsStatus: SeatsStatus; // Trạng thái các ghế
-    seatCount: number; // Số lượng ghế
-}
 
 
 const List_BusFix = () => {
@@ -46,34 +27,17 @@ const List_BusFix = () => {
     const [searchParams, setSearchParams] = useState<BookingFormData | null>(null);
     const location = useLocation();
     const [selectedBus, setSelectedBus] = useState<DbRecord | null>(null); // Lưu trữ thông tin chuyến xe đã chọn
-    const { register, handleSubmit, reset, setValue } = useForm();
-    const [selectedSeats, setSelectedSeats] = useState(new Set());
+
     const duongDan = [
         { nhan: 'Trang Chủ', duongDan: '/' },
         { nhan: 'List Vé', duongDan: 'list' },
     ];
-    const [seatStatus, setSeatStatus] = useState<SeatsStatus>({});
-
-    const [email, setEmail] = useState('');
-    const [sendTicketEmail, setSendTicketEmail] = useState(false); // Trạng thái cho gửi vé về email
-    const handleEmailChange = (event: any) => {
-        setEmail(event.target.value);
-    };
-    const isEmailEntered = email.trim() !== ''; // Kiểm tra xem email đã được nhập hay chưa
-
-    //popup
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isPopupBus45Open, setIsPopupBus45Open] = useState(false);
     const handleSeatSelectBus45 = () => {
         setIsPopupBus45Open(true);
     };
     const handleClosePopupBus45 = () => {
         setIsPopupBus45Open(false);
-    };
-    const handleClosePopup = () => {
-        setIsPopupOpen(false);
-        setSelectedBus(null);
-        reset();
     };
 
     const [seatPrice, setSeatPrice] = useState(0);
@@ -89,6 +53,7 @@ const List_BusFix = () => {
                 },
             });
             setBuses(res.data); // Cập nhật danh sách chuyến đi
+            nav(`/list?start=${searchParams.startLocation}&end=${searchParams.endLocation}&date=${searchParams.departureDate}`);
             if (res.data.length > 0) {
                 const firstBus = res.data[0];
                 setSeatPrice(parseFloat(firstBus.fare)); // Lấy giá từ dữ liệu chuyến
@@ -133,73 +98,18 @@ const List_BusFix = () => {
     };
     // Lưu thông tin chuyến xe đã chọn
     const handleSeatSelectTidcet = async (buses: DbRecord) => {
+        const queryParams = new URLSearchParams(location.search);
+        const startLocation = queryParams.get('start');
+        const endLocation = queryParams.get('end');
         setSelectedBus(buses);
-        nav(`/list?trip_id=${buses.trip_id}&date=${buses.date}`)
-        setIsPopupOpen(true);
-
-        try {
-            const res = await axios.get("http://doantotnghiep_backend.test/api/stops", {
-                params: {
-                    trip_id: buses.trip_id,
-                    date: buses.date,
-                },
-            });
-            setSeatStatus(res.data.seatsStatus);
-        } catch (error) {
-            console.error('Lỗi khi lấy dữ liệu:', error);
-        }
-    };
-
-    const isAnySeatBooked = () => {
-        return Object.values(seatStatus).some(status => status === 'booked');
+        nav(`/choseseat?trip_id=${buses?.trip_id}&bus_id=${buses?.bus_id}&fare=${buses?.fare}&route_id=${buses?.route_id}&time_start=${buses?.time_start}&date=${buses?.date}&id_start_stop=${startLocation}&id_end_stop=${endLocation}`);
     };
 
 
-    // Log thông tin chuyến xe
+
+
     const nav = useNavigate();
-    const onSubmitSeatBooking = (data: any) => {
-        Swal.fire({
-            title: `Đặt vé thành công`,
-            icon: "success",
-            showConfirmButton: false,
-            allowEscapeKey: true,
-        });
-        console.log("Thông tin đặt ghế:", data);
-        console.log("Thông tin chuyến xe:", selectedBus);
-        reset();
-        nav(`/pay?trip_id=${selectedBus?.trip_id}&bus_id=${selectedBus?.bus_id}&fare=${selectedBus?.fare}&route_id=${selectedBus?.route_id}&time_start=${selectedBus?.time_start}&date=${selectedBus?.date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${selectedBus?.start_stop_name}&location_end=${data?.location_end}&id_end_stop=${selectedBus?.end_stop_name}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${selectedBus?.fare}&note=${data?.note}`);
-    };
 
-    //chọn ghế
-    const MAX_SELECTED_SEATS = 8; // Giới hạn số ghế chọn
-    const toggleSeat = (seat: any) => {
-        const newSelectedSeats = new Set(selectedSeats);
-
-        if (newSelectedSeats.has(seat)) {
-            newSelectedSeats.delete(seat); // Hủy chọn ghế
-        } else {
-            if (newSelectedSeats.size < MAX_SELECTED_SEATS) {
-                newSelectedSeats.add(seat); // Chọn ghế nếu chưa đủ giới hạn
-            } else {
-                Swal.fire({
-                    title: `Bạn Chỉ được đặt tối đa  ${MAX_SELECTED_SEATS} ghế`,
-                    icon: "warning",
-                    showConfirmButton: false,
-                    allowEscapeKey: true,
-                });
-            }
-        }
-        setSelectedSeats(newSelectedSeats);
-    };
-
-    const isSeatSelected = (seat: any) => selectedSeats.has(seat);
-    const totalPrice = selectedSeats.size * seatPrice;
-    useEffect(() => {
-        setValue('fare', totalPrice); // Cập nhật giá trị của fare
-    }, [totalPrice, setValue]);
-    useEffect(() => {
-        setValue('seat', Array.from(selectedSeats).join(', ')); // Cập nhật giá trị của seat
-    }, [selectedSeats, setValue]);
     return (
         <>
             <Breadcrumb items={duongDan} />
@@ -332,193 +242,7 @@ const List_BusFix = () => {
                             </div>
                         </div>
                     </div>
-                    {isPopupOpen && selectedBus && (
-                        <div className="popup-overlay">
-                            <div className="popup-content">
-                                <button className="close-btn" onClick={handleClosePopup}><FontAwesomeIcon icon={faTimes} /></button>
-                                <div className="seat-selection">
-                                    {/* Phần chọn ghế */}
-                                    <div className="seat-layout">
 
-                                        <div className="left-section-container">
-                                            <div className="left-section">
-                                                <div className="seats-grid">
-                                                    <h3>Tầng 1</h3>
-                                                    <div className="seat-row">
-                                                        <button value={"A1"} disabled className={`seat ${isSeatSelected('A1') ? 'selected' : ''}`} onClick={() => toggleSeat('A1')}>A1</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('A13') ? 'selected' : ''}`} onClick={() => toggleSeat('A13')}>A13</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('A20') ? 'selected' : ''}`} onClick={() => toggleSeat('A20')}>A20</button>
-                                                    </div>
-                                                    <div className="seat-row">
-                                                        <button className={`seat ${isSeatSelected('A2') ? 'selected' : ''}`} onClick={() => toggleSeat('A2')}>A2</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('A12') ? 'selected' : ''}`} onClick={() => toggleSeat('A12')}>A12</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button  className={`seat ${isSeatSelected('A19') ? 'selected' : ''}`} onClick={() => toggleSeat('A19')}>A19</button>
-                                                    </div>
-                                                    <div className="seat-row">
-                                                        <button className={`seat ${isSeatSelected('A3') ? 'selected' : ''}`} onClick={() => toggleSeat('A3')}>A3</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('A11') ? 'selected' : ''}`} onClick={() => toggleSeat('A11')}>A11</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('A18') ? 'selected' : ''}`} onClick={() => toggleSeat('A18')}>A18</button>
-                                                    </div>
-                                                    <div className="seat-row">
-                                                        <button className={`seat ${isSeatSelected('A4') ? 'selected' : ''}`} onClick={() => toggleSeat('A4')}>A4</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('A10') ? 'selected' : ''}`} onClick={() => toggleSeat('A10')}>A10</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('A17') ? 'selected' : ''}`} onClick={() => toggleSeat('A17')}>A17</button>
-                                                    </div>
-                                                    <div className="seat-row">
-                                                        <button className={`seat ${isSeatSelected('A5') ? 'selected' : ''}`} onClick={() => toggleSeat('A5')}>A5</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('A9') ? 'selected' : ''}`} onClick={() => toggleSeat('A9')}>A9</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('A16') ? 'selected' : ''}`} onClick={() => toggleSeat('A16')}>A16</button>
-                                                    </div>
-                                                    <div className="seat-row">
-                                                        <button className={`seat ${isSeatSelected('A6') ? 'selected' : ''}`} onClick={() => toggleSeat('A6')}>A6</button>
-                                                        <button className={`seat ${isSeatSelected('A7') ? 'selected' : ''}`} onClick={() => toggleSeat('A7')}>A7</button>
-                                                        <button className={`seat ${isSeatSelected('A8') ? 'selected' : ''}`} onClick={() => toggleSeat('A8')}>A8</button>
-                                                        <button className={`seat ${isSeatSelected('A14') ? 'selected' : ''}`} onClick={() => toggleSeat('A14')}>A14</button>
-                                                        <button className={`seat ${isSeatSelected('A15') ? 'selected' : ''}`} onClick={() => toggleSeat('A15')}>A15</button>
-                                                    </div>
-
-                                                    <div>
-                                                        <h4>Tổng giá:</h4>
-                                                        <input type="text" readOnly />
-                                                    </div>
-                                                </div>
-
-                                                <div className="mg-20" style={{ margin: "20px" }}></div>
-                                                <div className="seats-grid">
-                                                    <h3>Tầng 2</h3>
-
-                                                    <div className="seat-row">
-                                                        <button className={`seat ${isSeatSelected('B1') ? 'selected' : ''}`} onClick={() => toggleSeat('B1')}>B1</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('B13') ? 'selected' : ''}`} onClick={() => toggleSeat('B13')}>B13</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('B20') ? 'selected' : ''}`} onClick={() => toggleSeat('B20')}>B20</button>
-                                                    </div>
-                                                    <div className="seat-row">
-                                                        <button className={`seat ${isSeatSelected('B2') ? 'selected' : ''}`} onClick={() => toggleSeat('B2')}>B2</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('B12') ? 'selected' : ''}`} onClick={() => toggleSeat('B12')}>B12</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('B19') ? 'selected' : ''}`} onClick={() => toggleSeat('B19')}>B19</button>
-                                                    </div>
-                                                    <div className="seat-row">
-                                                        <button className={`seat ${isSeatSelected('B3') ? 'selected' : ''}`} onClick={() => toggleSeat('B3')}>B3</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('B11') ? 'selected' : ''}`} onClick={() => toggleSeat('B11')}>B11</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('B18') ? 'selected' : ''}`} onClick={() => toggleSeat('B18')}>B18</button>
-                                                    </div>
-                                                    <div className="seat-row">
-                                                        <button className={`seat ${isSeatSelected('B4') ? 'selected' : ''}`} onClick={() => toggleSeat('B4')}>B4</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('B10') ? 'selected' : ''}`} onClick={() => toggleSeat('B10')}>B10</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('B17') ? 'selected' : ''}`} onClick={() => toggleSeat('B17')}>B17</button>
-                                                    </div>
-                                                    <div className="seat-row">
-                                                        <button className={`seat ${isSeatSelected('B5') ? 'selected' : ''}`} onClick={() => toggleSeat('B5')}>B5</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('B9') ? 'selected' : ''}`} onClick={() => toggleSeat('B9')}>B9</button>
-                                                        <button className="seat seat-hidded"></button>
-                                                        <button className={`seat ${isSeatSelected('B16') ? 'selected' : ''}`} onClick={() => toggleSeat('B16')}>B16</button>
-                                                    </div>
-                                                    <div className="seat-row">
-                                                        <button className={`seat ${isSeatSelected('B6') ? 'selected' : ''}`} onClick={() => toggleSeat('B6')}>B6</button>
-                                                        <button className={`seat ${isSeatSelected('B7') ? 'selected' : ''}`} onClick={() => toggleSeat('B7')}>B7</button>
-                                                        <button className={`seat ${isSeatSelected('B8') ? 'selected' : ''}`} onClick={() => toggleSeat('B8')}>B8</button>
-                                                        <button className={`seat ${isSeatSelected('B14') ? 'selected' : ''}`} onClick={() => toggleSeat('B14')}>B14</button>
-                                                        <button className={`seat ${isSeatSelected('B15') ? 'selected' : ''}`} onClick={() => toggleSeat('B15')}>B15</button>
-                                                    </div>
-
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                        {/* Phần form điền thông tin */}
-                                        <div className="right-section">
-                                            <h3>Thông tin đặt vé</h3>
-                                            <form onSubmit={handleSubmit(onSubmitSeatBooking)}>
-                                                <label>{selectedBus.route_name}: </label>
-                                                <label>Ghế đã chọn: </label>
-                                                <input type="text" value={Array.from(selectedSeats).join(', ')} disabled />
-                                                <input
-                                                    type="hidden"
-                                                    {...register('seat')}
-                                                />
-                                                <label>Giá:</label>
-                                                <input type="text" value={`${totalPrice.toLocaleString()} VNĐ`} disabled />
-                                                <input
-                                                    type="hidden"
-                                                    {...register('fare')}
-                                                />
-                                                <label>Họ tên:</label>
-                                                <input type="text" placeholder="Họ tên.." {...register('name', { required: true })} />
-                                                <label>Số điện thoại:</label>
-                                                <input type="text" placeholder="Số điện thoại.." {...register('phone', { required: true })} />
-                                                <label>Email:</label>
-                                                <input type="email" placeholder="Email.." {...register('email')} onChange={handleEmailChange} />
-                                                {isEmailEntered && (
-                                                    <div className="send-ticket-radio">
-                                                        <label>
-                                                            <input
-                                                                type="checkbox"
-                                                                // checked={sendTicketEmail}
-                                                                {...register('emailCheck')}
-                                                                onChange={() => setSendTicketEmail(true)}
-                                                            />
-                                                            Gửi vé về email
-                                                        </label>
-
-                                                    </div>
-                                                )}
-                                                <label>Ghi chú:</label>
-                                                <textarea className="form-node" placeholder="Ghi chú.." {...register('note')}></textarea>
-                                                <label>Điểm đi:</label>
-                                                <select id="" {...register('location_start')}  >
-                                                    <option value="Tại Bến">Tại Bến</option>
-                                                    <option value="Dọc Đường">Dọc Đường</option>
-                                                </select>
-                                                <input type="text" value={selectedBus.start_stop_name} disabled /> {/* Điểm đi */}
-                                                <label>Điểm đến:</label>
-                                                <select id=""  {...register('location_end')}>
-                                                    <option value="Tại Bến">Tại Bến</option>
-                                                    <option value="Dọc Đường">Dọc Đường</option>
-                                                </select>
-                                                <input type="text" value={selectedBus.end_stop_name} disabled /> {/* Điểm đến */}
-                                                <label>Mã khuyến mãi:</label>
-                                                <input type="text" placeholder="Mã khuyến mại.." {...register('promoCode')} />
-
-                                                <div className="btn">
-                                                    <button className="checkVoucher" type="button">Kiểm tra mã</button>
-                                                    <button className="submit" type="submit">Tiếp tục</button>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                    </div>
-                                    <div className="legend">
-                                        <div className="legend-item"><span className="empty-seat"></span> Ghế trống</div>
-                                        <div className="legend-item"><span className="booked-seat"></span> Ghế đã đặt</div>
-                                        <div className="legend-item"><span className="chosen-seat"></span> Ghế đã chọn</div>
-                                        <div className="legend-item"><span className="no-seat"></span> Ghế không bán</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
                     {isPopupBus45Open && (
                         <div className="popup-overlay">
                             <div className="popup-content">

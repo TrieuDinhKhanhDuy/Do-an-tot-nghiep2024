@@ -145,7 +145,7 @@ const Bill = () => {
                                     <p>Tình trạng:</p>
                                 </td>
                                 <td className="pricing-right">
-                                    <p>{total_price}</p>
+                                    <p>{fare}</p>
                                     <p>{total_price}</p>
                                     <p>
                                         <strong>{total_price}</strong>

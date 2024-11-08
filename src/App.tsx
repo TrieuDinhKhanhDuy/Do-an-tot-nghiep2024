@@ -106,7 +106,7 @@ const routerConfig = [
         element: <ListBusPoup/>,
       },
       {
-        path: "/listPoup",
+        path: "/choseseat",
         element: <ListPoup/>,
       },
       {
