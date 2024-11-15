@@ -89,57 +89,55 @@ const Pay = () => {
     }, [tripId, date]);
 
     // Hàm xử lý khi nhấn nút "Thanh toán"
-    const handlePayment = async () => {
-        const paymentInfo = {
-            trip_id: tripId,
-            bus_id: busId,
-            route_id: routeId,
-            time_start: timeStart,
-            total_price: total_price,
-            date: date,
-            name_seat: nameSeat,
-            location_start: locationStart,
-            id_start_stop: idStartStop,
-            location_end: locationEnd,
-            id_end_stop: idEndStop,
-            name: name,
-            phone: phone,
-            email: email,
-            payment_method_id: payment_method_id,
-            note: note,
-            fare: fare,
-        };
+  const handlePayment = async () => {
+    const paymentInfo = {
+        trip_id: tripId,
+        bus_id: busId,
+        route_id: routeId,
+        time_start: timeStart,
+        total_price: total_price,
+        date: date,
+        name_seat: nameSeat,
+        location_start: locationStart,
+        id_start_stop: idStartStop,
+        location_end: locationEnd,
+        id_end_stop: idEndStop,
+        name: name,
+        phone: phone,
+        email: email,
+        payment_method_id: payment_method_id,
+        note: note,
+        fare: fare,
+    };
 
-        try {
-            // Gửi thông tin thanh toán lên API
-            const response = await axios.post('http://doantotnghiep_backend.test/api/stops', paymentInfo);
+    try {
+        // Gửi thông tin thanh toán lên API backend để lấy URL Momo
+        const response = await axios.post('http://doantotnghiep_backend.test/api/momo', {
+            amount: total_price,
+        });
+
+        // Nếu lấy thành công URL thanh toán Momo, chuyển hướng người dùng
+        if (response.data.paymentUrl) {
+            window.location.href = response.data.paymentUrl;
+        } else {
             Swal.fire({
-                title: "Đặt vé thành công",
-                text: "Bạn có muốn về trang chủ?",
-                icon: "success",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                cancelButtonText: "Xem hóa đơn",
-                confirmButtonText: "Về Trang Chủ",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    nav("/");
-                }
-            });
-            // nav(`/bill?trip_id=${paymentInfo.trip_id}&bus_id=${paymentInfo?.bus_id}&fare=${paymentInfo?.fare}&total_price=${paymentInfo?.total_price}&route_id=${paymentInfo?.route_id}&time_start=${paymentInfo?.time_start}&date=${paymentInfo?.date}&name_seat=${paymentInfo?.name_seat}&location_start=${paymentInfo?.location_start}&id_start_stop=${paymentInfo?.id_start_stop}&location_end=${paymentInfo?.location_end}&id_end_stop=${paymentInfo?.id_end_stop}&name=${paymentInfo?.name}&phone=${paymentInfo?.phone}&email=${paymentInfo?.email}&total_price=${paymentInfo?.fare}&note=${paymentInfo?.note}`);
-        } catch (error) {
-            Swal.fire({
-                title: "Đặt vé không thành công",
-                text: "Có vẻ như bạn đang nhập thiếu thông tin",
+                title: "Lỗi thanh toán",
+                text: "Không thể lấy URL thanh toán Momo.",
                 icon: "error",
                 showCancelButton: false,
-            })
-            setError('Đã xảy ra lỗi khi thanh toán');
-            console.error('Lỗi thanh toán:', error);
+            });
         }
+    } catch (error) {
+        Swal.fire({
+            title: "Đặt vé không thành công",
+            text: "Có vẻ như bạn đang nhập thiếu thông tin hoặc có lỗi kết nối.",
+            icon: "error",
+            showCancelButton: false,
+        });
+        console.error('Lỗi thanh toán:', error);
+    }
+};
 
-    };
 
     return (
         <>

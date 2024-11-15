@@ -19,25 +19,35 @@ import numeral from 'numeral';
 import Swal from "sweetalert2";
 import { BookingFormData } from "@/types/IBooking";
 
+
+
 const List_BusFix = () => {
     const [buses, setBuses] = useState<DbRecord[]>([]);
-    const [sortOrder, setSortOrder] = useState<string>("default");
     const url_image_backend = 'http://doantotnghiep_backend.test/storage/';
     const [searchParams, setSearchParams] = useState<BookingFormData | null>(null);
     const location = useLocation();
-    const [selectedBus, setSelectedBus] = useState<DbRecord | null>(null);
-    const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
+    const [selectedBus, setSelectedBus] = useState<DbRecord | null>(null); // Lưu trữ thông tin chuyến xe đã chọn
+    const [page, setPage] = useState(1); // Trạng thái cho số trang
+    const [totalPages, setTotalPages] = useState(1); // Tổng số trang
+    const [sortOrder, setSortOrder] = useState<string>('default'); // State lưu trữ lựa chọn sắp xếp
 
     const duongDan = [
         { nhan: 'Trang Chủ', duongDan: '/' },
         { nhan: 'List Vé', duongDan: 'list' },
     ];
 
-    const nav = useNavigate();
+    const [isPopupBus45Open, setIsPopupBus45Open] = useState(false);
+    const handleSeatSelectBus45 = () => {
+        setIsPopupBus45Open(true);
+    };
+    const handleClosePopupBus45 = () => {
+        setIsPopupBus45Open(false);
+    };
 
+    const [seatPrice, setSeatPrice] = useState(0);
+    
     const fetchFilteredTrips = async () => {
-        if (!searchParams) return;
+        if (!searchParams) return; // Không gọi API nếu chưa có tham số tìm kiếm
 
         try {
             const res = await axios.get("http://doantotnghiep_backend.test/api/home/show", {
@@ -45,26 +55,30 @@ const List_BusFix = () => {
                     start_stop_id: searchParams.startLocation,
                     end_stop_id: searchParams.endLocation,
                     date: searchParams.departureDate,
-                    page: page,
+                    page: page, // Thêm tham số trang
+                    sort: sortOrder, // Thêm tham số sắp xếp
                 },
             });
             let fetchedBuses = res.data.data;
-            setTotalPages(res.data.pagination.total_pages);
-
-            
             if (sortOrder === "priceAsc") {
                 fetchedBuses = fetchedBuses.sort((a: any, b: any) => a.fare  - b.fare);
             }
             if(sortOrder === "priceDesc"){
                 fetchedBuses = fetchedBuses.sort((a: any, b: any) => b.fare  - a.fare);
             }
-
             setBuses(fetchedBuses);
+            setBuses(res.data.data); // Cập nhật danh sách chuyến đi
+            setTotalPages(res.data.pagination.total_pages); // Cập nhật tổng số trang
+            nav(`/list?start=${searchParams.startLocation}&end=${searchParams.endLocation}&date=${searchParams.departureDate}&page=${page}&sort=${sortOrder}`);
+            if (res.data.length > 0) {
+                const firstBus = res.data[0];
+                setSeatPrice(parseFloat(firstBus.fare)); // Lấy giá từ dữ liệu chuyến
+            }
         } catch (error) {
             console.error("Error fetching data:", error);
             Swal.fire({
                 title: "Chưa Có Thông Tin Chuyến!",
-                text: "Không có chuyến phù hợp cho tìm kiếm của bạn!",
+                text: "Không có chuyến phù hợp cho tìm kiếm của ban!",
                 icon: "error",
                 showConfirmButton: false,
                 allowEscapeKey: true,
@@ -77,8 +91,8 @@ const List_BusFix = () => {
         const startLocation = queryParams.get('start');
         const endLocation = queryParams.get('end');
         const departureDate = queryParams.get('date');
-        const page_query = queryParams.get('page') || '1';
-
+        const page_query = queryParams.get('page') || '1'; // Lấy giá trị của `page` từ URL hoặc mặc định là 1
+        const sort_query = queryParams.get('sort') || 'default'; // Lấy giá trị của `sort` từ URL hoặc mặc định là 'default'
         if (startLocation && endLocation && departureDate) {
             setSearchParams({
                 startLocation,
@@ -86,28 +100,37 @@ const List_BusFix = () => {
                 departureDate,
                 page_query: page_query,
             });
-            setPage(parseInt(page_query));
+            setPage(parseInt(page_query)); // Cập nhật lại state page
+            setSortOrder(sort_query); // Cập nhật lại state sortOrder
         }
     }, [location.search]);
 
     useEffect(() => {
         fetchFilteredTrips();
-    }, [searchParams, page, sortOrder]);
+    }, [searchParams, page, sortOrder]); // Fetch lại khi có sự thay đổi về params, page, hoặc sort
 
     const handleSearch = (data: BookingFormData) => {
         setSearchParams(data);
     };
-
     const handleSort = (order: string) => {
         setSortOrder(order);
     };
 
+    const handleSeatSelectTidcet = async (bus: DbRecord) => {
+        const queryParams = new URLSearchParams(location.search);
+        const startLocation = queryParams.get('start');
+        const endLocation = queryParams.get('end');
+        setSelectedBus(bus);
+
+        nav(`/choseseat?trip_id=${bus?.trip_id}&start_stop_name=${bus.start_stop_name}&end_stop_name=${bus.end_stop_name}&bus_id=${bus?.bus_id}&fare=${bus?.fare}&route_id=${bus?.route_id}&time_start=${bus?.time_start}&date=${bus?.date}&id_start_stop=${startLocation}&id_end_stop=${endLocation}`);
+    };
     const handlePageChange = (newPage: number) => {
         if (newPage > 0 && newPage <= totalPages) {
             setPage(newPage);
         }
     };
-console.log("buses" , buses);
+
+    const nav = useNavigate();
 
     return (
         <>
@@ -115,13 +138,16 @@ console.log("buses" , buses);
             <div className="bookingForm-container">
                 <BookingFormComponent onSearch={handleSearch} />
                 <div className="bus-schedule-container">
+                    {/* Group 1: Header Group */}
                     <div className="schedule-header">
                         <div className="header-item">Chọn chỗ</div>
                         <div className="header-item step2">Thanh Toán</div>
                         <div className="header-item step2">Hoàn Thành</div>
                     </div>
 
+                    {/* Group 2: Table Group */}
                     <div className="bus-comp-container">
+                        {/* Phần bên trái */}
                         <div className="bus-comp-left-sidebar">
                             <div className="bus-comp-sort-options">
                                 <p>Sắp xếp theo:</p>
@@ -164,19 +190,21 @@ console.log("buses" , buses);
                                     <label htmlFor="vipbus">Xe Vip 34 chỗ</label>
                                 </div>
                             </div>
+                            {/* Banner quảng cáo */}
                             <div className="bus-comp-banner">
                                 <img src="/src/assets/image/banner_doc.webp" alt="Quảng cáo xe" />
                             </div>
                         </div>
 
-                        <div className="bus-comp-list">
-                            {buses.length > 0 ? (
+                        {/* Phần bên phải */}
+                        <div className="bus-comp-list" >
+                            {buses.length > 0 ? ( // Kiểm tra nếu có dữ liệu thì mới render map
                                 buses.map((bus) => {
                                     const formattedTime = format(new Date(`1970-01-01T${bus.time_start}Z`), 'HH:mm');
                                     const formattedFare = numeral(bus.fare).format('0,0');
 
                                     return (
-                                        <div key={bus.trip_id} className="bus-comp-option">
+                                        <div key={bus.trip_id} className="bus-comp-option" onClick={() => handleSeatSelectTidcet(bus)}>
                                             <div className="bus-comp-image-container">
                                                 <img src={url_image_backend + bus.bus_image} alt={bus.name_bus} className="bus-comp-image" />
                                             </div>
@@ -223,10 +251,13 @@ console.log("buses" , buses);
                             </div>
                         </div>
                     </div>
+
+
                 </div>
+
             </div>
         </>
-    );
-};
+    )
+}
 
-export default List_BusFix;
+export default List_BusFix
