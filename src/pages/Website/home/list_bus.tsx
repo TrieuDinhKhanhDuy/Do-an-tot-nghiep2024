@@ -104,6 +104,7 @@ const List_BusFix = () => {
             setPage(newPage);
         }
     };
+console.log("buses" , buses);
 
     return (
         <>
