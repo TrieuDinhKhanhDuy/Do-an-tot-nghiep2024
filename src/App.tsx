@@ -22,8 +22,8 @@ import ListVoucher from "./pages/Website/home/listVoucher";
 import List_BusFix from "./pages/Website/home/list_bus";
 import { ToastContainer } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";
-import ListBusPoup from "./pages/Website/home/listBusPoup"
 import ListPoup from "./pages/Website/home/listPoup"
+import SoDoGhe from "./pages/Website/home/listPoup";
 const routerConfig = [
   {
     path: "/",
@@ -103,12 +103,13 @@ const routerConfig = [
       },
       {
         path: "/listBusPoup",
-        element: <ListBusPoup/>,
+        element: <SoDoGhe/>,
       },
       {
         path: "/choseseat",
         element: <ListPoup/>,
       },
+
       {
         path: '/*',
         element: <NotFound />

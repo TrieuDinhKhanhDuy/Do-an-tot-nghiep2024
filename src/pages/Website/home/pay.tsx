@@ -1,116 +1,144 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useLocation } from "react-router-dom";
-import Swal from "sweetalert2";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
-import Breadcrumb from "@/components/Breadcrumb";
 import "../../../styles/Website/pay.css";
-import {VNPay} from 'vnpay'
+import vnpayLogo from "../../../assets/image/vnpaylogo.png";
+import momoLogo from "../../../assets/image/momologo.jpg";
+import { Link, useNavigate } from "react-router-dom";
+import Breadcrumb from "@/components/Breadcrumb";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
+import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import axios from 'axios';
+import Swal from "sweetalert2";
 
+// Định nghĩa kiểu cho từng phương thức thanh toán (methods)
 interface PaymentMethod {
     id: number;
     name: string;
+    created_at: string;
+    updated_at: string | null;
 }
 
-const Pay: React.FC = () => {
-    const duongDan = [
-        { nhan: "Trang Chủ", duongDan: "/" },
-        { nhan: "List Vé", duongDan: "list" },
-        { nhan: "Thanh Toán", duongDan: "pay" },
-    ];
+// Định nghĩa kiểu cho trạng thái ghế ngồi (seatsStatus)
+interface SeatsStatus {
+    [seatName: string]: string;
+}
 
+// Định nghĩa kiểu tổng quát cho phản hồi API
+interface ApiResponse {
+    methods: PaymentMethod[]; // Mảng các phương thức thanh toán
+    seatsStatus: SeatsStatus; // Trạng thái các ghế
+    seatCount: number; // Số lượng ghế
+}
+
+const Pay = () => {
+    const duongDan = [
+        { nhan: 'Trang Chủ', duongDan: '/' },
+        { nhan: 'List Vé', duongDan: 'list' },
+        { nhan: 'Thanh Toán', duongDan: 'pay' },
+    ];
+    // Lấy URL hiện tại và search params
     const location = useLocation();
     const params = new URLSearchParams(location.search);
+    const [selectedOption, setSelectedOption] = useState<string>('');
 
-    // Form state
-    const [selectedOption, setSelectedOption] = useState<string>("");
-    const [paymentMethodId, setPaymentMethodId] = useState<number | null>(null);
-    const [data, setData] = useState<{ methods: PaymentMethod[] } | null>(null);
+    const handleChange = (event: any) => {
+        setPayment_method_id(event.target.value); // Lấy giá trị của method.id
+      };
+    
+    // Lấy các giá trị từ URL
+    const tripId = params.get('trip_id');
+    const busId = params.get('bus_id');
+    const routeId = params.get('route_id');
+    const timeStart = params.get('time_start');
+    const total_price = params.get('total_price');
+    const date = params.get('date');
+    const nameSeat = params.get('name_seat');
+    const locationStart = params.get('location_start');
+    const idStartStop = params.get('id_start_stop');
+    const locationEnd = params.get('location_end');
+    const idEndStop = params.get('id_end_stop');
+    const name = params.get('name');
+    const phone = params.get('phone');
+    const email = params.get('email');
+    const note = params.get('note');
+    const fare = params.get('fare');
 
-    // Parameters from URL
-    const tripId = params.get("trip_id") || "";
-    const busId = params.get("bus_id") || "";
-    const routeId = params.get("route_id") || "";
-    const timeStart = params.get("time_start") || "";
-    const totalPrice = params.get("total_price") || "0";
-    const date = params.get("date") || "";
-    const nameSeat = params.get("name_seat") || "";
-    const locationStart = params.get("location_start") || "";
-    const idStartStop = params.get("id_start_stop") || "";
-    const locationEnd = params.get("location_end") || "";
-    const idEndStop = params.get("id_end_stop") || "";
-    const name = params.get("name") || "";
-    const phone = params.get("phone") || "";
-    const email = params.get("email") || "";
-    const note = params.get("note") || "";
-    const fare = params.get("fare") || "0";
+    const nav = useNavigate()
+    const [error, setError] = useState<string | null>(null);
+    const [data, setData] = useState<ApiResponse | null>(null);
+    const [payment_method_id, setPayment_method_id] = useState<number | null>(null);
 
     useEffect(() => {
-        // Bước 1: Lấy phương thức thanh toán từ API
-        const fetchPaymentMethods = async () => {
+        // Gọi API với axios
+        const fetchStops = async () => {
             try {
-                const paramsData = { trip_id: tripId, date,fare  }; // Dữ liệu params
-                console.log("Params gửi lên API:", paramsData); // Log dữ liệu params
-
-                const response = await axios.get("http://doantotnghiep_backend.test/api/stops", {
-                    params: paramsData,
+                const response = await axios.get('http://doantotnghiep_backend.test/api/stops', {
+                    params: {
+                        trip_id: tripId,
+                        date: date,
+                    },
                 });
-
-                console.log("API Response:", response.data); // Log dữ liệu phản hồi từ API
+                // Lưu dữ liệu vào state
                 setData(response.data);
             } catch (error) {
-                console.error("API Error:", error); // Log lỗi
-                Swal.fire("Lỗi", "Đã xảy ra lỗi khi lấy dữ liệu", "error");
+                setError('Đã xảy ra lỗi khi lấy dữ liệu');
             }
         };
 
-        fetchPaymentMethods();
+        fetchStops();
     }, [tripId, date]);
 
+    // Hàm xử lý khi nhấn nút "Thanh toán"
     const handlePayment = async () => {
-        if (!paymentMethodId) {
-            Swal.fire("Lỗi", "Bạn cần chọn phương thức thanh toán.", "error");
-            return;
-        }
+        const paymentInfo = {
+            trip_id: tripId,
+            bus_id: busId,
+            route_id: routeId,
+            time_start: timeStart,
+            total_price: total_price,
+            date: date,
+            name_seat: nameSeat,
+            location_start: locationStart,
+            id_start_stop: idStartStop,
+            location_end: locationEnd,
+            id_end_stop: idEndStop,
+            name: name,
+            phone: phone,
+            email: email,
+            payment_method_id: payment_method_id,
+            note: note,
+            fare: fare,
+        };
 
         try {
-        
-            const amount = Math.round(parseFloat(totalPrice) * 100); // Chuyển đổi tổng tiền sang số nguyên
-            if (isNaN(amount) || amount <= 0) {
-                Swal.fire("Lỗi", "Giá trị tổng tiền không hợp lệ.", "error");
-                return;
-            }
-
-            const vnpParams = {
-                vnp_Version: "2.1.0",
-                vnp_TmnCode: "6H9JFR7W",
-                vnp_Amount: amount.toString(),
-                vnp_Command: "pay",
-                vnp_CreateDate: new Date().toISOString().replace(/[-:T.Z]/g, "").slice(0, 14),
-                vnp_CurrCode: "VND",
-                vnp_IpAddr: window.location.hostname,
-                vnp_Locale: "vn",
-                vnp_OrderInfo: `Thanh toán chuyến xe ${tripId}`,
-                vnp_OrderType: "other",
-                vnp_ReturnUrl: "http://localhost:5173/",
-                vnp_TxnRef: new Date().getTime().toString(),
-                vnp_ExpireDate: new Date(new Date().setMinutes(new Date().getMinutes() + 15))
-                    .toISOString()
-                    .replace(/[-:T.Z]/g, "")
-                    .slice(0, 14),
-            };
-
-            console.log("Dữ liệu gửi lên VNPay:", vnpParams); // Log dữ liệu gửi lên VNPay
-
-            const vnpayUrl = `https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?` +
-                new URLSearchParams(vnpParams).toString(); // Tạo URL VNPay
-            
-          //  window.location.href = vnpayUrl; 
+            // Gửi thông tin thanh toán lên API
+            const response = await axios.post('http://doantotnghiep_backend.test/api/stops', paymentInfo);
+            Swal.fire({
+                title: "Đặt vé thành công",
+                text: "Bạn có muốn về trang chủ?",
+                icon: "success",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "Xem hóa đơn",
+                confirmButtonText: "Về Trang Chủ",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    nav("/");
+                }
+            });
+            // nav(`/bill?trip_id=${paymentInfo.trip_id}&bus_id=${paymentInfo?.bus_id}&fare=${paymentInfo?.fare}&total_price=${paymentInfo?.total_price}&route_id=${paymentInfo?.route_id}&time_start=${paymentInfo?.time_start}&date=${paymentInfo?.date}&name_seat=${paymentInfo?.name_seat}&location_start=${paymentInfo?.location_start}&id_start_stop=${paymentInfo?.id_start_stop}&location_end=${paymentInfo?.location_end}&id_end_stop=${paymentInfo?.id_end_stop}&name=${paymentInfo?.name}&phone=${paymentInfo?.phone}&email=${paymentInfo?.email}&total_price=${paymentInfo?.fare}&note=${paymentInfo?.note}`);
         } catch (error) {
-            Swal.fire("Lỗi", "Có lỗi xảy ra khi thanh toán", "error");
-            console.error("Lỗi thanh toán:", error); // Log lỗi
+            Swal.fire({
+                title: "Đặt vé không thành công",
+                text: "Có vẻ như bạn đang nhập thiếu thông tin",
+                icon: "error",
+                showCancelButton: false,
+            })
+            setError('Đã xảy ra lỗi khi thanh toán');
+            console.error('Lỗi thanh toán:', error);
         }
+
     };
 
     return (
@@ -125,33 +153,24 @@ const Pay: React.FC = () => {
                 <div className="pay-container">
                     <div className="payment-section">
                         <div className="header-payment">
-                            <h2>
-                                <FontAwesomeIcon icon={faCreditCard} style={{ color: "#405187" }} />{" "}
-                                Xác nhận để thanh toán
-                            </h2>
-                            <p style={{ fontSize: "12px" }}>
-                                Xin hãy thanh toán trong vòng <span style={{ color: "red", fontWeight: "bold" }}>01 : 20 : 30</span>
-                            </p>
+                            <h2><FontAwesomeIcon icon={faCreditCard} style={{ color: '#405187' }} /> Xác nhận để thanh toán</h2>
+                            <p style={{ fontSize: "12px" }}>Xin hãy thanh toán trong vòng <span style={{ color: "red", fontWeight: "bold" }}>01 : 20 : 30</span></p>
                         </div>
                         <div className="info-box">
-                            <p style={{ fontSize: "15px", textAlign: "center" }}>
-                                Tất cả thông tin của card sẽ được mã hoá, bảo mật và bảo vệ
-                            </p>
+                            <p style={{ fontSize: '15px', textAlign: "center" }}>Tất cả thông tin của card sẽ được mã hoá, bảo mật và bảo vệ</p>
                         </div>
                         <div className="payment-options">
-                            <select
-                                value={paymentMethodId || ""}
-                                onChange={(e) => setPaymentMethodId(Number(e.target.value))}
-                            >
-                                <option value="" disabled>
-                                    Chọn phương thức
-                                </option>
-                                {data?.methods.map((method) => (
-                                    <option key={method.id} value={method.id}>
-                                        {method.name}
-                                    </option>
-                                ))}
-                            </select>
+
+                           
+                            {data?.methods.map((method) => (
+                            <div className="payment-options-item">
+                                <input type="radio" name="payment_method_id" id={method.name} key={method.id} value={method.id} onChange={handleChange}  />
+                                <label htmlFor={method.name} >{method.name}</label>
+                            </div>
+                        ))}
+
+                           
+
                         </div>
 
                         <div className="price-summary">
@@ -159,7 +178,7 @@ const Pay: React.FC = () => {
                             <p>Số Ghế: <span>{nameSeat}</span></p>
                             <p>Mã giảm giá: <span>-</span></p>
                             <hr />
-                            <p className="total">Tổng tiền: <span>{totalPrice}</span></p>
+                            <p className="total">Tổng tiền: <span>{total_price}</span></p>
                         </div>
 
                         <p className="agreement-text">
@@ -169,6 +188,7 @@ const Pay: React.FC = () => {
                         </p>
                     </div>
 
+                    {/* Customer Information Section */}
                     <div className="customer-info">
                         <div className="ticket-container">
                             <table className="ticket-table">
@@ -200,19 +220,33 @@ const Pay: React.FC = () => {
                                         <td>{timeStart}</td>
                                     </tr>
                                     <tr>
-                                        <td>Địa điểm đi:</td>
-                                        <td>{locationStart}</td>
+                                        <td>Điểm đi:</td>
+                                        <td>{idStartStop}({locationStart})</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Điểm đến:</td>
+                                        <td>{idEndStop}({locationEnd})</td>
                                     </tr>
                                     <tr>
-                                        <td>Địa điểm đến:</td>
-                                        <td>{locationEnd}</td>
+                                        <td>Vị trí ghế:</td>
+                                        <td>{nameSeat}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mã khuyến mãi:</td>
+                                        <td>-</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ghi chú:</td>
+                                        <td>{note}</td>
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
+                            <div className="button-container">
 
-                        <div className="payment-btn">
-                            <button className="pay-button" onClick={handlePayment}>Thanh toán</button>
+                                <button className="btn-secondary">Hủy thanh toán</button>
+                                <button className="btn-primary" onClick={handlePayment}>Thanh toán</button>
+                            </div>
                         </div>
                     </div>
                 </div>

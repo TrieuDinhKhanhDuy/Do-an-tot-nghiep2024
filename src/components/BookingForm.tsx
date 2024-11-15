@@ -23,6 +23,7 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
     const [formData, setFormData] = useState<any[]>([]);
     const [minDate, setMinDate] = useState<string>("");
     const { register, handleSubmit, control } = useForm<BookingFormData>();
+    
 
     useEffect(() => {
         const fetchData = async () => {

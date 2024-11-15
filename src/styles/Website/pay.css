@@ -176,9 +176,13 @@
     background-color: #405187; 
     color: white;
     border: none;
-    padding: 8px 16px;
+    padding: 8px 25px;
     cursor: pointer;
     border-radius: 5px;
+    float: right;
+  }
+  .btn-primary:hover{
+    background-color: #28396F;
   }
   
   .btn-secondary {
@@ -191,6 +195,31 @@
   
   .btn-primary:hover {
     background-color: #2952cc;
+  }
+  
+  .payment-options-item{
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #ddd; 
+    height: 70px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  .payment-options-item:hover label{
+    font-weight: bolder;
+    color: #405187;
+  }
+  .payment-options-item label{
+    line-height: 50px;
+    cursor: pointer;
+  }
+  .payment-options-item img{
+    width: 70px;
+    /* border: 1px solid gray; */
+  }
+  .payment-options-item input{
+    width: 20px;
   }
   @media only screen and (max-width: 46.1875em){
     .container {

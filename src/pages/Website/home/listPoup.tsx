@@ -9,6 +9,7 @@ import "../../../styles/Website/listPouptest.css";
 import "../../../styles/Website/BokingForm.css";
 import "../../../styles/Website/list_busFix.css";
 import "../../../styles/Website/list.css";
+import { debounce } from 'lodash';
 
 interface PaymentMethod {
     id: number;
@@ -43,6 +44,8 @@ const SoDoGhe: React.FC = () => {
     const timeStart = params.get('time_start');
     const id_start_stop = params.get('id_start_stop');
     const id_end_stop = params.get('id_end_stop');
+    const start_stop_name = params.get('start_stop_name');
+    const end_stop_name = params.get('end_stop_name');
     const nav = useNavigate();
 
     const [email, setEmail] = useState('');
@@ -53,17 +56,31 @@ const SoDoGhe: React.FC = () => {
     const isEmailEntered = email.trim() !== '';
 
     useEffect(() => {
-        axios.get<ApiResponse>(`http://doantotnghiep_backend.test/api/stops?trip_id=${tripId}&date=${date}`)
-            .then(response => {
+        const fetchSeats = debounce(async () => {
+            try {
+                const response = await axios.get<ApiResponse>(`http://doantotnghiep_backend.test/api/stops?trip_id=${tripId}&date=${date}`);
                 const { seatsStatus, seatCount } = response.data;
+    
                 setSeatsStatus(seatsStatus);
                 setFare(parseFloat(params.get('fare') || '0'));
-                setSeatCount(seatCount); // Lưu seatCount từ API
-            })
-            .catch(error => {
-                console.error("Lỗi khi lấy dữ liệu ghế:", error);
-            });
+                setSeatCount(seatCount);
+            } catch (error: any) {
+                if (error.response?.status === 429) {
+                    console.error("Too Many Requests - Please try again later");
+                } else {
+                    console.error("Lỗi khi lấy dữ liệu ghế:", error);
+                }
+            }
+        }, 2000); // Debounce time là 500ms
+    
+        fetchSeats();
+    
+        return () => {
+            fetchSeats.cancel(); // Huỷ nếu component bị unmount
+        };
     }, [tripId, date, params]);
+    
+
 
     const isSeatBooked = (seat: string) => seatsStatus[seat] === 'booked';
 
@@ -294,203 +311,66 @@ const SoDoGhe: React.FC = () => {
         <>
             <div className="list-poup-popup-content">
                 <div className="list-poup-seat-selection">
+                    <Link to={`/list?start=${id_start_stop}&end=${id_end_stop}&date=${date}`} className="btn btn-primary">
+                        <FontAwesomeIcon icon={faTimes} />
+                    </Link>
                     <div className="list-poup-seat-layout">
-                        <Link to={`/list?start=${id_start_stop}&end=${id_end_stop}&date=${date}`} className="btn btn-primary">
-                            <FontAwesomeIcon icon={faTimes} />
-                        </Link>
+
                         <div className="popup-overlay-select-seat">
                             <div className="popup-content-select-seat">
                                 <div className="seat-selection">
                                     <div className="seat-layout">
-                                        {/* đây là giao diện 40 chỗ */}
-                                        {/* <div className="left-section-container">
-                                            <div className="left-section">
-                                                <div className="seats-grid">
-                                                    <h3>Tầng 1</h3>
-                                                    {[
-                                                        ['A1', '', 'A7', '', 'A13'],
-                                                        ['A2', '', 'A8', '', 'A14'],
-                                                        ['A3', '', 'A9', '', 'A15'],
-                                                        ['A4', '', 'A10', '', 'A16'],
-                                                        ['A5', '', 'A11', '', 'A17'],
-                                                        ['A6', 'A19', 'A12', 'A20', 'A18'],
-                                                    ].map((row, rowIndex) => (
-                                                        <div className="seat-row" key={`row-${rowIndex}`}>
-                                                            {row.map((seat, index) =>
-                                                                seat ? (
-                                                                    <button
-                                                                        key={seat}
-                                                                        className={`seat ${isSeatBooked(seat) ? 'booked-seat' : isSeatSelected(seat) ? 'selected' : ''}`}
-                                                                        onClick={() => toggleSeat(seat)}
-                                                                        disabled={isSeatBooked(seat)} // Disable ghế đã đặt
-                                                                    >
-                                                                        {seat}
-                                                                    </button>
-                                                                ) : (
-                                                                    <button className="seat seat-hidded" key={`hidden-${index}`} />
-                                                                )
-                                                            )}
-                                                        </div>
-                                                    ))}
-                                                    <h3>Tầng 2</h3>
-                                                    {[
-                                                        ['B1', '', 'B7', '', 'B13'],
-                                                        ['B2', '', 'B8', '', 'B14'],
-                                                        ['B3', '', 'B9', '', 'B15'],
-                                                        ['B4', '', 'B10', '', 'B16'],
-                                                        ['B5', '', 'B11', '', 'B17'],
-                                                        ['B6', 'B19', 'B12', 'B20', 'B18'],
-                                                    ].map((row, rowIndex) => (
-                                                        <div className="seat-row" key={`row-${rowIndex + 4}`}>
-                                                            {row.map((seat, index) =>
-                                                                seat ? (
-                                                                    <button
-                                                                        key={seat}
-                                                                        className={`seat ${isSeatSelected(seat) ? 'selected' : ''}`}
-                                                                        onClick={() => toggleSeat(seat)}
-                                                                    >
-                                                                        {seat}
-                                                                    </button>
-                                                                ) : (
-                                                                    <button className="seat seat-hidded" key={`hidden-${index}`} />
-                                                                )
-                                                            )}
-                                                        </div>
-                                                    ))}
+                                        <div className="left-section-container">
+                                            {renderSeatLayout()}
+                                            <div className="legend">
+                                                <div className="flex_legend">
+                                                    <div className="legend-item">
+                                                        <span className="empty-seat"></span> <span className="legend-seat-text" >Ghế trống</span>
+                                                    </div>
+                                                    <div className="legend-item">
+                                                        <span className="booked-seat"></span> <span className="legend-seat-text" >Ghế đã đặt</span>
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex_legend">
+                                                    <div className="legend-item">
+                                                        <span className="chosen-seat"></span> <span className="legend-seat-text" >Ghế đã chọn</span>
+                                                    </div>
+                                                    <div className="legend-item">
+                                                        <span className="no-seat"></span> <span className="legend-seat-text" >Ghế không bán</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div> */}
-                                        {renderSeatLayout()}
-                                        {/* đây là giao diện 45 chỗ */}
-                                        {/* <div className="left-section-container">
-                                            <div className="left-section">
+                                        </div>
 
-                                                <div className="seats-grid">
-                                                <h3>Xe ghế 45 chỗ</h3>
-                                                    {[
-                                                        ['A1', 'B1', '', 'D1', 'E1'],
-                                                        ['A2', 'B2', '', 'D2', 'E2'],
-                                                        ['A3', 'B3', '', 'D3', 'E3'],
-                                                        ['A4', 'B4', '', 'D4', 'E4'],
-                                                        ['A5', 'B5', '', 'D5', 'E5'],
-                                                        ['A6', 'B6', '', 'D6', 'E6'],
-                                                        ['A7', 'B7', '', 'D7', 'E7'],
-                                                        ['A8', 'B8', '', 'D8', 'E8'],
-                                                        ['A9', 'B9', '', 'D9', 'E9'],
-                                                        ['A10', 'B10', '', 'D10', 'E10'],
-                                                        ['A11', 'B11', 'C1', 'D11', 'E11'],
-
-                                                    ].map((row, rowIndex) => (
-                                                        <div className="seat-row" key={`row-${rowIndex}`}>
-                                                            {row.map((seat, index) =>
-                                                                seat ? (
-                                                                    <button
-                                                                        key={seat}
-                                                                        className={`seat ${isSeatBooked(seat) ? 'booked-seat' : isSeatSelected(seat) ? 'selected' : ''}`}
-                                                                        onClick={() => toggleSeat(seat)}
-                                                                        disabled={isSeatBooked(seat)} // Disable ghế đã đặt
-                                                                    >
-                                                                        {seat}
-                                                                    </button>
-                                                                ) : (
-                                                                    <button className="seat seat-hidded" key={`hidden-${index}`} />
-                                                                )
-                                                            )}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </div> */}
-
-
-                                        {/* đây là giao diện 34 chỗ */}
-                                        {/* <div className="left-section-container">
-                                            <div className="left-section">
-                                                <div className="seats-grid">
-                                                <h3>Tầng 1</h3>
-                                                    {[
-                                                        ['A1', '', 'A7', '', 'A12'],
-                                                        ['A2', '', 'A8', '', 'A13'],
-                                                        ['A3', '', 'A9', '', 'A14'],
-                                                        ['A4', '', 'A10', '', 'A15'],
-                                                        ['A5', '', 'A11', '', 'A16'],
-                                                        ['A6', '', '', '', 'A17'],
-                                                        
-                                                    ].map((row, rowIndex) => (
-                                                        <div className="seat-row" key={`row-${rowIndex}`}>
-                                                            {row.map((seat, index) =>
-                                                                seat ? (
-                                                                    <button
-                                                                        key={seat}
-                                                                        className={`seat ${isSeatBooked(seat) ? 'booked-seat' : isSeatSelected(seat) ? 'selected' : ''}`}
-                                                                        onClick={() => toggleSeat(seat)}
-                                                                        disabled={isSeatBooked(seat)} // Disable ghế đã đặt
-                                                                    >
-                                                                        {seat}
-                                                                    </button>
-                                                                ) : (
-                                                                    <button className="seat seat-hidded" key={`hidden-${index}`} />
-                                                                )
-                                                            )}
-                                                        </div>
-                                                    ))}
-                                                        <h3>Tầng 2</h3>
-                                                    {[
-                                                        ['B1', '', 'B7', '', 'B12'],
-                                                        ['B2', '', 'B8', '', 'B13'],
-                                                        ['B3', '', 'B9', '', 'B14'],
-                                                        ['B4', '', 'B10', '', 'B15'],
-                                                        ['B5', '', 'B11', '', 'B16'],
-                                                        ['B6', '', '', '', 'B17'],
-                                                        
-                                                    ].map((row, rowIndex) => (
-                                                        <div className="seat-row" key={`row-${rowIndex}`}>
-                                                            {row.map((seat, index) =>
-                                                                seat ? (
-                                                                    <button
-                                                                        key={seat}
-                                                                        className={`seat ${isSeatBooked(seat) ? 'booked-seat' : isSeatSelected(seat) ? 'selected' : ''}`}
-                                                                        onClick={() => toggleSeat(seat)}
-                                                                        disabled={isSeatBooked(seat)} // Disable ghế đã đặt
-                                                                    >
-                                                                        {seat}
-                                                                    </button>
-                                                                ) : (
-                                                                    <button className="seat seat-hidded" key={`hidden-${index}`} />
-                                                                )
-                                                            )}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </div> */}
-
-                                        {/* Phần form điền thông tin */}
                                         <div className="right-section">
                                             <h3>Thông tin đặt vé</h3>
                                             <form onSubmit={handleSubmit(onSubmitSeatBooking)}>
                                                 <label>Mã Chuyến: {tripId} - {timeStart}</label>
                                                 <label>Ghế đã chọn: </label>
-                                                <input type="text" value={Array.from(selectedSeats).join(', ')}  {...register('seat')} disabled />
+                                                <input type="text" value={Array.from(selectedSeats).join(', ')}  {...register('seat')} className="input-text" disabled />
                                                 <input type="hidden" />
                                                 <label>Giá:</label>
-                                                <input type="text" value={`${totalPrice.toLocaleString()} VNĐ`} {...register('total_price')} disabled />
+                                                <input type="text" value={`${totalPrice.toLocaleString()} VNĐ`} {...register('total_price')} className="input-text" disabled />
                                                 <input type="hidden" />
                                                 <label>Họ tên:</label>
-                                                <input type="text" placeholder="Họ tên.." {...register('name', { required: true })} />
+                                                <input type="text" placeholder="Họ tên.." {...register('name', { required: true })} className="input-text" />
                                                 <label>Số điện thoại:</label>
-                                                <input type="text" placeholder="Số điện thoại.." {...register('phone', { required: true })} />
+                                                <input type="text" placeholder="Số điện thoại.." {...register('phone', { required: true })} className="input-text" />
                                                 <label>Email:</label>
                                                 <input
                                                     type="email"
                                                     placeholder="Email.."
                                                     {...register('email')}
                                                     onChange={handleEmailChange}
+                                                    className="input-text"
                                                 />
                                                 {isEmailEntered && (
                                                     <div className="send-ticket-radio">
                                                         <label>
                                                             <input
+                                                                className="inputemail"
+
                                                                 type="checkbox"
                                                                 {...register('emailCheck')}
                                                                 onChange={() => setSendTicketEmail(true)}
@@ -501,22 +381,22 @@ const SoDoGhe: React.FC = () => {
                                                 )}
                                                 <label>Ghi chú:</label>
                                                 <textarea className="form-node" placeholder="Ghi chú.." {...register('note')}></textarea>
+                                                <label>Mã khuyến mãi:</label>
+                                                <input type="text" placeholder="Mã khuyến mại.." {...register('promoCode')} className="input-text" />
                                                 <label>Điểm đi:</label>
                                                 <select {...register('location_start')}>
                                                     <option value="Tại Bến">Tại Bến</option>
                                                     <option value="Dọc Đường">Dọc Đường</option>
                                                 </select>
-                                                <input type="text" value={`${id_start_stop}`} disabled />
+                                                <input type="text" value={`${start_stop_name}`} disabled className="input-text" />
                                                 {/* Điểm đi */}
                                                 <label>Điểm đến:</label>
                                                 <select {...register('location_end')}>
                                                     <option value="Tại Bến">Tại Bến</option>
                                                     <option value="Dọc Đường">Dọc Đường</option>
                                                 </select>
-                                                <input type="text" value={`${id_end_stop}`} disabled />
+                                                <input type="text" value={`${end_stop_name}`} disabled className="input-text" />
                                                 {/* Điểm đến */}
-                                                <label>Mã khuyến mãi:</label>
-                                                <input type="text" placeholder="Mã khuyến mại.." {...register('promoCode')} />
                                                 <div className="btn">
                                                     <button className="checkVoucher" type="button">
                                                         Kiểm tra mã
@@ -529,20 +409,7 @@ const SoDoGhe: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="legend">
-                                    <div className="legend-item">
-                                        <span className="empty-seat"></span> Ghế trống
-                                    </div>
-                                    <div className="legend-item">
-                                        <span className="booked-seat"></span> Ghế đã đặt
-                                    </div>
-                                    <div className="legend-item">
-                                        <span className="chosen-seat"></span> Ghế đã chọn
-                                    </div>
-                                    <div className="legend-item">
-                                        <span className="no-seat"></span> Ghế không bán
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
