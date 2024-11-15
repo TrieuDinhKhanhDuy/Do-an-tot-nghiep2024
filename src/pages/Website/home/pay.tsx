@@ -41,9 +41,10 @@ const Pay = () => {
     const params = new URLSearchParams(location.search);
     const [selectedOption, setSelectedOption] = useState<string>('');
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSelectedOption(event.target.value);
-    };
+    const handleChange = (event: any) => {
+        setPayment_method_id(event.target.value); // Lấy giá trị của method.id
+      };
+    
     // Lấy các giá trị từ URL
     const tripId = params.get('trip_id');
     const busId = params.get('bus_id');
@@ -126,7 +127,7 @@ const Pay = () => {
                     nav("/");
                 }
             });
-            nav(`/bill?trip_id=${paymentInfo.trip_id}&bus_id=${paymentInfo?.bus_id}&fare=${paymentInfo?.fare}&total_price=${paymentInfo?.total_price}&route_id=${paymentInfo?.route_id}&time_start=${paymentInfo?.time_start}&date=${paymentInfo?.date}&name_seat=${paymentInfo?.name_seat}&location_start=${paymentInfo?.location_start}&id_start_stop=${paymentInfo?.id_start_stop}&location_end=${paymentInfo?.location_end}&id_end_stop=${paymentInfo?.id_end_stop}&name=${paymentInfo?.name}&phone=${paymentInfo?.phone}&email=${paymentInfo?.email}&total_price=${paymentInfo?.fare}&note=${paymentInfo?.note}`);
+            // nav(`/bill?trip_id=${paymentInfo.trip_id}&bus_id=${paymentInfo?.bus_id}&fare=${paymentInfo?.fare}&total_price=${paymentInfo?.total_price}&route_id=${paymentInfo?.route_id}&time_start=${paymentInfo?.time_start}&date=${paymentInfo?.date}&name_seat=${paymentInfo?.name_seat}&location_start=${paymentInfo?.location_start}&id_start_stop=${paymentInfo?.id_start_stop}&location_end=${paymentInfo?.location_end}&id_end_stop=${paymentInfo?.id_end_stop}&name=${paymentInfo?.name}&phone=${paymentInfo?.phone}&email=${paymentInfo?.email}&total_price=${paymentInfo?.fare}&note=${paymentInfo?.note}`);
         } catch (error) {
             Swal.fire({
                 title: "Đặt vé không thành công",
@@ -160,20 +161,15 @@ const Pay = () => {
                         </div>
                         <div className="payment-options">
 
-                            <select
-                                value={payment_method_id || ''}
-                                onChange={(e) => setPayment_method_id(Number(e.target.value))}
-                            >
-                                <option value="" disabled>
-                                    Chọn phương thức
-                                </option>
-                                {data?.methods.map((method) => (
-                                    <option key={method.id} value={method.id}>
-                                        {method.name}
-                                    </option>
-                                ))}
-                            </select>
-                            
+                           
+                            {data?.methods.map((method) => (
+                            <div className="payment-options-item">
+                                <input type="radio" name="payment_method_id" id={method.name} key={method.id} value={method.id} onChange={handleChange}  />
+                                <label htmlFor={method.name} >{method.name}</label>
+                            </div>
+                        ))}
+
+                           
 
                         </div>
 
@@ -247,8 +243,9 @@ const Pay = () => {
                                 </tbody>
                             </table>
                             <div className="button-container">
-                                <button className="btn-primary" onClick={handlePayment}>Thanh toán</button>
+
                                 <button className="btn-secondary">Hủy thanh toán</button>
+                                <button className="btn-primary" onClick={handlePayment}>Thanh toán</button>
                             </div>
                         </div>
                     </div>
