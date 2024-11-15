@@ -55,6 +55,9 @@ const List_BusFix = () => {
             if (sortOrder === "priceAsc") {
                 fetchedBuses = fetchedBuses.sort((a: any, b: any) => a.fare  - b.fare);
             }
+            if(sortOrder === "priceDesc"){
+                fetchedBuses = fetchedBuses.sort((a: any, b: any) => b.fare  - a.fare);
+            }
 
             setBuses(fetchedBuses);
         } catch (error) {
@@ -145,7 +148,7 @@ console.log("buses" , buses);
                                     <label htmlFor="priceAsc">Giá tăng dần</label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="priceDesc" name="sort" value="priceDesc" />
+                                    <input type="radio" id="priceDesc" name="sort" value="priceDesc" checked={sortOrder === "priceDesc"} onChange={() => handleSort("priceDesc")}/>
                                     <label htmlFor="priceDesc">Giá giảm dần</label>
                                 </div>
                                 <div>
