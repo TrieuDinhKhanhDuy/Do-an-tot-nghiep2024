@@ -10,8 +10,6 @@ import "../../../styles/Website/BokingForm.css";
 import "../../../styles/Website/list_busFix.css";
 import "../../../styles/Website/list.css";
 import { debounce } from 'lodash';
-import { UserType } from "@/types/IUser";
-import DbRecord from "@/types/IBus";
 
 interface PaymentMethod {
     id: number;

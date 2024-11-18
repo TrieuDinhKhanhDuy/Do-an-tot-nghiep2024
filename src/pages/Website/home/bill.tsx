@@ -21,10 +21,8 @@ const Bill = () => {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
 
-    // Lấy các giá trị từ URL
 
-    const idStartStop = params.get('id_start_stop');
-    const idEndStop = params.get('id_end_stop');
+    
     const [billData, setBillData] = useState<OrderData | null>(null);
 
     const oder_id = params.get("order_id");

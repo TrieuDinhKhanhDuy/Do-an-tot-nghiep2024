@@ -1,12 +1,12 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import {
-    faTimes,
+    
     faChevronLeft,
     faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import "../../../styles/Website/BokingForm.css";
 import "../../../styles/Website/list_busFix.css";
 import "../../../styles/Website/list.css";
@@ -14,7 +14,6 @@ import DbRecord from "@/types/IBus";
 import axios from "axios";
 import BookingFormComponent from "@/components/BookingForm";
 import { useLocation } from "react-router-dom";
-import { format } from "date-fns";
 import numeral from "numeral";
 import Swal from "sweetalert2";
 import { BookingFormData } from "@/types/IBooking";
@@ -36,13 +35,7 @@ const List_BusFix = () => {
         { nhan: "List Vé", duongDan: "list" },
     ];
 
-    const [isPopupBus45Open, setIsPopupBus45Open] = useState(false);
-    const handleSeatSelectBus45 = () => {
-        setIsPopupBus45Open(true);
-    };
-    const handleClosePopupBus45 = () => {
-        setIsPopupBus45Open(false);
-    };
+
 
     const [seatPrice, setSeatPrice] = useState(0);
 

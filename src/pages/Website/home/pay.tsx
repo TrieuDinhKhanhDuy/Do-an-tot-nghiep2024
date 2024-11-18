@@ -1,7 +1,4 @@
 import "../../../styles/Website/pay.css";
-import vnpayLogo from "../../../assets/image/vnpaylogo.png";
-import momoLogo from "../../../assets/image/momologo.jpg";
-import { Link, useNavigate } from "react-router-dom";
 import Breadcrumb from "@/components/Breadcrumb";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +7,6 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import Swal from "sweetalert2";
 import numeral from "numeral";
-import { number } from "zod";
 
 // Định nghĩa kiểu cho từng phương thức thanh toán (methods)
 interface PaymentMethod {
@@ -41,7 +37,6 @@ const Pay = () => {
     // Lấy URL hiện tại và search params
     const location = useLocation();
     const params = new URLSearchParams(location.search);
-    const [selectedOption, setSelectedOption] = useState<string>('');
 
     const handleChange = (event: any) => {
         setPayment_method_id(event.target.value); // Lấy giá trị của method.id
@@ -67,7 +62,6 @@ const Pay = () => {
     const user_id = params.get('userId');
 
 
-    const nav = useNavigate()
     const [error, setError] = useState<string | null>(null);
     const [data, setData] = useState<ApiResponse | null>(null);
     const [payment_method_id, setPayment_method_id] = useState<number | null>(null);
@@ -116,6 +110,7 @@ const Pay = () => {
         payment_method_id: payment_method_id,
         note: note,
         fare: fare,
+        user_id: user_id
     };
 
         try {

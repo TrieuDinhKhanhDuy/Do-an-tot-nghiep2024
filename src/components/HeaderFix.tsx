@@ -18,7 +18,6 @@ const HeaderFix = () => {
     const [isOpen, setIsOpen] = useState(false);
     const submenuRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLLIElement>(null);
-    const [user, setUser] = useState<any>(null);
 
 
     const toggleSubmenu = () => {
@@ -28,12 +27,7 @@ const HeaderFix = () => {
         setIsOpen(false);
     };
     useEffect(() => {
-        // Kiểm tra và tải thông tin người dùng từ localStorage
-        const userData = localStorage.getItem('user');
-        if (userData) {
-            setUser(JSON.parse(userData));
-        }
-
+       
         const handleClickOutside = (event: MouseEvent) => {
             if (
                 submenuRef.current &&
@@ -67,20 +61,16 @@ const HeaderFix = () => {
     };
 
     const [userRespon, setUserRespon] = useState<UserType | null>(null);
-    const [accessToken, setAccessToken] = useState<string | null>(null);
 
     useEffect(() => {
         const storedUser = localStorage.getItem("userId");
-        const storedToken = localStorage.getItem("access_token");
 
         if (storedUser) {
             setUserRespon(JSON.parse(storedUser)); // Parse JSON để chuyển thành object
         }
 
-        if (storedToken) {
-            setAccessToken(storedToken);
-        }
-    }, []); // Chỉ chạy một lần khi component mount
+       
+    }, []); 
     return (
         <>
             <header className="header_container" id="header_id">
