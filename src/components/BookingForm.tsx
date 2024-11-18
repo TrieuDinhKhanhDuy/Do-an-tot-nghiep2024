@@ -36,7 +36,11 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
     const onSubmit = (data: BookingFormData) => {
         onSearch(data); // Gọi callback với dữ liệu tìm kiếm
     };
-
+    useEffect(() => {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate());
+        setMinDate(tomorrow.toISOString().split("T")[0]);
+    }, []);
    
 
     return (
@@ -62,7 +66,11 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
                                 value: location.id,
                                 label: (
                                     <span
-                                       
+                                    style={{
+                                        fontWeight: location.parent_id === null ? "bold" : "normal",
+                                        fontSize: location.parent_id === null ? "16px" : "14px",
+                                        color:"black"
+                                    }}
                                     >
                                         {location.stop_name}
                                     </span>
