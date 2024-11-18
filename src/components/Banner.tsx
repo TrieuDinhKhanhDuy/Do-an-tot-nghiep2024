@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 const Banner = () => {
 
   const { getAllBanners, banners } = useBanner();
-  const url_image_backend = 'http://doantotnghiep_backend.test/storage/';
+  const url_image_backend = 'http://doantotnghiep.test/storage/';
   const settings = {
     infinite: banners.length > 1,  // Tắt infinite nếu chỉ có 1 banner
     speed: 500,
@@ -26,7 +26,7 @@ const Banner = () => {
 
   return (
     <div className="img_banner">
-      <Slider {...settings} className='slick-slider' >
+      {/* <Slider {...settings} className='slick-slider' > */}
         {banners.map((bannerData, index) => (
           <div key={index} className="img_banner">  
             <img
@@ -36,7 +36,7 @@ const Banner = () => {
             />
           </div>
         ))}
-      </Slider>
+      {/* </Slider> */}
       
     </div>
   );

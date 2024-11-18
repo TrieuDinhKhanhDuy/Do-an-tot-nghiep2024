@@ -9,6 +9,8 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import Swal from "sweetalert2";
+import numeral from "numeral";
+import { number } from "zod";
 
 // Định nghĩa kiểu cho từng phương thức thanh toán (methods)
 interface PaymentMethod {
@@ -43,8 +45,8 @@ const Pay = () => {
 
     const handleChange = (event: any) => {
         setPayment_method_id(event.target.value); // Lấy giá trị của method.id
-      };
-    
+    };
+
     // Lấy các giá trị từ URL
     const tripId = params.get('trip_id');
     const busId = params.get('bus_id');
@@ -62,17 +64,22 @@ const Pay = () => {
     const email = params.get('email');
     const note = params.get('note');
     const fare = params.get('fare');
+    const user_id = params.get('userId');
+
 
     const nav = useNavigate()
     const [error, setError] = useState<string | null>(null);
     const [data, setData] = useState<ApiResponse | null>(null);
     const [payment_method_id, setPayment_method_id] = useState<number | null>(null);
 
+    const formattedFare = numeral(fare).format('0,0');
+    const formattedTotal_price = numeral(total_price).format('0,0')
+
     useEffect(() => {
         // Gọi API với axios
         const fetchStops = async () => {
             try {
-                const response = await axios.get('http://doantotnghiep_backend.test/api/stops', {
+                const response = await axios.get('http://doantotnghiep.test/api/stops', {
                     params: {
                         trip_id: tripId,
                         date: date,
@@ -80,6 +87,7 @@ const Pay = () => {
                 });
                 // Lưu dữ liệu vào state
                 setData(response.data);
+                // window.location.href = response.data.payUrl;  // Chuyển hướng đến trang thanh toán MoMo
             } catch (error) {
                 setError('Đã xảy ra lỗi khi lấy dữ liệu');
             }
@@ -108,26 +116,22 @@ const Pay = () => {
             payment_method_id: payment_method_id,
             note: note,
             fare: fare,
+            user_id: user_id,
         };
 
         try {
             // Gửi thông tin thanh toán lên API
-            const response = await axios.post('http://doantotnghiep_backend.test/api/stops', paymentInfo);
-            Swal.fire({
-                title: "Đặt vé thành công",
-                text: "Bạn có muốn về trang chủ?",
-                icon: "success",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                cancelButtonText: "Xem hóa đơn",
-                confirmButtonText: "Về Trang Chủ",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    nav("/");
-                }
-            });
-            // nav(`/bill?trip_id=${paymentInfo.trip_id}&bus_id=${paymentInfo?.bus_id}&fare=${paymentInfo?.fare}&total_price=${paymentInfo?.total_price}&route_id=${paymentInfo?.route_id}&time_start=${paymentInfo?.time_start}&date=${paymentInfo?.date}&name_seat=${paymentInfo?.name_seat}&location_start=${paymentInfo?.location_start}&id_start_stop=${paymentInfo?.id_start_stop}&location_end=${paymentInfo?.location_end}&id_end_stop=${paymentInfo?.id_end_stop}&name=${paymentInfo?.name}&phone=${paymentInfo?.phone}&email=${paymentInfo?.email}&total_price=${paymentInfo?.fare}&note=${paymentInfo?.note}`);
+            const response = await axios.post('http://doantotnghiep.test/api/stops', paymentInfo);
+
+            // console.log(response.data.redirect_url);
+            
+            if(response.data.redirect_url){
+                window.location.href = response.data.redirect_url; 
+            }
+            if(response.data.payUrl){
+                window.location.href = response.data.payUrl; 
+            }
+            
         } catch (error) {
             Swal.fire({
                 title: "Đặt vé không thành công",
@@ -161,24 +165,24 @@ const Pay = () => {
                         </div>
                         <div className="payment-options">
 
-                           
-                            {data?.methods.map((method) => (
-                            <div className="payment-options-item">
-                                <input type="radio" name="payment_method_id" id={method.name} key={method.id} value={method.id} onChange={handleChange}  />
-                                <label htmlFor={method.name} >{method.name}</label>
-                            </div>
-                        ))}
 
-                           
+                            {data?.methods.map((method) => (
+                                <div className="payment-options-item">
+                                    <input type="radio" name="payment_method_id" id={method.name} key={method.id} value={method.id} onChange={handleChange} />
+                                    <label htmlFor={method.name} >{method.name}</label>
+                                </div>
+                            ))}
+
+
 
                         </div>
 
                         <div className="price-summary">
-                            <p>Giá vé: <span>{fare}</span></p>
+                            <p>Giá vé: <span>{formattedFare} VNĐ</span></p>
                             <p>Số Ghế: <span>{nameSeat}</span></p>
                             <p>Mã giảm giá: <span>-</span></p>
                             <hr />
-                            <p className="total">Tổng tiền: <span>{total_price}</span></p>
+                            <p className="total">Tổng tiền: <span>{formattedTotal_price} VNĐ</span></p>
                         </div>
 
                         <p className="agreement-text">

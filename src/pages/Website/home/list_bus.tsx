@@ -23,7 +23,7 @@ import { BookingFormData } from "@/types/IBooking";
 
 const List_BusFix = () => {
     const [buses, setBuses] = useState<DbRecord[]>([]);
-    const url_image_backend = 'http://doantotnghiep_backend.test/storage/';
+    const url_image_backend = 'http://doantotnghiep.test/storage/';
     const [searchParams, setSearchParams] = useState<BookingFormData | null>(null);
     const location = useLocation();
     const [selectedBus, setSelectedBus] = useState<DbRecord | null>(null); // Lưu trữ thông tin chuyến xe đã chọn
@@ -34,20 +34,13 @@ const List_BusFix = () => {
         { nhan: 'Trang Chủ', duongDan: '/' },
         { nhan: 'List Vé', duongDan: 'list' },
     ];
-    const [isPopupBus45Open, setIsPopupBus45Open] = useState(false);
-    const handleSeatSelectBus45 = () => {
-        setIsPopupBus45Open(true);
-    };
-    const handleClosePopupBus45 = () => {
-        setIsPopupBus45Open(false);
-    };
 
     const [seatPrice, setSeatPrice] = useState(0);
     const fetchFilteredTrips = async () => {
         if (!searchParams) return; // Không gọi API nếu chưa có tham số tìm kiếm
 
         try {
-            const res = await axios.get("http://doantotnghiep_backend.test/api/home/show", {
+            const res = await axios.get("http://doantotnghiep.test/api/home/show", {
                 params: {
                     start_stop_id: searchParams.startLocation,
                     end_stop_id: searchParams.endLocation,
@@ -109,7 +102,9 @@ const List_BusFix = () => {
         const endLocation = queryParams.get('end');
         setSelectedBus(buses);
 
-        nav(`/choseseat?trip_id=${buses?.trip_id}&start_stop_name=${buses.start_stop_name}&end_stop_name=${buses.end_stop_name}&bus_id=${buses?.bus_id}&fare=${buses?.fare}&route_id=${buses?.route_id}&time_start=${buses?.time_start}&date=${buses?.date}&id_start_stop=${startLocation}&id_end_stop=${endLocation}`);
+        nav(
+            `/choseseat?trip_id=${buses.trip_id}&start_stop_name=${buses.start_stop_name}&end_stop_name=${buses.end_stop_name}&bus_id=${buses?.bus_id}&fare=${buses?.fare}&route_id=${buses?.route_id}&time_start=${buses?.time_start}&date=${buses?.date}&id_start_stop=${startLocation}&id_end_stop=${endLocation}`,
+        );
     };
 
     const nav = useNavigate();
@@ -179,7 +174,7 @@ const List_BusFix = () => {
                                     return (
                                         <div key={bus.trip_id} className="bus-comp-option" onClick={() => handleSeatSelectTidcet(bus)}>
                                             <div className="bus-comp-image-container">
-                                                <img src={url_image_backend + bus.bus_image} alt={bus.name_bus} className="bus-comp-image" />
+                                                <img src={url_image_backend + bus.image} alt={bus.name_bus} className="bus-comp-image" />
                                             </div>
                                             <div className="bus-comp-info">
                                                 <div className="bus-comp-info-header">
@@ -193,7 +188,7 @@ const List_BusFix = () => {
                                                     <p>{bus.name_bus}</p>
                                                 </div>
                                                 <div className="bus-comp-info-header">
-                                                    <p>{bus.total_seats} Chỗ trống</p>
+                                                    <p>{bus.available_seats}/{bus.total_seats} Chỗ trống</p>
                                                     <div className="bus-comp-action">
                                                         <button>Chọn chỗ</button>
                                                     </div>

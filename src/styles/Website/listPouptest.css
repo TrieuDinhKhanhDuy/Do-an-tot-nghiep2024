@@ -116,6 +116,7 @@
   border-radius: 5px;
   margin-right: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: not-allowed;
 }
 
 .list-poup-chosen-seat {
@@ -125,6 +126,7 @@
   border-radius: 5px;
   margin-right: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: not-allowed;
 }
 
 .list-poup-no-seat {
@@ -213,6 +215,4 @@
   border: none;
   box-shadow: 0 0 0;
 }
-.selected {
-  background-color: red; /* Màu ghế đã đặt */
-}
+

@@ -3,16 +3,19 @@ import Swal from "sweetalert2";
 import { LoginResponse, UserLoginType, UserType } from "@/types/IUser.ts";
 
 export const login = async (data: UserLoginType): Promise<LoginResponse> => {
-    const response = await axios.post<LoginResponse>('http://doantotnghiep_backend.test/api/login', data);
+    const response = await axios.post<LoginResponse>('http://doantotnghiep.test/api/login', data);
     localStorage.setItem('access_token', response.data.access_token);
     localStorage.setItem('token_type', response.data.token_type);
+    
+    localStorage.setItem('userId', JSON.stringify(response.data.user));
+
     return response.data;
 };
 
 export const handleRegister = async (data: UserType) => {
     try {
         const response = await axios.post(
-            "http://doantotnghiep_backend.test/api/register",
+            "http://doantotnghiep.test/api/register",
             {
                 name: data.name, 
                 phone: data.phone,
@@ -76,10 +79,12 @@ export const logout = async (type: 'all' | 'current') => {
     }
 
     try {
-        const response = await axios.post('http://doantotnghiep_backend.test/api/logout', { type });
+        const response = await axios.post('http://doantotnghiep.test/api/logout', { type });
 
         localStorage.removeItem('access_token');
         localStorage.removeItem('token_type');
+        localStorage.removeItem('userId');
+
         Swal.fire({
             title: "Đã Đăng xuất",
             icon: "success",

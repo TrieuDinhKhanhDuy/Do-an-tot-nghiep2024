@@ -10,6 +10,8 @@ import "../../../styles/Website/BokingForm.css";
 import "../../../styles/Website/list_busFix.css";
 import "../../../styles/Website/list.css";
 import { debounce } from 'lodash';
+import { UserType } from "@/types/IUser";
+import DbRecord from "@/types/IBus";
 
 interface PaymentMethod {
     id: number;
@@ -27,6 +29,7 @@ interface ApiResponse {
     seatsStatus: SeatsStatus;
     seatCount: number;
 }
+
 
 const SoDoGhe: React.FC = () => {
     const { register, handleSubmit, reset, setValue } = useForm();
@@ -58,9 +61,9 @@ const SoDoGhe: React.FC = () => {
     useEffect(() => {
         const fetchSeats = debounce(async () => {
             try {
-                const response = await axios.get<ApiResponse>(`http://doantotnghiep_backend.test/api/stops?trip_id=${tripId}&date=${date}`);
+                const response = await axios.get<ApiResponse>(`http://doantotnghiep.test/api/stops?trip_id=${tripId}&date=${date}`);
                 const { seatsStatus, seatCount } = response.data;
-    
+
                 setSeatsStatus(seatsStatus);
                 setFare(parseFloat(params.get('fare') || '0'));
                 setSeatCount(seatCount);
@@ -72,22 +75,24 @@ const SoDoGhe: React.FC = () => {
                 }
             }
         }, 2000); // Debounce time là 500ms
-    
+
         fetchSeats();
-    
+
         return () => {
             fetchSeats.cancel(); // Huỷ nếu component bị unmount
         };
     }, [tripId, date, params]);
-    
+
 
 
     const isSeatBooked = (seat: string) => seatsStatus[seat] === 'booked';
+    const isSeatChosed = (seat: string) => seatsStatus[seat] === 'lock';
 
     const MAX_SELECTED_SEATS = 8;
 
     const toggleSeat = (seat: any) => {
         if (isSeatBooked(seat)) return;
+        if (isSeatChosed(seat)) return;
         const newSelectedSeats = new Set(selectedSeats);
         if (newSelectedSeats.has(seat)) {
             newSelectedSeats.delete(seat);
@@ -117,12 +122,7 @@ const SoDoGhe: React.FC = () => {
         setValue('seat', Array.from(selectedSeats).join(', '));
     }, [selectedSeats, setValue]);
 
-    const onSubmitSeatBooking = (data: any) => {
-        setValue('total_price', totalPrice);
-        reset();
 
-        nav(`/pay?trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}`);
-    };
 
     // Render giao diện ghế tùy thuộc vào seatCount
     const renderSeatLayout = () => {
@@ -153,9 +153,10 @@ const SoDoGhe: React.FC = () => {
                                             seat ? (
                                                 <button
                                                     key={seat}
-                                                    className={`seat ${isSeatBooked(seat) ? 'booked-seat' : isSeatSelected(seat) ? 'selected' : ''}`}
+                                                    className={`seat ${isSeatBooked(seat) ? 'booked-seat' : isSeatChosed(seat) ? 'chosen-seat' : isSeatSelected(seat) ? 'selected' : ''}`}
                                                     onClick={() => toggleSeat(seat)}
                                                     disabled={isSeatBooked(seat)} // Disable ghế đã đặt
+
                                                 >
                                                     {seat}
                                                 </button>
@@ -193,7 +194,7 @@ const SoDoGhe: React.FC = () => {
                                             seat ? (
                                                 <button
                                                     key={seat}
-                                                    className={`seat ${isSeatBooked(seat) ? 'booked-seat' : isSeatSelected(seat) ? 'selected' : ''}`}
+                                                    className={`seat ${isSeatBooked(seat) ? 'booked-seat' : isSeatChosed(seat) ? 'chosen-seat' : isSeatSelected(seat) ? 'selected' : ''}`}
                                                     onClick={() => toggleSeat(seat)}
                                                     disabled={isSeatBooked(seat)} // Disable ghế đã đặt
                                                 >
@@ -219,7 +220,7 @@ const SoDoGhe: React.FC = () => {
                                             seat ? (
                                                 <button
                                                     key={seat}
-                                                    className={`seat ${isSeatSelected(seat) ? 'selected' : ''}`}
+                                                    className={`seat ${isSeatBooked(seat) ? 'booked-seat' : isSeatChosed(seat) ? 'chosen-seat' : isSeatSelected(seat) ? 'selected' : ''}`}
                                                     onClick={() => toggleSeat(seat)}
                                                 >
                                                     {seat}
@@ -258,7 +259,7 @@ const SoDoGhe: React.FC = () => {
                                             seat ? (
                                                 <button
                                                     key={seat}
-                                                    className={`seat ${isSeatBooked(seat) ? 'booked-seat' : isSeatSelected(seat) ? 'selected' : ''}`}
+                                                    className={`seat ${isSeatBooked(seat) ? 'booked-seat' : isSeatChosed(seat) ? 'chosen-seat' : isSeatSelected(seat) ? 'selected' : ''}`}
                                                     onClick={() => toggleSeat(seat)}
                                                     disabled={isSeatBooked(seat)} // Disable ghế đã đặt
                                                 >
@@ -285,7 +286,7 @@ const SoDoGhe: React.FC = () => {
                                             seat ? (
                                                 <button
                                                     key={seat}
-                                                    className={`seat ${isSeatBooked(seat) ? 'booked-seat' : isSeatSelected(seat) ? 'selected' : ''}`}
+                                                    className={`seat ${isSeatBooked(seat) ? 'booked-seat' : isSeatChosed(seat) ? 'chosen-seat' : isSeatSelected(seat) ? 'selected' : ''}`}
                                                     onClick={() => toggleSeat(seat)}
                                                     disabled={isSeatBooked(seat)} // Disable ghế đã đặt
                                                 >
@@ -307,6 +308,30 @@ const SoDoGhe: React.FC = () => {
         return null; // Nếu không có seatCount hợp lệ
     };
 
+    useEffect(() => {
+        const storedUser = localStorage.getItem("userId");
+        if (storedUser) {
+            try {
+                const userData = JSON.parse(storedUser);
+
+                // Gán dữ liệu từ localStorage vào form
+                if (userData.id) setValue("id", userData.id);
+                if (userData.name) setValue("name", userData.name);
+                if (userData.email) setValue("email", userData.email);
+                if (userData.address) setValue("address", userData.address);
+                if (userData.phone) setValue("phone", userData.phone);
+            } catch (error) {
+                console.error("Lỗi khi đọc dữ liệu từ localStorage:", error);
+            }
+        }
+    }, [setValue]);
+
+    const onSubmitSeatBooking = (data: any) => {
+        setValue('total_price', totalPrice);
+        reset();
+
+        nav(`/pay?userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}`);
+    };
     return (
         <>
             <div className="list-poup-popup-content">
@@ -354,6 +379,8 @@ const SoDoGhe: React.FC = () => {
                                                 <input type="text" value={`${totalPrice.toLocaleString()} VNĐ`} {...register('total_price')} className="input-text" disabled />
                                                 <input type="hidden" />
                                                 <label>Họ tên:</label>
+                                                <input type="hidden" placeholder="id" {...register('id', { required: true })} className="input-text" />
+
                                                 <input type="text" placeholder="Họ tên.." {...register('name', { required: true })} className="input-text" />
                                                 <label>Số điện thoại:</label>
                                                 <input type="text" placeholder="Số điện thoại.." {...register('phone', { required: true })} className="input-text" />

@@ -12,6 +12,7 @@ import {
     faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { logout } from "@/service/authService";
+import { UserType } from "@/types/IUser";
 
 const HeaderFix = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -65,6 +66,21 @@ const HeaderFix = () => {
         }
     };
 
+    const [userRespon, setUserRespon] = useState<UserType | null>(null);
+    const [accessToken, setAccessToken] = useState<string | null>(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("userId");
+        const storedToken = localStorage.getItem("accessToken");
+
+        if (storedUser) {
+            setUserRespon(JSON.parse(storedUser)); // Parse JSON để chuyển thành object
+        }
+
+        if (storedToken) {
+            setAccessToken(storedToken);
+        }
+    }, []); // Chỉ chạy một lần khi component mount
     return (
         <>
             <header className="header_container" id="header_id">
@@ -152,20 +168,25 @@ const HeaderFix = () => {
                         ref={submenuRef}
                     >
                         <div className="user-menu_fix">
-                            <div className="user-info_fix">
-                                <div className="user-avatar_fix">
-                                    <span role="img" aria-label="avatar">
-                                        👤
-                                    </span>
-                                </div>
-                                <div className="user-details_fix">
-                                    <span className="user-name_fix">
-                                    {/* {user.name} */}
-                                    </span>
-                                    {/* <span className="user-role_fix">{user.role}</span> */}
-                                </div>
-                            </div>
 
+
+                            {userRespon ? (
+                                <div className="user-info_fix">
+                                    <div className="user-avatar_fix">
+                                        <span role="img" aria-label="avatar">
+                                            👤
+                                        </span>
+                                    </div>
+                                    <div className="user-details_fix">
+                                        <span className="user-name_fix">
+                                            {userRespon.name}
+                                        </span>
+                                        {userRespon.address}
+                                    </div>
+                                </div>
+                            ) : (
+                                <p>-</p>
+                            )}
                             <div className="menu-options_fix">
                                 <div className="menu-item_fix">
                                     <Link
