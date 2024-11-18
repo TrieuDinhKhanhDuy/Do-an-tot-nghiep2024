@@ -97,27 +97,26 @@ const Pay = () => {
     }, [tripId, date]);
 
     // Hàm xử lý khi nhấn nút "Thanh toán"
-    const handlePayment = async () => {
-        const paymentInfo = {
-            trip_id: tripId,
-            bus_id: busId,
-            route_id: routeId,
-            time_start: timeStart,
-            total_price: total_price,
-            date: date,
-            name_seat: nameSeat,
-            location_start: locationStart,
-            id_start_stop: idStartStop,
-            location_end: locationEnd,
-            id_end_stop: idEndStop,
-            name: name,
-            phone: phone,
-            email: email,
-            payment_method_id: payment_method_id,
-            note: note,
-            fare: fare,
-            user_id: user_id,
-        };
+  const handlePayment = async () => {
+    const paymentInfo = {
+        trip_id: tripId,
+        bus_id: busId,
+        route_id: routeId,
+        time_start: timeStart,
+        total_price: total_price,
+        date: date,
+        name_seat: nameSeat,
+        location_start: locationStart,
+        id_start_stop: idStartStop,
+        location_end: locationEnd,
+        id_end_stop: idEndStop,
+        name: name,
+        phone: phone,
+        email: email,
+        payment_method_id: payment_method_id,
+        note: note,
+        fare: fare,
+    };
 
         try {
             // Gửi thông tin thanh toán lên API

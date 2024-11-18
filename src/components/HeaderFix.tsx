@@ -71,7 +71,7 @@ const HeaderFix = () => {
 
     useEffect(() => {
         const storedUser = localStorage.getItem("userId");
-        const storedToken = localStorage.getItem("accessToken");
+        const storedToken = localStorage.getItem("access_token");
 
         if (storedUser) {
             setUserRespon(JSON.parse(storedUser)); // Parse JSON để chuyển thành object
@@ -185,7 +185,21 @@ const HeaderFix = () => {
                                     </div>
                                 </div>
                             ) : (
-                                <p>-</p>
+                                <>
+                                    <div className="menu-item_fix">
+                                        <Link
+                                            to={"/login"}
+                                            onClick={handleItemClick}
+                                        >
+                                            {" "}
+                                            <span role="img" aria-label="ticket">
+                                                {" "}
+                                                <FontAwesomeIcon icon={faTicket} />
+                                            </span>{" "}
+                                            Đăng nhập
+                                        </Link>
+                                    </div>
+                                </>
                             )}
                             <div className="menu-options_fix">
                                 <div className="menu-item_fix">
