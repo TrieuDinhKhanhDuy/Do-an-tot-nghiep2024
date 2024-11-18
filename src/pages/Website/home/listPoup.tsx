@@ -57,30 +57,34 @@ const SoDoGhe: React.FC = () => {
     const isEmailEntered = email.trim() !== '';
 
     useEffect(() => {
-        const fetchSeats = debounce(async () => {
+        const fetchSeats = async () => {
+            if (!tripId || !date) return; // Kiểm tra giá trị đầu vào
+    
             try {
-                const response = await axios.get<ApiResponse>(`http://doantotnghiep.test/api/stops?trip_id=${tripId}&date=${date}`);
+                const response = await axios.get<ApiResponse>(
+                    `http://doantotnghiep.test/api/stops?trip_id=${tripId}&date=${date}`
+                );
                 const { seatsStatus, seatCount } = response.data;
-
+    
                 setSeatsStatus(seatsStatus);
                 setFare(parseFloat(params.get('fare') || '0'));
                 setSeatCount(seatCount);
             } catch (error: any) {
-                if (error.response?.status === 429) {
-                    console.error("Too Many Requests - Please try again later");
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 429) {
+                        console.error("Too Many Requests - Please try again later");
+                    } else {
+                        console.error("Lỗi khi lấy dữ liệu ghế:", error.message);
+                    }
                 } else {
-                    console.error("Lỗi khi lấy dữ liệu ghế:", error);
+                    console.error("Unexpected error:", error);
                 }
             }
-        }, 2000); // Debounce time là 500ms
-
-        fetchSeats();
-
-        return () => {
-            fetchSeats.cancel(); // Huỷ nếu component bị unmount
         };
-    }, [tripId, date, params]);
-
+    
+        fetchSeats(); // Chỉ gọi API một lần khi load trang
+    }, []); // Dependency array trống để chỉ gọi một lần
+    
 
 
     const isSeatBooked = (seat: string) => seatsStatus[seat] === 'booked';
