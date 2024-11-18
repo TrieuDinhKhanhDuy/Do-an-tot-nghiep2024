@@ -105,7 +105,8 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
                                     <span
                                         style={{
                                             fontWeight: location.parent_id === null ? "bold" : "normal",
-                                            fontSize: location.parent_id === null ? "16px" : "14px"
+                                            fontSize: location.parent_id === null ? "16px" : "14px",
+                                            color:"black"
                                         }}
                                     >
                                         {location.stop_name}

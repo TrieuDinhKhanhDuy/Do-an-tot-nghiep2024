@@ -48,7 +48,7 @@ const List_BusFix = () => {
 
     const fetchFilteredTrips = async () => {
         if (!searchParams) return; // Không gọi API nếu chưa có tham số tìm kiếm
-    
+
         try {
             const res = await axios.get(
                 "http://doantotnghiep_backend.test/api/home/show",
@@ -62,34 +62,44 @@ const List_BusFix = () => {
                     },
                 },
             );
-            
+
             let fetchedBuses = res.data.data;
-    
+
             // Kiểm tra loại sắp xếp và lọc theo số chỗ
             if (sortOrder === "bedBus40") {
                 // Lọc chỉ giữ các xe giường nằm 40 chỗ
-                fetchedBuses = fetchedBuses.filter((bus: any) => bus.total_seats === 40);
+                fetchedBuses = fetchedBuses.filter(
+                    (bus: any) => bus.total_seats === 40,
+                );
             } else if (sortOrder === "priceAsc") {
                 // Sắp xếp giá tăng dần
-                fetchedBuses = fetchedBuses.sort((a: any, b: any) => a.fare - b.fare);
+                fetchedBuses = fetchedBuses.sort(
+                    (a: any, b: any) => a.fare - b.fare,
+                );
             } else if (sortOrder === "priceDesc") {
                 // Sắp xếp giá giảm dần
-                fetchedBuses = fetchedBuses.sort((a: any, b: any) => b.fare - a.fare);
-            }
-            else if (sortOrder === "bedBus45") {
+                fetchedBuses = fetchedBuses.sort(
+                    (a: any, b: any) => b.fare - a.fare,
+                );
+            } else if (sortOrder === "bedBus45") {
                 // Sắp xếp giá giảm dần
-                fetchedBuses = fetchedBuses.filter((bus: any) => bus.total_seats === 45);
-            }
-            else if (sortOrder === "bedBus34") {
+                fetchedBuses = fetchedBuses.filter(
+                    (bus: any) => bus.total_seats === 45,
+                );
+            } else if (sortOrder === "bedBus34") {
                 // Sắp xếp giá giảm dần
-                fetchedBuses = fetchedBuses.filter((bus: any) => bus.total_seats === 34);
+                fetchedBuses = fetchedBuses.filter(
+                    (bus: any) => bus.total_seats === 34,
+                );
             }
-    
+
             // Cập nhật danh sách chuyến đi
             setBuses(fetchedBuses);
             setTotalPages(res.data.pagination.total_pages); // Cập nhật tổng số trang
-            nav(`/list?start=${searchParams.startLocation}&end=${searchParams.endLocation}&date=${searchParams.departureDate}&page=${page}&sort=${sortOrder}`);
-            
+            nav(
+                `/list?start=${searchParams.startLocation}&end=${searchParams.endLocation}&date=${searchParams.departureDate}&page=${page}&sort=${sortOrder}`,
+            );
+
             if (fetchedBuses.length > 0) {
                 const firstBus = fetchedBuses[0];
                 setSeatPrice(parseFloat(firstBus.fare)); // Lấy giá từ dữ liệu chuyến
@@ -105,7 +115,6 @@ const List_BusFix = () => {
             });
         }
     };
-    
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
@@ -261,17 +270,24 @@ const List_BusFix = () => {
 
                         {/* Phần bên phải */}
                         <div className="bus-comp-list">
-                            {buses.length > 0 ? ( // Kiểm tra nếu có dữ liệu thì mới render map
+                            {buses.length > 0 ? (
                                 buses.map((bus) => {
-                                    const formattedTime = format(
-                                        new Date(
-                                            `1970-01-01T${bus.time_start}Z`,
-                                        ),
-                                        "HH:mm",
+                                    const formattedTime = bus.time_start.slice(
+                                        0,
+                                        5,
                                     );
                                     const formattedFare = numeral(
                                         bus.fare,
                                     ).format("0,0");
+
+                                    console.log(
+                                        "Thời gian từ API:",
+                                        bus.time_start,
+                                    );
+                                    console.log(
+                                        "Thời gian đã định dạng:",
+                                        formattedTime,
+                                    );
 
                                     return (
                                         <div
@@ -322,6 +338,7 @@ const List_BusFix = () => {
                             ) : (
                                 <p>Không có chuyến xe nào được tìm thấy.</p>
                             )}
+
                             <div className="pagination">
                                 <button
                                     className="page-btn"
