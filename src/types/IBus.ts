@@ -1,28 +1,44 @@
-  
-  type DbRecord = {
-    bus_id: number;
-    route_id: number;
-    trip_id: number;
-    time_start: string;        // "06:00:00" format
-    route_name: string;        // e.g., "Na Hang - Hà Nội"
-    fare: string;              // "200000.00", could be converted to a number if needed
-    name_bus: string;          // e.g., "Xe giường nằm"
-    total_seats: number;       // e.g., 40
-    date: string;              // "2024-11-02", can be formatted as a date
-    start_stop_name: string;   // e.g., "Chiêm Hóa"
-    end_stop_name: string;     // e.g., "Ngã tư Kim Anh"
-    start_stop_id: string;     // e.g., "12", assuming this is a string
-    end_stop_id: string;       // e.g., "21", assuming this is a string
-    image: string;
-    id_end_stop: string;
-    id_start_stop: string;
-    available_seats: number;
 
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    address: string;
-  };
-  
-export default DbRecord  
+export type DbRecord = {
+  bus_id: number;
+  route_id: number;
+  trip_id: number;
+  time_start: string;
+  route_name: string;
+  fare: string;
+  name_bus: string;
+  total_seats: number;
+  date: string;
+  start_stop_name: string;
+  end_stop_name: string;
+  start_stop_id: string;
+  end_stop_id: string;
+  image: string;
+  id_end_stop: string;
+  id_start_stop: string;
+  available_seats: number;
+
+  //user
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+};
+
+export type DbRecordForm = {
+  emailCheck:boolean;
+  promoCode:string;
+  seat: string;
+  location_start: string;
+  location_end: string;
+  total_price:number;
+  note:string;
+
+  //user
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+}

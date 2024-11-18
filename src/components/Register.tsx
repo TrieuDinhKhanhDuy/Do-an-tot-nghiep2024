@@ -3,7 +3,7 @@ import "../styles/Website/Register.css";
 import Register1 from "../assets/image/Register.png";
 import Heading from "./Heading";
 import Breadcrumb from "./Breadcrumb";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -12,6 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import useAuth from "../hooks/useAuth"; // Import hook useAuth
 import { handleRegister } from '../service/authService';
 import { UserType } from "@/types/IUser";
+import Swal from "sweetalert2";
 
 // Định nghĩa schema validation với zod
 const schema = z
@@ -29,6 +30,7 @@ const schema = z
     });
 
 const Register = () => {
+    const nav = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const { handleLogin, loading, error } = useAuth(); // Sử dụng hook
     const {
@@ -54,6 +56,15 @@ const Register = () => {
             toast.error(error);
         } else {
             await handleLogin(data.email, data.password);
+            Swal.fire({
+                title: "Đăng Ký Thành Công",
+                text: "Tự động chuyển về trang đăng nhập....",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+                nav('/login');
+            });
         }
     };
 

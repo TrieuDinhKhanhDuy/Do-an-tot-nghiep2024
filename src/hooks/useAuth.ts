@@ -5,7 +5,6 @@ import { UserLoginType, UserType } from '@/types/IUser';
 const useAuth = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-
     const handleLogin = async (email: string, password: string) => {
         setLoading(true);
         setError(null);
@@ -28,7 +27,7 @@ const useAuth = () => {
         try {
             const response = await handleRegister(userData);
             console.log('Đăng ký thành công:', response);
-            return response; 
+            return response;
         } catch (error) {
             setError('Đăng ký không thành công');
         } finally {

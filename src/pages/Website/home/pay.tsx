@@ -7,26 +7,8 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import Swal from "sweetalert2";
 import numeral from "numeral";
+import { SeatApiResponse } from "@/types/IChosesSeat";
 
-// Định nghĩa kiểu cho từng phương thức thanh toán (methods)
-interface PaymentMethod {
-    id: number;
-    name: string;
-    created_at: string;
-    updated_at: string | null;
-}
-
-// Định nghĩa kiểu cho trạng thái ghế ngồi (seatsStatus)
-interface SeatsStatus {
-    [seatName: string]: string;
-}
-
-// Định nghĩa kiểu tổng quát cho phản hồi API
-interface ApiResponse {
-    methods: PaymentMethod[]; // Mảng các phương thức thanh toán
-    seatsStatus: SeatsStatus; // Trạng thái các ghế
-    seatCount: number; // Số lượng ghế
-}
 
 const Pay = () => {
     const duongDan = [
@@ -63,7 +45,7 @@ const Pay = () => {
 
 
     const [error, setError] = useState<string | null>(null);
-    const [data, setData] = useState<ApiResponse | null>(null);
+    const [data, setData] = useState<SeatApiResponse | null>(null);
     const [payment_method_id, setPayment_method_id] = useState<number | null>(null);
 
     const formattedFare = numeral(fare).format('0,0');
@@ -160,8 +142,8 @@ const Pay = () => {
                         <div className="payment-options">
 
 
-                            {data?.methods.map((method) => (
-                                <div className="payment-options-item">
+                            {data?.methods.map((method,index) => (
+                                <div className="payment-options-item" key={index}>
                                     <input type="radio" name="payment_method_id" id={method.name} key={method.id} value={method.id} onChange={handleChange} />
                                     <label htmlFor={method.name} >{method.name}</label>
                                 </div>

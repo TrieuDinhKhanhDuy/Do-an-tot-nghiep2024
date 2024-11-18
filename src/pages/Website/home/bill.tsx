@@ -145,7 +145,7 @@ const Bill = () => {
                                         <p>Ngày: {billData.date_start}</p>
                                         <p>Điểm đi: {billData.start_point}({billData.point_up})</p>
                                         <p>Điểm đến: {billData.end_point}({billData.point_down})</p>
-                                        <p>Vị trí ngồi: {billData.name_seat}</p>
+                                        <p>Vị trí ngồi: {billData.name_seat.join(',')}</p>
                                     </td>
                                     <td className="right-section-bill">
                                         <strong>Thông tin thêm</strong>

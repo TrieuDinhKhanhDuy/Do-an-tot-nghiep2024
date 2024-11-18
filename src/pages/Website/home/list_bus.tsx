@@ -10,13 +10,13 @@ import {  useNavigate } from "react-router-dom";
 import "../../../styles/Website/BokingForm.css";
 import "../../../styles/Website/list_busFix.css";
 import "../../../styles/Website/list.css";
-import DbRecord from "@/types/IBus";
 import axios from "axios";
 import BookingFormComponent from "@/components/BookingForm";
 import { useLocation } from "react-router-dom";
 import numeral from "numeral";
 import Swal from "sweetalert2";
 import { BookingFormData } from "@/types/IBooking";
+import { DbRecord } from "@/types/IBus";
 
 const List_BusFix = () => {
     const [buses, setBuses] = useState<DbRecord[]>([]);
@@ -151,7 +151,13 @@ const List_BusFix = () => {
                 `/choseseat?trip_id=${bus?.trip_id}&start_stop_name=${bus.start_stop_name}&end_stop_name=${bus.end_stop_name}&bus_id=${bus?.bus_id}&fare=${bus?.fare}&route_id=${bus?.route_id}&time_start=${bus?.time_start}&date=${bus?.date}&id_start_stop=${startLocation}&id_end_stop=${endLocation}`,
             );
         }else{
-            alert("chưa đăng nhập")
+            Swal.fire({
+                title: "Vui Lòng Đăng Nhập!",
+                text: "Đăng nhập để có trải nghiệm đặt vé tối nhất!",
+                icon: "warning",
+                showConfirmButton: false,
+                allowEscapeKey: true,
+            });
         }
         
     };

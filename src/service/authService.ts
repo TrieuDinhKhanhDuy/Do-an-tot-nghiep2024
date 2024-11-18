@@ -13,6 +13,7 @@ export const login = async (data: UserLoginType): Promise<LoginResponse> => {
 };
 
 export const handleRegister = async (data: UserType) => {
+
     try {
         const response = await axios.post(
             "http://doantotnghiep.test/api/register",
@@ -25,16 +26,6 @@ export const handleRegister = async (data: UserType) => {
                 password_confirmation: data.password_confirmation,
             }
         );
-        
-        Swal.fire({
-            title: "Đăng ký thành công!",
-            icon: "success",
-            showConfirmButton: true,
-            confirmButtonText: "OK", 
-            allowOutsideClick: false, 
-            allowEscapeKey: true, 
-        });
-
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {

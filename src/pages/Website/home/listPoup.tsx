@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -9,28 +9,12 @@ import "../../../styles/Website/listPouptest.css";
 import "../../../styles/Website/BokingForm.css";
 import "../../../styles/Website/list_busFix.css";
 import "../../../styles/Website/list.css";
-import { debounce } from 'lodash';
-
-interface PaymentMethod {
-    id: number;
-    name: string;
-    created_at: string;
-    updated_at: string | null;
-}
-
-interface SeatsStatus {
-    [seatName: string]: string;
-}
-
-interface ApiResponse {
-    methods: PaymentMethod[];
-    seatsStatus: SeatsStatus;
-    seatCount: number;
-}
+import { SeatApiResponse, SeatsStatus } from "@/types/IChosesSeat";
+import { DbRecordForm } from "@/types/IBus";
 
 
-const SoDoGhe: React.FC = () => {
-    const { register, handleSubmit, reset, setValue } = useForm();
+const SoDoGhe = () => {
+    const { register, handleSubmit, reset, setValue } = useForm<DbRecordForm>();
     const [selectedSeats, setSelectedSeats] = useState(new Set());
     const [seatsStatus, setSeatsStatus] = useState<SeatsStatus>({});
     const [fare, setFare] = useState(0);
@@ -58,10 +42,10 @@ const SoDoGhe: React.FC = () => {
 
     useEffect(() => {
         const fetchSeats = async () => {
-            if (!tripId || !date) return; // Kiểm tra giá trị đầu vào
+            if (!tripId || !date) return;
     
             try {
-                const response = await axios.get<ApiResponse>(
+                const response = await axios.get<SeatApiResponse>(
                     `http://doantotnghiep.test/api/stops?trip_id=${tripId}&date=${date}`
                 );
                 const { seatsStatus, seatCount } = response.data;
@@ -82,8 +66,8 @@ const SoDoGhe: React.FC = () => {
             }
         };
     
-        fetchSeats(); // Chỉ gọi API một lần khi load trang
-    }, []); // Dependency array trống để chỉ gọi một lần
+        fetchSeats(); 
+    }, []);
     
 
 
@@ -92,7 +76,7 @@ const SoDoGhe: React.FC = () => {
 
     const MAX_SELECTED_SEATS = 8;
 
-    const toggleSeat = (seat: any) => {
+    const toggleSeat = (seat: string) => {
         if (isSeatBooked(seat)) return;
         if (isSeatChosed(seat)) return;
         const newSelectedSeats = new Set(selectedSeats);
@@ -113,7 +97,7 @@ const SoDoGhe: React.FC = () => {
         setSelectedSeats(newSelectedSeats);
     };
 
-    const isSeatSelected = (seat: any) => selectedSeats.has(seat);
+    const isSeatSelected = (seat: string) => selectedSeats.has(seat);
     const totalPrice = selectedSeats.size * fare;
 
     useEffect(() => {
@@ -328,7 +312,7 @@ const SoDoGhe: React.FC = () => {
         }
     }, [setValue]);
 
-    const onSubmitSeatBooking = (data: any) => {
+    const onSubmitSeatBooking = (data: DbRecordForm) => {
         setValue('total_price', totalPrice);
         reset();
 
