@@ -1,4 +1,3 @@
-
 import {
     faCalendarAlt,
     faMapMarkerAlt,
@@ -13,17 +12,14 @@ import { useForm, Controller } from "react-hook-form";
 import React from 'react';
 import { BookingFormData } from "@/types/IBooking";
 
-
-
-
 interface BookingFormProps {
     onSearch: (data: BookingFormData) => void;
 }
+
 const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
     const [formData, setFormData] = useState<any[]>([]);
     const [minDate, setMinDate] = useState<string>("");
     const { register, handleSubmit, control } = useForm<BookingFormData>();
-    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,17 +32,12 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
         };
         fetchData();
     }, []);
+
     const onSubmit = (data: BookingFormData) => {
         onSearch(data); // Gọi callback với dữ liệu tìm kiếm
     };
 
-    useEffect(() => {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate());
-        setMinDate(tomorrow.toISOString().split("T")[0]);
-    }, []);
-
-
+   
 
     return (
         <form className="bookingForm-search" onSubmit={handleSubmit(onSubmit)}>
@@ -71,14 +62,12 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
                                 value: location.id,
                                 label: (
                                     <span
-                                        style={{
-                                            fontWeight: location.parent_id === null ? "bold" : "normal",
-                                            fontSize: location.parent_id === null ? "16px" : "14px"
-                                        }}
+                                       
                                     >
                                         {location.stop_name}
                                     </span>
                                 ),
+                                disabled: location.parent_id === null,
                             }))}
                         />
                     )}
@@ -114,6 +103,7 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
                                         {location.stop_name}
                                     </span>
                                 ),
+                                disabled: location.parent_id === null, // Disable options based on your criteria
                             }))}
                         />
                     )}
@@ -127,7 +117,7 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
                     </span>
                     <label>Ngày khởi hành</label>
                 </div>
-                <input type="date" id="date" min={minDate}   {...register("departureDate")} />
+                <input type="date" id="date" min={minDate} {...register("departureDate")} />
             </div>
 
             <div className="bookingForm-button">
