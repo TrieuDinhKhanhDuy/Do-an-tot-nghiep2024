@@ -20,7 +20,7 @@ import { DbRecord } from "@/types/IBus";
 
 const List_BusFix = () => {
     const [buses, setBuses] = useState<DbRecord[]>([]);
-    const url_image_backend = "http://doantotnghiep_backend.test/storage/";
+    const url_image_backend = "http://doantotnghiep.test/storage/";
     const [searchParams, setSearchParams] = useState<BookingFormData | null>(
         null,
     );
@@ -44,7 +44,7 @@ const List_BusFix = () => {
 
         try {
             const res = await axios.get(
-                "http://doantotnghiep_backend.test/api/home/show",
+                "http://doantotnghiep.test/api/home/show",
                 {
                     params: {
                         start_stop_id: searchParams.startLocation,
@@ -321,15 +321,22 @@ const List_BusFix = () => {
                                                 </div>
                                                 <div className="bus-comp-info-header">
                                                     <p>🕒 {formattedTime}</p>
+                                                    <p>
+                                                       sale 20%
+                                                    </p>
                                                 </div>
                                                 <div className="bus-comp-info-header">
                                                     <p>{bus.name_bus}</p>
+                                                    <p>
+                                                        Hỗ trợ thanh toán online
+                                                    </p>
                                                 </div>
                                                 <div className="bus-comp-info-header">
                                                     <p>
-                                                        {bus.total_seats} Chỗ
+                                                    {bus.available_seats}/{bus.total_seats} Chỗ
                                                         trống
                                                     </p>
+                                                  
                                                     <div className="bus-comp-action">
                                                         <button>
                                                             Chọn chỗ
