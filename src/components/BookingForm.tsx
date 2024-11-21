@@ -1,15 +1,15 @@
+import React, { useEffect, useState } from "react";
 import {
     faCalendarAlt,
     faMapMarkerAlt,
     faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../styles/Website/BokingForm.css";
-import { useEffect, useState } from "react";
 import { Select } from "antd";
 import axios from "axios";
 import { useForm, Controller } from "react-hook-form";
-import React from 'react';
+import Swal from "sweetalert2";
+import "../styles/Website/BokingForm.css"
 import { BookingFormData } from "@/types/IBooking";
 
 interface BookingFormProps {
@@ -19,8 +19,10 @@ interface BookingFormProps {
 const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
     const [formData, setFormData] = useState<any[]>([]);
     const [minDate, setMinDate] = useState<string>("");
+
     const { register, handleSubmit, control } = useForm<BookingFormData>();
 
+    // Fetch dữ liệu các điểm dừng
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -33,18 +35,31 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
         fetchData();
     }, []);
 
-    const onSubmit = (data: BookingFormData) => {
-        onSearch(data); // Gọi callback với dữ liệu tìm kiếm
-    };
+    // Cập nhật ngày tối thiểu cho input date
     useEffect(() => {
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate());
         setMinDate(tomorrow.toISOString().split("T")[0]);
     }, []);
-   
 
+    // Xử lý khi form được submit
+    const onSubmit = (data: BookingFormData) => {
+        if (data.startLocation === data.endLocation) {
+            Swal.fire({
+                title: "Lỗi",
+                text: "Điểm đi và điểm đến không được trùng nhau!",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+            return; 
+        }
+        onSearch(data); // Gửi dữ liệu tìm kiếm hợp lệ
+    };
+    console.log("điểm đi" , formData);
+    
     return (
         <form className="bookingForm-search" onSubmit={handleSubmit(onSubmit)}>
+            {/* Điểm đi */}
             <div className="bookingForm-input">
                 <div className="bookingForm-input-top">
                     <span>
@@ -61,16 +76,16 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
                             className="custom-select"
                             placeholder="Chọn điểm đi"
                             optionFilterProp="label"
-                            {...field} // Gán các thuộc tính của field
+                            {...field}
                             options={formData.map((location) => ({
                                 value: location.id,
                                 label: (
                                     <span
-                                    style={{
-                                        fontWeight: location.parent_id === null ? "bold" : "normal",
-                                        fontSize: location.parent_id === null ? "16px" : "14px",
-                                        color:"black"
-                                    }}
+                                        style={{
+                                            fontWeight: location.parent_id === null ? "bold" : "normal",
+                                            fontSize: location.parent_id === null ? "16px" : "14px",
+                                            color: "black",
+                                        }}
                                     >
                                         {location.stop_name}
                                     </span>
@@ -82,6 +97,7 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
                 />
             </div>
 
+            {/* Điểm đến */}
             <div className="bookingForm-input">
                 <div className="bookingForm-input-top">
                     <span>
@@ -98,7 +114,7 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
                             className="custom-select"
                             placeholder="Chọn điểm đến"
                             optionFilterProp="label"
-                            {...field} // Gán các thuộc tính của field
+                            {...field}
                             options={formData.map((location) => ({
                                 value: location.id,
                                 label: (
@@ -106,19 +122,20 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
                                         style={{
                                             fontWeight: location.parent_id === null ? "bold" : "normal",
                                             fontSize: location.parent_id === null ? "16px" : "14px",
-                                            color:"black"
+                                            color: "black",
                                         }}
                                     >
                                         {location.stop_name}
                                     </span>
                                 ),
-                                disabled: location.parent_id === null, // Disable options based on your criteria
+                                disabled: location.parent_id === null,
                             }))}
                         />
                     )}
                 />
             </div>
 
+            {/* Ngày khởi hành */}
             <div className="bookingForm-input">
                 <div className="bookingForm-input-top">
                     <span>
@@ -126,9 +143,15 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
                     </span>
                     <label>Ngày khởi hành</label>
                 </div>
-                <input type="date" id="date" min={minDate} {...register("departureDate")} />
+                <input
+                    type="date"
+                    id="date"
+                    min={minDate}
+                    {...register("departureDate")}
+                />
             </div>
 
+            {/* Nút tìm chuyến */}
             <div className="bookingForm-button">
                 <FontAwesomeIcon icon={faSearch} size="lg" />
                 <button type="submit">Tìm chuyến</button>
