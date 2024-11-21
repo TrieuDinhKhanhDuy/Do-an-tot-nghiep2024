@@ -27,6 +27,7 @@ const SoDoGhe = () => {
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
+    
     const tripId = params.get("trip_id");
     const busId = params.get("bus_id");
     const routeId = params.get("route_id");

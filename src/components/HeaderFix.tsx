@@ -75,7 +75,7 @@ const HeaderFix = () => {
         <>
             <header className="header_container" id="header_id">
                 <div className="background_Header"></div>
-                <div className="header">
+                <div className="header_fix">
 
                     <div className="header__top">
                         <div className="header__top-actions">
