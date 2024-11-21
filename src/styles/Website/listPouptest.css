@@ -215,4 +215,32 @@
   border: none;
   box-shadow: 0 0 0;
 }
+/* CSS */
+/* CSS */
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+.input-text {
+    padding-right: 30px; /* Tạo khoảng trống cho biểu tượng bên trong */
+}
+
+.input-icon {
+    position: absolute;
+    right: 10px; /* Căn lề phải để biểu tượng nằm trong ô input */
+    top: 50%;
+    transform: translateY(-50%); /* Đảm bảo biểu tượng nằm giữa ô input */
+}
+
+.valid-feedback {
+    color: #28a745;
+}
+
+.invalid-feedback {
+    color: #dc3545;
+}
+
+
+
 

@@ -27,7 +27,6 @@ const SoDoGhe = () => {
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
-    
     const tripId = params.get("trip_id");
     const busId = params.get("bus_id");
     const routeId = params.get("route_id");
@@ -472,256 +471,166 @@ const SoDoGhe = () => {
 
                                         <div className="right-section">
                                             <h3>Thông tin đặt vé</h3>
-                                            <form
-                                                onSubmit={handleSubmit(
-                                                    onSubmitSeatBooking
-                                                )}
-                                                noValidate
-                                            >
-                                                <label>
-                                                    Mã Chuyến: {tripId} -{" "}
-                                                    {timeStart}
-                                                </label>
+                                            <form onSubmit={handleSubmit(onSubmitSeatBooking)}>
+    <label>Mã Chuyến: {tripId} - {timeStart}</label>
 
-                                                <label>Ghế đã chọn:</label>
-                                                <input
-                                                    type="text"
-                                                    value={Array.from(
-                                                        selectedSeats
-                                                    ).join(", ")}
-                                                    {...register("seat", {
-                                                        validate: () =>
-                                                            selectedSeats.size >
-                                                                0 ||
-                                                            "Ghế đã chọn không được bỏ trống.",
-                                                    })}
-                                                    className={`form-control mb-3  ${
-                                                        errors.seat
-                                                            ? "is-invalid"
-                                                            : selectedSeats.size >
-                                                              0
-                                                            ? "is-valid"
-                                                            : ""
-                                                    }`}
-                                                    disabled
-                                                />
-                                                {errors.seat && (
-                                                    <div className="invalid-feedback">
-                                                        {errors.seat.message}
-                                                    </div>
-                                                )}
+    <label>Ghế đã chọn:</label>
+    <div className="input-container">
+        <input
+            type="text"
+            value={Array.from(selectedSeats).join(", ")}
+            {...register("seat", {
+                validate: () => selectedSeats.size > 0 || "Ghế đã chọn không được bỏ trống.",
+            })}
+            className="input-text"
+            disabled
+        />
+        {errors.seat ? (
+            <span className="input-icon" style={{ color: "#dc3545" }}>X</span>
+        ) : (
+            selectedSeats.size > 0 && <span className="input-icon" style={{ color: "#28a745" }}>✔</span>
+        )}
+    </div>
+    {errors.seat && <div className="invalid-feedback">{errors.seat.message}</div>}
 
-                                                <label>Giá:</label>
-                                                <input
-                                                    type="text"
-                                                    value={`${totalPrice.toLocaleString()} VNĐ`}
-                                                    {...register(
-                                                        "total_price",
-                                                        {
-                                                            validate: () =>
-                                                                totalPrice >
-                                                                    0 ||
-                                                                "Giá phải lớn hơn 0.",
-                                                        }
-                                                    )}
-                                                    className={`form-control mb-3 ${
-                                                        errors.total_price
-                                                            ? "is-invalid"
-                                                            : totalPrice > 0
-                                                            ? "is-valid"
-                                                            : ""
-                                                    }`}
-                                                    disabled
-                                                />
-                                                {errors.total_price && (
-                                                    <div className="invalid-feedback">
-                                                        {
-                                                            errors.total_price
-                                                                .message
-                                                        }
-                                                    </div>
-                                                )}
+    <label>Giá:</label>
+    <div className="input-container">
+        <input
+            type="text"
+            value={`${totalPrice.toLocaleString()} VNĐ`}
+            {...register("total_price", {
+                validate: () => totalPrice > 0 || "Giá phải lớn hơn 0.",
+            })}
+            className="input-text"
+            disabled
+        />
+        {errors.total_price ? (
+            <span className="input-icon" style={{ color: "#dc3545" }}>X</span>
+        ) : (
+            totalPrice > 0 && <span className="input-icon" style={{ color: "#28a745" }}>✔</span>
+        )}
+    </div>
+    {errors.total_price && <div className="invalid-feedback">{errors.total_price.message}</div>}
 
-                                                <label>Họ tên:</label>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Họ tên.."
-                                                    {...register("name", {
-                                                        required:
-                                                            "Họ và tên không được để trống.",
-                                                    })}
-                                                    className={`form-control mb-3 ${
-                                                        errors.name
-                                                            ? "is-invalid"
-                                                            : "is-valid"
-                                                    }`}
-                                                />
-                                                {errors.name && (
-                                                    <div className="invalid-feedback">
-                                                        {errors.name.message}
-                                                    </div>
-                                                )}
+    <label>Họ tên:</label>
+    <div className="input-container">
+        <input
+            type="text"
+            placeholder="Họ tên.."
+            {...register("name", { required: "Họ và tên không được để trống." })}
+            className="input-text"
+        />
+        {errors.name ? (
+            <span className="input-icon" style={{ color: "#dc3545" }}>X</span>
+        ) : (
+            <span className="input-icon" style={{ color: "#28a745" }}>✔</span>
+        )}
+    </div>
+    {errors.name && <div className="invalid-feedback">{errors.name.message}</div>}
 
-                                                <label>Số điện thoại:</label>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Số điện thoại.."
-                                                    {...register("phone", {
-                                                        required:
-                                                            "Số điện thoại là bắt buộc.",
-                                                        pattern: {
-                                                            value: /^\d{10}$/,
-                                                            message:
-                                                                "Số điện thoại phải là 10 chữ số.",
-                                                        },
-                                                    })}
-                                                    className={`form-control mb-3 ${
-                                                        errors.phone
-                                                            ? "is-invalid"
-                                                            : "is-valid"
-                                                    }`}
-                                                />
-                                                {errors.phone && (
-                                                    <div className="invalid-feedback">
-                                                        {errors.phone.message}
-                                                    </div>
-                                                )}
+    <label>Số điện thoại:</label>
+    <div className="input-container">
+        <input
+            type="text"
+            placeholder="Số điện thoại.."
+            {...register("phone", {
+                required: "Số điện thoại là bắt buộc.",
+                pattern: {
+                    value: /^\d{10}$/,
+                    message: "Số điện thoại phải là 10 chữ số.",
+                },
+            })}
+            className="input-text"
+        />
+        {errors.phone ? (
+            <span className="input-icon" style={{ color: "#dc3545" }}>X</span>
+        ) : (
+            <span className="input-icon" style={{ color: "#28a745" }}>✔</span>
+        )}
+    </div>
+    {errors.phone && <div className="invalid-feedback">{errors.phone.message}</div>}
 
-                                                <label>Email:</label>
-                                                <input
-                                                    type="email"
-                                                    placeholder="Email.."
-                                                    {...register("email", {
-                                                        required:
-                                                            "Email là bắt buộc.",
-                                                        pattern: {
-                                                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                                            message:
-                                                                "Email phải đúng định dạng.",
-                                                        },
-                                                    })}
-                                                    onChange={handleEmailChange}
-                                                    className={`form-control mb-3 ${
-                                                        errors.email
-                                                            ? "is-invalid"
-                                                            : "is-valid"
-                                                    }`}
-                                                />
-                                                {errors.email && (
-                                                    <div className="invalid-feedback">
-                                                        {errors.email.message}
-                                                    </div>
-                                                )}
+    <label>Email:</label>
+    <div className="input-container">
+        <input
+            type="email"
+            placeholder="Email.."
+            {...register("email", {
+                required: "Email là bắt buộc.",
+                pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Email phải đúng định dạng.",
+                },
+            })}
+            onChange={handleEmailChange}
+            className="input-text"
+        />
+        {errors.email ? (
+            <span className="input-icon" style={{ color: "#dc3545" }}>X</span>
+        ) : (
+            <span className="input-icon" style={{ color: "#28a745" }}>✔</span>
+        )}
+    </div>
+    {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
 
-                                                {isEmailEntered && (
-                                                    <div className="form-check">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="form-check-input"
-                                                            {...register(
-                                                                "emailCheck"
-                                                            )}
-                                                            onChange={() =>
-                                                                setSendTicketEmail(
-                                                                    true
-                                                                )
-                                                            }
-                                                        />
-                                                        <label className="form-check-label">
-                                                            Gửi vé về email
-                                                        </label>
-                                                    </div>
-                                                )}
+    {isEmailEntered && (
+        <div className="form-check">
+            <input
+                type="checkbox"
+                className=""
+                {...register("emailCheck")}
+                onChange={() => setSendTicketEmail(true)}
+            />
+            <label className="form-check-label">Gửi vé về email</label>
+        </div>
+    )}
 
-                                                <label>Ghi chú:</label>
-                                                <textarea
-                                                    className="form-control mb-3"
-                                                    placeholder="Ghi chú.."
-                                                    {...register("note")}
-                                                ></textarea>
+    <label>Ghi chú:</label>
+    <textarea
+        className="form-node"
+        placeholder="Ghi chú.."
+        {...register("note")}
+    ></textarea>
 
-                                                <label>Mã khuyến mãi:</label>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Mã khuyến mại.."
-                                                    {...register("promoCode")}
-                                                    className="form-control mb-3"
-                                                />
+    <label>Mã khuyến mãi:</label>
+    <div className="input-container">
+        <input
+            type="text"
+            placeholder="Mã khuyến mại.."
+            {...register("promoCode")}
+            className="input-text"
+        />
+    </div>
 
-                                                <label>Điểm đi:</label>
-                                                <select
-                                                    {...register(
-                                                        "location_start"
-                                                    )}
-                                                    className={`form-select ${
-                                                        errors.location_start
-                                                            ? "is-invalid"
-                                                            : ""
-                                                    }`}
-                                                >
-                                                    <option value="Tại Bến">
-                                                        Tại Bến
-                                                    </option>
-                                                    <option value="Dọc Đường">
-                                                        Dọc Đường
-                                                    </option>
+    <label>Điểm đi:</label>
+                                                <select {...register('location_start')}>
+                                                    <option value="Tại Bến">Tại Bến</option>
+                                                    <option value="Dọc Đường">Dọc Đường</option>
                                                 </select>
-                                                {errors.location_start && (
-                                                    <div className="invalid-feedback">
-                                                        {
-                                                            errors
-                                                                .location_start
-                                                                .message
-                                                        }
-                                                    </div>
-                                                )}
-
+                                                <input type="text" value={`${start_stop_name}`} disabled className="input-text" />
+                                                {/* Điểm đi */}
                                                 <label>Điểm đến:</label>
-                                                <select
-                                                    {...register(
-                                                        "location_end"
-                                                    )}
-                                                    className={`form-select ${
-                                                        errors.location_end
-                                                            ? "is-invalid"
-                                                            : ""
-                                                    }`}
-                                                >
-                                                    <option value="Tại Bến">
-                                                        Tại Bến
-                                                    </option>
-                                                    <option value="Dọc Đường">
-                                                        Dọc Đường
-                                                    </option>
+                                                <select {...register('location_end')}>
+                                                    <option value="Tại Bến">Tại Bến</option>
+                                                    <option value="Dọc Đường">Dọc Đường</option>
                                                 </select>
-                                                {errors.location_end && (
-                                                    <div className="invalid-feedback">
-                                                        {
-                                                            errors.location_end
-                                                                .message
-                                                        }
-                                                    </div>
-                                                )}
+                                                <input type="text" value={`${end_stop_name}`} disabled className="input-text" />
+                                                {/* Điểm đến */}
+    <div className="btn">
+        <button className="checkVoucher" type="button">
+            Kiểm tra mã
+        </button>
+        <button
+            className="checkVoucher"
+            type="submit"
+            style={{ background: "#405187" }}
+        >
+            Tiếp tục
+        </button>
+    </div>
+</form>
 
-                                                <div className="btn">
-                                                    <button
-                                                        className="checkVoucher"
-                                                        type="button"
-                                                    >
-                                                        Kiểm tra mã
-                                                    </button>
-                                                    <button
-                                                        className="checkVoucher "
-                                                        type="submit"
-                                                        style={{
-                                                            background:
-                                                                "#405187",
-                                                        }}
-                                                    >
-                                                        Tiếp tục
-                                                    </button>
-                                                </div>
-                                            </form>
+
                                         </div>
                                     </div>
                                 </div>
