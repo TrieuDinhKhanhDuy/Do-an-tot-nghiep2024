@@ -144,23 +144,30 @@ const List_BusFix = () => {
         const startLocation = queryParams.get("start");
         const endLocation = queryParams.get("end");
         setSelectedBus(bus);
-
+    
         const storedToken = localStorage.getItem("access_token");
-        if(storedToken){
+        if (storedToken) {
             nav(
                 `/choseseat?trip_id=${bus?.trip_id}&start_stop_name=${bus.start_stop_name}&end_stop_name=${bus.end_stop_name}&bus_id=${bus?.bus_id}&fare=${bus?.fare}&route_id=${bus?.route_id}&time_start=${bus?.time_start}&date=${bus?.date}&id_start_stop=${startLocation}&id_end_stop=${endLocation}`,
             );
-        }else{
+        } else {
+            const currentUrl = encodeURIComponent(window.location.href); // Lấy URL hiện tại
             Swal.fire({
                 title: "Vui Lòng Đăng Nhập!",
                 text: "Đăng nhập để có trải nghiệm đặt vé tối nhất!",
                 icon: "warning",
-                showConfirmButton: false,
+                showConfirmButton: true,
+                confirmButtonText: "Đăng Nhập",
                 allowEscapeKey: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `http://localhost:5173/login?redirect=${currentUrl}`;
+                }
             });
         }
-        
     };
+    
+    
     const handlePageChange = (newPage: number) => {
         if (newPage > 0 && newPage <= totalPages) {
             setPage(newPage);
