@@ -24,6 +24,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ListPoup from "./pages/Website/home/listPoup"
 import SoDoGhe from "./pages/Website/home/listPoup";
+import MyInfo from "./pages/Website/home/myinfo";
 const routerConfig = [
   {
     path: "/",
@@ -108,6 +109,10 @@ const routerConfig = [
       {
         path: "/choseseat",
         element: <ListPoup/>,
+      },
+      {
+        path: "/myinfo",
+        element: <MyInfo/>,
       },
 
       {

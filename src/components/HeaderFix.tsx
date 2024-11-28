@@ -27,7 +27,7 @@ const HeaderFix = () => {
         setIsOpen(false);
     };
     useEffect(() => {
-       
+
         const handleClickOutside = (event: MouseEvent) => {
             if (
                 submenuRef.current &&
@@ -53,8 +53,7 @@ const HeaderFix = () => {
 
     const handleLogout = async () => {
         try {
-            await logout("current");
-
+            await logout("all");
         } catch (error) {
             console.error("Đăng xuất thất bại:", error);
         }
@@ -69,8 +68,8 @@ const HeaderFix = () => {
             setUserRespon(JSON.parse(storedUser)); // Parse JSON để chuyển thành object
         }
 
-       
-    }, []); 
+
+    }, []);
     return (
         <>
             <header className="header_container" id="header_id">
@@ -219,15 +218,20 @@ const HeaderFix = () => {
                                     </Link>
                                 </div>
                                 <div className="menu-item_fix">
+                                <Link
+                                        to={"/myinfo"}
+                                        onClick={handleItemClick}
+                                    >
                                     <span
                                         role="img"
                                         aria-label="settings"
-                                        onClick={handleItemClick}
                                     >
                                         {" "}
                                         <FontAwesomeIcon icon={faCog} />
                                     </span>{" "}
                                     Cài đặt
+                                    </Link>
+
                                 </div>
                             </div>
 

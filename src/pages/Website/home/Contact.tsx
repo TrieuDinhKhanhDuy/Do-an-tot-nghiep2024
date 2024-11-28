@@ -69,110 +69,110 @@ const Contact = () => {
                         </p>
 
                         <form className="contactForm-form needs-validation" onSubmit={handleSubmit(onSubmit)} noValidate>
-    <div className="contactForm-row grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="contactForm-group">
-            <label className="block text-sm font-medium text-gray-700">Họ và tên:</label>
-            <div className="relative">
-                <input
-                    type="text"
-                    placeholder="Nhập họ và tên"
-                    className={`form-input mt-1 block w-full px-3 py-2 rounded-md border ${errors.name ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 ${touchedFields.name && !errors.name ? 'border-green-500' : ''}`}
-                    {...register("name")}
-                />
-                {touchedFields.name && !errors.name && (
-                    <FaCheck className="absolute right-2 top-1/2 transform -translate-y-1/2 text-green-500" />
-                )}
-                {touchedFields.name && errors.name && (
-                    <FaTimes className="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500" />
-                )}
-            </div>
-            {errors.name && <div className="text-sm text-red-500">{errors.name.message}</div>}
-        </div>
+                            <div className="contactForm-row grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="contactForm-group">
+                                    <label className="block text-sm font-medium text-gray-700">Họ và tên:</label>
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            placeholder="Nhập họ và tên"
+                                            className={`form-input mt-1 block w-full px-3 py-2 rounded-md border ${errors.name ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 ${touchedFields.name && !errors.name ? 'border-green-500' : ''}`}
+                                            {...register("name")}
+                                        />
+                                        {touchedFields.name && !errors.name && (
+                                            <FaCheck className="absolute right-2 top-1/2 transform -translate-y-1/2 text-green-500" />
+                                        )}
+                                        {touchedFields.name && errors.name && (
+                                            <FaTimes className="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500" />
+                                        )}
+                                    </div>
+                                    {errors.name && <div className="text-sm text-red-500">{errors.name.message}</div>}
+                                </div>
 
-        <div className="contactForm-group">
-            <label className="block text-sm font-medium text-gray-700">Số điện thoại:</label>
-            <div className="relative">
-                <input
-                    type="text"
-                    placeholder="Nhập số điện thoại"
-                    className={`form-input mt-1 block w-full px-3 py-2 rounded-md border ${errors.phone ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 ${touchedFields.phone && !errors.phone ? 'border-green-500' : ''}`}
-                    {...register("phone")}
-                />
-                {touchedFields.phone && !errors.phone && (
-                    <FaCheck className="absolute right-2 top-1/2 transform -translate-y-1/2 text-green-500" />
-                )}
-                {touchedFields.phone && errors.phone && (
-                    <FaTimes className="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500" />
-                )}
-            </div>
-            {errors.phone && <div className="text-sm text-red-500">{errors.phone.message}</div>}
-        </div>
-    </div>
+                                <div className="contactForm-group">
+                                    <label className="block text-sm font-medium text-gray-700">Số điện thoại:</label>
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            placeholder="Nhập số điện thoại"
+                                            className={`form-input mt-1 block w-full px-3 py-2 rounded-md border ${errors.phone ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 ${touchedFields.phone && !errors.phone ? 'border-green-500' : ''}`}
+                                            {...register("phone")}
+                                        />
+                                        {touchedFields.phone && !errors.phone && (
+                                            <FaCheck className="absolute right-2 top-1/2 transform -translate-y-1/2 text-green-500" />
+                                        )}
+                                        {touchedFields.phone && errors.phone && (
+                                            <FaTimes className="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500" />
+                                        )}
+                                    </div>
+                                    {errors.phone && <div className="text-sm text-red-500">{errors.phone.message}</div>}
+                                </div>
+                            </div>
 
-    <div className="contactForm-group">
-        <label className="block text-sm font-medium text-gray-700">Email:</label>
-        <div className="relative">
-            <input
-                type="email"
-                placeholder="Nhập email"
-                className={`form-input mt-1 block w-full px-3 py-2 rounded-md border ${errors.email ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 ${touchedFields.email && !errors.email ? 'border-green-500' : ''}`}
-                {...register("email")}
-            />
-            {touchedFields.email && !errors.email && (
-                <FaCheck className="absolute right-2 top-1/2 transform -translate-y-1/2 text-green-500" />
-            )}
-            {touchedFields.email && errors.email && (
-                <FaTimes className="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500" />
-            )}
-        </div>
-        {errors.email && <div className="text-sm text-red-500">{errors.email.message}</div>}
-    </div>
+                            <div className="contactForm-group">
+                                <label className="block text-sm font-medium text-gray-700">Email:</label>
+                                <div className="relative">
+                                    <input
+                                        type="email"
+                                        placeholder="Nhập email"
+                                        className={`form-input mt-1 block w-full px-3 py-2 rounded-md border ${errors.email ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 ${touchedFields.email && !errors.email ? 'border-green-500' : ''}`}
+                                        {...register("email")}
+                                    />
+                                    {touchedFields.email && !errors.email && (
+                                        <FaCheck className="absolute right-2 top-1/2 transform -translate-y-1/2 text-green-500" />
+                                    )}
+                                    {touchedFields.email && errors.email && (
+                                        <FaTimes className="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500" />
+                                    )}
+                                </div>
+                                {errors.email && <div className="text-sm text-red-500">{errors.email.message}</div>}
+                            </div>
 
-    <div className="contactForm-group">
-        <label className="block text-sm font-medium text-gray-700">Tiêu đề:</label>
-        <div className="relative">
-            <input
-                type="text"
-                placeholder="Nhập tiêu đề"
-                className={`form-input mt-1 block w-full px-3 py-2 rounded-md border ${errors.title ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 ${touchedFields.title && !errors.title ? 'border-green-500' : ''}`}
-                {...register("title")}
-            />
-            {touchedFields.title && !errors.title && (
-                <FaCheck className="absolute right-2 top-1/2 transform -translate-y-1/2 text-green-500" />
-            )}
-            {touchedFields.title && errors.title && (
-                <FaTimes className="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500" />
-            )}
-        </div>
-        {errors.title && <div className="text-sm text-red-500">{errors.title.message}</div>}
-    </div>
+                            <div className="contactForm-group">
+                                <label className="block text-sm font-medium text-gray-700">Tiêu đề:</label>
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        placeholder="Nhập tiêu đề"
+                                        className={`form-input mt-1 block w-full px-3 py-2 rounded-md border ${errors.title ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 ${touchedFields.title && !errors.title ? 'border-green-500' : ''}`}
+                                        {...register("title")}
+                                    />
+                                    {touchedFields.title && !errors.title && (
+                                        <FaCheck className="absolute right-2 top-1/2 transform -translate-y-1/2 text-green-500" />
+                                    )}
+                                    {touchedFields.title && errors.title && (
+                                        <FaTimes className="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500" />
+                                    )}
+                                </div>
+                                {errors.title && <div className="text-sm text-red-500">{errors.title.message}</div>}
+                            </div>
 
-    <div className="contactForm-group">
-        <label className="block text-sm font-medium text-gray-700">Nội dung liên hệ:</label>
-        <div className="relative">
-            <textarea
-                placeholder="Nhập nội dung của bạn"
-                className={`form-textarea mt-1 block w-full px-3 py-2 rounded-md border ${errors.message ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 ${touchedFields.message && !errors.message ? 'border-green-500' : ''}`}
-                {...register("message")}
-            />
-            {touchedFields.message && !errors.message && (
-                <FaCheck className="absolute right-2 top-1/2 transform -translate-y-1/2 text-green-500" />
-            )}
-            {touchedFields.message && errors.message && (
-                <FaTimes className="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500" />
-            )}
-        </div>
-        {errors.message && <div className="text-sm text-red-500">{errors.message.message}</div>}
-    </div>
+                            <div className="contactForm-group">
+                                <label className="block text-sm font-medium text-gray-700">Nội dung liên hệ:</label>
+                                <div className="relative">
+                                    <textarea
+                                        placeholder="Nhập nội dung của bạn"
+                                        className={`form-textarea mt-1 block w-full px-3 py-2 rounded-md border ${errors.message ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 ${touchedFields.message && !errors.message ? 'border-green-500' : ''}`}
+                                        {...register("message")}
+                                    />
+                                    {touchedFields.message && !errors.message && (
+                                        <FaCheck className="absolute right-2 top-1/2 transform -translate-y-1/2 text-green-500" />
+                                    )}
+                                    {touchedFields.message && errors.message && (
+                                        <FaTimes className="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500" />
+                                    )}
+                                </div>
+                                {errors.message && <div className="text-sm text-red-500">{errors.message.message}</div>}
+                            </div>
 
-    <button
-        type="submit"
-        className="mt-4 w-full  text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        style={{background:"#405187"}}
-    >
-        GỬI THƯ
-    </button>
-</form>
+                            <button
+                                type="submit"
+                                className="mt-4 w-full  text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                style={{ background: "#405187" }}
+                            >
+                                GỬI THƯ
+                            </button>
+                        </form>
 
                     </div>
 

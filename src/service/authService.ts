@@ -6,9 +6,8 @@ export const login = async (data: UserLoginType): Promise<LoginResponse> => {
     const response = await axios.post<LoginResponse>('http://doantotnghiep.test/api/login', data);
     localStorage.setItem('access_token', response.data.access_token);
     localStorage.setItem('token_type', response.data.token_type);
-    
-    localStorage.setItem('userId', JSON.stringify(response.data.user));
 
+    localStorage.setItem('userId', JSON.stringify(response.data.user));
     return response.data;
 };
 
@@ -18,7 +17,7 @@ export const handleRegister = async (data: UserType) => {
         const response = await axios.post(
             "http://doantotnghiep.test/api/register",
             {
-                name: data.name, 
+                name: data.name,
                 phone: data.phone,
                 address: data.address,
                 email: data.email,
@@ -33,21 +32,66 @@ export const handleRegister = async (data: UserType) => {
                 title: "Đăng ký thất bại!",
                 text: error.response.data.message || "Vui lòng thử lại.",
                 icon: "error",
-                confirmButtonText: "OK", 
-                allowOutsideClick: false, 
-                allowEscapeKey: false, 
+                confirmButtonText: "OK",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
             });
         } else {
             Swal.fire({
                 title: "Lỗi không xác định!",
                 text: "Đã xảy ra lỗi không mong muốn.",
                 icon: "error",
-                confirmButtonText: "OK", 
-                allowOutsideClick: false, 
-                allowEscapeKey: false, 
+                confirmButtonText: "OK",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
             });
         }
-        throw error; 
+        throw error;
+    }
+};
+
+export const handleUpdate = async (data: UserType) => {
+    try {
+        const response = await axios.put(
+            "http://doantotnghiep.test/api/account/update",
+            {
+                name: data.name,
+                phone: data.phone,
+                address: data.address,
+                email: data.email,
+            }
+        );
+        Swal.fire({
+            title: "Cập nhật thông tin thành công",
+            text: "Vui lòng đăng nhập lại",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500
+        }).then(() => {
+            window.location.href = "/login";
+        });
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            Swal.fire({
+                title: "Cập nhật thất bại!",
+                text: error.response.data.message || "Vui lòng thử lại.",
+                icon: "error",
+                confirmButtonText: "OK",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            });
+        } else {
+            Swal.fire({
+                title: "Lỗi không xác định!",
+                text: "Đã xảy ra lỗi không mong muốn.",
+                icon: "error",
+                confirmButtonText: "OK",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            });
+        }
+        throw error;
     }
 };
 
@@ -81,6 +125,8 @@ export const logout = async (type: 'all' | 'current') => {
             icon: "success",
             showConfirmButton: false,
             timer: 1500
+        }).then(() => {
+            window.location.href = "/login";
         });
         return response.data;
     } catch (error) {

@@ -10,7 +10,9 @@ function ClientLayout() {
     <>
       <div className="client_layout_container">
         <HeaderFix />
-        <Outlet />
+        <div className="content_outlet">
+          <Outlet />
+        </div>
         <Footer />
       </div>
     </>

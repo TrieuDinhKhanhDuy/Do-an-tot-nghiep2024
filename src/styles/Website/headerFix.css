@@ -10,8 +10,8 @@
    background-color: #405187;
    width: 50%;
    left: 50%;
-   top: 47%;
-   height: 53px;
+   top: 46%;
+   height: 54px;  
    position: absolute;
  }
 
@@ -19,7 +19,7 @@
    position: absolute;
    width: 1440px;
    transform: translate(-50%, -50%);
-   top: 33%;
+   top: 40%;
    left: 50%;
 
  }

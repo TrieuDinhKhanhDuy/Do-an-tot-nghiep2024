@@ -8,8 +8,6 @@ import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import useAuth from "@/hooks/useAuth";
 import { UserLoginType } from "@/types/IUser";
-import Swal from "sweetalert2";
-import { useNavigate } from 'react-router-dom';
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TextField } from '@mui/material';
@@ -35,21 +33,12 @@ const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<UserLoginType>({
         resolver: zodResolver(loginSchema),
     });
-    const nav = useNavigate();
 
 
 
     const onSubmit = async (data: UserLoginType) => {
         await handleLogin(data.email, data.password);
-        Swal.fire({
-            title: "Đăng Nhập Thành Công",
-            text: "Tự động chuyển về trang chủ....",
-            icon: "success",
-            showConfirmButton: false,
-            timer: 1500
-        }).then(() => {
-            nav('/');
-        });
+        
     };
 
 
