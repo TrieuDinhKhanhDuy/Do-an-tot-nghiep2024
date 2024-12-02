@@ -1,0 +1,207 @@
+/* Container chính */
+.changeTicket {
+    margin-top: 30px;
+    display: flex;
+    gap: 1rem;
+    padding: 20px;
+    border: 1px solid #d8d8d8;
+    border-radius: 10px;
+    margin: 30px 60px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+}
+
+  
+  /* Phần thông tin chuyến xe */
+  .changeTicket__info {
+    width: 28%;
+    padding: 1.5rem;
+    background: #fdfdfd;
+    border: 1px solid rgba(0, 0, 0, 0.385);
+    border-radius: 8px;
+    height: 600px;
+  }
+  
+  .changeTicket__info-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed grey;
+    color: #405187;
+  }
+  
+  .changeTicket__info-table {
+    width: 100%;
+    border-spacing: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .changeTicket__info-table td {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    vertical-align: top;
+  }
+  
+  .changeTicket__info-label {
+    font-weight: bold;
+    width: 40%;  /* Điều chỉnh độ rộng cho nhãn */
+  }
+  
+  .changeTicket__info-value {
+    text-align: left;  /* Căn chỉnh giá trị sang trái */
+    padding-left: 10px;  /* Khoảng cách từ trái cho giá trị */
+  }
+  
+  .changeTicket__info-note {
+    font-size: 12px;
+    color: #666;
+    margin-top: 1rem;
+  }
+  
+  .changeTicket__info-link {
+    color: #003cb3;
+    text-decoration: none;
+  }
+  
+  .changeTicket__info-link:hover {
+    text-decoration: underline;
+  }
+  
+  .changeTicket__info-footer {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .changeTicket__info-checkbox {
+    margin-right: 0.5rem;
+  }
+  
+  .changeTicket__info-button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    background: #405187;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+  
+  .changeTicket__info-button:hover {
+    background: #002a80;
+  }
+  
+  
+  
+  /* Phần danh sách chuyến xe */
+  .changeTicket__list {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .changeTicket__list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.404);
+    border-radius: 8px;
+  }
+  
+  .changeTicket__list-route {
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .changeTicket__list-details {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 16px;
+    flex-direction: column;
+  }
+  
+  .changeTicket__list-time {
+font-weight: 550;
+  }
+  
+  .changeTicket__list-type,
+  .changeTicket__list-seats {
+    font-weight: 500;
+  }
+  
+  .changeTicket__list-price {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-direction: column;
+  }
+  
+  .changeTicket__list-price-value {
+    font-size: 16px;
+    font-weight: bold;
+    color: #e60000d0;
+  }
+  
+  .changeTicket__list-button {
+    padding: 5px 15px;
+    background: #405187;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .changeTicket__list-button:hover {
+    background: #002a80;
+  }
+  
+  /* Thêm phần responsive */
+  @media (max-width: 768px) {
+    .changeTicket {
+      flex-direction: column;
+      padding: 20px;
+    }
+  
+    .changeTicket__info {
+      width: 100%;
+      height: auto;
+    }
+  
+    .changeTicket__list {
+      width: 100%;
+    }
+  
+    .changeTicket__list-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .changeTicket__list-route {
+      font-size: 14px;
+      
+    }
+  
+    .changeTicket__list-details {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .changeTicket__list-price {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  
+  

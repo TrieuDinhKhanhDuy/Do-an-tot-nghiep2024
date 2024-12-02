@@ -25,6 +25,10 @@ import "react-toastify/dist/ReactToastify.css";
 import ListPoup from "./pages/Website/home/listPoup"
 import SoDoGhe from "./pages/Website/home/listPoup";
 import MyInfo from "./pages/Website/home/myinfo";
+import UserProfile from "./pages/Website/home/userProfile"
+import UserInformation from "./pages/Website/home/UserInformation";
+import ChangeInformation from "./pages/Website/home/changeInformation";
+import Changticket from "./pages/Website/home/changeTicket";
 const routerConfig = [
   {
     path: "/",
@@ -113,6 +117,22 @@ const routerConfig = [
       {
         path: "/myinfo",
         element: <MyInfo/>,
+      },
+      {
+        path: "/userProfile",
+        element: <UserProfile/>,
+      },
+      {
+        path: "/userInformation",
+        element: <UserInformation/>,
+      },
+      {
+        path: "/changeInformation",
+        element: <ChangeInformation/>,
+      },
+      {
+        path: "/changeTicket",
+        element: <Changticket/>,
       },
 
       {

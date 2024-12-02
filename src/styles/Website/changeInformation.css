@@ -1,0 +1,126 @@
+/* Container */
+.changeInformation-container {
+    display: flex;
+    gap: 20px;
+    padding: 30px 60px;
+}
+
+/* Sidebar */
+.changeInformation-sidebar {
+    width: 250px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.changeInformation-sidebar__profile {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid grey;
+    padding-bottom: 30px;
+}
+
+.changeInformation-sidebar__avatar {
+    font-size: 50px;
+    color: #333;
+}
+
+.changeInformation-sidebar__name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.changeInformation-sidebar__role {
+    font-size: 14px;
+    color: #888;
+}
+
+.changeInformation-sidebar__menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.changeInformation-sidebar__menu-item {
+    padding: 10px 0;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s;
+}
+
+.changeInformation-sidebar__menu-item:hover {
+    background-color: #405187;
+    color: white;
+}
+
+.changeInformation-sidebar__menu-icon {
+    font-size: 20px;
+    color: #555;
+}
+
+/* Main content */
+.changeInformation-main {
+    flex-grow: 1;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ececec;
+}
+.changeInformation-buttons {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.changeInformation-button-infor,
+.changeInformation-buttonchangeInformation-button-passowrd {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 550;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid rgba(128, 128, 128, 0.215);
+}
+
+.changeInformation-button-infor {
+    color: black;
+}
+
+.changeInformation-buttonchangeInformation-button-passowrd {
+    color: #333;
+}
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .changeInformation-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .changeInformation-sidebar {
+        width: 100%;
+    }
+
+    .changeInformation-main {
+        width: 100%;
+    }
+}
