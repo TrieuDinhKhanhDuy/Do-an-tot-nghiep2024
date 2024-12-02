@@ -26,7 +26,7 @@ const Banner = () => {
 
   return (
     <div className="img_banner">
-      {/* <Slider {...settings} className='slick-slider' > */}
+      <Slider {...settings} className='slick-slider' >
         {banners.map((bannerData, index) => (
           <div key={index} className="img_banner">  
             <img
@@ -36,7 +36,7 @@ const Banner = () => {
             />
           </div>
         ))}
-      {/* </Slider> */}
+      </Slider>
       
     </div>
   );

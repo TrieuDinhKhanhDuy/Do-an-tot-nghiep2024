@@ -2,10 +2,13 @@ import { useState } from 'react';
 import { login, handleRegister, handleUpdate } from '../service/authService';
 import { UserLoginType, UserType } from '@/types/IUser';
 import Swal from 'sweetalert2';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const useAuth = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const nav = useNavigate();
+    const location = useLocation();
 
     const handleLogin = async (email: string, password: string) => {
         setLoading(true);
@@ -16,12 +19,18 @@ const useAuth = () => {
             const response = await login(loginData);
             Swal.fire({
                 title: "Đăng Nhập Thành Công",
-                text: "Tự động chuyển về trang chủ....",
+                text: "Tự động chuyển về trang trước đó....",
                 icon: "success",
                 showConfirmButton: false,
-                timer: 1500
+                timer: 1500,
             }).then(() => {
-                window.location.href = "/";
+                const queryParams = new URLSearchParams(location.search);
+                const redirectUrl = queryParams.get("redirect");
+                if (redirectUrl) {
+                    window.location.href = decodeURIComponent(redirectUrl);
+                } else {
+                    nav("/"); 
+                }
             });
             console.log('Đăng nhập thành công:', response);
         } catch (error) {
@@ -67,7 +76,7 @@ const useAuth = () => {
         }
     };
 
-    return { handleLogin, registerUser,UpdateUser, loading, error };
+    return { handleLogin, registerUser, UpdateUser, loading, error };
 };
 
 export default useAuth;

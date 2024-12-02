@@ -3,12 +3,11 @@ import "../styles/Website/Login.css";
 import Login1 from "../assets/image/Login2.png";
 import Heading from "./Heading";
 import Breadcrumb from "./Breadcrumb";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import useAuth from "@/hooks/useAuth";
 import { UserLoginType } from "@/types/IUser";
-import Swal from "sweetalert2";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TextField } from "@mui/material";
@@ -32,26 +31,8 @@ const Login = () => {
         resolver: zodResolver(loginSchema),
     });
 
-    const nav = useNavigate();
-    const location = useLocation();
-
     const onSubmit = async (data: UserLoginType) => {
         await handleLogin(data.email, data.password);
-        Swal.fire({
-            title: "Đăng Nhập Thành Công",
-            text: "Tự động chuyển về trang trước đó....",
-            icon: "success",
-            showConfirmButton: false,
-            timer: 1500,
-        }).then(() => {
-            const queryParams = new URLSearchParams(location.search);
-            const redirectUrl = queryParams.get("redirect");
-            if (redirectUrl) {
-                window.location.href = decodeURIComponent(redirectUrl);
-            } else {
-                nav("/"); // Quay về trang chủ nếu không có redirect
-            }
-        });
     };
 
     return (

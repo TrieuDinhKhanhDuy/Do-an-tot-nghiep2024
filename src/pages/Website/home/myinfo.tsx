@@ -178,7 +178,7 @@ const MyInfo = () => {
                                 </div>
                             </div>
 
-                            <div className="contactForm-group">
+                            <div className="contactForm-group hidden">
                                 <label className="block text-sm font-medium text-gray-700">Email:</label>
                                 <div className="relative">
                                     <input
