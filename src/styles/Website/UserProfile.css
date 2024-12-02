@@ -1,0 +1,204 @@
+/* Container */
+.userProfile-container {
+    display: flex;
+    gap: 20px;
+    padding: 30px 60px;
+}
+
+/* Sidebar */
+.userProfile-sidebar {
+    width: 250px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.userProfile-sidebar__profile {
+    display: flex;
+    flex-direction: row; 
+    gap: 15px; 
+    align-items: center; 
+    margin-bottom: 20px;
+    border-bottom: 1px solid grey;
+    padding-bottom: 30px;
+}
+
+
+.userProfile-sidebar__avatar {
+    font-size: 50px;
+    color: #333;
+}
+
+.userProfile-sidebar__name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.userProfile-sidebar__role {
+    font-size: 14px;
+    color: #888;
+}
+
+.userProfile-sidebar__menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.userProfile-sidebar__menu-item {
+    padding: 10px 0;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s;
+}
+
+.userProfile-sidebar__menu-item:hover {
+    background-color: #405187;
+    color: white;
+}
+
+.userProfile-sidebar__menu-item i {
+    font-size: 20px;
+}
+
+.userProfile-sidebar__menu-icon {
+    font-size: 20px;
+    color: #555;
+}
+
+/* Main content */
+.userProfile-main {
+    flex-grow: 1;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ececec ; 
+}
+
+.userProfile-form__title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Form */
+.userProfile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.userProfile-form__input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.userProfile-form__label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.userProfile-form__input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.userProfile-form__input:focus {
+    border-color: #405187;
+}
+
+
+
+.userProfile-form__otp-button {
+    padding: 10px 15px;
+    background-color: #405187;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.userProfile-form__otp-button:hover {
+    background-color: #365080;
+}
+
+.userProfile-form__otp-timer {
+    font-size: 14px;
+    color: #888;
+}
+
+.userProfile-form__button-group {
+    display: flex;
+    margin-top: 20px;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.userProfile-form__cancel-button,
+.userProfile-form__submit-button {
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng sang phải */
+    transition: box-shadow 0.3s ease; /* Hiệu ứng mượt mà khi thay đổi bóng */
+}
+
+.userProfile-form__cancel-button:hover,
+.userProfile-form__submit-button:hover {
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2); /* Tăng độ đổ bóng khi hover */
+}
+
+.userProfile-form__input-group-otp{
+    display: flex;
+    justify-content: space-between;
+}
+
+.userProfile-form__cancel-button {
+    background-color: #ccc;
+}
+
+.userProfile-form__cancel-button:hover {
+    background-color: #aaa;
+}
+
+.userProfile-form__submit-button {
+    background-color: #405187;
+    color: white;
+}
+
+.userProfile-form__submit-button:hover {
+    background-color: #365080;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .userProfile-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .userProfile-sidebar {
+        width: 100%;
+    }
+
+    .userProfile-main {
+        width: 100%;
+    }
+}
