@@ -1,9 +1,4 @@
-/* Container */
-.userInformation-container {
-    display: flex;
-    gap: 20px;
-    padding: 30px 60px;
-}
+
 
 /* Sidebar */
 .userInformation-sidebar {
@@ -56,7 +51,7 @@
 }
 
 .userInformation-sidebar__menu-item:hover {
-    background-color: #405187;
+    /* background-color: #405187; */
     color: white;
 }
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { login, handleRegister, handleUpdate } from '../service/authService';
-import { UserLoginType, UserType } from '@/types/IUser';
+import { login, handleRegister, handleUpdate, handleChangePassword, handleGetOtp } from '../service/authService';
+import { ChangePasswordType, OtpReponse, UserLoginType, UserType } from '@/types/IUser';
 import Swal from 'sweetalert2';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -29,7 +29,7 @@ const useAuth = () => {
                 if (redirectUrl) {
                     window.location.href = decodeURIComponent(redirectUrl);
                 } else {
-                    nav("/"); 
+                    nav("/");
                 }
             });
             console.log('Đăng nhập thành công:', response);
@@ -61,6 +61,36 @@ const useAuth = () => {
         }
     };
 
+    const GetOtp = async (userData: OtpReponse) => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const response = await handleGetOtp(userData);
+            console.log('Cập Nhật Thành công:', response);
+            return response;
+        } catch (error) {
+            setError('Đăng ký không thành công');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const ChangePassword = async (userData: ChangePasswordType) => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const response = await handleChangePassword(userData);
+            console.log('Cập Nhật Thành công:', response);
+            return response;
+        } catch (error) {
+            setError('Đăng ký không thành công');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const registerUser = async (userData: UserType) => {
         setLoading(true);
         setError(null);
@@ -76,7 +106,7 @@ const useAuth = () => {
         }
     };
 
-    return { handleLogin, registerUser, UpdateUser, loading, error };
+    return { handleLogin, registerUser, UpdateUser, ChangePassword, GetOtp , loading, error };
 };
 
 export default useAuth;

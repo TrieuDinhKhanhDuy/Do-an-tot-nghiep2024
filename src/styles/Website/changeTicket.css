@@ -1,13 +1,12 @@
 /* Container chính */
 .changeTicket {
-    margin-top: 30px;
-    display: flex;
-    gap: 1rem;
-    padding: 20px;
-    border: 1px solid #d8d8d8;
-    border-radius: 10px;
-    margin: 30px 60px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+  width: 1200px;
+  min-height: 700px;
+  margin: 20px auto;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 20px;
+
 }
 
   

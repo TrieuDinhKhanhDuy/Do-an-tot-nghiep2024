@@ -10,6 +10,7 @@ import {
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import LeftBar from "@/components/leftBar_user";
 interface BusOption {
     cancelbtn: string;
     date_start: string; // Ngày bắt đầu, định dạng ISO như "YYYY-MM-DD"
@@ -94,75 +95,7 @@ const MyTicket = () => {
 
             <div className="tickets-container">
                 <div className="bus-comp-container">
-                    <div className="bus-comp-left-sidebar">
-                        <div className="bus-comp-sort-options">
-                            <div className="menu-options_fix">
-                                {/* <div className="user-info_fix menu-item_fix">
-                                    <div className="user-avatar_fix  ">
-                                        <span role="img" aria-label="avatar">
-
-                                        </span>
-                                    </div>
-                                    <div className="user-details_fix">
-                                        <span className="user-name_fix ">
-                                            Admin hieu
-                                        </span>
-                                        <span className="user-role_fix menu-item_fix">admin</span>
-                                    </div>
-                                </div> */}
-                                <div className="menu-item_fix insite">
-                                    <Link
-                                        to={"/myticket"}
-                                    >
-                                        {" "}
-                                        <span role="img" aria-label="ticket">
-                                            {" "}
-                                            <FontAwesomeIcon icon={faTicket} />
-                                        </span>{" "}
-                                        Vé của tôi
-                                    </Link>
-                                </div>
-                                <div className="menu-item_fix">
-                                    <Link
-                                        to={"/listvoucher"}
-                                    >
-                                        {" "}
-                                        <span role="img" aria-label="ticket">
-                                            {" "}
-                                            <FontAwesomeIcon icon={faGift} />
-                                        </span>{" "}
-                                        Voucher
-                                    </Link>
-                                </div>
-                                <div className="menu-item_fix">
-                                    <Link
-                                        to={"/myinfo"}
-                                    >
-                                        <span
-                                            role="img"
-                                            aria-label="settings"
-                                        >
-                                            {" "}
-                                            <FontAwesomeIcon icon={faCog} />
-                                        </span>{" "}
-                                        Cài đặt
-                                    </Link>
-
-                                </div>
-                                {/* <div
-                                    className="logout_fix menu-item_fix"
-                                    style={{ display: "flex", alignItems: "center" }}
-                                >
-                                    <span style={{ marginRight: "10px" }}>
-                                        <FontAwesomeIcon icon={faSignOutAlt} />
-                                    </span>
-                                    Đăng xuất
-                                </div> */}
-                            </div>
-                        </div>
-
-
-                    </div>
+                    <LeftBar/>
 
                     <div className="bus-comp-list" >
                         <div className="schedule-header">

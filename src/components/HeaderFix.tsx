@@ -219,7 +219,7 @@ const HeaderFix = () => {
                                 </div>
                                 <div className="menu-item_fix">
                                 <Link
-                                        to={"/myinfo"}
+                                        to={"/usersetting"}
                                         onClick={handleItemClick}
                                     >
                                     <span

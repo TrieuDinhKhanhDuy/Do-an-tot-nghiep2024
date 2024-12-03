@@ -24,11 +24,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ListPoup from "./pages/Website/home/listPoup"
 import SoDoGhe from "./pages/Website/home/listPoup";
-import MyInfo from "./pages/Website/home/myinfo";
-import UserProfile from "./pages/Website/home/userProfile"
-import UserInformation from "./pages/Website/home/UserInformation";
+import MyInfo from "./pages/Website/home/userChangeInfo";
+import UserProfile from "./pages/Website/home/userChangePassword"
 import ChangeInformation from "./pages/Website/home/changeInformation";
 import Changticket from "./pages/Website/home/changeTicket";
+import UserSetting from "./pages/Website/home/userSetting";
+import UserChangePassword from "./pages/Website/home/userChangePassword";
+import UserChangeInfo from "./pages/Website/home/userChangeInfo";
 const routerConfig = [
   {
     path: "/",
@@ -115,26 +117,25 @@ const routerConfig = [
         element: <ListPoup/>,
       },
       {
-        path: "/myinfo",
-        element: <MyInfo/>,
+        path: "/usersetting/changeinfo",
+        element: <UserChangeInfo/>,
       },
       {
         path: "/userProfile",
         element: <UserProfile/>,
       },
       {
-        path: "/userInformation",
-        element: <UserInformation/>,
-      },
-      {
-        path: "/changeInformation",
-        element: <ChangeInformation/>,
+        path: "/usersetting/changepassword",
+        element: <UserChangePassword/>,
       },
       {
         path: "/changeTicket",
         element: <Changticket/>,
       },
-
+      {
+        path: "/usersetting",
+        element: <UserSetting/>,
+      },
       {
         path: '/*',
         element: <NotFound />

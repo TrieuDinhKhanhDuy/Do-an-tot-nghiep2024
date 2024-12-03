@@ -27,3 +27,12 @@ export type LoginResponse = {
     user: UserType;
     orders: OrdersType;
 }
+export type ChangePasswordType = {
+    password: string;
+    password_confirmation: string;
+    otp: string;
+    email: string;
+}
+export type OtpReponse = {
+    email: string;
+}
