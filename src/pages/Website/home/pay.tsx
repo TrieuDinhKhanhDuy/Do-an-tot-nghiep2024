@@ -9,13 +9,13 @@ import Swal from "sweetalert2";
 import numeral from "numeral";
 import { SeatApiResponse } from "@/types/IChosesSeat";
 
-
 const Pay = () => {
     const duongDan = [
         { nhan: 'Trang Chủ', duongDan: '/' },
         { nhan: 'List Vé', duongDan: 'list' },
         { nhan: 'Thanh Toán', duongDan: 'pay' },
     ];
+
     // Lấy URL hiện tại và search params
     const location = useLocation();
     const params = new URLSearchParams(location.search);
@@ -29,7 +29,7 @@ const Pay = () => {
     const busId = params.get('bus_id');
     const routeId = params.get('route_id');
     const timeStart = params.get('time_start');
-    const total_price = params.get('total_price');
+    const total_price = parseFloat(params.get('total_price') || "0");
     const date = params.get('date');
     const nameSeat = params.get('name_seat');
     const locationStart = params.get('location_start');
@@ -40,17 +40,24 @@ const Pay = () => {
     const phone = params.get('phone');
     const email = params.get('email');
     const note = params.get('note');
-    const fare = params.get('fare');
+    const fare = parseFloat(params.get('fare') || "0");
     const user_id = params.get('userId');
+    const vouchercode = params.get('vouchercode');
+    const discount = parseFloat(params.get('discount') || "0");
 
-    const nav = useNavigate()
+    const nav = useNavigate();
 
     const [error, setError] = useState<string | null>(null);
     const [data, setData] = useState<SeatApiResponse | null>(null);
     const [payment_method_id, setPayment_method_id] = useState<number | null>(null);
 
+    // Tính toán giá vé ban đầu và tổng tiền
     const formattedFare = numeral(fare).format('0,0');
-    const formattedTotal_price = numeral(total_price).format('0,0')
+    const formattedTotal_price = numeral(total_price).format('0,0');
+
+    // Tính tổng tiền sau khi áp dụng giảm giá (nếu có)
+    const discountedPrice = discount > 0 ? total_price * (1 - discount / 100) : total_price;
+    const formattedDiscountedPrice = numeral(discountedPrice).format('0,0');
 
     useEffect(() => {
         // Gọi API với axios
@@ -64,7 +71,6 @@ const Pay = () => {
                 });
                 // Lưu dữ liệu vào state
                 setData(response.data);
-                // window.location.href = response.data.payUrl;  // Chuyển hướng đến trang thanh toán MoMo
             } catch (error) {
                 setError('Đã xảy ra lỗi khi lấy dữ liệu');
             }
@@ -80,7 +86,7 @@ const Pay = () => {
             bus_id: busId,
             route_id: routeId,
             time_start: timeStart,
-            total_price: total_price,
+            total_price: discountedPrice, // Gửi tổng tiền sau khi giảm giá
             date: date,
             name_seat: nameSeat,
             location_start: locationStart,
@@ -113,12 +119,12 @@ const Pay = () => {
                 text: "Có vẻ như bạn đang nhập thiếu thông tin",
                 icon: "error",
                 showCancelButton: false,
-            })
+            });
             setError('Đã xảy ra lỗi khi thanh toán');
             console.error('Lỗi thanh toán:', error);
         }
-
     };
+
     const handleClosePayment = () => {
         Swal.fire({
             title: "Đã hủy vé",
@@ -126,11 +132,11 @@ const Pay = () => {
             showConfirmButton: false,
             showCancelButton: false,
             timer: 1000,
-        })
-        .then(() => {
-           nav('/')
+        }).then(() => {
+            nav('/');
         });
-    }
+    };
+
     return (
         <>
             <Breadcrumb items={duongDan} />
@@ -160,9 +166,9 @@ const Pay = () => {
                         <div className="price-summary">
                             <p>Giá vé: <span>{formattedFare} VNĐ</span></p>
                             <p>Số Ghế: <span>{nameSeat}</span></p>
-                            <p>Mã giảm giá: <span>-</span></p>
+                            <p>Mã giảm giá: <span>{vouchercode} Giảm {discount}%</span></p>
                             <hr />
-                            <p className="total">Tổng tiền: <span>{formattedTotal_price} VNĐ</span></p>
+                            <p className="total">Tổng tiền: <span>{formattedDiscountedPrice} VNĐ</span></p>
                         </div>
                         <p className="agreement-text">
                             Khi nhấp vào "Thanh toán", bạn đồng ý rằng bạn đã đọc và hiểu

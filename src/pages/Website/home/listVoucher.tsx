@@ -9,6 +9,11 @@ import image1 from "../../../assets/image/banner_voucher.jfif";
 import image2 from "../../../assets/image/banner_voucher2.jfif";
 import image3 from "../../../assets/image/banner_voucher3.jfif";
 import Breadcrumb from "@/components/Breadcrumb";
+import { useEffect, useState } from "react";
+import Pusher from "pusher-js";
+import axios from "axios";
+import { Voucher } from "@/types/IVoucher";
+
 const vouchers = [
     { id: 1, title: "Flash Sale", imageUrl: image2, description: "Thứ 3 hàng tuần - Flash Sale đến 50%" },
     { id: 2, title: "Giảm 25%", imageUrl: image1, description: "Giảm 25% cho khách hàng lần đầu" },
@@ -17,6 +22,7 @@ const vouchers = [
     { id: 5, title: "Giảm 50K", imageUrl: image1, description: "Giảm 50K khi thanh toán" },
 ];
 const ListVoucher = () => {
+    const [vouchers, setVouchers] = useState([]);
     const settings = {
         centerPadding: '20px',
         dots: true,
@@ -25,7 +31,7 @@ const ListVoucher = () => {
         slidesToShow: 3,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 3000, 
+        autoplaySpeed: 3000,
         responsive: [
             {
                 breakpoint: 1024,
@@ -52,7 +58,7 @@ const ListVoucher = () => {
         slidesToShow: 3,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 4000, 
+        autoplaySpeed: 4000,
         responsive: [
             {
                 breakpoint: 1024,
@@ -79,7 +85,7 @@ const ListVoucher = () => {
         slidesToShow: 3,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 5000, 
+        autoplaySpeed: 5000,
         responsive: [
             {
                 breakpoint: 1024,
@@ -105,16 +111,62 @@ const ListVoucher = () => {
         { nhan: "Trang Chủ", duongDan: "/" },
         { nhan: "Voucher", duongDan: "listvoucher" },
     ];
+
+    useEffect(() => {
+        // Lấy danh sách voucher ban đầu
+        const response = axios.get("http://doantotnghiep.test/api/promotions").then(({ data }) => {
+            setVouchers(data.data);
+            console.log("responseresponseresponseresponse!", response);
+        })
+            .catch(() => {
+                console.error("error!");
+            });
+
+
+    }, []);
+
+    // useEffect(() => {
+    //     // Lấy danh sách voucher ban đầu
+    //     axios
+    //         .get("http://doantotnghiep.test/api/promotions")
+    //         .then((response) => {
+    //             const data = Array.isArray(response.data)
+    //                 ? response.data
+    //                 : [response.data]; // Chuyển đổi thành mảng nếu cần
+    //             setVouchers(data);
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error fetching vouchers:", error);
+    //         });
+
+    //     // Kết nối Pusher
+    //     const pusher = new Pusher("your_app_key", {
+    //         cluster: "mt1",
+    //     });
+    //     const channel = pusher.subscribe("voucher-channel");
+
+    //     channel.bind("VoucherCreated", (data: Voucher) => {
+    //         if (data) {
+    //             // setVouchers((prev) => [...prev, data]);
+    //             console.log(data);
+    //         }
+    //     });
+
+    //     return () => {
+    //         pusher.disconnect();
+    //     };
+    // }, []);
     return (
         <>
 
             <div className="flash-sale-banner">
             </div>
             <Breadcrumb items={duongDan} />
-            <div className="voucher-carousel-container">
-                <h1 className="voucher-carousel-title">Ưu đãi nổi bật</h1>
-                <Slider {...settings}>
-                    {vouchers.map(voucher => (
+            {vouchers.map(voucher => (
+                <div className="voucher-carousel-container">
+                    <h1 className="voucher-carousel-title">Ưu đãi nổi bật</h1>
+                    <Slider {...settings}>
+
                         <div className="magin_outside">
                             <div key={voucher.id} className="voucher-card" onClick={handleClickLinkDetailVoucher}>
                                 <img src={voucher.imageUrl} alt={voucher.title} className="voucher-image" />
@@ -122,38 +174,10 @@ const ListVoucher = () => {
                                 <p className="voucher-description">{voucher.description}</p>
                             </div>
                         </div>
-                    ))}
-                </Slider>
-            </div>
-            {/* ưu đã */}
-            <div className="voucher-carousel-container">
-                <h1 className="voucher-carousel-title">Ưu đãi chớp nhoáng</h1>
-                <Slider {...settings3}>
-                    {vouchers.map(voucher => (
-                        <div className="magin_outside">
-                            <div key={voucher.id} className="voucher-card">
-                                <img src={voucher.imageUrl} alt={voucher.title} className="voucher-image" />
-                                <h2 className="voucher-title">{voucher.title}</h2>
-                                <p className="voucher-description">{voucher.description}</p>
-                            </div>
-                        </div>
-                    ))}
-                </Slider>
-            </div>
-            <div className="voucher-carousel-container">
-                <h1 className="voucher-carousel-title">Ưu đãi đối tác</h1>
-                <Slider {...settings2}>
-                    {vouchers.map(voucher => (
-                        <div className="magin_outside">
-                            <div key={voucher.id} className="voucher-card">
-                                <img src={voucher.imageUrl} alt={voucher.title} className="voucher-image" />
-                                <h2 className="voucher-title">{voucher.title}</h2>
-                                <p className="voucher-description">{voucher.description}</p>
-                            </div>
-                        </div>
-                    ))}
-                </Slider>
-            </div>
+
+                    </Slider>
+                </div>
+            ))}
         </>
     );
 };

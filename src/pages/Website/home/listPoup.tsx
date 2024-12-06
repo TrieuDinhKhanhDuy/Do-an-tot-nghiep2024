@@ -25,7 +25,7 @@ const SoDoGhe = () => {
     const [selectedSeats, setSelectedSeats] = useState(new Set());
     const [seatsStatus, setSeatsStatus] = useState<SeatsStatus>({});
     const [fare, setFare] = useState(0);
-    const [seatCount, setSeatCount] = useState(0); 
+    const [seatCount, setSeatCount] = useState(0);
 
     const MAX_SELECTED_SEATS = 8;
 
@@ -145,17 +145,16 @@ const SoDoGhe = () => {
                                             seat ? (
                                                 <button
                                                     key={seat}
-                                                    className={`seat ${
-                                                        isSeatBooked(seat)
-                                                            ? "booked-seat"
-                                                            : isSeatChosed(seat)
+                                                    className={`seat ${isSeatBooked(seat)
+                                                        ? "booked-seat"
+                                                        : isSeatChosed(seat)
                                                             ? "chosen-seat"
                                                             : isSeatSelected(
-                                                                  seat
-                                                              )
-                                                            ? "selected"
-                                                            : ""
-                                                    }`}
+                                                                seat
+                                                            )
+                                                                ? "selected"
+                                                                : ""
+                                                        }`}
                                                     onClick={() =>
                                                         toggleSeat(seat)
                                                     }
@@ -205,17 +204,16 @@ const SoDoGhe = () => {
                                             seat ? (
                                                 <button
                                                     key={seat}
-                                                    className={`seat ${
-                                                        isSeatBooked(seat)
-                                                            ? "booked-seat"
-                                                            : isSeatChosed(seat)
+                                                    className={`seat ${isSeatBooked(seat)
+                                                        ? "booked-seat"
+                                                        : isSeatChosed(seat)
                                                             ? "chosen-seat"
                                                             : isSeatSelected(
-                                                                  seat
-                                                              )
-                                                            ? "selected"
-                                                            : ""
-                                                    }`}
+                                                                seat
+                                                            )
+                                                                ? "selected"
+                                                                : ""
+                                                        }`}
                                                     onClick={() =>
                                                         toggleSeat(seat)
                                                     }
@@ -251,17 +249,16 @@ const SoDoGhe = () => {
                                             seat ? (
                                                 <button
                                                     key={seat}
-                                                    className={`seat ${
-                                                        isSeatBooked(seat)
-                                                            ? "booked-seat"
-                                                            : isSeatChosed(seat)
+                                                    className={`seat ${isSeatBooked(seat)
+                                                        ? "booked-seat"
+                                                        : isSeatChosed(seat)
                                                             ? "chosen-seat"
                                                             : isSeatSelected(
-                                                                  seat
-                                                              )
-                                                            ? "selected"
-                                                            : ""
-                                                    }`}
+                                                                seat
+                                                            )
+                                                                ? "selected"
+                                                                : ""
+                                                        }`}
                                                     onClick={() =>
                                                         toggleSeat(seat)
                                                     }
@@ -307,17 +304,16 @@ const SoDoGhe = () => {
                                             seat ? (
                                                 <button
                                                     key={seat}
-                                                    className={`seat ${
-                                                        isSeatBooked(seat)
-                                                            ? "booked-seat"
-                                                            : isSeatChosed(seat)
+                                                    className={`seat ${isSeatBooked(seat)
+                                                        ? "booked-seat"
+                                                        : isSeatChosed(seat)
                                                             ? "chosen-seat"
                                                             : isSeatSelected(
-                                                                  seat
-                                                              )
-                                                            ? "selected"
-                                                            : ""
-                                                    }`}
+                                                                seat
+                                                            )
+                                                                ? "selected"
+                                                                : ""
+                                                        }`}
                                                     onClick={() =>
                                                         toggleSeat(seat)
                                                     }
@@ -353,17 +349,16 @@ const SoDoGhe = () => {
                                             seat ? (
                                                 <button
                                                     key={seat}
-                                                    className={`seat ${
-                                                        isSeatBooked(seat)
-                                                            ? "booked-seat"
-                                                            : isSeatChosed(seat)
+                                                    className={`seat ${isSeatBooked(seat)
+                                                        ? "booked-seat"
+                                                        : isSeatChosed(seat)
                                                             ? "chosen-seat"
                                                             : isSeatSelected(
-                                                                  seat
-                                                              )
-                                                            ? "selected"
-                                                            : ""
-                                                    }`}
+                                                                seat
+                                                            )
+                                                                ? "selected"
+                                                                : ""
+                                                        }`}
                                                     onClick={() =>
                                                         toggleSeat(seat)
                                                     }
@@ -415,9 +410,44 @@ const SoDoGhe = () => {
         reset();
 
         nav(
-            `/pay?userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}`
+            `/pay?userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=${result?.code}&discount=${result?.discount}`
         );
     };
+
+
+    //check voucher
+    const [result, setResult] = useState<{ code: string; discount: string } | null>(null);
+    const [voucherCode, setVoucherCode] = useState<string>(""); // Mã khuyến mại người dùng nhập
+    const [error, setError] = useState<string | null>(null); // Lưu lỗi nếu có
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setVoucherCode(e.target.value);
+    };
+
+    const handleCheckVoucher = async () => {
+        try {
+            setError(null); // Reset lỗi trước mỗi lần kiểm tra
+            const response = await axios.get("http://doantotnghiep.test/api/promotions");
+            const vouchers = response.data.data; // Lấy danh sách khuyến mại từ API
+
+            // Tìm mã khuyến mại trùng với mã người dùng nhập
+            const voucher = vouchers.find((item: any) => item.code === voucherCode);            
+
+            if (voucher) {
+                setResult({ code: voucher.code, discount: voucher.discount });
+                console.log('đã lấy được code', result?.code);
+                console.log('đã lấy được code', result?.discount);
+                
+            } else {
+                setError("Mã khuyến mại không tồn tại.");
+                
+                
+            }
+        } catch (err) {
+            setError("Đã xảy ra lỗi khi kiểm tra mã khuyến mại.");
+        }
+    };
+
     return (
         <>
             <div className="list-poup-popup-content">
@@ -471,137 +501,138 @@ const SoDoGhe = () => {
                                         <div className="right-section">
                                             <h3>Thông tin đặt vé</h3>
                                             <form onSubmit={handleSubmit(onSubmitSeatBooking)}>
-    <label>Mã Chuyến: {tripId} - {timeStart}</label>
+                                                <label>Mã Chuyến: {tripId} - {timeStart}</label>
 
-    <label>Ghế đã chọn:</label>
-    <div className="input-container">
-        <input
-            type="text"
-            value={Array.from(selectedSeats).join(", ")}
-            {...register("seat", {
-                validate: () => selectedSeats.size > 0 || "Ghế đã chọn không được bỏ trống.",
-            })}
-            className="input-text"
-            disabled
-        />
-        {errors.seat ? (
-            <span className="input-icon" style={{ color: "#dc3545" }}>X</span>
-        ) : (
-            selectedSeats.size > 0 && <span className="input-icon" style={{ color: "#28a745" }}>✔</span>
-        )}
-    </div>
-    {errors.seat && <div className="invalid-feedback">{errors.seat.message}</div>}
+                                                <label>Ghế đã chọn:</label>
+                                                <div className="input-container">
+                                                    <input
+                                                        type="text"
+                                                        value={Array.from(selectedSeats).join(", ")}
+                                                        {...register("seat", {
+                                                            validate: () => selectedSeats.size > 0 || "Ghế đã chọn không được bỏ trống.",
+                                                        })}
+                                                        className="input-text"
+                                                        disabled
+                                                    />
+                                                    {errors.seat ? (
+                                                        <span className="input-icon" style={{ color: "#dc3545" }}>X</span>
+                                                    ) : (
+                                                        selectedSeats.size > 0 && <span className="input-icon" style={{ color: "#28a745" }}>✔</span>
+                                                    )}
+                                                </div>
+                                                {errors.seat && <div className="invalid-feedback">{errors.seat.message}</div>}
 
-    <label>Giá:</label>
-    <div className="input-container">
-        <input
-            type="text"
-            value={`${totalPrice.toLocaleString()} VNĐ`}
-            {...register("total_price", {
-                validate: () => totalPrice > 0 || "Giá phải lớn hơn 0.",
-            })}
-            className="input-text"
-            disabled
-        />
-        {errors.total_price ? (
-            <span className="input-icon" style={{ color: "#dc3545" }}>X</span>
-        ) : (
-            totalPrice > 0 && <span className="input-icon" style={{ color: "#28a745" }}>✔</span>
-        )}
-    </div>
-    {errors.total_price && <div className="invalid-feedback">{errors.total_price.message}</div>}
+                                                <label>Giá:</label>
+                                                <div className="input-container">
+                                                    <input
+                                                        type="text"
+                                                        value={`${totalPrice.toLocaleString()} VNĐ`}
+                                                        {...register("total_price", {
+                                                            validate: () => totalPrice > 0 || "Giá phải lớn hơn 0.",
+                                                        })}
+                                                        className="input-text"
+                                                        disabled
+                                                    />
+                                                    {errors.total_price ? (
+                                                        <span className="input-icon" style={{ color: "#dc3545" }}>X</span>
+                                                    ) : (
+                                                        totalPrice > 0 && <span className="input-icon" style={{ color: "#28a745" }}>✔</span>
+                                                    )}
+                                                </div>
+                                                {errors.total_price && <div className="invalid-feedback">{errors.total_price.message}</div>}
 
-    <label>Họ tên:</label>
-    <div className="input-container">
-        <input
-            type="text"
-            placeholder="Họ tên.."
-            {...register("name", { required: "Họ và tên không được để trống." })}
-            className="input-text"
-        />
-        {errors.name ? (
-            <span className="input-icon" style={{ color: "#dc3545" }}>X</span>
-        ) : (
-            <span className="input-icon" style={{ color: "#28a745" }}>✔</span>
-        )}
-    </div>
-    {errors.name && <div className="invalid-feedback">{errors.name.message}</div>}
+                                                <label>Họ tên:</label>
+                                                <div className="input-container">
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Họ tên.."
+                                                        {...register("name", { required: "Họ và tên không được để trống." })}
+                                                        className="input-text"
+                                                    />
+                                                    {errors.name ? (
+                                                        <span className="input-icon" style={{ color: "#dc3545" }}>X</span>
+                                                    ) : (
+                                                        <span className="input-icon" style={{ color: "#28a745" }}>✔</span>
+                                                    )}
+                                                </div>
+                                                {errors.name && <div className="invalid-feedback">{errors.name.message}</div>}
 
-    <label>Số điện thoại:</label>
-    <div className="input-container">
-        <input
-            type="text"
-            placeholder="Số điện thoại.."
-            {...register("phone", {
-                required: "Số điện thoại là bắt buộc.",
-                pattern: {
-                    value: /^\d{10}$/,
-                    message: "Số điện thoại phải là 10 chữ số.",
-                },
-            })}
-            className="input-text"
-        />
-        {errors.phone ? (
-            <span className="input-icon" style={{ color: "#dc3545" }}>X</span>
-        ) : (
-            <span className="input-icon" style={{ color: "#28a745" }}>✔</span>
-        )}
-    </div>
-    {errors.phone && <div className="invalid-feedback">{errors.phone.message}</div>}
+                                                <label>Số điện thoại:</label>
+                                                <div className="input-container">
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Số điện thoại.."
+                                                        {...register("phone", {
+                                                            required: "Số điện thoại là bắt buộc.",
+                                                            pattern: {
+                                                                value: /^\d{10}$/,
+                                                                message: "Số điện thoại phải là 10 chữ số.",
+                                                            },
+                                                        })}
+                                                        className="input-text"
+                                                    />
+                                                    {errors.phone ? (
+                                                        <span className="input-icon" style={{ color: "#dc3545" }}>X</span>
+                                                    ) : (
+                                                        <span className="input-icon" style={{ color: "#28a745" }}>✔</span>
+                                                    )}
+                                                </div>
+                                                {errors.phone && <div className="invalid-feedback">{errors.phone.message}</div>}
 
-    <label>Email:</label>
-    <div className="input-container">
-        <input
-            type="email"
-            placeholder="Email.."
-            {...register("email", {
-                required: "Email là bắt buộc.",
-                pattern: {
-                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                    message: "Email phải đúng định dạng.",
-                },
-            })}
-            onChange={handleEmailChange}
-            className="input-text"
-        />
-        {errors.email ? (
-            <span className="input-icon" style={{ color: "#dc3545" }}>X</span>
-        ) : (
-            <span className="input-icon" style={{ color: "#28a745" }}>✔</span>
-        )}
-    </div>
-    {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
+                                                <label>Email:</label>
+                                                <div className="input-container">
+                                                    <input
+                                                        type="email"
+                                                        placeholder="Email.."
+                                                        {...register("email", {
+                                                            required: "Email là bắt buộc.",
+                                                            pattern: {
+                                                                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                                                message: "Email phải đúng định dạng.",
+                                                            },
+                                                        })}
+                                                        onChange={handleEmailChange}
+                                                        className="input-text"
+                                                    />
+                                                    {errors.email ? (
+                                                        <span className="input-icon" style={{ color: "#dc3545" }}>X</span>
+                                                    ) : (
+                                                        <span className="input-icon" style={{ color: "#28a745" }}>✔</span>
+                                                    )}
+                                                </div>
+                                                {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
 
-    {isEmailEntered && (
-        <div className="form-check">
-            <input
-                type="checkbox"
-                className=""
-                {...register("emailCheck")}
-                onChange={() => setSendTicketEmail(true)}
-            />
-            <label className="form-check-label">Gửi vé về email</label>
-        </div>
-    )}
+                                                {isEmailEntered && (
+                                                    <div className="form-check">
+                                                        <input
+                                                            type="checkbox"
+                                                            className=""
+                                                            {...register("emailCheck")}
+                                                            onChange={() => setSendTicketEmail(true)}
+                                                        />
+                                                        <label className="form-check-label">Gửi vé về email</label>
+                                                    </div>
+                                                )}
 
-    <label>Ghi chú:</label>
-    <textarea
-        className="form-node"
-        placeholder="Ghi chú.."
-        {...register("note")}
-    ></textarea>
+                                                <label>Ghi chú:</label>
+                                                <textarea
+                                                    className="form-node"
+                                                    placeholder="Ghi chú.."
+                                                    {...register("note")}
+                                                ></textarea>
 
-    <label>Mã khuyến mãi:</label>
-    <div className="input-container">
-        <input
-            type="text"
-            placeholder="Mã khuyến mại.."
-            {...register("promoCode")}
-            className="input-text"
-        />
-    </div>
+                                                <label>Mã khuyến mãi:</label>
+                                                <div className="input-container">
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Mã khuyến mại.."
+                                                        value={voucherCode}
+                                                        onChange={handleInputChange}
+                                                        className="input-text"
+                                                    />
+                                                </div>
 
-    <label>Điểm đi:</label>
+                                                <label>Điểm đi:</label>
                                                 <select {...register('location_start')}>
                                                     <option value="Tại Bến">Tại Bến</option>
                                                     <option value="Dọc Đường">Dọc Đường</option>
@@ -615,19 +646,19 @@ const SoDoGhe = () => {
                                                 </select>
                                                 <input type="text" value={`${end_stop_name}`} disabled className="input-text" />
                                                 {/* Điểm đến */}
-    <div className="btn">
-        <button className="checkVoucher" type="button">
-            Kiểm tra mã
-        </button>
-        <button
-            className="checkVoucher"
-            type="submit"
-            style={{ background: "#405187" }}
-        >
-            Tiếp tục
-        </button>
-    </div>
-</form>
+                                                <div className="btn">
+                                                    <button className="checkVoucher" type="button" onClick={handleCheckVoucher}>
+                                                        Kiểm tra mã
+                                                    </button>
+                                                    <button
+                                                        className="checkVoucher"
+                                                        type="submit"
+                                                        style={{ background: "#405187" }}
+                                                    >
+                                                        Tiếp tục
+                                                    </button>
+                                                </div>
+                                            </form>
 
 
                                         </div>
