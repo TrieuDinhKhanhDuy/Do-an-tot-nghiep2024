@@ -1,12 +1,10 @@
 import "../../../styles/Website/NewsDetail.css";
 import "../../../styles/Website/mainContent.css";
 import "../../../styles/Website/voucher.css"
-
 import 'react-toastify/dist/ReactToastify.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
 import image1 from "../../../assets/image/banner_voucher.jfif";
 import image2 from "../../../assets/image/banner_voucher2.jfif";
 import image3 from "../../../assets/image/banner_voucher3.jfif";

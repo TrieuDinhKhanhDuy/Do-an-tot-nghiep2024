@@ -24,9 +24,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ListPoup from "./pages/Website/home/listPoup"
 import SoDoGhe from "./pages/Website/home/listPoup";
-import MyInfo from "./pages/Website/home/userChangeInfo";
 import UserProfile from "./pages/Website/home/userChangePassword"
-import ChangeInformation from "./pages/Website/home/changeInformation";
 import Changticket from "./pages/Website/home/changeTicket";
 import UserSetting from "./pages/Website/home/userSetting";
 import UserChangePassword from "./pages/Website/home/userChangePassword";

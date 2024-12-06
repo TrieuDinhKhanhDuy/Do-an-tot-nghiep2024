@@ -26,7 +26,6 @@ const DetailVoucher = () => {
                     pauseOnHover: true,
                     draggable: true,
                   });
-          
             })
             .catch(err => {
                 console.error("Không thể sao chép mã: ", err);

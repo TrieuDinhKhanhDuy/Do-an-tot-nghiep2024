@@ -35,7 +35,7 @@ const UserChangeInfo = () => {
     ];
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("userId");
+        const storedUser = sessionStorage.getItem("userId");
         
         if (storedUser) {
             try {
@@ -45,7 +45,7 @@ const UserChangeInfo = () => {
                 if (userData.address) setValue("address", userData.address);
                 if (userData.phone) setValue("phone", userData.phone);
             } catch (error) {
-                console.error("Lỗi khi đọc dữ liệu từ localStorage:", error);
+                console.error("Lỗi khi đọc dữ liệu từ sessionStorage:", error);
             }
         }
     }, [setValue]);

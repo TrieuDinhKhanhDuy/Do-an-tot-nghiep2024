@@ -2,7 +2,7 @@ import "../../../styles/Website/pay.css";
 import Breadcrumb from "@/components/Breadcrumb";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import Swal from "sweetalert2";
@@ -43,6 +43,7 @@ const Pay = () => {
     const fare = params.get('fare');
     const user_id = params.get('userId');
 
+    const nav = useNavigate()
 
     const [error, setError] = useState<string | null>(null);
     const [data, setData] = useState<SeatApiResponse | null>(null);
@@ -73,41 +74,39 @@ const Pay = () => {
     }, [tripId, date]);
 
     // Hàm xử lý khi nhấn nút "Thanh toán"
-  const handlePayment = async () => {
-    const paymentInfo = {
-        trip_id: tripId,
-        bus_id: busId,
-        route_id: routeId,
-        time_start: timeStart,
-        total_price: total_price,
-        date: date,
-        name_seat: nameSeat,
-        location_start: locationStart,
-        id_start_stop: idStartStop,
-        location_end: locationEnd,
-        id_end_stop: idEndStop,
-        name: name,
-        phone: phone,
-        email: email,
-        payment_method_id: payment_method_id,
-        note: note,
-        fare: fare,
-        user_id: user_id
-    };
+    const handlePayment = async () => {
+        const paymentInfo = {
+            trip_id: tripId,
+            bus_id: busId,
+            route_id: routeId,
+            time_start: timeStart,
+            total_price: total_price,
+            date: date,
+            name_seat: nameSeat,
+            location_start: locationStart,
+            id_start_stop: idStartStop,
+            location_end: locationEnd,
+            id_end_stop: idEndStop,
+            name: name,
+            phone: phone,
+            email: email,
+            payment_method_id: payment_method_id,
+            note: note,
+            fare: fare,
+            user_id: user_id
+        };
 
         try {
             // Gửi thông tin thanh toán lên API
             const response = await axios.post('http://doantotnghiep.test/api/stops', paymentInfo);
 
-            // console.log(response.data.redirect_url);
-            
-            if(response.data.redirect_url){
-                window.location.href = response.data.redirect_url; 
+            if (response.data.redirect_url) {
+                window.location.href = response.data.redirect_url;
             }
-            if(response.data.payUrl){
-                window.location.href = response.data.payUrl; 
+            if (response.data.payUrl) {
+                window.location.href = response.data.payUrl;
             }
-            
+
         } catch (error) {
             Swal.fire({
                 title: "Đặt vé không thành công",
@@ -120,7 +119,18 @@ const Pay = () => {
         }
 
     };
-
+    const handleClosePayment = () => {
+        Swal.fire({
+            title: "Đã hủy vé",
+            icon: "success",
+            showConfirmButton: false,
+            showCancelButton: false,
+            timer: 1000,
+        })
+        .then(() => {
+           nav('/')
+        });
+    }
     return (
         <>
             <Breadcrumb items={duongDan} />
@@ -134,25 +144,19 @@ const Pay = () => {
                     <div className="payment-section">
                         <div className="header-payment">
                             <h2><FontAwesomeIcon icon={faCreditCard} style={{ color: '#405187' }} /> Xác nhận để thanh toán</h2>
-                            <p style={{ fontSize: "12px" }}>Xin hãy thanh toán trong vòng <span style={{ color: "red", fontWeight: "bold" }}>01 : 20 : 30</span></p>
+                            <p style={{ fontSize: "12px" }}>Ghế của bạn sẽ được giữ chỗ khi ấn thanh toán</p>
                         </div>
                         <div className="info-box">
                             <p style={{ fontSize: '15px', textAlign: "center" }}>Tất cả thông tin của card sẽ được mã hoá, bảo mật và bảo vệ</p>
                         </div>
                         <div className="payment-options">
-
-
-                            {data?.methods.map((method,index) => (
+                            {data?.methods.map((method, index) => (
                                 <div className="payment-options-item" key={index}>
                                     <input type="radio" name="payment_method_id" id={method.name} key={method.id} value={method.id} onChange={handleChange} />
                                     <label htmlFor={method.name} >{method.name}</label>
                                 </div>
                             ))}
-
-
-
                         </div>
-
                         <div className="price-summary">
                             <p>Giá vé: <span>{formattedFare} VNĐ</span></p>
                             <p>Số Ghế: <span>{nameSeat}</span></p>
@@ -160,7 +164,6 @@ const Pay = () => {
                             <hr />
                             <p className="total">Tổng tiền: <span>{formattedTotal_price} VNĐ</span></p>
                         </div>
-
                         <p className="agreement-text">
                             Khi nhấp vào "Thanh toán", bạn đồng ý rằng bạn đã đọc và hiểu
                             <a href="/"> Điều khoản sử dụng</a> và
@@ -223,8 +226,7 @@ const Pay = () => {
                                 </tbody>
                             </table>
                             <div className="button-container">
-
-                                <button className="btn-secondary">Hủy thanh toán</button>
+                                <button className="btn-secondary" onClick={handleClosePayment} >Hủy thanh toán</button>
                                 <button className="btn-primary" onClick={handlePayment}>Thanh toán</button>
                             </div>
                         </div>

@@ -20,10 +20,14 @@ const SoDoGhe = () => {
         setValue,
         formState: { errors },
     } = useForm<DbRecordForm>();
+
+    //states //
     const [selectedSeats, setSelectedSeats] = useState(new Set());
     const [seatsStatus, setSeatsStatus] = useState<SeatsStatus>({});
     const [fare, setFare] = useState(0);
-    const [seatCount, setSeatCount] = useState(0); // Thêm state để lưu seatCount
+    const [seatCount, setSeatCount] = useState(0); 
+
+    const MAX_SELECTED_SEATS = 8;
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
@@ -48,7 +52,6 @@ const SoDoGhe = () => {
     useEffect(() => {
         const fetchSeats = async () => {
             if (!tripId || !date) return;
-
             try {
                 const response = await axios.get<SeatApiResponse>(
                     `http://doantotnghiep.test/api/stops?trip_id=${tripId}&date=${date}`
@@ -75,15 +78,11 @@ const SoDoGhe = () => {
                 }
             }
         };
-
         fetchSeats();
     }, []);
 
     const isSeatBooked = (seat: string) => seatsStatus[seat] === "booked";
     const isSeatChosed = (seat: string) => seatsStatus[seat] === "lock";
-
-    const MAX_SELECTED_SEATS = 8;
-
     const toggleSeat = (seat: string) => {
         if (isSeatBooked(seat)) return;
         if (isSeatChosed(seat)) return;
@@ -116,7 +115,7 @@ const SoDoGhe = () => {
         setValue("seat", Array.from(selectedSeats).join(", "));
     }, [selectedSeats, setValue]);
 
-    // Render giao diện ghế tùy thuộc vào seatCount
+    // Render giao diện ghế
     const renderSeatLayout = () => {
         if (seatCount === 45) {
             return (
@@ -394,19 +393,19 @@ const SoDoGhe = () => {
     };
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("userId");
+        const storedUser = sessionStorage.getItem("userId");
         if (storedUser) {
             try {
                 const userData = JSON.parse(storedUser);
 
-                // Gán dữ liệu từ localStorage vào form
+                // Gán dữ liệu từ sessionStorage vào form
                 if (userData.id) setValue("id", userData.id);
                 if (userData.name) setValue("name", userData.name);
                 if (userData.email) setValue("email", userData.email);
                 if (userData.address) setValue("address", userData.address);
                 if (userData.phone) setValue("phone", userData.phone);
             } catch (error) {
-                console.error("Lỗi khi đọc dữ liệu từ localStorage:", error);
+                console.error("Lỗi khi đọc dữ liệu từ sessionStorage:", error);
             }
         }
     }, [setValue]);

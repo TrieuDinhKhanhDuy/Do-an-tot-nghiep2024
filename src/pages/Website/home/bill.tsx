@@ -22,7 +22,7 @@ const Bill = () => {
     const params = new URLSearchParams(location.search);
 
 
-    
+
     const [billData, setBillData] = useState<OrderData | null>(null);
 
     const oder_id = params.get("order_id");
@@ -41,7 +41,6 @@ const Bill = () => {
                     icon: "success",
                     showConfirmButton: false
                 })
-
             } catch (err) {
                 Swal.fire({
                     title: "Hóa Đơn Không Tồn Tại",

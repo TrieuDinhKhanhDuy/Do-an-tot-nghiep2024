@@ -2,21 +2,23 @@ import "../../../styles/Website/UserProfile.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { ChangePasswordType, OtpReponse, UserType } from "@/types/IUser";
+import { ChangePasswordType } from "@/types/IUser";
 import useAuth from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
-import { logout } from "@/service/authService";
 import LeftBar from '@/components/leftBar_user';
 import Breadcrumb from "@/components/Breadcrumb";
+import { logoutKhongThongBao } from "@/service/authService";
 
 const UserChangePassword = () => {
 
   const [email, setEmail] = useState("");
+  const [countdown, setCountdown] = useState(0);
+  const [isOtpSent, setIsOtpSent] = useState(false);
 
   const updateUserSchema = z.object({
     password: z.string().nonempty("Mật Khẩu không được để trống").min(8, "Mật Khẩu phải có ít nhất 8 ký tự"),
     password_confirmation: z.string().min(8, "Xác nhận mật khẩu là bắt buộc"),
-    otp: z.string().nonempty("Mật Khẩu không được để trống"),
+    otp: z.string().nonempty("Otp không được để trống"),
     email: z.string().nonempty("Email không được để trống").email("Email không hợp lệ"),
   }).refine((data) => data.password === data.password_confirmation, {
     path: ["password_confirmation"],
@@ -28,15 +30,31 @@ const UserChangePassword = () => {
   });
   const { ChangePassword, GetOtp } = useAuth();
 
-
   const handleGetOtp = () => {
-    GetOtp({ email });
+    if (countdown === 0) {
+      GetOtp({ email });
+      setIsOtpSent(true);
+      startCountdown(300);
+    }
   }
+
+  const startCountdown = (seconds: number) => {
+    setCountdown(seconds);
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          setIsOtpSent(false);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
 
   const onSubmit = (data: ChangePasswordType) => {
     ChangePassword(data);
-    // console.log(data);
-
+    logoutKhongThongBao('all')
   };
   const duongDan = [
     { nhan: "Trang Chủ", duongDan: "/" },
@@ -44,15 +62,14 @@ const UserChangePassword = () => {
     { nhan: "Sửa Mật Khẩu", duongDan: "changepassword" },
   ];
   useEffect(() => {
-    const storedUser = localStorage.getItem("userId");
+    const storedUser = sessionStorage.getItem("userId");
 
     if (storedUser) {
       try {
         const userData = JSON.parse(storedUser);
-
-        if (userData.email) setEmail(userData.email); // Cập nhật email khi có dữ liệu
+        if (userData.email) setEmail(userData.email);
       } catch (error) {
-        console.error("Lỗi khi đọc dữ liệu từ localStorage:", error);
+        console.error("Lỗi khi đọc dữ liệu từ sessionStorage:", error);
       }
     }
   }, []);
@@ -71,7 +88,7 @@ const UserChangePassword = () => {
                 <label className="block text-sm font-medium text-gray-700">Mật khẩu mới</label>
                 <div className="">
                   <input
-                    type="text"
+                    type="password"
                     placeholder="Nhập mật khẩu"
                     className={`form-input mt-1 block w-full px-3 py-2 rounded-md border ${errors.password ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 ${touchedFields.password && !errors.password ? 'border-green-500' : ''}`}
                     {...register("password")}
@@ -85,7 +102,7 @@ const UserChangePassword = () => {
                 <label className="block text-sm font-medium text-gray-700">Xác nhận mật khẩu</label>
                 <div className="">
                   <input
-                    type="text"
+                    type="password"
                     placeholder="Nhập tiêu đề"
                     className={`form-input mt-1 block w-full px-3 py-2 rounded-md border ${errors.password_confirmation ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 ${touchedFields.password_confirmation && !errors.password_confirmation ? 'border-green-500' : ''}`}
                     {...register("password_confirmation")}
@@ -122,8 +139,19 @@ const UserChangePassword = () => {
                   {errors.otp && <div className="text-sm text-red-500">{errors.otp.message}</div>}
                 </div>
                 <div className="schedule-time-route btn-otp">
-                  <span className='otp-text' >Mã OTP đã được gửi - 300s</span>
-                  <span className='btn-sendotp' onClick={handleGetOtp} >Gửi mã</span>
+                  {isOtpSent ? (
+                    <span className="otp-text">
+                      Mã OTP đã được gửi - {countdown}s
+                    </span>
+                  ) : (
+                    <span className="otp-text">Ấn để gửi mã OTP.</span>
+                  )}
+                  <span
+                    className={`btn-sendotp ${countdown > 0 ? 'disabled' : ''}`}
+                    onClick={handleGetOtp}
+                  >
+                    Gửi mã
+                  </span>
                 </div>
               </div>
               <button

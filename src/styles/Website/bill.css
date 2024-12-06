@@ -3,6 +3,7 @@
   margin: 20px auto;
   border: 1px solid #ddd;
   border-radius: 20px;
+  min-height: 700px;
 }
 
 .invoice-container-item {

@@ -31,13 +31,13 @@ const MyTicket = () => {
     const [ticket, setTicket] = useState<BusOption[]>([]);
 
     const getUserId = (): number | null => {
-        const userString = localStorage.getItem("userId"); // Lấy chuỗi JSON từ localStorage
+        const userString = sessionStorage.getItem("userId"); // Lấy chuỗi JSON từ sessionStorage
         if (userString) {
             try {
                 const user = JSON.parse(userString); // Parse chuỗi JSON thành object
                 return user.id; // Trả về id
             } catch (error) {
-                console.error("Không tìm thấy userId trên localStorage:", error);
+                console.error("Không tìm thấy userId trên sessionStorage:", error);
             }
         }
         return null; // Nếu không có user hoặc lỗi, trả về null
@@ -108,7 +108,7 @@ const MyTicket = () => {
 
                                 <div key={ticketItem.order_code} className="bus-comp-option" >
                                     <div className="bus-comp-image-container">
-                                        <img src={ticketItem.image} alt={ticketItem.route_name} className="bus-comp-image" />
+                                        <img src={'https://tophomestay.vn/upload/img/9fba44d71932a89fa06a21703c0bfbed/2020/08/28/xe_giuong_nam_1598597002820.jpg'} alt={ticketItem.route_name} className="bus-comp-image" />
                                     </div>
                                     <div className="bus-comp-info">
                                         <div className="bus-comp-info-header">

@@ -62,14 +62,13 @@ const HeaderFix = () => {
     const [userRespon, setUserRespon] = useState<UserType | null>(null);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("userId");
+        const storedUser = sessionStorage.getItem("userId");
 
         if (storedUser) {
             setUserRespon(JSON.parse(storedUser)); // Parse JSON để chuyển thành object
         }
-
-
     }, []);
+
     return (
         <>
             <header className="header_container" id="header_id">
@@ -170,23 +169,21 @@ const HeaderFix = () => {
                                         <span className="user-name_fix">
                                             {userRespon.name}
                                         </span>
-                                        {userRespon.address}
                                     </div>
                                 </div>
                             ) : (
                                 <>
-                                    <div className="menu-item_fix">
-                                        <Link
-                                            to={"/login"}
-                                            onClick={handleItemClick}
-                                        >
-                                            {" "}
-                                            <span role="img" aria-label="ticket">
-                                                {" "}
-                                                <FontAwesomeIcon icon={faTicket} />
-                                            </span>{" "}
-                                            Đăng nhập
-                                        </Link>
+                                    <div className="user-info_fix">
+                                        <div className="user-avatar_fix">
+                                            <span role="img" aria-label="avatar">
+
+                                            </span>
+                                        </div>
+                                        <div className="user-details_fix">
+                                            <span className="user-name_fix">
+                                                Khách
+                                            </span>
+                                        </div>
                                     </div>
                                 </>
                             )}
@@ -218,40 +215,41 @@ const HeaderFix = () => {
                                     </Link>
                                 </div>
                                 <div className="menu-item_fix">
-                                <Link
+                                    <Link
                                         to={"/usersetting"}
                                         onClick={handleItemClick}
                                     >
-                                    <span
-                                        role="img"
-                                        aria-label="settings"
-                                    >
-                                        {" "}
-                                        <FontAwesomeIcon icon={faCog} />
-                                    </span>{" "}
-                                    Cài đặt
+                                        <span
+                                            role="img"
+                                            aria-label="settings"
+                                        >
+                                            {" "}
+                                            <FontAwesomeIcon icon={faCog} />
+                                        </span>{" "}
+                                        Cài đặt
                                     </Link>
 
                                 </div>
                             </div>
-
-                            <div
-                                className="logout_fix"
-                                style={{ display: "flex", alignItems: "center" }}
-                                onClick={handleLogout}
-                            >
-                                <span style={{ marginRight: "10px" }}>
-                                    <FontAwesomeIcon icon={faSignOutAlt} />
-                                </span>
-                                Đăng xuất
-                            </div>
+                            {userRespon ? (
+                                <>
+                                    <div
+                                        className="logout_fix"
+                                        style={{ display: "flex", alignItems: "center" }}
+                                        onClick={handleLogout}
+                                    >
+                                        <span style={{ marginRight: "10px" }}>
+                                            <FontAwesomeIcon icon={faSignOutAlt} />
+                                        </span>
+                                        Đăng xuất
+                                    </div>
+                                </>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     </div>
-
                 </div>
-
-
-
             </header>
         </>
     );
