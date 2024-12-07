@@ -99,7 +99,7 @@ const routerConfig = [
         element: <BusRoutes/>,
       },
       {
-        path: "/voucherdetail",
+        path: "/listvoucher/voucherdetail",
         element: <DetailVoucher/>,
       },
       {
@@ -134,6 +134,7 @@ const routerConfig = [
         path: "/usersetting",
         element: <UserSetting/>,
       },
+      
       {
         path: '/*',
         element: <NotFound />

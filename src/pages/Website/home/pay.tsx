@@ -53,7 +53,6 @@ const Pay = () => {
 
     // Tính toán giá vé ban đầu và tổng tiền
     const formattedFare = numeral(fare).format('0,0');
-    const formattedTotal_price = numeral(total_price).format('0,0');
 
     // Tính tổng tiền sau khi áp dụng giảm giá (nếu có)
     const discountedPrice = discount > 0 ? total_price * (1 - discount / 100) : total_price;

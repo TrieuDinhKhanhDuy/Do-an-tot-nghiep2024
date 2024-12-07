@@ -3,12 +3,36 @@ import Swal from "sweetalert2";
 import { ChangePasswordType, LoginResponse, OtpReponse, UserLoginType, UserType } from "@/types/IUser.ts";
 
 export const login = async (data: UserLoginType): Promise<LoginResponse> => {
-    const response = await axios.post<LoginResponse>('http://doantotnghiep.test/api/login', data);
-    sessionStorage.setItem('access_token', response.data.access_token);
-    sessionStorage.setItem('token_type', response.data.token_type);
+    try {
+        const response = await axios.post<LoginResponse>('http://doantotnghiep.test/api/login', data);
+        sessionStorage.setItem('access_token', response.data.access_token);
+        sessionStorage.setItem('token_type', response.data.token_type);
+    
+        sessionStorage.setItem('userId', JSON.stringify(response.data.user));
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            Swal.fire({
+                title: "Cập nhật thất bại!",
+                text: error.response.data.message || "Vui lòng thử lại.",
+                icon: "error",
+                confirmButtonText: "OK",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            });
+        } else {
+            Swal.fire({
+                title: "Lỗi không xác định!",
+                text: "Đã xảy ra lỗi không mong muốn.",
+                icon: "error",
+                confirmButtonText: "OK",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            });
+        }
+        throw error;
+    }
 
-    sessionStorage.setItem('userId', JSON.stringify(response.data.user));
-    return response.data;
 };
 
 export const handleRegister = async (data: UserType) => {
@@ -142,7 +166,7 @@ export const handleChangePassword = async (data: ChangePasswordType) => {
     }
 }
 
-export const handleGetOtp = async (data: OtpReponse) => {
+export const handleGetOtpService = async (data: OtpReponse) => {
     try {
         const response = await axios.post(
             "http://doantotnghiep.test/api/request-password-reset",
@@ -185,7 +209,6 @@ export const handleGetOtp = async (data: OtpReponse) => {
 export const logoutKhongThongBao = async (type: 'all' | 'current') => {
     try {
         const response = await axios.post('http://doantotnghiep.test/api/logout', { type });
-
         sessionStorage.removeItem('access_token');
         sessionStorage.removeItem('token_type');
         sessionStorage.removeItem('userId');

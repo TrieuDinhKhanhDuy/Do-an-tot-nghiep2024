@@ -10,7 +10,8 @@ import useAuth from "@/hooks/useAuth";
 import { UserLoginType } from "@/types/IUser";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TextField } from "@mui/material";
+import { LinearProgress, TextField } from "@mui/material";
+import Swal from "sweetalert2";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -35,8 +36,16 @@ const Login = () => {
         await handleLogin(data.email, data.password);
     };
 
+    const handleAlert = async () => {
+        Swal.fire({
+            title: "Chức Năng Đang Được Cập Nhât!",
+            icon: "warning",
+            showConfirmButton: false,
+        });
+    };
     return (
         <>
+            {loading ? (<><LinearProgress /> </>) : (<></>)}
             <Breadcrumb items={duongDan} />
             <div className="login-container">
                 <img src={Login1} alt="Login" className="img-hidden" />
@@ -93,10 +102,10 @@ const Login = () => {
                         <div className="social-register">
                             <p className="social-register__text">Hoặc</p>
                             <div className="social-register__buttons">
-                                <button className="social-register__btn facebook-btn">
+                                <button className="social-register__btn facebook-btn" onClick={handleAlert}>
                                     <FaFacebookF /> Facebook
                                 </button>
-                                <button className="social-register__btn google-btn">
+                                <button className="social-register__btn google-btn" onClick={handleAlert}>
                                     <FaGoogle /> Google
                                 </button>
                             </div>

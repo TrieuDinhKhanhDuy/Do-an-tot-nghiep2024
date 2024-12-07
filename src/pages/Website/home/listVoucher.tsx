@@ -12,7 +12,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 import { useEffect, useState } from "react";
 import Pusher from "pusher-js";
 import axios from "axios";
-import { Voucher } from "@/types/IVoucher";
+import { Promotion } from "@/types/IVoucher";
 
 const vouchers = [
     { id: 1, title: "Flash Sale", imageUrl: image2, description: "Thứ 3 hàng tuần - Flash Sale đến 50%" },
@@ -22,7 +22,7 @@ const vouchers = [
     { id: 5, title: "Giảm 50K", imageUrl: image1, description: "Giảm 50K khi thanh toán" },
 ];
 const ListVoucher = () => {
-    const [vouchers, setVouchers] = useState([]);
+    const url_image_backend = "http://doantotnghiep.test/storage/";
     const settings = {
         centerPadding: '20px',
         dots: true,
@@ -104,80 +104,66 @@ const ListVoucher = () => {
         ],
     };
     const handleClickLinkDetailVoucher = () => {
-        window.location.href = '/voucherdetail';
+        window.location.href = 'listvoucher/voucherdetail';
     };
 
     const duongDan = [
         { nhan: "Trang Chủ", duongDan: "/" },
-        { nhan: "Voucher", duongDan: "listvoucher" },
+        { nhan: "Voucher", duongDan: "/listvoucher" },
     ];
+    const [promotions, setPromotions] = useState<Promotion[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        // Lấy danh sách voucher ban đầu
-        const response = axios.get("http://doantotnghiep.test/api/promotions").then(({ data }) => {
-            setVouchers(data.data);
-            console.log("responseresponseresponseresponse!", response);
-        })
-            .catch(() => {
-                console.error("error!");
-            });
+
+        const fetchPromotions = async () => {
+            const userRespon = JSON.parse(sessionStorage.getItem('userId') || '{}');
+            const userId = userRespon?.id;
+
+            if (!userId) {
+                setError('User ID is not available.');
+                setLoading(false);
+                return;
+            }
+
+            try {
+                // Gọi API với user_id
+                const response = await axios.get(`http://doantotnghiep.test/api/promotions?user_id=${userId}`);
+                setPromotions(response.data.data); // Lưu dữ liệu khuyến mãi
+            } catch (error) {
+                setError('Error fetching promotions');
+            } finally {
+                setLoading(false); // Đánh dấu kết thúc việc lấy dữ liệu
+            }
+        };
 
 
+        fetchPromotions()
     }, []);
 
-    // useEffect(() => {
-    //     // Lấy danh sách voucher ban đầu
-    //     axios
-    //         .get("http://doantotnghiep.test/api/promotions")
-    //         .then((response) => {
-    //             const data = Array.isArray(response.data)
-    //                 ? response.data
-    //                 : [response.data]; // Chuyển đổi thành mảng nếu cần
-    //             setVouchers(data);
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error fetching vouchers:", error);
-    //         });
-
-    //     // Kết nối Pusher
-    //     const pusher = new Pusher("your_app_key", {
-    //         cluster: "mt1",
-    //     });
-    //     const channel = pusher.subscribe("voucher-channel");
-
-    //     channel.bind("VoucherCreated", (data: Voucher) => {
-    //         if (data) {
-    //             // setVouchers((prev) => [...prev, data]);
-    //             console.log(data);
-    //         }
-    //     });
-
-    //     return () => {
-    //         pusher.disconnect();
-    //     };
-    // }, []);
     return (
         <>
 
             <div className="flash-sale-banner">
             </div>
             <Breadcrumb items={duongDan} />
-            {vouchers.map(voucher => (
-                <div className="voucher-carousel-container">
-                    <h1 className="voucher-carousel-title">Ưu đãi nổi bật</h1>
-                    <Slider {...settings}>
 
-                        <div className="magin_outside">
-                            <div key={voucher.id} className="voucher-card" onClick={handleClickLinkDetailVoucher}>
-                                <img src={voucher.imageUrl} alt={voucher.title} className="voucher-image" />
-                                <h2 className="voucher-title">{voucher.title}</h2>
-                                <p className="voucher-description">{voucher.description}</p>
+            <div className="voucher-carousel-container">
+                {/* <h1 className="voucher-carousel-title">Ưu đãi nổi bật</h1> */}
+                <Slider {...settings}>
+                    {promotions.map(promotions_item => (
+                        <a className="magin_outside" href= {`listvoucher/voucherdetail?id=${promotions_item.id}`}>
+                            <div  key={promotions_item?.code} className="voucher-card" >
+                                <img src={url_image_backend + promotions_item.image} alt={promotions_item.title} className="voucher-image" />
+                                <h2 className="voucher-title">{promotions_item.title}</h2>
+                                <p className="voucher-description">{promotions_item.description}</p>
                             </div>
-                        </div>
+                        </a>
+                    ))}
+                </Slider>
+            </div>
 
-                    </Slider>
-                </div>
-            ))}
         </>
     );
 };

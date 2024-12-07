@@ -8,13 +8,11 @@ import { useEffect, useState } from "react";
 import LeftBar from '@/components/leftBar_user';
 import Breadcrumb from "@/components/Breadcrumb";
 import { logoutKhongThongBao } from "@/service/authService";
+import { LinearProgress } from "@mui/material";
 
 const UserChangePassword = () => {
 
   const [email, setEmail] = useState("");
-  const [countdown, setCountdown] = useState(0);
-  const [isOtpSent, setIsOtpSent] = useState(false);
-
   const updateUserSchema = z.object({
     password: z.string().nonempty("Mật Khẩu không được để trống").min(8, "Mật Khẩu phải có ít nhất 8 ký tự"),
     password_confirmation: z.string().min(8, "Xác nhận mật khẩu là bắt buộc"),
@@ -28,30 +26,13 @@ const UserChangePassword = () => {
   const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<ChangePasswordType>({
     resolver: zodResolver(updateUserSchema),
   });
-  const { ChangePassword, GetOtp } = useAuth();
+  const { ChangePassword, GetOtp, loading, countdown, isOtpSent } = useAuth();
 
   const handleGetOtp = () => {
     if (countdown === 0) {
       GetOtp({ email });
-      setIsOtpSent(true);
-      startCountdown(300);
     }
   }
-
-  const startCountdown = (seconds: number) => {
-    setCountdown(seconds);
-    const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          setIsOtpSent(false);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  };
-
   const onSubmit = (data: ChangePasswordType) => {
     ChangePassword(data);
     logoutKhongThongBao('all')
@@ -75,8 +56,10 @@ const UserChangePassword = () => {
   }, []);
 
   return (
-    <>
+    <>            {loading ? (<><LinearProgress /> </>) : (<></>)}
+
       <Breadcrumb items={duongDan} />
+
       <div className=" tickets-container">
         <div className="bus-comp-container">
           <LeftBar />
@@ -140,11 +123,12 @@ const UserChangePassword = () => {
                 </div>
                 <div className="schedule-time-route btn-otp">
                   {isOtpSent ? (
+                    <span className="otp-text">Ấn để gửi mã OTP.</span>
+                  ) : (
+                    
                     <span className="otp-text">
                       Mã OTP đã được gửi - {countdown}s
                     </span>
-                  ) : (
-                    <span className="otp-text">Ấn để gửi mã OTP.</span>
                   )}
                   <span
                     className={`btn-sendotp ${countdown > 0 ? 'disabled' : ''}`}

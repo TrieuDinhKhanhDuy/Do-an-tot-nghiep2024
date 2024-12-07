@@ -17,6 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "../../../styles/Website/busTracking.css";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 interface TicketData {
     ticket_code: string;
@@ -62,9 +63,27 @@ const BusTracking = () => {
             } else {
                 throw new Error("Invalid data structure");
             }
-        } catch (err) {
-            setError("Không tìm thấy thông tin vé. Vui lòng kiểm tra lại mã vé.");
-            setTicketInfo(null);
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                Swal.fire({
+                    title: "Cập nhật thất bại!",
+                    text: error.response.data.message || "Vui lòng thử lại.",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                });
+            } else {
+                Swal.fire({
+                    title: "Lỗi không xác định!",
+                    text: "Đã xảy ra lỗi không mong muốn.",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                });
+            }
+            throw error;
         }
     };
 

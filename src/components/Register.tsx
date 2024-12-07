@@ -4,7 +4,7 @@ import Register1 from "../assets/image/Register.png";
 import Heading from "./Heading";
 import Breadcrumb from "./Breadcrumb";
 import { Link, useNavigate } from "react-router-dom";
-import { TextField } from "@mui/material";
+import { LinearProgress, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,7 +32,7 @@ const schema = z
 const Register = () => {
     const nav = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
-    const { handleLogin, loading, error } = useAuth(); // Sử dụng hook
+    const { registerUser, loading, error } = useAuth(); // Sử dụng hook
     const {
         register,
         handleSubmit,
@@ -51,25 +51,12 @@ const Register = () => {
     };
 
     const onSubmit = async (data: UserType) => {
-        await handleRegister(data);
-        if (error) {
-            toast.error(error);
-        } else {
-            await handleLogin(data.email, data.password);
-            Swal.fire({
-                title: "Đăng Ký Thành Công",
-                text: "Tự động chuyển về trang đăng nhập....",
-                icon: "success",
-                showConfirmButton: false,
-                timer: 1500
-            }).then(() => {
-                nav('/login');
-            });
-        }
+        await registerUser(data);
     };
 
     return (
         <>
+            {loading ? (<><LinearProgress /> </>) : (<></>)}
             <Breadcrumb items={duongDan} />
             <div className="register-container">
                 <img src={Register1} alt="" className="img-hidden" />

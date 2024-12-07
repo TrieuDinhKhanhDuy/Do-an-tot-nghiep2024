@@ -11,6 +11,7 @@ import "../../../styles/Website/list_busFix.css";
 import "../../../styles/Website/list.css";
 import { SeatApiResponse, SeatsStatus } from "@/types/IChosesSeat";
 import { DbRecordForm } from "@/types/IBus";
+import { Box, LinearProgress, Skeleton } from "@mui/material";
 
 const SoDoGhe = () => {
     const {
@@ -26,6 +27,7 @@ const SoDoGhe = () => {
     const [seatsStatus, setSeatsStatus] = useState<SeatsStatus>({});
     const [fare, setFare] = useState(0);
     const [seatCount, setSeatCount] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     const MAX_SELECTED_SEATS = 8;
 
@@ -41,6 +43,7 @@ const SoDoGhe = () => {
     const start_stop_name = params.get("start_stop_name");
     const end_stop_name = params.get("end_stop_name");
     const nav = useNavigate();
+    const { pathname } = useLocation();
 
     const [email, setEmail] = useState("");
     const [sendTicketEmail, setSendTicketEmail] = useState(false);
@@ -48,9 +51,9 @@ const SoDoGhe = () => {
         setEmail(event.target.value);
     };
     const isEmailEntered = email.trim() !== "";
-
     useEffect(() => {
         const fetchSeats = async () => {
+            window.scrollTo(0, 0);
             if (!tripId || !date) return;
             try {
                 const response = await axios.get<SeatApiResponse>(
@@ -61,6 +64,7 @@ const SoDoGhe = () => {
                 setSeatsStatus(seatsStatus);
                 setFare(parseFloat(params.get("fare") || "0"));
                 setSeatCount(seatCount);
+                setLoading(true)
             } catch (error: any) {
                 if (axios.isAxiosError(error)) {
                     if (error.response?.status === 429) {
@@ -76,10 +80,12 @@ const SoDoGhe = () => {
                 } else {
                     console.error("Unexpected error:", error);
                 }
+            } finally {
+                setLoading(false)
             }
         };
         fetchSeats();
-    }, []);
+    }, [pathname]);
 
     const isSeatBooked = (seat: string) => seatsStatus[seat] === "booked";
     const isSeatChosed = (seat: string) => seatsStatus[seat] === "lock";
@@ -408,10 +414,8 @@ const SoDoGhe = () => {
     const onSubmitSeatBooking = (data: DbRecordForm) => {
         setValue("total_price", totalPrice);
         reset();
-
-        nav(
-            `/pay?userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=${result?.code}&discount=${result?.discount}`
-        );
+        window.location.href = (`/pay?userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=${result?.code}&discount=${result?.discount}`
+        )
     };
 
 
@@ -431,25 +435,41 @@ const SoDoGhe = () => {
             const vouchers = response.data.data; // Lấy danh sách khuyến mại từ API
 
             // Tìm mã khuyến mại trùng với mã người dùng nhập
-            const voucher = vouchers.find((item: any) => item.code === voucherCode);            
+            const voucher = vouchers.find((item: any) => item.code === voucherCode);
 
             if (voucher) {
                 setResult({ code: voucher.code, discount: voucher.discount });
                 console.log('đã lấy được code', result?.code);
                 console.log('đã lấy được code', result?.discount);
-                
+
             } else {
                 setError("Mã khuyến mại không tồn tại.");
-                
-                
+
+
             }
         } catch (err) {
             setError("Đã xảy ra lỗi khi kiểm tra mã khuyến mại.");
         }
     };
 
+    const rows = [
+        ["A1", "B1", "", "D1", "E1"],
+        ["A2", "B2", "", "D2", "E2"],
+        ["A3", "B3", "", "D3", "E3"],
+        ["A4", "B4", "", "D4", "E4"],
+        ["A5", "B5", "", "D5", "E5"],
+        ["A6", "B6", "", "D6", "E6"],
+        ["A7", "B7", "", "D7", "E7"],
+        ["A8", "B8", "", "D8", "E8"],
+        ["A9", "B9", "", "D9", "E9"],
+        ["A10", "B10", "", "D10", "E10"],
+        ["A11", "B11", "C1", "D11", "E11"],
+    ];
+
     return (
         <>
+            {loading ? (<> <LinearProgress /></>) : (<></>)}
+
             <div className="list-poup-popup-content">
                 <div className="list-poup-seat-selection">
                     <Link
@@ -464,7 +484,14 @@ const SoDoGhe = () => {
                                 <div className="seat-selection">
                                     <div className="seat-layout">
                                         <div className="left-section-container">
-                                            {renderSeatLayout()}
+                                            <div className="seat_layout">
+                                                {loading ? (
+                                                    <> Đang Tải Ghế.... </>
+                                                ) : (
+                                                    <>
+                                                        {renderSeatLayout()}
+                                                    </>)}
+                                            </div>
                                             <div className="legend">
                                                 <div className="flex_legend">
                                                     <div className="legend-item">
