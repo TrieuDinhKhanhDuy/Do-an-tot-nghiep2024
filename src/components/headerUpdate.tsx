@@ -62,7 +62,7 @@ const HeaderUpdate = () => {
     const [userRespon, setUserRespon] = useState<UserType | null>(null);
 
     useEffect(() => {
-        const storedUser = sessionStorage.getItem("userId");
+        const storedUser = localStorage.getItem("userId");
 
         if (storedUser) {
             setUserRespon(JSON.parse(storedUser)); // Parse JSON để chuyển thành object

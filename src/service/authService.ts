@@ -5,10 +5,10 @@ import { ChangePasswordType, LoginResponse, OtpReponse, UserLoginType, UserType 
 export const login = async (data: UserLoginType): Promise<LoginResponse> => {
     try {
         const response = await axios.post<LoginResponse>('http://doantotnghiep.test/api/login', data);
-        sessionStorage.setItem('access_token', response.data.access_token);
-        sessionStorage.setItem('token_type', response.data.token_type);
+        localStorage.setItem('access_token', response.data.access_token);
+        localStorage.setItem('token_type', response.data.token_type);
     
-        sessionStorage.setItem('userId', JSON.stringify(response.data.user));
+        localStorage.setItem('userId', JSON.stringify(response.data.user));
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -209,9 +209,9 @@ export const handleGetOtpService = async (data: OtpReponse) => {
 export const logoutKhongThongBao = async (type: 'all' | 'current') => {
     try {
         const response = await axios.post('http://doantotnghiep.test/api/logout', { type });
-        sessionStorage.removeItem('access_token');
-        sessionStorage.removeItem('token_type');
-        sessionStorage.removeItem('userId');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('token_type');
+        localStorage.removeItem('userId');
         return response.data;
     } catch (error) {
         console.error('Lỗi đăng xuất:', error);
@@ -220,8 +220,8 @@ export const logoutKhongThongBao = async (type: 'all' | 'current') => {
 };
 
 export const logout = async (type: 'all' | 'current') => {
-    const accessToken = sessionStorage.getItem('access_token');
-    const tokenType = sessionStorage.getItem('token_type');
+    const accessToken = localStorage.getItem('access_token');
+    const tokenType = localStorage.getItem('token_type');
 
     if (!accessToken || !tokenType) {
         console.warn("Không tìm thấy token đăng nhập.");
@@ -240,9 +240,9 @@ export const logout = async (type: 'all' | 'current') => {
     try {
         const response = await axios.post('http://doantotnghiep.test/api/logout', { type });
 
-        sessionStorage.removeItem('access_token');
-        sessionStorage.removeItem('token_type');
-        sessionStorage.removeItem('userId');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('token_type');
+        localStorage.removeItem('userId');
 
         Swal.fire({
             title: "Đã Đăng xuất",
@@ -261,8 +261,8 @@ export const logout = async (type: 'all' | 'current') => {
 
 axios.interceptors.request.use(
     (config) => {
-        const token = sessionStorage.getItem('access_token');
-        const tokenType = sessionStorage.getItem('token_type');
+        const token = localStorage.getItem('access_token');
+        const tokenType = localStorage.getItem('token_type');
 
         if (token) {
             config.headers.Authorization = `${tokenType} ${token}`;

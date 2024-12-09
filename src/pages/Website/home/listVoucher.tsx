@@ -118,7 +118,7 @@ const ListVoucher = () => {
     useEffect(() => {
 
         const fetchPromotions = async () => {
-            const userRespon = JSON.parse(sessionStorage.getItem('userId') || '{}');
+            const userRespon = JSON.parse(localStorage.getItem('userId') || '{}');
             const userId = userRespon?.id;
 
             if (!userId) {

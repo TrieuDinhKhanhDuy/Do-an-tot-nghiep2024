@@ -16,8 +16,8 @@ const UserSetting = () => {
   ];
 
   useEffect(() => {
-    const User = sessionStorage.getItem("userId");
-    const accessToken = sessionStorage.getItem("access_token");
+    const User = localStorage.getItem("userId");
+    const accessToken = localStorage.getItem("access_token");
 
     if (!User && !accessToken) {
       Swal.fire({

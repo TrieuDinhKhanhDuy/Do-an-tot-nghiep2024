@@ -31,13 +31,13 @@ const MyTicket = () => {
     const [ticket, setTicket] = useState<BusOption[]>([]);
 
     const getUserId = (): number | null => {
-        const userString = sessionStorage.getItem("userId"); // Lấy chuỗi JSON từ sessionStorage
+        const userString = localStorage.getItem("userId"); // Lấy chuỗi JSON từ localStorage
         if (userString) {
             try {
                 const user = JSON.parse(userString); // Parse chuỗi JSON thành object
                 return user.id; // Trả về id
             } catch (error) {
-                console.error("Không tìm thấy userId trên sessionStorage:", error);
+                console.error("Không tìm thấy userId trên localStorage:", error);
             }
         }
         return null; // Nếu không có user hoặc lỗi, trả về null

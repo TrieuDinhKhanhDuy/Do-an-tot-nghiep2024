@@ -43,14 +43,14 @@ const UserChangePassword = () => {
     { nhan: "Sửa Mật Khẩu", duongDan: "changepassword" },
   ];
   useEffect(() => {
-    const storedUser = sessionStorage.getItem("userId");
+    const storedUser = localStorage.getItem("userId");
 
     if (storedUser) {
       try {
         const userData = JSON.parse(storedUser);
         if (userData.email) setEmail(userData.email);
       } catch (error) {
-        console.error("Lỗi khi đọc dữ liệu từ sessionStorage:", error);
+        console.error("Lỗi khi đọc dữ liệu từ localStorage:", error);
       }
     }
   }, []);

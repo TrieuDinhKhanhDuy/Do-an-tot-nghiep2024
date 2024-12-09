@@ -17,7 +17,7 @@ export type DbRecord = {
   id_end_stop: string;
   id_start_stop: string;
   available_seats: number;
-
+  license_plate: string;
   //user
   id: number;
   name: string;
@@ -34,6 +34,7 @@ export type DbRecordForm = {
   location_end: string;
   total_price:number;
   note:string;
+  code_voucher:string;
 
   //user
   id: number;

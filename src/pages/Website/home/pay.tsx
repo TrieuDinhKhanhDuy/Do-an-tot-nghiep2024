@@ -42,7 +42,7 @@ const Pay = () => {
     const note = params.get('note');
     const fare = parseFloat(params.get('fare') || "0");
     const user_id = params.get('userId');
-    const vouchercode = params.get('vouchercode');
+    const code_voucher = params.get('vouchercode');
     const discount = parseFloat(params.get('discount') || "0");
 
     const nav = useNavigate();
@@ -85,7 +85,7 @@ const Pay = () => {
             bus_id: busId,
             route_id: routeId,
             time_start: timeStart,
-            total_price: discountedPrice, // Gửi tổng tiền sau khi giảm giá
+            total_price: discountedPrice, 
             date: date,
             name_seat: nameSeat,
             location_start: locationStart,
@@ -98,7 +98,8 @@ const Pay = () => {
             payment_method_id: payment_method_id,
             note: note,
             fare: fare,
-            user_id: user_id
+            user_id: user_id,
+            code_voucher: code_voucher
         };
 
         try {
@@ -165,7 +166,7 @@ const Pay = () => {
                         <div className="price-summary">
                             <p>Giá vé: <span>{formattedFare} VNĐ</span></p>
                             <p>Số Ghế: <span>{nameSeat}</span></p>
-                            <p>Mã giảm giá: <span>{vouchercode} Giảm {discount}%</span></p>
+                            <p>Mã giảm giá: <span>{code_voucher} Giảm {discount}%</span></p>
                             <hr />
                             <p className="total">Tổng tiền: <span>{formattedDiscountedPrice} VNĐ</span></p>
                         </div>

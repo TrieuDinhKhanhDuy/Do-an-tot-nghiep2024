@@ -141,7 +141,7 @@ const List_BusFix = () => {
         const endLocation = queryParams.get("end");
         setSelectedBus(bus);
 
-        const storedToken = sessionStorage.getItem("access_token");
+        const storedToken = localStorage.getItem("access_token");
         if (storedToken) {
             window.location.href = (`/choseseat?trip_id=${bus?.trip_id}&start_stop_name=${bus.start_stop_name}&end_stop_name=${bus.end_stop_name}&bus_id=${bus?.bus_id}&fare=${bus?.fare}&route_id=${bus?.route_id}&time_start=${bus?.time_start}&date=${bus?.date}&id_start_stop=${startLocation}&id_end_stop=${endLocation}`
             );
@@ -326,7 +326,7 @@ const List_BusFix = () => {
                                                     </p>
                                                 </div>
                                                 <div className="bus-comp-info-header">
-                                                    <p>{bus.name_bus}</p>
+                                                    <p>{bus.name_bus} - {bus.license_plate} </p>
                                                     <p>
                                                         Hỗ trợ thanh toán online
                                                     </p>
