@@ -29,7 +29,6 @@ import Changticket from "./pages/Website/home/changeTicket";
 import UserSetting from "./pages/Website/home/userSetting";
 import UserChangePassword from "./pages/Website/home/userChangePassword";
 import UserChangeInfo from "./pages/Website/home/userChangeInfo";
-import MySelect from "./components/test";
 const routerConfig = [
   {
     path: "/",
@@ -98,10 +97,6 @@ const routerConfig = [
       {
         path: "/busroutes",
         element: <BusRoutes/>,
-      },
-      {
-        path: "/test",
-        element: <MySelect/>,
       },
       {
         path: "/listvoucher/voucherdetail",
