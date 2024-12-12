@@ -20,8 +20,10 @@ import { BookingFormData } from "@/types/IBooking";
 
 const BookingForm = () => {
     const navigate = useNavigate();
-    const handleSearch = (data: BookingFormData) => {
-        navigate(`/list?start=${data.startLocation}&end=${data.endLocation}&date=${data.departureDate}`);
+    const handleSearch = (data: BookingFormData) => {        
+        // console.log(data);
+        
+        navigate(`/list?start=${data.startLocation}&end=${data.endLocation}&date=${data.departureDate}&startName=${data.startName}&endName=${data.endName}`);
     };
 
     return (

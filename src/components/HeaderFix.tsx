@@ -69,6 +69,10 @@ const HeaderFix = () => {
         }
     }, []);
 
+    const handlReset = () =>{
+        window.location.href = "/";
+    }
+
     return (
         <>
             <header className="header_container" id="header_id">
@@ -110,7 +114,7 @@ const HeaderFix = () => {
                                     <div className="row_white"></div>
                                 </li>
                                 <li>
-                                    <a href="/">Trang chủ</a>
+                                    <a onClick={handlReset}>Trang chủ</a>
                                 </li>
                                 <li>
                                     <a href="/about">Giới thiệu</a>

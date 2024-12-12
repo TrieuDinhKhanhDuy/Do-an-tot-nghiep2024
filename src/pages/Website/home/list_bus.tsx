@@ -51,6 +51,8 @@ const List_BusFix = () => {
                         start_stop_id: searchParams.startLocation,
                         end_stop_id: searchParams.endLocation,
                         date: searchParams.departureDate,
+                        startName: searchParams.startName,
+                        endName: searchParams.endName,
                         page: page,
                         sort: sortOrder,
                     },
@@ -84,12 +86,13 @@ const List_BusFix = () => {
             setBuses(fetchedBuses);
             setTotalPages(res.data.pagination.total_pages);
             nav(
-                `/list?start=${searchParams.startLocation}&end=${searchParams.endLocation}&date=${searchParams.departureDate}&page=${page}&sort=${sortOrder}`,
+                `/list?start=${searchParams.startLocation}&end=${searchParams.endLocation}&date=${searchParams.departureDate}&startName=${searchParams.startName}&endName=${searchParams.endName}&page=${page}&sort=${sortOrder}`,
             );
             if (fetchedBuses.length > 0) {
                 const firstBus = fetchedBuses[0];
                 setSeatPrice(parseFloat(firstBus.fare));
             }
+            alert('okk da tim duoc')
             setLoading(true);
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -108,15 +111,19 @@ const List_BusFix = () => {
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const startLocation = queryParams.get("start");
+        const startName = queryParams.get("startName");
+        const endName = queryParams.get("endName");
         const endLocation = queryParams.get("end");
         const departureDate = queryParams.get("date");
         const page_query = queryParams.get("page") || "1";
         const sort_query = queryParams.get("sort") || "default";
-        if (startLocation && endLocation && departureDate) {
+        if (startLocation && endLocation && departureDate &&startName&&endName ) {
             setSearchParams({
                 startLocation,
                 endLocation,
                 departureDate,
+                startName,
+                endName,
                 page_query: page_query,
             });
             setPage(parseInt(page_query));

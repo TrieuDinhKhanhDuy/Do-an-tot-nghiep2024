@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import image9 from "../../../assets/image/image 9.png";
 import image10 from "../../../assets/image/image 10.png";
 import "../../../styles/Website/mainContent.css";
@@ -10,20 +11,17 @@ import PopularRoutes from "@/components/PopularRoutes";
 import HighlightVoucher from "@/components/HighlightVoucher";
 import HighlightNews from "@/components/HighlightNews";
 
-
-
 const Main = () => {
-
+    useEffect(() => {
+        localStorage.removeItem("bookingForm");
+    }, []);  
 
     return (
         <div className="mainContent-container">
             <div className="mainContent-top">
-
                 <HighlightVoucher />
-
-                <h3 className="link-h2" >Đa dạng điểm, tuyến đường</h3>
+                <h3 className="link-h2">Đa dạng điểm, tuyến đường</h3>
                 <div className="mainContent-top-content">
-
                     <div className="mainContent-top-left">
                         <div className="mainContent-top-left-content">
                             <h3>Tuyến đường</h3>
@@ -38,8 +36,6 @@ const Main = () => {
                             <img src={image9} alt="" />
                         </div>
                     </div>
-
-
                     <div className="mainContent-top-right">
                         <div className="mainContent-top-right-content">
                             <h3>Danh sách điểm</h3>
@@ -58,7 +54,7 @@ const Main = () => {
                 <PopularRoutes />
             </div>
             <div className="mainContent-center">
-                <h2 className="link-h2" >Chất lượng hàng đầu, hành trình an toàn</h2>
+                <h2 className="link-h2">Chất lượng hàng đầu, hành trình an toàn</h2>
                 <div className="mainContent-center-items">
                     <img src={imageitem1} alt="" />
                     <div className="mainContent-center-items-content">
@@ -79,7 +75,6 @@ const Main = () => {
                             <h3>Hơn 350 </h3>
                             <p>Phòng vé - Bưu cục</p>
                         </div>
-
                         <p>
                             hơn 350 phòng vé, trạm trung chuyển, bến xe,... trên
                             toàn hệ thống
@@ -93,7 +88,6 @@ const Main = () => {
                             <h3>Hơn 1,000 </h3>
                             <p>Chuyến xe</p>
                         </div>
-
                         <p>
                             phục vụ hơn 1,000 chuyến xe đường dài và liên tỉnh
                             mỗi ngày
@@ -114,7 +108,6 @@ const Main = () => {
                     </div>
                 </div>
             </div>
-
 
             <HighlightNews />
         </div>
