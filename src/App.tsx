@@ -29,6 +29,7 @@ import UserProfile from "./pages/Website/home/userProfile"
 import UserInformation from "./pages/Website/home/UserInformation";
 import ChangeInformation from "./pages/Website/home/changeInformation";
 import Changticket from "./pages/Website/home/changeTicket";
+import QRcode from "./pages/Website/home/QRcode";
 const routerConfig = [
   {
     path: "/",
@@ -133,6 +134,10 @@ const routerConfig = [
       {
         path: "/changeTicket",
         element: <Changticket/>,
+      },
+      {
+        path: "/qrcode",
+        element: <QRcode/>,
       },
 
       {

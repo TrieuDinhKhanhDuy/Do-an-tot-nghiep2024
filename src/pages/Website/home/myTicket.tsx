@@ -44,6 +44,8 @@ const MyTicket = () => {
     const userId = getUserId();
 
     console.log("id nguoi dung nha", userId);
+    console.log("ticket" , ticket);
+    
 
 
 
@@ -180,17 +182,20 @@ const MyTicket = () => {
                                     <div className="bus-comp-info">
                                         <div className="bus-comp-info-header">
                                             <h3>{ticketItem.route_name}</h3>
-                                            <p className="bus-comp-cancelBtn" onClick={isUpdating}>Hủy</p>
+                                            <p className="bus-comp-cancelBtn" onClick={isUpdating}>Hủy vé</p>
                                         </div>
                                         <div className="bus-comp-info-header">
+                                           
                                             <p>🕒 {ticketItem.time_start} </p>
                                             <h3 >{ticketItem.driver_phone}</h3>
+                                            
                                         </div>
                                         <div className="bus-comp-info-header">
                                             <p>{ticketItem.total_price}</p>
                                             {ticketItem.status && (
                                                 <p className="bus-comp-support-online">Đã Thanh Toán</p>
                                             )}                                        </div>
+                                             <p>{ticketItem.date_start}</p>
                                         <div className="bus-comp-info-header">
                                             <p>Số Vé: {ticketItem.total_tickets} </p>
                                             <div className="bus-comp-action">
