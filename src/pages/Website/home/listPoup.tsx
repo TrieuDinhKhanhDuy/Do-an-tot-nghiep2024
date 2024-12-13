@@ -12,6 +12,7 @@ import "../../../styles/Website/list.css";
 import { SeatApiResponse, SeatsStatus } from "@/types/IChosesSeat";
 import { DbRecordForm } from "@/types/IBus";
 import { Box, LinearProgress, Skeleton } from "@mui/material";
+import { toast } from "react-toastify";
 
 const SoDoGhe = () => {
     const {
@@ -53,7 +54,7 @@ const SoDoGhe = () => {
     const isEmailEntered = email.trim() !== "";
     useEffect(() => {
         let intervalId: NodeJS.Timeout;
-    
+
         const fetchSeats = async () => {
             window.scrollTo(0, 0);
             if (!tripId || !date) return;
@@ -62,7 +63,7 @@ const SoDoGhe = () => {
                     `http://doantotnghiep.test/api/stops?trip_id=${tripId}&date=${date}`
                 );
                 const { seatsStatus, seatCount } = response.data;
-    
+
                 setSeatsStatus(seatsStatus);
                 setFare(parseFloat(params.get("fare") || "0"));
                 setSeatCount(seatCount);
@@ -86,15 +87,15 @@ const SoDoGhe = () => {
                 setLoading(false);
             }
         };
-    
-        fetchSeats(); // Gọi lần đầu tiên ngay khi component render
-        intervalId = setInterval(fetchSeats, 2000); // Gọi lại API sau mỗi 5 giây
-    
+
+        fetchSeats();
+        intervalId = setInterval(fetchSeats, 2000);
+
         return () => {
-            clearInterval(intervalId); // Dọn dẹp interval khi component unmount hoặc dependencies thay đổi
+            clearInterval(intervalId);
         };
-    }, [pathname, tripId, date]); // Dependencies cần thiết
-    
+    }, [pathname, tripId, date]);
+
 
     const isSeatBooked = (seat: string) => seatsStatus[seat] === "booked";
     const isSeatChosed = (seat: string) => seatsStatus[seat] === "lock";
@@ -420,60 +421,109 @@ const SoDoGhe = () => {
         }
     }, [setValue]);
 
-    const onSubmitSeatBooking = (data: DbRecordForm) => {
-        setValue("total_price", totalPrice);
-        reset();
-        window.location.href = (`/pay?userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=${result?.code}&discount=${result?.discount}`
-        )
-    };
+
 
 
     //check voucher
     const [result, setResult] = useState<{ code: string; discount: string } | null>(null);
-    const [voucherCode, setVoucherCode] = useState<string>(""); // Mã khuyến mại người dùng nhập
-    const [error, setError] = useState<string | null>(null); // Lưu lỗi nếu có
+    const [voucherCode, setVoucherCode] = useState<string>("");
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setVoucherCode(e.target.value);
-    };
+    const onSubmitSeatBooking = async (data: DbRecordForm) => {
+        setValue("total_price", totalPrice);
+        setVoucherCode(data.code_voucher);
 
-    const handleCheckVoucher = async () => {
         try {
-            setError(null); // Reset lỗi trước mỗi lần kiểm tra
             const response = await axios.get("http://doantotnghiep.test/api/promotions");
-            const vouchers = response.data.data; // Lấy danh sách khuyến mại từ API
+            const promotionsList = response.data.data;
 
-            // Tìm mã khuyến mại trùng với mã người dùng nhập
-            const voucher = vouchers.find((item: any) => item.code === voucherCode);
+            // Flatten mảng promotions từ tất cả các mục
+            const allPromotions = promotionsList.flatMap((item: any) => item.promotions);
 
-            if (voucher) {
-                setResult({ code: voucher.code, discount: voucher.discount });
-                console.log('đã lấy được code', result?.code);
-                console.log('đã lấy được code', result?.discount);
+            // Tìm mã khuyến mại khớp với mã người dùng nhập
+            const matchedVoucher = allPromotions.find(
+                (promotion: any) => promotion.code === data.code_voucher
+            );
 
+            console.log('Tất cả các mã khuyến mại:', allPromotions);
+
+            if (matchedVoucher) {
+                const localResult = {
+                    code: matchedVoucher.code,
+                    discount: matchedVoucher.discount,
+                };
+                setResult(localResult);
+
+                console.log("Đã tìm được mã:", localResult.code);
+                console.log("Giảm giá:", localResult.discount);
+
+                toast.success("Đã xác thực mã!", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+
+                // Gọi API apply voucher nếu cần
+                const storedUser = localStorage.getItem("userId");
+
+
+
+                if (storedUser) {
+                    const userData = JSON.parse(storedUser);
+                    const voucherApply = {
+                        code: localResult.code,
+                        route_id: routeId,
+                        user_id: userData.id
+                    };
+                    console.log("Voucher apply response:", voucherApply);
+                    // Gửi POST nếu cần
+                    try {
+                        await axios.post('http://doantotnghiep.test/api/voucher/apply', voucherApply);
+                        toast.success("Đã áp dụng mã!", {
+                            position: "top-right",
+                            autoClose: 3000,
+                            hideProgressBar: true,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                        });
+                    } catch (error) {
+                        toast.error("Mã không được áp dụng!", {
+                            position: "top-right",
+                            autoClose: 3000,
+                            hideProgressBar: true,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                        });
+                    }
+                }
+                window.location.href = `/pay?userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=${localResult.code}&discount=${localResult.discount}`;
             } else {
-                setError("Mã khuyến mại không tồn tại.");
-
+                toast.error("Không tìm thấy mã giảm giá", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+                window.location.href = `/pay?userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=&discount=`;
 
             }
-        } catch (err) {
-            setError("Đã xảy ra lỗi khi kiểm tra mã khuyến mại.");
+        } catch (error) {
+            console.error("Lỗi khi lấy danh sách khuyến mại:", error);
+            Swal.fire({
+                title: `Lỗi khi lấy dữ liệu mã giảm giá`,
+                icon: "error",
+                showConfirmButton: false,
+                allowEscapeKey: true,
+            });
         }
     };
 
-    const rows = [
-        ["A1", "B1", "", "D1", "E1"],
-        ["A2", "B2", "", "D2", "E2"],
-        ["A3", "B3", "", "D3", "E3"],
-        ["A4", "B4", "", "D4", "E4"],
-        ["A5", "B5", "", "D5", "E5"],
-        ["A6", "B6", "", "D6", "E6"],
-        ["A7", "B7", "", "D7", "E7"],
-        ["A8", "B8", "", "D8", "E8"],
-        ["A9", "B9", "", "D9", "E9"],
-        ["A10", "B10", "", "D10", "E10"],
-        ["A11", "B11", "C1", "D11", "E11"],
-    ];
 
     return (
         <>
@@ -662,8 +712,7 @@ const SoDoGhe = () => {
                                                     <input
                                                         type="text"
                                                         placeholder="Mã khuyến mại.."
-                                                        value={voucherCode}
-                                                        onChange={handleInputChange}
+                                                        {...register("code_voucher")}
                                                         className="input-text"
                                                     />
                                                 </div>
@@ -683,7 +732,7 @@ const SoDoGhe = () => {
                                                 <input type="text" value={`${end_stop_name}`} disabled className="input-text" />
                                                 {/* Điểm đến */}
                                                 <div className="btn">
-                                                    <button className="checkVoucher" type="button" onClick={handleCheckVoucher}>
+                                                    <button className="checkVoucher" type="button">
                                                         Kiểm tra mã
                                                     </button>
                                                     <button

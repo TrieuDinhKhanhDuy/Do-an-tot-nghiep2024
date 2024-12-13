@@ -219,7 +219,7 @@ export const logoutKhongThongBao = async (type: 'all' | 'current') => {
     }
 };
 
-export const logout = async (type: 'all' | 'current') => {
+export const logout = async (type: 'all') => {
     const accessToken = localStorage.getItem('access_token');
     const tokenType = localStorage.getItem('token_type');
 

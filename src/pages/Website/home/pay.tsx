@@ -42,8 +42,10 @@ const Pay = () => {
     const note = params.get('note');
     const fare = parseFloat(params.get('fare') || "0");
     const user_id = params.get('userId');
-    const code_voucher = params.get('vouchercode');
-    const discount = parseFloat(params.get('discount') || "0");
+    const code_voucher = params.get('vouchercode') || null; // Mặc định null nếu không có
+    const discount = params.get('discount') ? parseFloat(params.get('discount')!) : 0; // Mặc định null nếu không có
+    // const code_voucher = params.get('vouchercode');
+    // const discount = parseFloat(params.get('discount') || "0");
 
     const nav = useNavigate();
 
@@ -85,7 +87,7 @@ const Pay = () => {
             bus_id: busId,
             route_id: routeId,
             time_start: timeStart,
-            total_price: discountedPrice, 
+            total_price: discountedPrice,
             date: date,
             name_seat: nameSeat,
             location_start: locationStart,
@@ -99,7 +101,8 @@ const Pay = () => {
             note: note,
             fare: fare,
             user_id: user_id,
-            code_voucher: code_voucher
+            code_voucher: code_voucher,
+            discount: discount
         };
 
         try {
@@ -166,7 +169,7 @@ const Pay = () => {
                         <div className="price-summary">
                             <p>Giá vé: <span>{formattedFare} VNĐ</span></p>
                             <p>Số Ghế: <span>{nameSeat}</span></p>
-                            <p>Mã giảm giá: <span>{code_voucher} Giảm {discount}%</span></p>
+                            <p>Mã giảm giá: <span>{code_voucher ? `${code_voucher} Giảm ${discount}%` : '--'}</span></p>
                             <hr />
                             <p className="total">Tổng tiền: <span>{formattedDiscountedPrice} VNĐ</span></p>
                         </div>

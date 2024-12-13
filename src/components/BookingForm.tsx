@@ -54,16 +54,8 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
             return;
         }
 
-        const startLocation = formData.find(location => location.id === data.startLocation);
-        const endLocation = formData.find(location => location.id === data.endLocation);
-
-        const startName = startLocation ? startLocation.stop_name : "";
-        const endName = endLocation ? endLocation.stop_name : "";
-
         const fullData = {
             ...data,
-            startName,
-            endName,
         };
 
         // Lưu vào localStorage
@@ -85,19 +77,7 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
         }
     }, []);
 
-    useEffect(() => {
-        const queryParams = new URLSearchParams(location.search);
-        const startLocation = queryParams.get("start");
-        const endLocation = queryParams.get("end");
-        const departureDate = queryParams.get("date");
-    
-        console.log('day la param', startLocation);
-        
-        // Set giá trị cho các trường react-hook-form
-        // if (departureDate) setValue("departureDate", departureDate);
-        // if (startLocation) setValue("startLocation", startLocation); // Lấy giá trị từ startLocation trong URL
-        // if (endLocation) setValue("endLocation", endLocation); // Lấy giá trị từ endLocation trong URL
-    }, [location.search]);
+
 
     return (
         <>

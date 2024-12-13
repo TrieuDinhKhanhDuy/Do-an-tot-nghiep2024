@@ -5,22 +5,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import image1 from "../../../assets/image/banner_voucher.jfif";
-import image2 from "../../../assets/image/banner_voucher2.jfif";
-import image3 from "../../../assets/image/banner_voucher3.jfif";
 import Breadcrumb from "@/components/Breadcrumb";
 import { useEffect, useState } from "react";
-import Pusher from "pusher-js";
 import axios from "axios";
-import { Promotion } from "@/types/IVoucher";
+import { PromotionCategory } from "@/types/IVoucher";
 
-const vouchers = [
-    { id: 1, title: "Flash Sale", imageUrl: image2, description: "Thứ 3 hàng tuần - Flash Sale đến 50%" },
-    { id: 2, title: "Giảm 25%", imageUrl: image1, description: "Giảm 25% cho khách hàng lần đầu" },
-    { id: 3, title: "Giảm 20%", imageUrl: image3, description: "Giảm 20% cho khách hàng mới" },
-    { id: 4, title: "Giảm 100K", imageUrl: image2, description: "Giảm 100K khi thanh toán" },
-    { id: 5, title: "Giảm 50K", imageUrl: image1, description: "Giảm 50K khi thanh toán" },
-];
 const ListVoucher = () => {
     const url_image_backend = "http://doantotnghiep.test/storage/";
     const settings = {
@@ -111,7 +100,7 @@ const ListVoucher = () => {
         { nhan: "Trang Chủ", duongDan: "/" },
         { nhan: "Voucher", duongDan: "/listvoucher" },
     ];
-    const [promotions, setPromotions] = useState<Promotion[]>([]);
+    const [promotions, setPromotions] = useState<PromotionCategory[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -148,22 +137,22 @@ const ListVoucher = () => {
             <div className="flash-sale-banner">
             </div>
             <Breadcrumb items={duongDan} />
-
-            <div className="voucher-carousel-container">
-                {/* <h1 className="voucher-carousel-title">Ưu đãi nổi bật</h1> */}
-                <Slider {...settings}>
-                    {promotions.map(promotions_item => (
-                        <a className="magin_outside" href= {`listvoucher/voucherdetail?id=${promotions_item.id}`}>
-                            <div  key={promotions_item?.code} className="voucher-card" >
-                                <img src={url_image_backend + promotions_item.image} alt={promotions_item.title} className="voucher-image" />
-                                <h2 className="voucher-title">{promotions_item.title}</h2>
-                                <p className="voucher-description">{promotions_item.description}</p>
-                            </div>
-                        </a>
-                    ))}
-                </Slider>
-            </div>
-
+            {promotions.map(promotions_item => (
+                <div className="voucher-carousel-container">
+                    <h1 className="voucher-carousel-title">{promotions_item.name}</h1>
+                    <Slider {...settings}>
+                        {promotions_item.promotions.map(item => (
+                            <a className="magin_outside" href={`listvoucher/voucherdetail?id=${item.id}`}>
+                                <div key={item?.code} className="voucher-card" >
+                                    <img src={url_image_backend + item.image} alt={item.title} className="voucher-image" />
+                                    <h2 className="voucher-title">{item.title}</h2>
+                                    <p className="voucher-description">{item.description}</p>
+                                </div>
+                            </a>
+                        ))}
+                    </Slider>
+                </div>
+            ))}
         </>
     );
 };
