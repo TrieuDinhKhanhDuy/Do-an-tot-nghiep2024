@@ -23,7 +23,7 @@ const BookingForm = () => {
     const handleSearch = (data: BookingFormData) => {        
         // console.log(data);
         
-        navigate(`/list?start=${data.startLocation}&end=${data.endLocation}&date=${data.departureDate}&startName=${data.startName}&endName=${data.endName}`);
+        navigate(`/list?start=${data.startLocation}&end=${data.endLocation}&date=${data.departureDate}`);
     };
 
     return (

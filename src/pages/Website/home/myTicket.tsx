@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import LeftBar from "@/components/leftBar_user";
+import { LinearProgress } from "@mui/material";
 interface BusOption {
     cancelbtn: string;
     date_start: string; // Ngày bắt đầu, định dạng ISO như "YYYY-MM-DD"
@@ -21,7 +22,7 @@ interface BusOption {
     status: "paid" | "unpaid" | "cancelled"; // Trạng thái, có thể giới hạn giá trị
     time_start: string; // Thời gian bắt đầu, định dạng "HH:mm:ss"
     total_price: string; // Tổng giá, dạng chuỗi số
-    total_tickets:number;
+    total_tickets: number;
 }
 const MyTicket = () => {
 
@@ -29,6 +30,8 @@ const MyTicket = () => {
     const nav = useNavigate();
 
     const [ticket, setTicket] = useState<BusOption[]>([]);
+    const [loading, setLoading] = useState(true);
+
 
     const getUserId = (): number | null => {
         const userString = localStorage.getItem("userId"); // Lấy chuỗi JSON từ localStorage
@@ -36,6 +39,7 @@ const MyTicket = () => {
             try {
                 const user = JSON.parse(userString); // Parse chuỗi JSON thành object
                 return user.id; // Trả về id
+
             } catch (error) {
                 console.error("Không tìm thấy userId trên localStorage:", error);
             }
@@ -57,6 +61,7 @@ const MyTicket = () => {
                     `http://doantotnghiep.test/api/my_ticket/${userId}`
                 );
                 setTicket(response.data.orders);
+                setLoading(true)
             } catch (error: any) {
                 if (axios.isAxiosError(error)) {
                     if (error.response?.status === 429) {
@@ -72,6 +77,8 @@ const MyTicket = () => {
                 } else {
                     console.error("Unexpected error:", error);
                 }
+            } finally {
+                setLoading(false)
             }
         };
 
@@ -89,13 +96,19 @@ const MyTicket = () => {
             showConfirmButton: false
         })
     }
+
+    const handleChangeTicket = () => {
+
+    }
     return (
         <>
+            {loading ? (<> <LinearProgress /></>) : (<></>)}
+
             <Breadcrumb items={duongDan} />
 
             <div className="tickets-container">
                 <div className="bus-comp-container">
-                    <LeftBar/>
+                    <LeftBar />
 
                     <div className="bus-comp-list" >
                         <div className="schedule-header">
@@ -104,36 +117,37 @@ const MyTicket = () => {
                             <div className="header-item step2">Vé Đã Hủy</div>
                         </div>
                         {ticket.map((ticketItem) => (
-                            <Link to={'/billdetail?order_code='+ticketItem.order_code} >
 
-                                <div key={ticketItem.order_code} className="bus-comp-option" >
-                                    <div className="bus-comp-image-container">
-                                        <img src={'https://tophomestay.vn/upload/img/9fba44d71932a89fa06a21703c0bfbed/2020/08/28/xe_giuong_nam_1598597002820.jpg'} alt={ticketItem.route_name} className="bus-comp-image" />
-                                    </div>
-                                    <div className="bus-comp-info">
-                                        <div className="bus-comp-info-header">
-                                            <h3>{ticketItem.route_name}</h3>
-                                            <p className="bus-comp-cancelBtn" onClick={isUpdating}>Hủy</p>
-                                        </div>
-                                        <div className="bus-comp-info-header">
-                                            <p>🕒 {ticketItem.time_start} </p>
-                                            <h3 >{ticketItem.driver_phone}</h3>
-                                        </div>
-                                        <div className="bus-comp-info-header">
-                                            <p>{ticketItem.total_price}</p>
-                                            {ticketItem.status && (
-                                                <p className="bus-comp-support-online">Đã Thanh Toán</p>
-                                            )}                                        </div>
-                                        <div className="bus-comp-info-header">
-                                            <p>Số Vé: {ticketItem.total_tickets} </p>
-                                            <div className="bus-comp-action">
-                                                <button>Chi Tiết</button>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                            <div key={ticketItem.order_code} className="bus-comp-option" >
+                                <div className="bus-comp-image-container">
+                                    <img src={'https://tophomestay.vn/upload/img/9fba44d71932a89fa06a21703c0bfbed/2020/08/28/xe_giuong_nam_1598597002820.jpg'} alt={ticketItem.route_name} className="bus-comp-image" />
                                 </div>
-                            </Link>
+                                <div className="bus-comp-info">
+                                    <div className="bus-comp-info-header">
+                                        <h3>{ticketItem.route_name}</h3>
+                                        <p className="bus-comp-cancelBtn" onClick={isUpdating}>Hủy</p>
+                                    </div>
+                                    <div className="bus-comp-info-header">
+                                        <p>🕒 {ticketItem.time_start} </p>
+                                        <h3 >{ticketItem.driver_phone}</h3>
+                                    </div>
+                                    <div className="bus-comp-info-header">
+                                        <p>{ticketItem.total_price}</p>
+                                        {ticketItem.status && (
+                                            <p className="bus-comp-support-online">Đã Thanh Toán</p>
+                                        )}                                        </div>
+                                    <div className="bus-comp-info-header">
+                                        <p>Số Vé: {ticketItem.total_tickets} </p>
+                                        <div className="bus-comp-action">
+                                            <button onClick={handleChangeTicket} >Đổi chuyến</button>
+                                            <Link to={'/billdetail?order_code=' + ticketItem.order_code} >
+                                                <button>Chi Tiết</button>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
 
                         ))}
                     </div>
