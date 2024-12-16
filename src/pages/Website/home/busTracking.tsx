@@ -233,9 +233,9 @@ const BusTracking = () => {
                                         Trạng thái:
                                     </td>
                                     <td className="ticket-info-value">
-                                        {ticketInfo && (<>                                            {ticketInfo.status === "unpaid"
-                                            ? "Chưa thanh toán"
-                                            : "Đã thanh toán"} </>)}
+                                        {ticketInfo && (
+                                            <>
+                                                {ticketInfo.status === "unpaid" ? "Chưa thanh toán" : "Đã thanh toán"} </>)}
 
                                     </td>
                                 </tr>

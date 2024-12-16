@@ -49,6 +49,10 @@ const DetailBill = () => {
         fetchBillDetails();
     }, [order_code]);
 
+        const formatPrice = (price: string): string => {
+            return numeral(price).format('0,0') + ' VND'; 
+        };
+
     return (
         <>
             <Breadcrumb items={duongDan} />
@@ -135,7 +139,7 @@ const DetailBill = () => {
                                         <td className="left-section-bill">
                                             <strong>Thông tin chính - {billData.route_name}</strong>
                                             <p>Vị Trí Ghế: {ticket.name_seat}</p>
-                                            <p>Giá vé: {ticket.price}</p>
+                                            <p>Giá vé: {formatPrice(ticket.price)}</p>
                                             <p>Mã Vé: {ticket.ticket_code}</p>
                                             <p>Ngày: {billData.date_start}</p>
                                             <p>Điểm đi: {billData?.start_point}({billData.location_start})</p>
@@ -162,8 +166,8 @@ const DetailBill = () => {
                                         <p>Tình trạng:</p>
                                     </td>
                                     <td className="pricing-right">
-                                        <p>- 0%</p>
-                                        <p><strong>{numeral(billData.total_price).format("0,0")} VNĐ</strong></p>
+                                        <p>{billData.code_voucher} - {billData.discount}%</p>
+                                        <p><strong>{numeral(billData.total_price).format("0,0")} VND</strong></p>
                                         <p className={`status-pay ${billData.status === "paid" ? "paid" : "unpaid"}`}>
                                             {billData.status === "paid" ? "Đã thanh toán" : "Chưa thanh toán"}
                                         </p>

@@ -34,6 +34,9 @@ const Pay = () => {
     const nameSeat = params.get('name_seat');
     const locationStart = params.get('location_start');
     const idStartStop = params.get('id_start_stop');
+    // const idStartStop = 13;
+    // const idEndStop = 22;
+
     const locationEnd = params.get('location_end');
     const idEndStop = params.get('id_end_stop');
     const name = params.get('name');
@@ -44,8 +47,10 @@ const Pay = () => {
     const user_id = params.get('userId');
     const code_voucher = params.get('vouchercode') || null; // Mặc định null nếu không có
     const discount = params.get('discount') ? parseFloat(params.get('discount')!) : 0; // Mặc định null nếu không có
-    // const code_voucher = params.get('vouchercode');
-    // const discount = parseFloat(params.get('discount') || "0");
+    const id_change = params.get('id_change');
+    const price = params.get('total_old_price');
+
+    const total_old_price = parseFloat(params.get('total_old_price') || "0");
 
     const nav = useNavigate();
 
@@ -61,7 +66,6 @@ const Pay = () => {
     const formattedDiscountedPrice = numeral(discountedPrice).format('0,0');
 
     useEffect(() => {
-        // Gọi API với axios
         const fetchStops = async () => {
             try {
                 const response = await axios.get('http://doantotnghiep.test/api/stops', {
@@ -102,7 +106,9 @@ const Pay = () => {
             fare: fare,
             user_id: user_id,
             code_voucher: code_voucher,
-            discount: discount
+            discount: discount,
+            id_change: id_change,
+            price: price
         };
 
         try {
@@ -115,7 +121,8 @@ const Pay = () => {
             if (response.data.payUrl) {
                 window.location.href = response.data.payUrl;
             }
-
+            // console.log('day la',paymentInfo);
+            
         } catch (error) {
             Swal.fire({
                 title: "Đặt vé không thành công",

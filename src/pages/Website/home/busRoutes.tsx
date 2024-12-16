@@ -1,50 +1,70 @@
 import '../../../styles/Website/locationTable.css';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import Breadcrumb from '@/components/Breadcrumb';
+import { LinearProgress } from '@mui/material';
 
-interface Location {
+type Route = {
   id: number;
-  name: string;
-  address: string;
-  phone: number;
+  route_name: string;
+  cycle: number;
+  route_price: string;
+  length: string;
+  description: string;
 }
 
-const locations: Location[] = [
-  { id: 1, name: 'Thành phố Tuyên Quang', address: 'Bến xe Tuyên Quang', phone: 345678910 },
-  { id: 2, name: 'Km24 Hàm Yên', address: 'Hàm Yên', phone: 345678910 },
-  { id: 3, name: 'Hoà Phú', address: 'Hòa Phú', phone: 345678910 },
-  { id: 4, name: 'Chiêm Hoá', address: 'Chiêm Hoá', phone: 345678910 },
-  { id: 5, name: 'Xuân Vân', address: 'Xuân Vân', phone: 345678910 },
-  { id: 6, name: 'Na Hang', address: 'Na Hang', phone: 345678910 },
-  { id: 7, name: 'Đài Thị', address: 'Đài Thị', phone: 345678910 },
-];
-
 const BusRoutes = () => {
+  const [routes, setRoutes] = useState<Route[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStops = async () => {
+      try {
+        const res = await axios.get("http://doantotnghiep.test/api/routes");
+        setRoutes(res.data.data);
+        setLoading(true)
+      } catch (error) {
+        console.error("Failed to fetch stops", error);
+      } finally {
+        setLoading(false)
+      }
+    };
+    fetchStops();
+  }, []);
+  const duongDan = [
+    { nhan: "Trang Chủ", duongDan: "/" },
+    { nhan: "tuyến đường", duongDan: "/busroutes" },
+  ];
+
   return (
     <>
+      {loading ? (<> <LinearProgress /></>) : (<></>)}
       <div className="location-table-container">
-        <h2 className="location-table-title">Khu Vực Tuyên Quang</h2>
+        <Breadcrumb items={duongDan} />
+        <h2 className="location-table-title">Các tuyến đường</h2>
         <table className="location-table">
           <thead className="location-table-header">
             <tr className="location-table-header-row">
-              <th className="location-table-header-cell">STT</th>
-              <th className="location-table-header-cell">Tên</th>
-              <th className="location-table-header-cell">Địa chỉ</th>
-              <th className="location-table-header-cell">Số điện thoại</th>
+              <th className="location-table-header-cell">ID</th>
+              <th className="location-table-header-cell">Tên Tuyến</th>
+              <th className="location-table-header-cell">Mô Tả</th>
+              <th className="location-table-header-cell">Giá</th>
+              <th className="location-table-header-cell">Thời Gian</th>
             </tr>
           </thead>
           <tbody className="location-table-body">
-            {locations.map((location) => (
-              <tr className="location-table-row" key={location.id}>
-                <td className="location-table-cell">{location.id}</td>
-                <td className="location-table-cell">{location.name}</td>
-                <td className="location-table-cell">{location.address}</td>
-                <td className="location-table-cell">0{location.phone}</td>
+            {routes.map((route) => (
+              <tr className="location-table-row" key={route.id}>
+                <td className="location-table-cell">{route.id}</td>
+                <td className="location-table-cell">{route.route_name}</td>
+                <td className="location-table-cell">{route.description}</td>
+                <td className="location-table-cell">{route.route_price}</td>
+                <td className="location-table-cell">{route.cycle} phút</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
-
     </>
   );
 };

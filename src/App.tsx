@@ -127,7 +127,7 @@ const routerConfig = [
         element: <UserChangePassword/>,
       },
       {
-        path: "/changeTicket",
+        path: "/changeticket",
         element: <Changticket/>,
       },
       {

@@ -43,6 +43,9 @@ const SoDoGhe = () => {
     const id_end_stop = params.get("id_end_stop");
     const start_stop_name = params.get("start_stop_name");
     const end_stop_name = params.get("end_stop_name");
+    const id_change = params.get("id_change");
+    const total_old_price = params.get("total_old_price");
+
     const nav = useNavigate();
     const { pathname } = useLocation();
 
@@ -467,9 +470,6 @@ const SoDoGhe = () => {
 
                 // Gọi API apply voucher nếu cần
                 const storedUser = localStorage.getItem("userId");
-
-
-
                 if (storedUser) {
                     const userData = JSON.parse(storedUser);
                     const voucherApply = {
@@ -500,7 +500,7 @@ const SoDoGhe = () => {
                         });
                     }
                 }
-                window.location.href = `/pay?userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=${localResult.code}&discount=${localResult.discount}`;
+                window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=${localResult.code}&discount=${localResult.discount}`;
             } else {
                 toast.error("Không tìm thấy mã giảm giá", {
                     position: "top-right",
@@ -510,17 +510,20 @@ const SoDoGhe = () => {
                     pauseOnHover: true,
                     draggable: true,
                 });
-                window.location.href = `/pay?userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=&discount=`;
+                window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=&discount=`;
 
             }
         } catch (error) {
             console.error("Lỗi khi lấy danh sách khuyến mại:", error);
-            Swal.fire({
-                title: `Lỗi khi lấy dữ liệu mã giảm giá`,
-                icon: "error",
-                showConfirmButton: false,
-                allowEscapeKey: true,
+            toast.error("Mã không được áp dụng!", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
             });
+            window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=&discount=`;
         }
     };
 

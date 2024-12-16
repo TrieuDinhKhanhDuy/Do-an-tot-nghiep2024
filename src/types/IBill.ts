@@ -5,6 +5,8 @@ export interface BillResponse {
 }
 
 export interface OrderData {
+  ticket_booking_id: number;
+  id: string;
   name: string; // Tên của khách hàng.
   phone: string; // Số điện thoại của khách hàng.
   email: string; // Email của khách hàng.
@@ -21,18 +23,21 @@ export interface OrderData {
   name_seat: string[]; // Danh sách tên ghế đã đặt.
   note: string | null; // Ghi chú (có thể null).
   ticket_price: string; // Giá vé (dạng chuỗi để xử lý giá tiền chính xác hơn).
-  total_price: string; // Tổng tiền (dạng chuỗi).
-  status: string; // Trạng thái thanh toán, ví dụ: "paid", "pending", "cancelled".
-  order_code: string; // Mã đơn hàng.
-  ticket_codes: string[]; // Danh sách mã vé.
+  total_price: string; 
+  status: string;
+  order_code: string;
+  ticket_codes: string[]; 
   ticket_code: string;
+  discount: number;
+  code_voucher: string;
+  time_start: string;
 
 }
 
 interface BillDetail {
   ticket_code: string;
   name_seat: string;
-  price: number;
+  price: string;
 };
 
 export interface OrderDataDetail {
@@ -55,6 +60,8 @@ export interface OrderDataDetail {
   created_at: string;
   location_end: string;
   location_start: string;
+  discount: number;
+  code_voucher: string;
 };
 
 export interface BillDetailResponse {

@@ -170,7 +170,7 @@ const Bill = () => {
                                     </td>
                                     <td className="pricing-right">
                                         <p>{numeral(billData.ticket_price).format("0,0")} VNĐ</p>
-                                        <p>- 0%</p>
+                                        <p>{billData.code_voucher} - {billData.discount}%</p>
                                         <p><strong>{numeral(billData.total_price).format("0,0")} VNĐ</strong></p>
                                         <p className={`status-pay ${billData.status === "paid" ? "paid" : "unpaid"}`}>
                                             {billData.status === "paid" ? "Đã thanh toán" : "Chưa thanh toán"}
