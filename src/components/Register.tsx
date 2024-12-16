@@ -3,18 +3,15 @@ import "../styles/Website/Register.css";
 import Register1 from "../assets/image/Register.png";
 import Heading from "./Heading";
 import Breadcrumb from "./Breadcrumb";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { LinearProgress, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ToastContainer, toast } from "react-toastify";
-import useAuth from "../hooks/useAuth"; // Import hook useAuth
-import { handleRegister } from '../service/authService';
+import { ToastContainer } from "react-toastify";
+import useAuth from "../hooks/useAuth"; 
 import { UserType } from "@/types/IUser";
-import Swal from "sweetalert2";
 
-// Định nghĩa schema validation với zod
 const schema = z
     .object({
         name: z.string().min(1, "Tên là bắt buộc"),
@@ -30,9 +27,8 @@ const schema = z
     });
 
 const Register = () => {
-    const nav = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
-    const { registerUser, loading, error } = useAuth(); // Sử dụng hook
+    const { registerUser, loading } = useAuth();
     const {
         register,
         handleSubmit,

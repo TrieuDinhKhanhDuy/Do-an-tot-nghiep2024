@@ -1,9 +1,9 @@
 import { logout } from '@/service/authService';
 import { UserType } from '@/types/IUser';
-import { faCog, faGift, faSignOutAlt, faTicket } from '@fortawesome/free-solid-svg-icons';
+import { faCog, faGift, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
-import { FaUserCircle, FaTasks, FaGift, FaCogs, FaSignOutAlt } from 'react-icons/fa';
+import { FaUserCircle, FaGift } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 
