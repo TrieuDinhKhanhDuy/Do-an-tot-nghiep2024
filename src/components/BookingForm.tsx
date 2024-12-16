@@ -69,20 +69,27 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
         } finally {
             setLoading(false)
         }
+
     };
 
     useEffect(() => {
-        const savedData = localStorage.getItem("bookingForm");
-        if (savedData) {
-            const parsedData = JSON.parse(savedData);
-            const setStart = parsedData.startLocation;
-            const setEnd = parsedData.endLocation;
-            setValue("startLocation", setStart);
-            setValue("endLocation", setEnd);
-            setValue("departureDate", parsedData.departureDate);
-            console.log('dayla lo co', setStart);
-
+        const queryParams = new URLSearchParams(location.search);
+        const startLocation = queryParams.get("start");
+        const endLocation = queryParams.get("end");
+        const departureDate = queryParams.get("date");
+        const priceNumber1 = startLocation ? parseFloat(startLocation) : 0;
+        const priceNumber2 = endLocation ? parseFloat(endLocation) : 0;        
+        if(priceNumber1){
+            setValue("startLocation", priceNumber1);
         }
+        if(priceNumber2){
+            setValue("endLocation", priceNumber2);
+        }
+        if (departureDate) {
+            setValue("departureDate", departureDate);
+          } else {
+            console.error("departureDate is null");
+          }
     }, []);
 
 

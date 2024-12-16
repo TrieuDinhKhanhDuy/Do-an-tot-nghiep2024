@@ -169,7 +169,7 @@ const DetailBill = () => {
                                         <p>{billData.code_voucher} - {billData.discount}%</p>
                                         <p><strong>{numeral(billData.total_price).format("0,0")} VND</strong></p>
                                         <p className={`status-pay ${billData.status === "paid" ? "paid" : "unpaid"}`}>
-                                            {billData.status === "paid" ? "Đã thanh toán" : "Chưa thanh toán"}
+                                            {billData.status}
                                         </p>
                                     </td>
                                 </tr>

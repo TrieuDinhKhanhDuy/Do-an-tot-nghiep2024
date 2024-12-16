@@ -117,11 +117,15 @@ const List_BusFix = () => {
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
-        const startLocation = queryParams.get("start");
-        const endLocation = queryParams.get("end");
+        const priceNumber1 = queryParams.get("start");
+        const priceNumber2 = queryParams.get("end");
         const departureDate = queryParams.get("date");
+
+        
         const page_query = queryParams.get("page") || "1";
         const sort_query = queryParams.get("sort") || "default";
+        const startLocation = priceNumber1 ? parseFloat(priceNumber1) : 0;
+        const endLocation = priceNumber2 ? parseFloat(priceNumber2) : 0;
         if (startLocation && endLocation && departureDate) {
             setSearchParams({
                 startLocation,
