@@ -45,12 +45,15 @@ const Pay = () => {
     const note = params.get('note');
     const fare = parseFloat(params.get('fare') || "0");
     const user_id = params.get('userId');
-    const code_voucher = params.get('vouchercode') || null; // Mặc định null nếu không có
-    const discount = params.get('discount') ? parseFloat(params.get('discount')!) : 0; // Mặc định null nếu không có
-    const id_change = params.get('id_change');
-    const price = params.get('total_old_price');
+    const code_voucher = params.get('vouchercode') || null;
+    const discount = params.get('discount') ? parseFloat(params.get('discount')!) : 0;
+    const id_change = params.get('id_change') === 'null' ? null : params.get('id_change');
+    const price = params.get('total_old_price') === 'null' ? null : params.get('total_old_price');
 
-    const total_old_price = parseFloat(params.get('total_old_price') || "0");
+
+    // console.log('nuldl nhé'), price;
+
+
 
     const nav = useNavigate();
 
@@ -60,10 +63,13 @@ const Pay = () => {
 
     // Tính toán giá vé ban đầu và tổng tiền
     const formattedFare = numeral(fare).format('0,0');
+    const formattedPrice = numeral(price).format('0,0');
+    const priceNumber = price ? parseFloat(price) : 0;
 
     // Tính tổng tiền sau khi áp dụng giảm giá (nếu có)
     const discountedPrice = discount > 0 ? total_price * (1 - discount / 100) : total_price;
-    const formattedDiscountedPrice = numeral(discountedPrice).format('0,0');
+    const discountOldPrice = discountedPrice - priceNumber;
+    const formattedDiscountedPrice = numeral(discountOldPrice).format('0,0');
 
     useEffect(() => {
         const fetchStops = async () => {
@@ -86,6 +92,17 @@ const Pay = () => {
 
     // Hàm xử lý khi nhấn nút "Thanh toán"
     const handlePayment = async () => {
+        const priceNumber = price ? parseFloat(price) : 0;
+
+        if (discountedPrice < priceNumber) {
+            Swal.fire({
+                title: "Giá vé không hợp lệ",
+                text: "Tổng tiền phải lớn hơn giá vé cũ để thực hiện thanh toán.",
+                icon: "error",
+                showCancelButton: false,
+            });
+            return; // Prevent the payment process
+        }
         const paymentInfo = {
             trip_id: tripId,
             bus_id: busId,
@@ -111,6 +128,8 @@ const Pay = () => {
             price: price
         };
 
+        console.log(paymentInfo);
+
         try {
             // Gửi thông tin thanh toán lên API
             const response = await axios.post('http://doantotnghiep.test/api/stops', paymentInfo);
@@ -122,7 +141,7 @@ const Pay = () => {
                 window.location.href = response.data.payUrl;
             }
             // console.log('day la',paymentInfo);
-            
+
         } catch (error) {
             Swal.fire({
                 title: "Đặt vé không thành công",
@@ -174,6 +193,7 @@ const Pay = () => {
                             ))}
                         </div>
                         <div className="price-summary">
+                            {price && (<p>Giá vé cũ: <span>{formattedPrice} VNĐ</span></p>)}
                             <p>Giá vé: <span>{formattedFare} VNĐ</span></p>
                             <p>Số Ghế: <span>{nameSeat}</span></p>
                             <p>Mã giảm giá: <span>{code_voucher ? `${code_voucher} Giảm ${discount}%` : '--'}</span></p>

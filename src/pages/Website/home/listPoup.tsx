@@ -43,8 +43,8 @@ const SoDoGhe = () => {
     const id_end_stop = params.get("id_end_stop");
     const start_stop_name = params.get("start_stop_name");
     const end_stop_name = params.get("end_stop_name");
-    const id_change = params.get("id_change");
-    const total_old_price = params.get("total_old_price");
+    const id_change = params.get('id_change') === null ? null : params.get('id_change');
+    const total_old_price = params.get('total_old_price') === null ? null : params.get('total_old_price');
 
     const nav = useNavigate();
     const { pathname } = useLocation();
@@ -447,17 +447,12 @@ const SoDoGhe = () => {
                 (promotion: any) => promotion.code === data.code_voucher
             );
 
-            console.log('Tất cả các mã khuyến mại:', allPromotions);
-
             if (matchedVoucher) {
                 const localResult = {
                     code: matchedVoucher.code,
                     discount: matchedVoucher.discount,
                 };
                 setResult(localResult);
-
-                console.log("Đã tìm được mã:", localResult.code);
-                console.log("Giảm giá:", localResult.discount);
 
                 toast.success("Đã xác thực mã!", {
                     position: "top-right",
@@ -501,8 +496,9 @@ const SoDoGhe = () => {
                     }
                 }
                 window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=${localResult.code}&discount=${localResult.discount}`;
-            } else {
-                toast.error("Không tìm thấy mã giảm giá", {
+            }
+            if(matchedVoucher === null){
+                toast.error("không tìm thấy voucher", {
                     position: "top-right",
                     autoClose: 3000,
                     hideProgressBar: true,
@@ -511,11 +507,13 @@ const SoDoGhe = () => {
                     draggable: true,
                 });
                 window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=&discount=`;
-
+            }
+            else {
+                window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=&discount=`;
             }
         } catch (error) {
             console.error("Lỗi khi lấy danh sách khuyến mại:", error);
-            toast.error("Mã không được áp dụng!", {
+            toast.error("Lỗi khi lấy danh sách khuyến mại!", {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: true,
