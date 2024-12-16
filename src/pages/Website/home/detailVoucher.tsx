@@ -16,9 +16,6 @@ const DetailVoucher = () => {
         { nhan: 'Voucher', duongDan: '/listvoucher' },
         { nhan: 'Giảm đến 25% cho...', duongDan: 'voucherdetail' },
     ];
-    const voucherCode = "HONGNHUNG_KINHCHAOKHACHHANGMOI";
-
-
     const [promotionsDetail, setPromotionsDeatil] = useState<Promotion | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -35,15 +32,14 @@ const DetailVoucher = () => {
               }
         
             try {
-                // Gọi API với user_id
-                const response = await axios.get(`http://doantotnghiep.test/api/promotions/${promotions_id}`);
-                setPromotionsDeatil(response.data.data); // Lưu dữ liệu khuyến mãi
+                const response = await axios.get(`http://doantotnghiep.test/api/promotion-detail/${promotions_id}`);
+                setPromotionsDeatil(response.data.data); 
                 console.log(promotionsDetail);
                 
             } catch (error) {
                 setError('Error fetching promotions');
             } finally {
-                setLoading(false); // Đánh dấu kết thúc việc lấy dữ liệu
+                setLoading(false);
             }
         };
 
@@ -89,8 +85,8 @@ const DetailVoucher = () => {
                         <li>• Giảm Tới {promotionsDetail?.discount}%!</li>
                         <li>
                             <div className="voucher-code-section">
-                                <span className="voucher-code">{promotionsDetail?.code}</span>
-                                <button className="copy-button" onClick={() => handleCopy(promotionsDetail?.code || '')}>Sao chép</button>
+                                <span className="voucher-code">{promotionsDetail?.voucher_code}</span>
+                                <button className="copy-button" onClick={() => handleCopy(promotionsDetail?.voucher_code || '')}>Sao chép</button>
                             </div>
                         </li>
                     </ul>

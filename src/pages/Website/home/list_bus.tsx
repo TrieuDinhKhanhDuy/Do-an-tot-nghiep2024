@@ -19,6 +19,7 @@ import Swal from "sweetalert2";
 import { BookingFormData } from "@/types/IBooking";
 import { DbRecord } from "@/types/IBus";
 import { LinearProgress } from "@mui/material";
+import { toast } from "react-toastify";
 
 const List_BusFix = () => {
     const url_image_backend = "http://doantotnghiep.test/storage/";
@@ -83,14 +84,20 @@ const List_BusFix = () => {
 
             setBuses(fetchedBuses);
             setTotalPages(res.data.pagination.total_pages);
-            nav(
-                `/list?start=${searchParams.startLocation}&end=${searchParams.endLocation}&date=${searchParams.departureDate}&&page=${page}&sort=${sortOrder}`,
-            );
+
             if (fetchedBuses.length > 0) {
                 const firstBus = fetchedBuses[0];
                 setSeatPrice(parseFloat(firstBus.fare));
             }
             setLoading(true);
+            toast.success("Lấy dữ liệu chuyến thành công", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
         } catch (error) {
             console.error("Error fetching data:", error);
             Swal.fire({
@@ -101,6 +108,9 @@ const List_BusFix = () => {
                 allowEscapeKey: true,
             });
         } finally {
+            nav(
+                `/list?start=${searchParams.startLocation}&end=${searchParams.endLocation}&date=${searchParams.departureDate}&&page=${page}&sort=${sortOrder}`,
+            );
             setLoading(false);
         }
     };
@@ -112,7 +122,7 @@ const List_BusFix = () => {
         const departureDate = queryParams.get("date");
         const page_query = queryParams.get("page") || "1";
         const sort_query = queryParams.get("sort") || "default";
-        if (startLocation && endLocation && departureDate ) {
+        if (startLocation && endLocation && departureDate) {
             setSearchParams({
                 startLocation,
                 endLocation,

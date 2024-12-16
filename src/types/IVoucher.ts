@@ -10,6 +10,7 @@ export type Promotion = {
   content: string;
   count: number;
   status: string;
+  voucher_code: string;
 }
 export type PromotionCategory  = {
   id: number;

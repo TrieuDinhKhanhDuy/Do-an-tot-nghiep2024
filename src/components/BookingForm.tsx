@@ -11,6 +11,7 @@ import { useForm, Controller } from "react-hook-form";
 import Swal from "sweetalert2";
 import "../styles/Website/BokingForm.css"
 import { BookingFormData } from "@/types/IBooking";
+import { LinearProgress } from "@mui/material";
 
 interface BookingFormProps {
     onSearch: (data: BookingFormData) => void;
@@ -19,6 +20,7 @@ interface BookingFormProps {
 const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
     const [formData, setFormData] = useState<any[]>([]);
     const [minDate, setMinDate] = useState<string>("");
+    const [loading, setLoading] = useState(true);
 
     const { register, handleSubmit, control, setValue } = useForm<BookingFormData>();
 
@@ -44,23 +46,29 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
 
     // Xử lý khi form được submit
     const onSubmit = (data: BookingFormData) => {
-        if (data.startLocation === data.endLocation) {
-            Swal.fire({
-                title: "Lỗi",
-                text: "Điểm đi và điểm đến không được trùng nhau!",
-                icon: "error",
-                confirmButtonText: "OK",
-            });
-            return;
+        try {
+            if (data.startLocation === data.endLocation) {
+                Swal.fire({
+                    title: "Lỗi",
+                    text: "Điểm đi và điểm đến không được trùng nhau!",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
+                return;
+            }
+
+            const fullData = {
+                ...data,
+            };
+            setLoading(true)
+            // Lưu vào localStorage
+            localStorage.setItem("bookingForm", JSON.stringify(fullData));
+            onSearch(fullData);
+        } catch (error) {
+
+        } finally {
+            setLoading(false)
         }
-
-        const fullData = {
-            ...data,
-        };
-
-        // Lưu vào localStorage
-        localStorage.setItem("bookingForm", JSON.stringify(fullData));
-        onSearch(fullData);
     };
 
     useEffect(() => {
@@ -72,8 +80,8 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
             setValue("startLocation", setStart);
             setValue("endLocation", setEnd);
             setValue("departureDate", parsedData.departureDate);
-            console.log('dayla lo co',setStart);
-            
+            console.log('dayla lo co', setStart);
+
         }
     }, []);
 

@@ -439,10 +439,8 @@ const SoDoGhe = () => {
             const response = await axios.get("http://doantotnghiep.test/api/promotions");
             const promotionsList = response.data.data;
 
-            // Flatten mảng promotions từ tất cả các mục
             const allPromotions = promotionsList.flatMap((item: any) => item.promotions);
 
-            // Tìm mã khuyến mại khớp với mã người dùng nhập
             const matchedVoucher = allPromotions.find(
                 (promotion: any) => promotion.code === data.code_voucher
             );
@@ -462,7 +460,7 @@ const SoDoGhe = () => {
                     pauseOnHover: true,
                     draggable: true,
                 });
-
+                
                 // Gọi API apply voucher nếu cần
                 const storedUser = localStorage.getItem("userId");
                 if (storedUser) {
@@ -472,8 +470,8 @@ const SoDoGhe = () => {
                         route_id: routeId,
                         user_id: userData.id
                     };
-                    console.log("Voucher apply response:", voucherApply);
-                    // Gửi POST nếu cần
+                    
+
                     try {
                         await axios.post('http://doantotnghiep.test/api/voucher/apply', voucherApply);
                         toast.success("Đã áp dụng mã!", {
@@ -484,6 +482,8 @@ const SoDoGhe = () => {
                             pauseOnHover: true,
                             draggable: true,
                         });
+
+                        window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=${localResult.code}&discount=${localResult.discount}`;
                     } catch (error) {
                         toast.error("Mã không được áp dụng!", {
                             position: "top-right",
@@ -495,18 +495,6 @@ const SoDoGhe = () => {
                         });
                     }
                 }
-                window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=${localResult.code}&discount=${localResult.discount}`;
-            }
-            if(matchedVoucher === null){
-                toast.error("không tìm thấy voucher", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                });
-                window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=&discount=`;
             }
             else {
                 window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=&discount=`;
