@@ -444,7 +444,6 @@ const SoDoGhe = () => {
             const matchedVoucher = allPromotions.find(
                 (promotion: any) => promotion.code === data.code_voucher
             );
-
             if (matchedVoucher) {
                 const localResult = {
                     code: matchedVoucher.code,
@@ -501,14 +500,6 @@ const SoDoGhe = () => {
             }
         } catch (error) {
             console.error("Lỗi khi lấy danh sách khuyến mại:", error);
-            toast.error("Lỗi khi lấy danh sách khuyến mại!", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
             window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=&discount=`;
         }
     };
