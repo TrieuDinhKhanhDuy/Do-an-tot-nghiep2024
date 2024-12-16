@@ -286,7 +286,7 @@ const MyTicket = () => {
                             />
                             {errors.name && <div className="text-sm text-red-500">{errors.name.message}</div>}
                         </div>
-                        <div className="form-group">
+                        <div className="form-group formgroup_modal">
                             <input
                                 id="email"
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -297,7 +297,7 @@ const MyTicket = () => {
                             />
                             {errors.email && <div className="text-sm text-red-500">{errors.email.message}</div>}
                         </div>
-                        <div className="form-group">
+                        <div className="form-group formgroup_modal">
                             <input
                                 id="phone"
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -308,7 +308,7 @@ const MyTicket = () => {
                             />
                             {errors.email && <div className="text-sm text-red-500">{errors.email.message}</div>}
                         </div>
-                        <div className="form-group">
+                        <div className="form-group formgroup_modal">
                             <input
                                 id="bankNumber"
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -319,7 +319,7 @@ const MyTicket = () => {
                             />
                             {errors.account_number && <div className="text-sm text-red-500">{errors.account_number.message}</div>}
                         </div>
-                        <div className="form-group">
+                        <div className="form-group formgroup_modal">
                             <input
                                 id="bank"
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -330,7 +330,7 @@ const MyTicket = () => {
                             />
                             {errors.bank && <div className="text-sm text-red-500">{errors.bank.message}</div>}
                         </div>
-                        <div className="form-group">
+                        <div className="form-group formgroup_modal">
                             <textarea
                                 id="bank"
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -342,8 +342,13 @@ const MyTicket = () => {
                             {errors.ticket_booking_id && <div className="text-sm text-red-500">{errors.ticket_booking_id.message}</div>}
                             {errors.order_code && <div className="text-sm text-red-500">{errors.order_code.message}</div>}
                         </div>
+                        <div className="changeTicket__info-note">
+                            Khi nhấp vào "Gửi yêu cầu hủy chuyến", bạn đồng ý rằng bạn đã đọc và hiểu{" "}
+                            <a href="#" className="changeTicket__info-link">Điều khoản sử dụng</a> và{" "}
+                            <a href="#" className="changeTicket__info-link">Chính sách hoàn hủy</a>.
+                        </div>
                         <div className="form-action">
-                            <button type="submit" className="cancel-btn">Xác nhận hủy</button>
+                            <button type="submit" className="cancel-btn">Gửi yêu cầu hủy</button>
                         </div>
                     </form>
                 </div>

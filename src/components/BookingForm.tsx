@@ -91,9 +91,6 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
             console.error("departureDate is null");
           }
     }, []);
-
-
-
     return (
         <>
             <form className="bookingForm-search" onSubmit={handleSubmit(onSubmit)}>

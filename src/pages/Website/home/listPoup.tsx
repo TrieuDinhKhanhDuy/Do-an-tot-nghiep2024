@@ -542,7 +542,7 @@ const SoDoGhe = () => {
                                                     <div className="legend-item">
                                                         <span className="booked-seat"></span>{" "}
                                                         <span className="legend-seat-text">
-                                                            Ghế đã đặt
+                                                            Ghế đã mua
                                                         </span>
                                                     </div>
                                                 </div>
@@ -551,7 +551,7 @@ const SoDoGhe = () => {
                                                     <div className="legend-item">
                                                         <span className="chosen-seat"></span>{" "}
                                                         <span className="legend-seat-text">
-                                                            Ghế đã chọn
+                                                            Ghế đã đặt
                                                         </span>
                                                     </div>
                                                     <div className="legend-item">
