@@ -6,10 +6,8 @@ import axios from "axios";
 import LeftBar from "@/components/leftBar_user";
 import { LinearProgress } from "@mui/material";
 import numeral from "numeral";
-import moment from "moment"; // Import moment.js for date/time formatting
-import { z } from "zod";
+import moment from "moment";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { cancelTicketType } from "@/types/IUser";
 import Swal from "sweetalert2";
 
@@ -233,7 +231,13 @@ const MyTicket = () => {
                                     </div>
                                     <div className="bus-comp-info-header">
                                         <p>{formatPrice(ticketItem.total_price)}</p>
-                                        {ticketItem.status}
+                                        {
+                                            ticketItem.status === "paid" ? "Đã thanh toán" :
+                                            ticketItem.status === "unpaid" ? "Chưa thanh toán" :
+                                            ticketItem.status === "refunded" ? "Đã hủy" :
+                                            ticketItem.status === "overdue" ? "Vé hết hạn" :
+                                            ticketItem.status === "failed" ? "Thất bại" : "Trạng thái không xác định"
+                                        }
                                     </div>
                                     <div className="bus-comp-info-header">
                                         <p>Số Vé: {ticketItem.total_tickets}</p>

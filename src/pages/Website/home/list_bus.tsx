@@ -3,7 +3,6 @@ import {
 
     faChevronLeft,
     faChevronRight,
-    faL,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
@@ -336,13 +335,13 @@ const List_BusFix = () => {
                                                 <div className="bus-comp-info-header">
                                                     <p>🕒 {formattedTime}</p>
                                                     <p>
-                                                        sale 20%
+                                                        Liên hệ : {bus.driver_phone}
                                                     </p>
                                                 </div>
                                                 <div className="bus-comp-info-header">
-                                                    <p>{bus.name_bus} - {bus.license_plate} </p>
+                                                    <p>{bus.name_bus} </p>
                                                     <p>
-                                                        Hỗ trợ thanh toán online
+                                                    Biển số : {bus.license_plate}
                                                     </p>
                                                 </div>
                                                 <div className="bus-comp-info-header">

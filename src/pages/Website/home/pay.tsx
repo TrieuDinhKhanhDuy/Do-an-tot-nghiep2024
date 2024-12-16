@@ -51,22 +51,16 @@ const Pay = () => {
     const price = params.get('total_old_price') === 'null' ? null : params.get('total_old_price');
 
 
-    // console.log('nuldl nhé'), price;
-
-
-
     const nav = useNavigate();
 
     const [error, setError] = useState<string | null>(null);
     const [data, setData] = useState<SeatApiResponse | null>(null);
     const [payment_method_id, setPayment_method_id] = useState<number | null>(null);
 
-    // Tính toán giá vé ban đầu và tổng tiền
     const formattedFare = numeral(fare).format('0,0');
     const formattedPrice = numeral(price).format('0,0');
     const priceNumber = price ? parseFloat(price) : 0;
 
-    // Tính tổng tiền sau khi áp dụng giảm giá (nếu có)
     const discountedPrice = discount > 0 ? total_price * (1 - discount / 100) : total_price;
     const discountOldPrice = discountedPrice - priceNumber;
     const formattedDiscountedPrice = numeral(discountOldPrice).format('0,0');

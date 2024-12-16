@@ -1,7 +1,7 @@
 export type Promotion = {
   id: number;
   title: string;
-  image: string | null;
+  image: string ;
   code: string;
   discount: string;
   start_date: string;

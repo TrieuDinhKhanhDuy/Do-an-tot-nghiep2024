@@ -173,7 +173,13 @@ const Bill = () => {
                                         <p>{billData.code_voucher} - {billData.discount}%</p>
                                         <p><strong>{numeral(billData.total_price).format("0,0")} VNĐ</strong></p>
                                         <p className={`status-pay ${billData.status === "paid" ? "paid" : "unpaid"}`}>
-                                            {billData.status === "paid" ? "Đã thanh toán" : "Chưa thanh toán"}
+                                        {
+                                            billData.status === "paid" ? "Đã thanh toán" :
+                                            billData.status === "unpaid" ? "Chưa thanh toán" :
+                                            billData.status === "refunded" ? "Đã hủy" :
+                                            billData.status === "overdue" ? "Vé hết hạn" :
+                                            billData.status === "failed" ? "Thất bại" : "Trạng thái không xác định"
+                                        }
                                         </p>
                                     </td>
                                 </tr>

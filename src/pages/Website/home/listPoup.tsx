@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
 import "../../../styles/Website/listPouptest.css";
@@ -11,14 +11,13 @@ import "../../../styles/Website/list_busFix.css";
 import "../../../styles/Website/list.css";
 import { SeatApiResponse, SeatsStatus } from "@/types/IChosesSeat";
 import { DbRecordForm } from "@/types/IBus";
-import { Box, LinearProgress, Skeleton } from "@mui/material";
+import { LinearProgress } from "@mui/material";
 import { toast } from "react-toastify";
 
 const SoDoGhe = () => {
     const {
         register,
         handleSubmit,
-        reset,
         setValue,
         formState: { errors },
     } = useForm<DbRecordForm>();
@@ -45,8 +44,7 @@ const SoDoGhe = () => {
     const end_stop_name = params.get("end_stop_name");
     const id_change = params.get('id_change') === null ? null : params.get('id_change');
     const total_old_price = params.get('total_old_price') === null ? null : params.get('total_old_price');
-
-    const nav = useNavigate();
+    
     const { pathname } = useLocation();
 
     const [email, setEmail] = useState("");
@@ -100,9 +98,11 @@ const SoDoGhe = () => {
     }, [pathname, tripId, date]);
 
 
+
     const isSeatBooked = (seat: string) => seatsStatus[seat] === "booked";
     const isSeatChosed = (seat: string) => seatsStatus[seat] === "lock";
     const toggleSeat = (seat: string) => {
+
         if (isSeatBooked(seat)) return;
         if (isSeatChosed(seat)) return;
         const newSelectedSeats = new Set(selectedSeats);
@@ -428,12 +428,12 @@ const SoDoGhe = () => {
 
 
     //check voucher
-    const [result, setResult] = useState<{ code: string; discount: string } | null>(null);
-    const [voucherCode, setVoucherCode] = useState<string>("");
+    // const [result, setResult] = useState<{ code: string; discount: string } | null>(null);
+    // const [voucherCode, setVoucherCode] = useState<string>("");
 
     const onSubmitSeatBooking = async (data: DbRecordForm) => {
         setValue("total_price", totalPrice);
-        setVoucherCode(data.code_voucher);
+        // setVoucherCode(data.code_voucher);
 
         try {
             const response = await axios.get("http://doantotnghiep.test/api/promotions");
@@ -449,7 +449,7 @@ const SoDoGhe = () => {
                     code: matchedVoucher.code,
                     discount: matchedVoucher.discount,
                 };
-                setResult(localResult);
+                // setResult(localResult);
 
                 toast.success("Đã xác thực mã!", {
                     position: "top-right",

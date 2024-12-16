@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { DbRecord } from "@/types/IBus";
 import Breadcrumb from "@/components/Breadcrumb";
+import numeral from "numeral";
+import moment from "moment";
 
 
 const ChangeTicket = () => {
@@ -17,6 +19,7 @@ const ChangeTicket = () => {
   const [oldTicketData, setOldTicketData] = useState<any>([]);
   const queryParams = new URLSearchParams(location.search);
   const id_change = queryParams.get("id_change");
+  const formattedFare = numeral(oldTicketData?.data?.total_price).format('0,0');
 
   useEffect(() => {
     const fetchTicketData = async () => {
@@ -52,6 +55,10 @@ const ChangeTicket = () => {
 
     }
   };
+
+  const formatTime = (time: string): string => {
+    return moment(time, "HH:mm:ss").format("hh:mm A");
+  };
   const handleChoseSeat = async (bus: DbRecord) => {
     const queryParams = new URLSearchParams(location.search);
     const startLocation = queryParams.get("nextstart");
@@ -81,7 +88,7 @@ const ChangeTicket = () => {
                 </tr>
                 <tr>
                   <td className="changeTicket__info-label">Giờ xuất bến:</td>
-                  <td className="changeTicket__info-value">{oldTicketData?.data?.trip?.time_start || ''}</td>
+                  <td className="changeTicket__info-value">{formatTime(oldTicketData?.data?.trip?.time_start)}</td>
                 </tr>
                 <tr>
                   <td className="changeTicket__info-label">Điểm đi:</td>
@@ -91,13 +98,9 @@ const ChangeTicket = () => {
                   <td className="changeTicket__info-label">Điểm đến:</td>
                   <td className="changeTicket__info-value">{oldTicketData?.endStopName || ''}</td>
                 </tr>
-                {/* <tr>
-              <td className="changeTicket__info-label">Vị trí ghế:</td>
-              <td className="changeTicket__info-value">{oldTicketData?.data?.mergedNameSeats || ''}</td>
-            </tr> */}
                 <tr>
                   <td className="changeTicket__info-label">Giá:</td>
-                  <td className="changeTicket__info-value">{oldTicketData?.data?.total_price || ''}</td>
+                  <td className="changeTicket__info-value">{formattedFare}VNĐ</td>
                 </tr>
                 <tr>
                   <td className="changeTicket__info-label">Ghi chú:</td>
@@ -119,14 +122,14 @@ const ChangeTicket = () => {
               <div key={index} className="changeTicket__list-item">
                 <div className="changeTicket__list-route">
                   {item_bus.route_name}
-                  <span className="changeTicket__list-time">🕒{item_bus.time_start}</span>
+                  <span className="changeTicket__list-time">🕒{formatTime(item_bus.time_start)}</span>
                 </div>
                 <div className="changeTicket__list-details">
                   <span className="changeTicket__list-type">{item_bus.name_bus}</span>
                   <span className="changeTicket__list-seats">{item_bus.available_seats}/{item_bus.total_seats} Chỗ trống</span>
                 </div>
                 <div className="changeTicket__list-price">
-                  <span className="changeTicket__list-price-value">{item_bus.fare}</span>
+                  <span className="changeTicket__list-price-value">{numeral(item_bus.fare).format('0,0')}VND</span>
                   <button className="changeTicket__list-button" onClick={() => handleChoseSeat(item_bus)}>Chọn chỗ</button>
                 </div>
               </div>

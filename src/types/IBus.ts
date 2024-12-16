@@ -18,6 +18,7 @@ export type DbRecord = {
   id_start_stop: string;
   available_seats: number;
   license_plate: string;
+  driver_phone: string;
   //user
   id: number;
   name: string;
