@@ -1,11 +1,14 @@
 /* Container chính */
-.changeTicket {
+.changeTicket_container{
   width: 1200px;
   min-height: 700px;
   margin: 20px auto;
   border: 1px solid #ddd;
   padding: 20px;
   border-radius: 20px;
+}
+.changeTicket {
+  
   display: flex;
   justify-content: space-between;
 }

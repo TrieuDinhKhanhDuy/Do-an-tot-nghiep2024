@@ -16,12 +16,12 @@ const ChangeTicket = () => {
   const [oldTicketData, setOldTicketData] = useState<any>([]);
   const queryParams = new URLSearchParams(location.search);
   const id_change = queryParams.get("id_change");
-  
+
   useEffect(() => {
     const fetchTicketData = async () => {
       try {
         const response = await axios.get(`http://doantotnghiep.test/api/change/${id_change}`);
-        setOldTicketData(response.data);         
+        setOldTicketData(response.data);
         // setLoading(false);
       } catch (err) {
         // setError('Không thể lấy dữ liệu');
@@ -36,13 +36,13 @@ const ChangeTicket = () => {
     try {
       const res = await axios.get(
         "http://doantotnghiep.test/api/home/show",
-                {
-                    params: {
-                        start_stop_id: data.startLocation,
-                        end_stop_id: data.endLocation,
-                        date: data.departureDate,
-                    },
-                },
+        {
+          params: {
+            start_stop_id: data.startLocation,
+            end_stop_id: data.endLocation,
+            date: data.departureDate,
+          },
+        },
       );
       // alert('done done')
       nav(`/changeticket?change_id=${oldTicketData?.data?.id}&nextstart=${data.startLocation}&nextend=${data.endLocation}`);
@@ -57,9 +57,13 @@ const ChangeTicket = () => {
     const endLocation = queryParams.get("nextend");
     window.location.href = (`/choseseat?id_change=${oldTicketData?.data?.id}&total_old_price=${oldTicketData?.data?.total_price}&trip_id=${bus?.trip_id}&start_stop_name=${bus.start_stop_name}&end_stop_name=${bus.end_stop_name}&bus_id=${bus?.bus_id}&fare=${bus?.fare}&route_id=${bus?.route_id}&time_start=${bus?.time_start}&date=${bus?.date}&id_start_stop=${startLocation}&id_end_stop=${endLocation}`);
   }
-  
+
   return (
-    <div className="changeTicket">
+    <div className="changeTicket_container">
+    <BookingFormComponent onSearch={handleSearch} />
+
+        <div className="changeTicket">
+      
       {/* Thông tin chuyến xe */}
       <div className="changeTicket__info">
         <h3 className="changeTicket__info-title">Thông tin chuyến hiện tại</h3>
@@ -104,8 +108,7 @@ const ChangeTicket = () => {
 
       {/* Danh sách chuyến xe */}
       <div className="changeTicket__list">
-        <BookingFormComponent onSearch={handleSearch} />
-
+        
         {buses.map((item_bus, index) => (
           <div key={index} className="changeTicket__list-item">
             <div className="changeTicket__list-route">
@@ -123,6 +126,7 @@ const ChangeTicket = () => {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };
