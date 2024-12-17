@@ -188,17 +188,111 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media only screen and (max-width: 46.1875em) {
     .userProfile-container {
         flex-direction: column;
+        padding: 20px;
         gap: 20px;
     }
 
     .userProfile-sidebar {
-        width: 100%;
+    
+        padding: 15px;
     }
 
     .userProfile-main {
         width: 100%;
     }
+
+    .userProfile-sidebar__profile {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 15px;
+    }
+
+    .userProfile-sidebar__avatar {
+        font-size: 40px;
+    }
+
+    .userProfile-sidebar__name {
+        font-size: 16px;
+    }
+
+    .userProfile-sidebar__role {
+        font-size: 12px;
+    }
+
+    .userProfile-sidebar__menu-item {
+        font-size: 14px;
+    }
+
+    .userProfile-form__input {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .userProfile-form__button-group {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .userProfile-form__cancel-button,
+    .userProfile-form__submit-button {
+        padding: 6px 15px;
+        font-size: 14px;
+    }
 }
+
+
+@media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+    .userProfile-container {
+        flex-direction: row;
+        padding: 30px 40px;
+        gap: 30px;
+    }
+
+    .userProfile-sidebar {
+        width: 250px;
+    }
+
+    .userProfile-main {
+        width: 100%;
+    }
+
+    .userProfile-sidebar__profile {
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .userProfile-sidebar__avatar {
+        font-size: 45px;
+    }
+
+    .userProfile-sidebar__name {
+        font-size: 17px;
+    }
+
+    .userProfile-sidebar__role {
+        font-size: 13px;
+    }
+
+    .userProfile-sidebar__menu-item {
+        font-size: 15px;
+    }
+
+    .userProfile-form__input {
+        font-size: 13px;
+        padding: 9px;
+    }
+
+    .userProfile-form__button-group {
+        flex-direction: row;
+    }
+
+    .userProfile-form__cancel-button,
+    .userProfile-form__submit-button {
+        padding: 8px 18px;
+        font-size: 15px;
+    }
+}
+
