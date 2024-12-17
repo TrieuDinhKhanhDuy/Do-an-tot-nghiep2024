@@ -50,6 +50,7 @@ export const handleRegister = async (data: UserType) => {
             }
         );
         return response.data;
+        
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             Swal.fire({
@@ -254,6 +255,18 @@ export const logout = async (type: 'all') => {
         });
         return response.data;
     } catch (error) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('token_type');
+        localStorage.removeItem('userId');
+
+        Swal.fire({
+            title: "Đã Đăng xuất",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500
+        }).then(() => {
+            window.location.href = "/login";
+        });
         console.error('Lỗi đăng xuất:', error);
         throw error;
     }
