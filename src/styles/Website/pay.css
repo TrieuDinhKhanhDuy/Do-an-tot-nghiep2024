@@ -221,22 +221,103 @@
   .payment-options-item input{
     width: 20px;
   }
-  @media only screen and (max-width: 46.1875em){
+  @media only screen and (max-width: 46.1875em) {
     .container {
-      width: 380px;
-      margin: 20px auto;
+      width: 100%;
+      margin: 20px;
       background-color: white;
       border-radius: 8px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-      border: 1px solid #ddd; 
+      border: 1px solid #ddd;
     }
-    .pay-container{
+  
+    .pay-container {
       flex-direction: column;
+      width: 100%;
     }
-    .payment-section, .customer-info{
-      width: 350px;
+  
+    .payment-section,
+    .customer-info {
+      width: 100%;
+      margin: 10px;
     }
-    .ticket-container{
-      width: 100%;  
+  
+    .ticket-container {
+      width: 100%;
+    }
+  
+    .payment-options-item {
+      flex-direction: column;
+      height: auto;
+      padding: 10px;
+    }
+  
+    .payment-options-item img {
+      width: 50px;
+      margin-bottom: 10px;
+    }
+  
+    .payment-options-item input {
+      width: 20px;
+    }
+  
+    .agreement-text {
+      font-size: 12px;
+    }
+  
+    .buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .pay-button, .cancel-button {
+      width: 100%;
+      padding: 15px;
+      margin: 5px 0;
+      font-size: 16px;
+    }
+  
+    .pay-button {
+      background-color: #405187;
+      color: white;
+    }
+  
+    .cancel-button {
+      background-color: #ccc;
+      color: white;
     }
   }
+  
+  @media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+    .container {
+      width: 90%;
+      margin: 20px auto;
+    }
+  
+    .pay-container {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  
+    .payment-section,
+    .customer-info {
+      width: 48%;
+    }
+  
+    .ticket-container {
+      width: 80%;
+    }
+  
+    .payment-options-item {
+      flex-direction: row;
+      justify-content: space-between;
+      height: 60px;
+    }
+  
+    .payment-options-item img {
+      width: 60px;
+    }
+  }
+  
+
+  
