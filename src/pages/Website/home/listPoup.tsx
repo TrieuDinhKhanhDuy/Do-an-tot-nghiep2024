@@ -95,7 +95,7 @@ const SoDoGhe = () => {
         };
 
         fetchSeats();
-        intervalId = setInterval(fetchSeats, 60000);
+        intervalId = setInterval(fetchSeats, 6000000);
 
         return () => {
             clearInterval(intervalId);
@@ -103,7 +103,7 @@ const SoDoGhe = () => {
     }, [pathname, tripId, date]);
 
     const isSeatBooked = (seat: string) => seatsStatus[seat] === "booked";
-    const isSeatChosed = (seat: string) => seatsStatus[seat] === "chosen";
+    const isSeatChosed = (seat: string) => seatsStatus[seat] === "lock";
     const isSeatSelected = (seat: string) => seatsStatus[seat] === "selected";
 
     const storedUser = localStorage.getItem("userId");

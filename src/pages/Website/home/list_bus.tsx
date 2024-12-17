@@ -89,14 +89,7 @@ const List_BusFix = () => {
                 setSeatPrice(parseFloat(firstBus.fare));
             }
             setLoading(true);
-            toast.success("Lấy dữ liệu chuyến thành công", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
+            
         } catch (error) {
             console.error("Error fetching data:", error);
             Swal.fire({
@@ -139,6 +132,14 @@ const List_BusFix = () => {
 
     useEffect(() => {
         fetchFilteredTrips();
+        toast.success("Lấy dữ liệu chuyến thành công", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
     }, [searchParams, page, sortOrder]);
 
     const handleSearch = (data: BookingFormData) => {
