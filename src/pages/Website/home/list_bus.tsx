@@ -104,6 +104,14 @@ const List_BusFix = () => {
                 `/list?start=${searchParams.startLocation}&end=${searchParams.endLocation}&date=${searchParams.departureDate}&&page=${page}&sort=${sortOrder}`,
             );
             setLoading(false);
+            toast.success("Lấy dữ liệu chuyến thành công", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
         }
     };
 
@@ -131,15 +139,9 @@ const List_BusFix = () => {
     }, [location.search]);
 
     useEffect(() => {
-        fetchFilteredTrips();
-        toast.success("Lấy dữ liệu chuyến thành công", {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-        });
+        if (searchParams) {
+            fetchFilteredTrips();
+        }    
     }, [searchParams, page, sortOrder]);
 
     const handleSearch = (data: BookingFormData) => {
@@ -336,7 +338,7 @@ const List_BusFix = () => {
                                                 <div className="bus-comp-info-header">
                                                     <p>🕒 {formattedTime}</p>
                                                     <p>
-                                                        Liên hệ : {bus.driver_phone}
+                                                        Hỗ trợ thanh toán online
                                                     </p>
                                                 </div>
                                                 <div className="bus-comp-info-header">

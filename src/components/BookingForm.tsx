@@ -11,7 +11,6 @@ import { useForm, Controller } from "react-hook-form";
 import Swal from "sweetalert2";
 import "../styles/Website/BokingForm.css"
 import { BookingFormData } from "@/types/IBooking";
-import { LinearProgress } from "@mui/material";
 
 interface BookingFormProps {
     onSearch: (data: BookingFormData) => void;

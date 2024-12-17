@@ -222,8 +222,6 @@ const SoDoGhe = () => {
             pusher.disconnect();
         };
     }, []);
-
-    // const isSeatSelected = (seat: string) => selectedSeats.has(seat);
     const totalPrice = selectedSeats.size * fare;
 
     useEffect(() => {
@@ -555,7 +553,7 @@ const SoDoGhe = () => {
                             draggable: true,
                         });
 
-                        window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=${localResult.code}&discount=${localResult.discount}`;
+                        window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&start_stop_name=${start_stop_name}&end_stop_name=${end_stop_name}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=${localResult.code}&discount=${localResult.discount}`;
                     } catch (error) {
                         toast.error("Mã không được áp dụng!", {
                             position: "top-right",
@@ -569,11 +567,11 @@ const SoDoGhe = () => {
                 }
             }
             else {
-                window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=&discount=`;
+                window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&start_stop_name=${start_stop_name}&end_stop_name=${end_stop_name}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=&discount=`;
             }
         } catch (error) {
             console.error("Lỗi khi lấy danh sách khuyến mại:", error);
-            window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=&discount=`;
+            window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&start_stop_name=${start_stop_name}&end_stop_name=${end_stop_name}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=&discount=`;
         }
     };
     return (

@@ -47,6 +47,8 @@ const MyTicket = () => {
 
     const userId = getUserId();
     useEffect(() => {
+        let intervalId: NodeJS.Timeout;
+
         const fetchMyTicket = async () => {
             try {
                 const response = await axios.get(
@@ -75,6 +77,11 @@ const MyTicket = () => {
         };
 
         fetchMyTicket();
+        intervalId = setInterval(fetchMyTicket, 2000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
     }, []);
 
     const duongDan = [
@@ -82,8 +89,8 @@ const MyTicket = () => {
         { nhan: "Vé Của Tôi", duongDan: "myticket" },
     ];
 
-    const handleChangeTicket = async (order_id: string) => {
-        nav(`/changeticket?id_change=${order_id}`);
+    const handleChangeTicket = async (ticketItem: BusOption) => {
+        nav(`/changeticket?id_change=${ticketItem.ticket_booking_id}`);
     };
 
     const isBeforeStartDate = (date_start: string): boolean => {
@@ -206,6 +213,12 @@ const MyTicket = () => {
                             >
                                 Vé Hết Hạn
                             </div>
+                            <div
+                                className={`header-item ${selectedStatus === "failed" ? "active" : "step2"}`}
+                                onClick={() => setSelectedStatus("failed")}
+                            >
+                                Thanh toán lỗi
+                            </div>
                         </div>
                         {filteredTickets.map((ticketItem) => (
                             <div key={ticketItem.order_code} className="bus-comp-option">
@@ -221,9 +234,10 @@ const MyTicket = () => {
                                 <div className="bus-comp-info">
                                     <div className="bus-comp-info-header">
                                         <h3>{ticketItem.route_name}</h3>
-                                        {isBeforeStartDate(ticketItem.date_start) && ticketItem.status !== 'refunded' && (
+                                        {isBeforeStartDate(ticketItem.date_start) && ticketItem.status !== 'refunded' && (ticketItem.status === 'paid' || ticketItem.status === 'unpaid') && (
                                             <p className="bus-comp-cancelBtn" onClick={() => openModal(ticketItem)}>Hủy</p>
                                         )}
+
                                     </div>
                                     <div className="bus-comp-info-header">
                                         <p>🕒 {formatTime(ticketItem.time_start)} - {formatDate(ticketItem.date_start)}</p>
@@ -233,17 +247,17 @@ const MyTicket = () => {
                                         <p>{formatPrice(ticketItem.total_price)}</p>
                                         {
                                             ticketItem.status === "paid" ? "Đã thanh toán" :
-                                            ticketItem.status === "unpaid" ? "Chưa thanh toán" :
-                                            ticketItem.status === "refunded" ? "Đã hủy" :
-                                            ticketItem.status === "overdue" ? "Vé hết hạn" :
-                                            ticketItem.status === "failed" ? "Thất bại" : "Trạng thái không xác định"
+                                                ticketItem.status === "unpaid" ? "Chưa thanh toán" :
+                                                    ticketItem.status === "refunded" ? "Đã hủy" :
+                                                        ticketItem.status === "overdue" ? "Vé hết hạn" :
+                                                            ticketItem.status === "failed" ? "Thất bại" : "Trạng thái không xác định"
                                         }
                                     </div>
                                     <div className="bus-comp-info-header">
                                         <p>Số Vé: {ticketItem.total_tickets}</p>
                                         <div className="bus-comp-action">
                                             {isBeforeStartDate(ticketItem.date_start) && ticketItem.status == 'paid' && (
-                                                <button onClick={() => handleChangeTicket(ticketItem.ticket_booking_id)}>Đổi chuyến</button>
+                                                <button onClick={() => handleChangeTicket(ticketItem)}>Đổi chuyến</button>
                                             )}
                                             <Link to={'/billdetail?order_code=' + ticketItem.order_code}>
                                                 <button>Chi Tiết</button>

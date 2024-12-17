@@ -8,6 +8,7 @@ import { DbRecord } from "@/types/IBus";
 import Breadcrumb from "@/components/Breadcrumb";
 import numeral from "numeral";
 import moment from "moment";
+import { useForm } from "react-hook-form";
 
 
 const ChangeTicket = () => {
@@ -20,16 +21,14 @@ const ChangeTicket = () => {
   const queryParams = new URLSearchParams(location.search);
   const id_change = queryParams.get("id_change");
   const formattedFare = numeral(oldTicketData?.data?.total_price).format('0,0');
-
+  
   useEffect(() => {
     const fetchTicketData = async () => {
       try {
         const response = await axios.get(`http://doantotnghiep.test/api/change/${id_change}`);
         setOldTicketData(response.data);
-        // setLoading(false);
       } catch (err) {
-        // setError('Không thể lấy dữ liệu');
-        // setLoading(false);
+        console.log(err);
       }
     };
 
@@ -48,13 +47,13 @@ const ChangeTicket = () => {
           },
         },
       );
-      // alert('done done')
       nav(`/changeticket?change_id=${oldTicketData?.data?.id}&nextstart=${data.startLocation}&nextend=${data.endLocation}`);
       setBuses(res.data.data);
     } catch (error) {
 
     }
   };
+
 
   const formatTime = (time: string): string => {
     return moment(time, "HH:mm:ss").format("hh:mm A");
@@ -85,6 +84,10 @@ const ChangeTicket = () => {
                 <tr>
                   <td className="changeTicket__info-label">Tuyến:</td>
                   <td className="changeTicket__info-value">{oldTicketData?.data?.route?.route_name || ''}</td>
+                </tr>
+                <tr>
+                  <td className="changeTicket__info-label">Ngày:</td>
+                  <td className="changeTicket__info-value">{oldTicketData?.data?.date}</td>
                 </tr>
                 <tr>
                   <td className="changeTicket__info-label">Giờ xuất bến:</td>
