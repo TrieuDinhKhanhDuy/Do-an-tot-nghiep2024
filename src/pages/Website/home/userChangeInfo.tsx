@@ -1,13 +1,5 @@
-import { Link } from "react-router-dom";
 import "../../../styles/Website/myTicket.css";
 import Breadcrumb from "@/components/Breadcrumb";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faTicket,
-    faGift,
-    faCog,
-    faSignOutAlt,
-} from "@fortawesome/free-solid-svg-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { FaCheck, FaTimes } from "react-icons/fa";
@@ -16,9 +8,10 @@ import { UserType } from "@/types/IUser";
 import useAuth from "@/hooks/useAuth";
 import { useEffect } from "react";
 import { logout } from "@/service/authService";
+import LeftBar from "@/components/leftBar_user";
 
 
-const MyInfo = () => {
+const UserChangeInfo = () => {
     const updateUserSchema = z.object({
         name: z.string().nonempty("Họ và tên không được để trống").min(6, "Họ và tên phải có ít nhất 6 ký tự"),
         address: z.string().nonempty("Địa chỉ không được để trống"),
@@ -37,7 +30,8 @@ const MyInfo = () => {
     };
     const duongDan = [
         { nhan: "Trang Chủ", duongDan: "/" },
-        { nhan: "Vé Của Tôi", duongDan: "myticket" },
+        { nhan: "Cài Đặt", duongDan: "/usersetting" },
+        { nhan: "Sửa Thông Tin", duongDan: "changeinfo" },
     ];
 
     useEffect(() => {
@@ -64,75 +58,8 @@ const MyInfo = () => {
 
             <div className="tickets-container">
                 <div className="bus-comp-container">
-                    <div className="bus-comp-left-sidebar">
-                        <div className="bus-comp-sort-options">
-                            <div className="menu-options_fix">
-                                {/* <div className="user-info_fix menu-item_fix">
-                                    <div className="user-avatar_fix  ">
-                                        <span role="img" aria-label="avatar">
+                <LeftBar/>
 
-                                        </span>
-                                    </div>
-                                    <div className="user-details_fix">
-                                        <span className="user-name_fix ">
-                                            Admin hieu
-                                        </span>
-                                        <span className="user-role_fix menu-item_fix">admin</span>
-                                    </div>
-                                </div> */}
-                                <div className="menu-item_fix insite">
-                                    <Link
-                                        to={"/myticket"}
-                                    >
-                                        {" "}
-                                        <span role="img" aria-label="ticket">
-                                            {" "}
-                                            <FontAwesomeIcon icon={faTicket} />
-                                        </span>{" "}
-                                        Vé của tôi
-                                    </Link>
-                                </div>
-                                <div className="menu-item_fix">
-                                    <Link
-                                        to={"/listvoucher"}
-                                    >
-                                        {" "}
-                                        <span role="img" aria-label="ticket">
-                                            {" "}
-                                            <FontAwesomeIcon icon={faGift} />
-                                        </span>{" "}
-                                        Voucher
-                                    </Link>
-                                </div>
-                                <div className="menu-item_fix">
-                                    <Link
-                                        to={"/myinfo"}
-                                    >
-                                        <span
-                                            role="img"
-                                            aria-label="settings"
-                                        >
-                                            {" "}
-                                            <FontAwesomeIcon icon={faCog} />
-                                        </span>{" "}
-                                        Cài đặt
-                                    </Link>
-
-                                </div>
-                                {/* <div
-                                    className="logout_fix menu-item_fix"
-                                    style={{ display: "flex", alignItems: "center" }}
-                                >
-                                    <span style={{ marginRight: "10px" }}>
-                                        <FontAwesomeIcon icon={faSignOutAlt} />
-                                    </span>
-                                    Đăng xuất
-                                </div> */}
-                            </div>
-                        </div>
-
-
-                    </div>
 
                     <div className="bus-comp-list" >
                         <form className="contactForm-form needs-validation" onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -178,7 +105,7 @@ const MyInfo = () => {
                                 </div>
                             </div>
 
-                            <div className="contactForm-group">
+                            <div className="contactForm-group hidden">
                                 <label className="block text-sm font-medium text-gray-700">Email:</label>
                                 <div className="relative">
                                     <input
@@ -233,4 +160,4 @@ const MyInfo = () => {
     );
 };
 
-export default MyInfo;
+export default UserChangeInfo;

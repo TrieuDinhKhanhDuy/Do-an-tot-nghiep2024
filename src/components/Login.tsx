@@ -3,15 +3,15 @@ import "../styles/Website/Login.css";
 import Login1 from "../assets/image/Login2.png";
 import Heading from "./Heading";
 import Breadcrumb from "./Breadcrumb";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import useAuth from "@/hooks/useAuth";
 import { UserLoginType } from "@/types/IUser";
-import Swal from "sweetalert2";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TextField } from "@mui/material";
+import { LinearProgress, TextField } from "@mui/material";
+import Swal from "sweetalert2";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -32,30 +32,20 @@ const Login = () => {
         resolver: zodResolver(loginSchema),
     });
 
-    const nav = useNavigate();
-    const location = useLocation();
-
     const onSubmit = async (data: UserLoginType) => {
         await handleLogin(data.email, data.password);
-        Swal.fire({
-            title: "Đăng Nhập Thành Công",
-            text: "Tự động chuyển về trang trước đó....",
-            icon: "success",
-            showConfirmButton: false,
-            timer: 1500,
-        }).then(() => {
-            const queryParams = new URLSearchParams(location.search);
-            const redirectUrl = queryParams.get("redirect");
-            if (redirectUrl) {
-                window.location.href = decodeURIComponent(redirectUrl);
-            } else {
-                nav("/"); // Quay về trang chủ nếu không có redirect
-            }
-        });
     };
 
+    const handleAlert = async () => {
+        Swal.fire({
+            title: "Chức Năng Đang Được Cập Nhât!",
+            icon: "warning",
+            showConfirmButton: false,
+        });
+    };
     return (
         <>
+            {loading ? (<><LinearProgress /> </>) : (<></>)}
             <Breadcrumb items={duongDan} />
             <div className="login-container">
                 <img src={Login1} alt="Login" className="img-hidden" />
@@ -112,10 +102,10 @@ const Login = () => {
                         <div className="social-register">
                             <p className="social-register__text">Hoặc</p>
                             <div className="social-register__buttons">
-                                <button className="social-register__btn facebook-btn">
+                                <button className="social-register__btn facebook-btn" onClick={handleAlert}>
                                     <FaFacebookF /> Facebook
                                 </button>
-                                <button className="social-register__btn google-btn">
+                                <button className="social-register__btn google-btn" onClick={handleAlert}>
                                     <FaGoogle /> Google
                                 </button>
                             </div>

@@ -19,6 +19,7 @@
   height: 50px;
   line-height: 50px;
   border-right: 1px solid white;
+  cursor: pointer;
 }
 
 .schedule-table-container {
@@ -148,7 +149,9 @@
 .right-section {
   padding: 20px;
 }
-
+.seat_layout{
+  min-height: 800px;
+}
 
 .seats-grid {
   display: flex;

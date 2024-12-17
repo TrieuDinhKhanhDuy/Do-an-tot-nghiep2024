@@ -14,7 +14,7 @@ import {
 import { logout } from "@/service/authService";
 import { UserType } from "@/types/IUser";
 
-const HeaderFix = () => {
+const HeaderUpdate = () => {
     const [isOpen, setIsOpen] = useState(false);
     const submenuRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLLIElement>(null);
@@ -67,12 +67,9 @@ const HeaderFix = () => {
         if (storedUser) {
             setUserRespon(JSON.parse(storedUser)); // Parse JSON để chuyển thành object
         }
+
+
     }, []);
-
-    const handlReset = () =>{
-        window.location.href = "/";
-    }
-
     return (
         <>
             <header className="header_container" id="header_id">
@@ -114,7 +111,7 @@ const HeaderFix = () => {
                                     <div className="row_white"></div>
                                 </li>
                                 <li>
-                                    <a onClick={handlReset}>Trang chủ</a>
+                                    <a href="/">Trang chủ</a>
                                 </li>
                                 <li>
                                     <a href="/about">Giới thiệu</a>
@@ -154,109 +151,106 @@ const HeaderFix = () => {
                     <div className="header__logo">
                         <img src={logoBlue} className="header__logo-img" />
                     </div>
-
-                    <div
-                        className={`submenu ${isOpen ? "open" : ""}`}
-                        ref={submenuRef}
-                    >
-                        <div className="user-menu_fix">
-
-
-                            {userRespon ? (
-                                <div className="user-info_fix">
-                                    <div className="user-avatar_fix">
-                                        <span role="img" aria-label="avatar">
-                                            👤
-                                        </span>
-                                    </div>
-                                    <div className="user-details_fix">
-                                        <span className="user-name_fix">
-                                            {userRespon.name}
-                                        </span>
-                                    </div>
-                                </div>
-                            ) : (
-                                <>
-                                    <div className="user-info_fix">
-                                        <div className="user-avatar_fix">
-                                            <span role="img" aria-label="avatar">
-
-                                            </span>
-                                        </div>
-                                        <div className="user-details_fix">
-                                            <span className="user-name_fix">
-                                                Khách
-                                            </span>
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-                            <div className="menu-options_fix">
-                                <div className="menu-item_fix">
-                                    <Link
-                                        to={"/myticket"}
-                                        onClick={handleItemClick}
-                                    >
-                                        {" "}
-                                        <span role="img" aria-label="ticket">
-                                            {" "}
-                                            <FontAwesomeIcon icon={faTicket} />
-                                        </span>{" "}
-                                        Vé của tôi
-                                    </Link>
-                                </div>
-                                <div className="menu-item_fix">
-                                    <Link
-                                        to={"/listvoucher"}
-                                        onClick={handleItemClick}
-                                    >
-                                        {" "}
-                                        <span role="img" aria-label="ticket">
-                                            {" "}
-                                            <FontAwesomeIcon icon={faGift} />
-                                        </span>{" "}
-                                        Voucher
-                                    </Link>
-                                </div>
-                                <div className="menu-item_fix">
-                                    <Link
-                                        to={"/usersetting"}
-                                        onClick={handleItemClick}
-                                    >
-                                        <span
-                                            role="img"
-                                            aria-label="settings"
-                                        >
-                                            {" "}
-                                            <FontAwesomeIcon icon={faCog} />
-                                        </span>{" "}
-                                        Cài đặt
-                                    </Link>
-
-                                </div>
-                            </div>
-                            {userRespon ? (
-                                <>
-                                    <div
-                                        className="logout_fix"
-                                        style={{ display: "flex", alignItems: "center" }}
-                                        onClick={handleLogout}
-                                    >
-                                        <span style={{ marginRight: "10px" }}>
-                                            <FontAwesomeIcon icon={faSignOutAlt} />
-                                        </span>
-                                        Đăng xuất
-                                    </div>
-                                </>
-                            ) : (
-                                <></>
-                            )}
-                        </div>
-                    </div>
                 </div>
             </header>
+            <div
+                className={`submenu ${isOpen ? "open" : ""}`}
+                ref={submenuRef}
+            >
+                <div className="user-menu_fix">
+
+
+                    {userRespon ? (
+                        <div className="user-info_fix">
+                            <div className="user-avatar_fix">
+                                <span role="img" aria-label="avatar">
+                                    👤
+                                </span>
+                            </div>
+                            <div className="user-details_fix">
+                                <span className="user-name_fix">
+                                    {userRespon.name}
+                                </span>
+                                {userRespon.address}
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            <div className="menu-item_fix">
+                                <Link
+                                    to={"/login"}
+                                    onClick={handleItemClick}
+                                >
+                                    {" "}
+                                    <span role="img" aria-label="ticket">
+                                        {" "}
+                                        <FontAwesomeIcon icon={faTicket} />
+                                    </span>{" "}
+                                    Đăng nhập
+                                </Link>
+                            </div>
+                        </>
+                    )}
+                    <div className="menu-options_fix">
+                        <div className="menu-item_fix">
+                            <Link
+                                to={"/myticket"}
+                                onClick={handleItemClick}
+                            >
+                                {" "}
+                                <span role="img" aria-label="ticket">
+                                    {" "}
+                                    <FontAwesomeIcon icon={faTicket} />
+                                </span>{" "}
+                                Vé của tôi
+                            </Link>
+                        </div>
+                        <div className="menu-item_fix">
+                            <Link
+                                to={"/listvoucher"}
+                                onClick={handleItemClick}
+                            >
+                                {" "}
+                                <span role="img" aria-label="ticket">
+                                    {" "}
+                                    <FontAwesomeIcon icon={faGift} />
+                                </span>{" "}
+                                Voucher
+                            </Link>
+                        </div>
+                        <div className="menu-item_fix">
+                            <Link
+                                to={"/myinfo"}
+                                onClick={handleItemClick}
+                            >
+                                <span
+                                    role="img"
+                                    aria-label="settings"
+                                >
+                                    {" "}
+                                    <FontAwesomeIcon icon={faCog} />
+                                </span>{" "}
+                                Cài đặt
+                            </Link>
+
+                        </div>
+                    </div>
+
+                    <div
+                        className="logout_fix"
+                        style={{ display: "flex", alignItems: "center" }}
+                        onClick={handleLogout}
+                    >
+                        <span style={{ marginRight: "10px" }}>
+                            <FontAwesomeIcon icon={faSignOutAlt} />
+                        </span>
+                        Đăng xuất
+                    </div>
+                </div>
+            </div>
+
         </>
     );
 };
 
-export default HeaderFix;
+export default HeaderUpdate;

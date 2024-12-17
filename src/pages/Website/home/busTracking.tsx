@@ -17,6 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "../../../styles/Website/busTracking.css";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 interface TicketData {
     ticket_code: string;
@@ -58,13 +59,31 @@ const BusTracking = () => {
             if (response.data && response.data.data) {
                 setTicketInfo(response.data.data);
                 setError(null);
-                reset(); 
+                reset();
             } else {
                 throw new Error("Invalid data structure");
             }
-        } catch (err) {
-            setError("Không tìm thấy thông tin vé. Vui lòng kiểm tra lại mã vé.");
-            setTicketInfo(null);
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                Swal.fire({
+                    title: "Cập nhật thất bại!",
+                    text: error.response.data.message || "Vui lòng thử lại.",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                });
+            } else {
+                Swal.fire({
+                    title: "Lỗi không xác định!",
+                    text: "Đã xảy ra lỗi không mong muốn.",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                });
+            }
+            throw error;
         }
     };
 
@@ -97,19 +116,20 @@ const BusTracking = () => {
                     {error && <p className="error-message">{error}</p>}
                 </div>
 
-                {ticketInfo && (
-                    <div className="ticket-info-section">
-                        <table className="ticket-info-table">
-                            <thead>
-                                <tr>
-                                    <th
-                                        className="ticket-info-header"
-                                        colSpan={2}
-                                    >
-                                        Thông tin vé xe
-                                    </th>
-                                </tr>
-                            </thead>
+                <div className="ticket-info-section">
+                    <table className="ticket-info-table">
+
+
+                        <>                            <thead>
+                            <tr>
+                                <th
+                                    className="ticket-info-header"
+                                    colSpan={2}
+                                >
+                                    Thông tin vé xe
+                                </th>
+                            </tr>
+                        </thead>
                             <tbody>
                                 <tr>
                                     <td className="ticket-info-label">
@@ -117,7 +137,8 @@ const BusTracking = () => {
                                         Mã vé:
                                     </td>
                                     <td className="ticket-info-value">
-                                        {ticketInfo.ticket_code}
+
+                                        {ticketInfo && (<>{ticketInfo.ticket_code} </>)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -126,7 +147,7 @@ const BusTracking = () => {
                                         khách hàng:
                                     </td>
                                     <td className="ticket-info-value">
-                                        {ticketInfo.name}
+                                        {ticketInfo && (<>{ticketInfo.name} </>)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -135,7 +156,7 @@ const BusTracking = () => {
                                         Email:
                                     </td>
                                     <td className="ticket-info-value">
-                                        {ticketInfo.email}
+                                        {ticketInfo && (<>{ticketInfo.email} </>)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -144,7 +165,7 @@ const BusTracking = () => {
                                         điện thoại:
                                     </td>
                                     <td className="ticket-info-value">
-                                        {ticketInfo.phone}
+                                        {ticketInfo && (<>{ticketInfo.phone} </>)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -152,7 +173,7 @@ const BusTracking = () => {
                                         <FontAwesomeIcon icon={faBus} /> Tuyến:
                                     </td>
                                     <td className="ticket-info-value">
-                                        {ticketInfo.route_name}
+                                        {ticketInfo && (<>{ticketInfo.route_name} </>)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -163,7 +184,7 @@ const BusTracking = () => {
                                         Điểm đi:
                                     </td>
                                     <td className="ticket-info-value">
-                                        {ticketInfo.start_point}
+                                        {ticketInfo && (<>{ticketInfo.start_point} </>)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -174,7 +195,7 @@ const BusTracking = () => {
                                         Điểm đến:
                                     </td>
                                     <td className="ticket-info-value">
-                                        {ticketInfo.end_point}
+                                        {ticketInfo && (<>{ticketInfo.end_point} </>)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -183,7 +204,7 @@ const BusTracking = () => {
                                         trí ghế:
                                     </td>
                                     <td className="ticket-info-value">
-                                        {ticketInfo.seat}
+                                        {ticketInfo && (<>{ticketInfo.seat} </>)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -192,7 +213,7 @@ const BusTracking = () => {
                                         Ngày khởi hành:
                                     </td>
                                     <td className="ticket-info-value">
-                                        {ticketInfo.date_start}
+                                        {ticketInfo && (<>{ticketInfo.date_start} </>)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -201,7 +222,7 @@ const BusTracking = () => {
                                         khởi hành:
                                     </td>
                                     <td className="ticket-info-value">
-                                        {ticketInfo.time_start}
+                                        {ticketInfo && (<>{ticketInfo.time_start} </>)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -212,9 +233,10 @@ const BusTracking = () => {
                                         Trạng thái:
                                     </td>
                                     <td className="ticket-info-value">
-                                        {ticketInfo.status === "unpaid"
-                                            ? "Chưa thanh toán"
-                                            : "Đã thanh toán"}
+                                        {ticketInfo && (
+                                            <>
+                                                {ticketInfo.status === "unpaid" ? "Chưa thanh toán" : "Đã thanh toán"} </>)}
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -223,18 +245,20 @@ const BusTracking = () => {
                                         Tổng tiền:
                                     </td>
                                     <td className="ticket-info-value">
-                                        {parseFloat(
+                                        {ticketInfo && (<>{parseFloat(
                                             ticketInfo.total_price
                                         ).toLocaleString("vi-VN", {
                                             style: "currency",
                                             currency: "VND",
-                                        })}
+                                        })}</>)}
+
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                )}
+                            </tbody></>
+
+                    </table>
+                </div>
+
             </div>
         </>
     );

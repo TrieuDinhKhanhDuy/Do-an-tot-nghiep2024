@@ -1,6 +1,5 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import "../../../styles/Website/bill.css";
 import { faCar, faEnvelope, faFileInvoice, faPhone, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -43,12 +42,16 @@ const DetailBill = () => {
                     icon: "error",
                     showConfirmButton: false
                 })
-                nav('/**/')
+                nav('/**/');
             }
         };
 
         fetchBillDetails();
     }, [order_code]);
+
+        const formatPrice = (price: string): string => {
+            return numeral(price).format('0,0') + ' VND'; 
+        };
 
     return (
         <>
@@ -134,39 +137,26 @@ const DetailBill = () => {
                                 {billData?.ticket_details.map((ticket) => (
                                     <tr>
                                         <td className="left-section-bill">
-                                            {/* <strong>Thông tin chính</strong>
-                                        <p>Chuyến: {billData.route_name}</p>
-                                        <p>Ngày: {billData.date_start}</p>
-                                        <p>Điểm đi: {billData?.start_point}</p>
-                                        <p>Điểm đến: {billData?.end_point}</p> */}
-                                            {/* <p>Vị trí ngồi: {billData?.ticket_details.map(ticket => ticket.name_seat).join(", ")}</p> */}
-
                                             <strong>Thông tin chính - {billData.route_name}</strong>
                                             <p>Vị Trí Ghế: {ticket.name_seat}</p>
-                                            <p>Giá vé: {ticket.price}</p>
+                                            <p>Giá vé: {formatPrice(ticket.price)}</p>
                                             <p>Mã Vé: {ticket.ticket_code}</p>
                                             <p>Ngày: {billData.date_start}</p>
                                             <p>Điểm đi: {billData?.start_point}({billData.location_start})</p>
                                             <p>Điểm đến: {billData?.end_point}({billData.location_end})</p>
-
-
                                         </td>
                                         <td className="right-section-bill">
                                             <strong>Thông tin thêm</strong>
                                             <p>Mã khuyến mãi: LAIXEANTOAN</p>
                                             <p>Ghi chú: lai xe an toan</p>
                                         </td>
-
                                     </tr>
-
                                 ))}
-
                                 <tr>
                                     <td colSpan={2}>
                                         <hr className="section-divider" />
                                     </td>
                                 </tr>
-
                                 <tr>
                                     <td className="pricing-left">
                                         <p>Mã giảm giá:</p>
@@ -176,8 +166,8 @@ const DetailBill = () => {
                                         <p>Tình trạng:</p>
                                     </td>
                                     <td className="pricing-right">
-                                        <p>- 0%</p>
-                                        <p><strong>{numeral(billData.total_price).format("0,0")} VNĐ</strong></p>
+                                        <p>{billData.code_voucher} - {billData.discount}%</p>
+                                        <p><strong>{numeral(billData.total_price).format("0,0")} VND</strong></p>
                                         <p className={`status-pay ${billData.status === "paid" ? "paid" : "unpaid"}`}>
                                             {billData.status === "paid" ? "Đã thanh toán" : "Chưa thanh toán"}
                                         </p>
@@ -185,7 +175,6 @@ const DetailBill = () => {
                                 </tr>
                             </tbody>
                         </table>
-
                     </div>
                 )}
             </div>

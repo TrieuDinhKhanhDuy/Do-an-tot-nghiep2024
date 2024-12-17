@@ -1,12 +1,13 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import {
-    
+
     faChevronLeft,
     faChevronRight,
+    faL,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../../../styles/Website/BokingForm.css";
 import "../../../styles/Website/list_busFix.css";
 import "../../../styles/Website/list.css";
@@ -17,30 +18,31 @@ import numeral from "numeral";
 import Swal from "sweetalert2";
 import { BookingFormData } from "@/types/IBooking";
 import { DbRecord } from "@/types/IBus";
+import { LinearProgress } from "@mui/material";
+import { toast } from "react-toastify";
 
 const List_BusFix = () => {
-    const [buses, setBuses] = useState<DbRecord[]>([]);
     const url_image_backend = "http://doantotnghiep.test/storage/";
-    const [searchParams, setSearchParams] = useState<BookingFormData | null>(
-        null,
-    );
     const location = useLocation();
-    const [selectedBus, setSelectedBus] = useState<DbRecord | null>(null); // Lưu trữ thông tin chuyến xe đã chọn
-    const [page, setPage] = useState(1); // Trạng thái cho số trang
-    const [totalPages, setTotalPages] = useState(1); // Tổng số trang
-    const [sortOrder, setSortOrder] = useState<string>("default"); // State lưu trữ lựa chọn sắp xếp
+    const nav = useNavigate();
+
+    //states //
+    const [loading, setLoading] = useState(true);
+    const [buses, setBuses] = useState<DbRecord[]>([]);
+    const [searchParams, setSearchParams] = useState<BookingFormData | null>(null);
+    const [selectedBus, setSelectedBus] = useState<DbRecord | null>(null);
+    const [page, setPage] = useState(1);
+    const [seatPrice, setSeatPrice] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
+    const [sortOrder, setSortOrder] = useState<string>("default");
 
     const duongDan = [
         { nhan: "Trang Chủ", duongDan: "/" },
         { nhan: "List Vé", duongDan: "list" },
     ];
 
-
-
-    const [seatPrice, setSeatPrice] = useState(0);
-
     const fetchFilteredTrips = async () => {
-        if (!searchParams) return; // Không gọi API nếu chưa có tham số tìm kiếm
+        if (!searchParams) return;
 
         try {
             const res = await axios.get(
@@ -50,53 +52,52 @@ const List_BusFix = () => {
                         start_stop_id: searchParams.startLocation,
                         end_stop_id: searchParams.endLocation,
                         date: searchParams.departureDate,
-                        page: page, // Thêm tham số trang
-                        sort: sortOrder, // Thêm tham số sắp xếp
+                        page: page,
+                        sort: sortOrder,
                     },
                 },
             );
 
             let fetchedBuses = res.data.data;
 
-            // Kiểm tra loại sắp xếp và lọc theo số chỗ
             if (sortOrder === "bedBus40") {
-                // Lọc chỉ giữ các xe giường nằm 40 chỗ
                 fetchedBuses = fetchedBuses.filter(
                     (bus: any) => bus.total_seats === 40,
                 );
             } else if (sortOrder === "priceAsc") {
-                // Sắp xếp giá tăng dần
                 fetchedBuses = fetchedBuses.sort(
                     (a: any, b: any) => a.fare - b.fare,
                 );
             } else if (sortOrder === "priceDesc") {
-                // Sắp xếp giá giảm dần
                 fetchedBuses = fetchedBuses.sort(
                     (a: any, b: any) => b.fare - a.fare,
                 );
             } else if (sortOrder === "bedBus45") {
-                // Sắp xếp giá giảm dần
                 fetchedBuses = fetchedBuses.filter(
                     (bus: any) => bus.total_seats === 45,
                 );
             } else if (sortOrder === "bedBus34") {
-                // Sắp xếp giá giảm dần
                 fetchedBuses = fetchedBuses.filter(
                     (bus: any) => bus.total_seats === 34,
                 );
             }
 
-            // Cập nhật danh sách chuyến đi
             setBuses(fetchedBuses);
-            setTotalPages(res.data.pagination.total_pages); // Cập nhật tổng số trang
-            nav(
-                `/list?start=${searchParams.startLocation}&end=${searchParams.endLocation}&date=${searchParams.departureDate}&page=${page}&sort=${sortOrder}`,
-            );
+            setTotalPages(res.data.pagination.total_pages);
 
             if (fetchedBuses.length > 0) {
                 const firstBus = fetchedBuses[0];
-                setSeatPrice(parseFloat(firstBus.fare)); // Lấy giá từ dữ liệu chuyến
+                setSeatPrice(parseFloat(firstBus.fare));
             }
+            setLoading(true);
+            toast.success("Lấy dữ liệu chuyến thành công", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
         } catch (error) {
             console.error("Error fetching data:", error);
             Swal.fire({
@@ -106,6 +107,11 @@ const List_BusFix = () => {
                 showConfirmButton: false,
                 allowEscapeKey: true,
             });
+        } finally {
+            nav(
+                `/list?start=${searchParams.startLocation}&end=${searchParams.endLocation}&date=${searchParams.departureDate}&&page=${page}&sort=${sortOrder}`,
+            );
+            setLoading(false);
         }
     };
 
@@ -114,8 +120,8 @@ const List_BusFix = () => {
         const startLocation = queryParams.get("start");
         const endLocation = queryParams.get("end");
         const departureDate = queryParams.get("date");
-        const page_query = queryParams.get("page") || "1"; // Lấy giá trị của `page` từ URL hoặc mặc định là 1
-        const sort_query = queryParams.get("sort") || "default"; // Lấy giá trị của `sort` từ URL hoặc mặc định là 'default'
+        const page_query = queryParams.get("page") || "1";
+        const sort_query = queryParams.get("sort") || "default";
         if (startLocation && endLocation && departureDate) {
             setSearchParams({
                 startLocation,
@@ -123,14 +129,14 @@ const List_BusFix = () => {
                 departureDate,
                 page_query: page_query,
             });
-            setPage(parseInt(page_query)); // Cập nhật lại state page
-            setSortOrder(sort_query); // Cập nhật lại state sortOrder
+            setPage(parseInt(page_query));
+            setSortOrder(sort_query);
         }
     }, [location.search]);
 
     useEffect(() => {
         fetchFilteredTrips();
-    }, [searchParams, page, sortOrder]); // Fetch lại khi có sự thay đổi về params, page, hoặc sort
+    }, [searchParams, page, sortOrder]);
 
     const handleSearch = (data: BookingFormData) => {
         setSearchParams(data);
@@ -144,14 +150,13 @@ const List_BusFix = () => {
         const startLocation = queryParams.get("start");
         const endLocation = queryParams.get("end");
         setSelectedBus(bus);
-    
+
         const storedToken = localStorage.getItem("access_token");
         if (storedToken) {
-            nav(
-                `/choseseat?trip_id=${bus?.trip_id}&start_stop_name=${bus.start_stop_name}&end_stop_name=${bus.end_stop_name}&bus_id=${bus?.bus_id}&fare=${bus?.fare}&route_id=${bus?.route_id}&time_start=${bus?.time_start}&date=${bus?.date}&id_start_stop=${startLocation}&id_end_stop=${endLocation}`,
+            window.location.href = (`/choseseat?trip_id=${bus?.trip_id}&start_stop_name=${bus.start_stop_name}&end_stop_name=${bus.end_stop_name}&bus_id=${bus?.bus_id}&fare=${bus?.fare}&route_id=${bus?.route_id}&time_start=${bus?.time_start}&date=${bus?.date}&id_start_stop=${startLocation}&id_end_stop=${endLocation}`
             );
         } else {
-            const currentUrl = encodeURIComponent(window.location.href); // Lấy URL hiện tại
+            const currentUrl = encodeURIComponent(window.location.href);
             Swal.fire({
                 title: "Vui Lòng Đăng Nhập!",
                 text: "Đăng nhập để có trải nghiệm đặt vé tối nhất!",
@@ -166,19 +171,17 @@ const List_BusFix = () => {
             });
         }
     };
-    
-    
+
     const handlePageChange = (newPage: number) => {
         if (newPage > 0 && newPage <= totalPages) {
             setPage(newPage);
         }
     };
-    console.log("buses", buses);
-
-    const nav = useNavigate();
 
     return (
         <>
+
+            {loading ? (<> <LinearProgress /></>) : (<></>)}
             <Breadcrumb items={duongDan} />
             <div className="bookingForm-container">
                 <BookingFormComponent onSearch={handleSearch} />
@@ -329,21 +332,21 @@ const List_BusFix = () => {
                                                 <div className="bus-comp-info-header">
                                                     <p>🕒 {formattedTime}</p>
                                                     <p>
-                                                       sale 20%
+                                                        sale 20%
                                                     </p>
                                                 </div>
                                                 <div className="bus-comp-info-header">
-                                                    <p>{bus.name_bus}</p>
+                                                    <p>{bus.name_bus} - {bus.license_plate} </p>
                                                     <p>
                                                         Hỗ trợ thanh toán online
                                                     </p>
                                                 </div>
                                                 <div className="bus-comp-info-header">
                                                     <p>
-                                                    {bus.available_seats}/{bus.total_seats} Chỗ
+                                                        {bus.available_seats}/{bus.total_seats} Chỗ
                                                         trống
                                                     </p>
-                                                  
+
                                                     <div className="bus-comp-action">
                                                         <button>
                                                             Chọn chỗ

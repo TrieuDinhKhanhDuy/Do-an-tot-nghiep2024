@@ -114,11 +114,6 @@
     color: red;
     text-decoration: underline;
 }
-
-/*-------*/
-
-
-
 /* Responsive for mobile */
 @media only screen and (max-width: 46.1875em) {
     .tickets-container {

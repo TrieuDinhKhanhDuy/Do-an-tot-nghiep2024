@@ -1,5 +1,5 @@
 export type UserType = {
-    id?: number;
+    id?: string;
     name: string;
     email: string;
     phone: string;
@@ -16,7 +16,7 @@ export type OrdersType = {
     route_name: string,
     image: string,
     time_start: string,
-    date_start: string ,
+    date_start: string,
     total_price: number,
     status: string,
     order_code: number
@@ -27,3 +27,22 @@ export type LoginResponse = {
     user: UserType;
     orders: OrdersType;
 }
+export type ChangePasswordType = {
+    password: string;
+    password_confirmation: string;
+    otp: string;
+    email: string;
+}
+export type OtpReponse = {
+    email: string;
+}
+export type cancelTicketType = {
+    ticket_booking_id: string;
+    name: string;
+    phone: string;
+    email: string;
+    order_code: string;
+    account_number: string;
+    bank: string;
+    reason: string;
+};

@@ -21,7 +21,7 @@ const PopularRoutes = () => {
                             </div>
                             <div className="flex-route-price">
                                 <div className="route-info">300km - 6 giờ</div>
-                                <div className="route-date">01/10/2024</div>
+                                {/* <div className="route-date"></div> */}
                             </div>
 
                         </div>

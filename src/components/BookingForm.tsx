@@ -11,6 +11,7 @@ import { useForm, Controller } from "react-hook-form";
 import Swal from "sweetalert2";
 import "../styles/Website/BokingForm.css"
 import { BookingFormData } from "@/types/IBooking";
+import { LinearProgress } from "@mui/material";
 
 interface BookingFormProps {
     onSearch: (data: BookingFormData) => void;
@@ -19,8 +20,9 @@ interface BookingFormProps {
 const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
     const [formData, setFormData] = useState<any[]>([]);
     const [minDate, setMinDate] = useState<string>("");
+    const [loading, setLoading] = useState(true);
 
-    const { register, handleSubmit, control } = useForm<BookingFormData>();
+    const { register, handleSubmit, control, setValue } = useForm<BookingFormData>();
 
     // Fetch dữ liệu các điểm dừng
     useEffect(() => {
@@ -29,7 +31,7 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
                 const res = await axios.get("http://doantotnghiep.test/api/home");
                 setFormData(res.data);
             } catch (error) {
-                console.error("Error fetching data:", error);
+                // Handle error
             }
         };
         fetchData();
@@ -44,120 +46,152 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
 
     // Xử lý khi form được submit
     const onSubmit = (data: BookingFormData) => {
-        if (data.startLocation === data.endLocation) {
-            Swal.fire({
-                title: "Lỗi",
-                text: "Điểm đi và điểm đến không được trùng nhau!",
-                icon: "error",
-                confirmButtonText: "OK",
-            });
-            return; 
+        try {
+            if (data.startLocation === data.endLocation) {
+                Swal.fire({
+                    title: "Lỗi",
+                    text: "Điểm đi và điểm đến không được trùng nhau!",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
+                return;
+            }
+
+            const fullData = {
+                ...data,
+            };
+            setLoading(true)
+            // Lưu vào localStorage
+            localStorage.setItem("bookingForm", JSON.stringify(fullData));
+            onSearch(fullData);
+        } catch (error) {
+
+        } finally {
+            setLoading(false)
         }
-        onSearch(data); // Gửi dữ liệu tìm kiếm hợp lệ
     };
-    console.log("điểm đi" , formData);
-    
+
+    useEffect(() => {
+        const savedData = localStorage.getItem("bookingForm");
+        if (savedData) {
+            const parsedData = JSON.parse(savedData);
+            const setStart = parsedData.startLocation;
+            const setEnd = parsedData.endLocation;
+            setValue("startLocation", setStart);
+            setValue("endLocation", setEnd);
+            setValue("departureDate", parsedData.departureDate);
+            console.log('dayla lo co', setStart);
+
+        }
+    }, []);
+
+
+
     return (
-        <form className="bookingForm-search" onSubmit={handleSubmit(onSubmit)}>
-            {/* Điểm đi */}
-            <div className="bookingForm-input">
-                <div className="bookingForm-input-top">
-                    <span>
-                        <FontAwesomeIcon icon={faMapMarkerAlt} />
-                    </span>
-                    <label>Điểm đi</label>
+        <>
+            <form className="bookingForm-search" onSubmit={handleSubmit(onSubmit)}>
+                {/* Điểm đi */}
+                <div className="bookingForm-input">
+                    <div className="bookingForm-input-top">
+                        <span>
+                            <FontAwesomeIcon icon={faMapMarkerAlt} />
+                        </span>
+                        <label>Điểm đi</label>
+                    </div>
+                    <Controller
+                        name="startLocation"
+                        control={control}
+                        render={({ field }) => (
+                            <Select
+                                showSearch
+                                className="custom-select"
+                                placeholder="Chọn điểm đi"
+                                optionFilterProp="label"
+                                {...field}
+                                options={formData.map((location) => ({
+                                    value: location.id,
+                                    label: (
+                                        <span
+                                            style={{
+                                                fontWeight: location.parent_id === null ? "bold" : "normal",
+                                                fontSize: location.parent_id === null ? "16px" : "14px",
+                                                color: "black",
+                                            }}
+                                        >
+                                            {location.stop_name}
+                                        </span>
+                                    ),
+                                    disabled: location.parent_id === null,
+                                }))}
+                            />
+                        )}
+                    />
                 </div>
-                <Controller
-                    name="startLocation"
-                    control={control}
-                    render={({ field }) => (
-                        <Select
-                            showSearch
-                            className="custom-select"
-                            placeholder="Chọn điểm đi"
-                            optionFilterProp="label"
-                            {...field}
-                            options={formData.map((location) => ({
-                                value: location.id,
-                                label: (
-                                    <span
-                                        style={{
-                                            fontWeight: location.parent_id === null ? "bold" : "normal",
-                                            fontSize: location.parent_id === null ? "16px" : "14px",
-                                            color: "black",
-                                        }}
-                                    >
-                                        {location.stop_name}
-                                    </span>
-                                ),
-                                disabled: location.parent_id === null,
-                            }))}
-                        />
-                    )}
-                />
-            </div>
 
-            {/* Điểm đến */}
-            <div className="bookingForm-input">
-                <div className="bookingForm-input-top">
-                    <span>
-                        <FontAwesomeIcon icon={faMapMarkerAlt} />
-                    </span>
-                    <label>Điểm đến</label>
+                {/* Điểm đến */}
+                <div className="bookingForm-input">
+                    <div className="bookingForm-input-top">
+                        <span>
+                            <FontAwesomeIcon icon={faMapMarkerAlt} />
+                        </span>
+                        <label>Điểm đến</label>
+                    </div>
+                    <Controller
+                        name="endLocation"
+                        control={control}
+                        render={({ field }) => (
+                            <Select
+                                showSearch
+                                className="custom-select"
+                                placeholder="Chọn điểm đến"
+                                optionFilterProp="label"
+                                {...field}
+                                options={formData.map((location) => ({
+                                    value: location.id,
+                                    label: (
+                                        <span
+                                            style={{
+                                                fontWeight: location.parent_id === null ? "bold" : "normal",
+                                                fontSize: location.parent_id === null ? "16px" : "14px",
+                                                color: "black",
+                                            }}
+                                        >
+                                            {location.stop_name}
+                                        </span>
+                                    ),
+                                    disabled: location.parent_id === null,
+                                }))}
+                            />
+                        )}
+                    />
                 </div>
-                <Controller
-                    name="endLocation"
-                    control={control}
-                    render={({ field }) => (
-                        <Select
-                            showSearch
-                            className="custom-select"
-                            placeholder="Chọn điểm đến"
-                            optionFilterProp="label"
-                            {...field}
-                            options={formData.map((location) => ({
-                                value: location.id,
-                                label: (
-                                    <span
-                                        style={{
-                                            fontWeight: location.parent_id === null ? "bold" : "normal",
-                                            fontSize: location.parent_id === null ? "16px" : "14px",
-                                            color: "black",
-                                        }}
-                                    >
-                                        {location.stop_name}
-                                    </span>
-                                ),
-                                disabled: location.parent_id === null,
-                            }))}
-                        />
-                    )}
-                />
-            </div>
 
-            {/* Ngày khởi hành */}
-            <div className="bookingForm-input">
-                <div className="bookingForm-input-top">
-                    <span>
-                        <FontAwesomeIcon icon={faCalendarAlt} />
-                    </span>
-                    <label>Ngày khởi hành</label>
+                {/* Ngày khởi hành */}
+                <div className="bookingForm-input">
+                    <div className="bookingForm-input-top">
+                        <span>
+                            <FontAwesomeIcon icon={faCalendarAlt} />
+                        </span>
+                        <label>Ngày khởi hành</label>
+                    </div>
+                    <input
+                        type="date"
+                        id="date"
+                        min={minDate}
+                        {...register("departureDate")}
+                    />
                 </div>
-                <input
-                    type="date"
-                    id="date"
-                    min={minDate}
-                    {...register("departureDate")}
-                />
-            </div>
 
-            {/* Nút tìm chuyến */}
-            <div className="bookingForm-button">
-                <FontAwesomeIcon icon={faSearch} size="lg" />
-                <button type="submit">Tìm chuyến</button>
-            </div>
-        </form>
+                {/* Nút tìm chuyến */}
+                <div className="bookingForm-button">
+                    <FontAwesomeIcon icon={faSearch} size="lg" />
+                    <button type="submit">Tìm chuyến</button>
+                </div>
+            </form>
+        </>
     );
 };
 
 export default BookingFormComponent;
+
+

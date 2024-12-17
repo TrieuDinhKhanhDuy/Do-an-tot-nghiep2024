@@ -2,13 +2,12 @@ import "../../../styles/Website/pay.css";
 import Breadcrumb from "@/components/Breadcrumb";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import Swal from "sweetalert2";
 import numeral from "numeral";
 import { SeatApiResponse } from "@/types/IChosesSeat";
-
 
 const Pay = () => {
     const duongDan = [
@@ -16,6 +15,7 @@ const Pay = () => {
         { nhan: 'List Vé', duongDan: 'list' },
         { nhan: 'Thanh Toán', duongDan: 'pay' },
     ];
+
     // Lấy URL hiện tại và search params
     const location = useLocation();
     const params = new URLSearchParams(location.search);
@@ -29,30 +29,49 @@ const Pay = () => {
     const busId = params.get('bus_id');
     const routeId = params.get('route_id');
     const timeStart = params.get('time_start');
-    const total_price = params.get('total_price');
+    const total_price = parseFloat(params.get('total_price') || "0");
     const date = params.get('date');
     const nameSeat = params.get('name_seat');
     const locationStart = params.get('location_start');
     const idStartStop = params.get('id_start_stop');
+    // const idStartStop = 13;
+    // const idEndStop = 22;
+
     const locationEnd = params.get('location_end');
     const idEndStop = params.get('id_end_stop');
     const name = params.get('name');
     const phone = params.get('phone');
     const email = params.get('email');
     const note = params.get('note');
-    const fare = params.get('fare');
+    const fare = parseFloat(params.get('fare') || "0");
     const user_id = params.get('userId');
+    const code_voucher = params.get('vouchercode') || null;
+    const discount = params.get('discount') ? parseFloat(params.get('discount')!) : 0;
+    const id_change = params.get('id_change') === 'null' ? null : params.get('id_change');
+    const price = params.get('total_old_price') === 'null' ? null : params.get('total_old_price');
 
+
+    // console.log('nuldl nhé'), price;
+
+
+
+    const nav = useNavigate();
 
     const [error, setError] = useState<string | null>(null);
     const [data, setData] = useState<SeatApiResponse | null>(null);
     const [payment_method_id, setPayment_method_id] = useState<number | null>(null);
 
+    // Tính toán giá vé ban đầu và tổng tiền
     const formattedFare = numeral(fare).format('0,0');
-    const formattedTotal_price = numeral(total_price).format('0,0')
+    const formattedPrice = numeral(price).format('0,0');
+    const priceNumber = price ? parseFloat(price) : 0;
+
+    // Tính tổng tiền sau khi áp dụng giảm giá (nếu có)
+    const discountedPrice = discount > 0 ? total_price * (1 - discount / 100) : total_price;
+    const discountOldPrice = discountedPrice - priceNumber;
+    const formattedDiscountedPrice = numeral(discountOldPrice).format('0,0');
 
     useEffect(() => {
-        // Gọi API với axios
         const fetchStops = async () => {
             try {
                 const response = await axios.get('http://doantotnghiep.test/api/stops', {
@@ -63,7 +82,6 @@ const Pay = () => {
                 });
                 // Lưu dữ liệu vào state
                 setData(response.data);
-                // window.location.href = response.data.payUrl;  // Chuyển hướng đến trang thanh toán MoMo
             } catch (error) {
                 setError('Đã xảy ra lỗi khi lấy dữ liệu');
             }
@@ -73,52 +91,79 @@ const Pay = () => {
     }, [tripId, date]);
 
     // Hàm xử lý khi nhấn nút "Thanh toán"
-  const handlePayment = async () => {
-    const paymentInfo = {
-        trip_id: tripId,
-        bus_id: busId,
-        route_id: routeId,
-        time_start: timeStart,
-        total_price: total_price,
-        date: date,
-        name_seat: nameSeat,
-        location_start: locationStart,
-        id_start_stop: idStartStop,
-        location_end: locationEnd,
-        id_end_stop: idEndStop,
-        name: name,
-        phone: phone,
-        email: email,
-        payment_method_id: payment_method_id,
-        note: note,
-        fare: fare,
-        user_id: user_id
-    };
+    const handlePayment = async () => {
+        const priceNumber = price ? parseFloat(price) : 0;
+
+        if (discountedPrice < priceNumber) {
+            Swal.fire({
+                title: "Giá vé không hợp lệ",
+                text: "Tổng tiền phải lớn hơn giá vé cũ để thực hiện thanh toán.",
+                icon: "error",
+                showCancelButton: false,
+            });
+            return; // Prevent the payment process
+        }
+        const paymentInfo = {
+            trip_id: tripId,
+            bus_id: busId,
+            route_id: routeId,
+            time_start: timeStart,
+            total_price: discountedPrice,
+            date: date,
+            name_seat: nameSeat,
+            location_start: locationStart,
+            id_start_stop: idStartStop,
+            location_end: locationEnd,
+            id_end_stop: idEndStop,
+            name: name,
+            phone: phone,
+            email: email,
+            payment_method_id: payment_method_id,
+            note: note,
+            fare: fare,
+            user_id: user_id,
+            code_voucher: code_voucher,
+            discount: discount,
+            id_change: id_change,
+            price: price
+        };
+
+        console.log(paymentInfo);
 
         try {
             // Gửi thông tin thanh toán lên API
             const response = await axios.post('http://doantotnghiep.test/api/stops', paymentInfo);
 
-            // console.log(response.data.redirect_url);
-            
-            if(response.data.redirect_url){
-                window.location.href = response.data.redirect_url; 
+            if (response.data.redirect_url) {
+                window.location.href = response.data.redirect_url;
             }
-            if(response.data.payUrl){
-                window.location.href = response.data.payUrl; 
+            if (response.data.payUrl) {
+                window.location.href = response.data.payUrl;
             }
-            
+            // console.log('day la',paymentInfo);
+
         } catch (error) {
             Swal.fire({
                 title: "Đặt vé không thành công",
                 text: "Có vẻ như bạn đang nhập thiếu thông tin",
                 icon: "error",
                 showCancelButton: false,
-            })
+            });
             setError('Đã xảy ra lỗi khi thanh toán');
             console.error('Lỗi thanh toán:', error);
         }
+    };
 
+    const handleClosePayment = () => {
+        Swal.fire({
+            title: "Đã hủy vé",
+            icon: "success",
+            showConfirmButton: false,
+            showCancelButton: false,
+            timer: 1000,
+        }).then(() => {
+            nav('/');
+        });
     };
 
     return (
@@ -134,33 +179,27 @@ const Pay = () => {
                     <div className="payment-section">
                         <div className="header-payment">
                             <h2><FontAwesomeIcon icon={faCreditCard} style={{ color: '#405187' }} /> Xác nhận để thanh toán</h2>
-                            <p style={{ fontSize: "12px" }}>Xin hãy thanh toán trong vòng <span style={{ color: "red", fontWeight: "bold" }}>01 : 20 : 30</span></p>
+                            <p style={{ fontSize: "12px" }}>Ghế của bạn sẽ được giữ chỗ khi ấn thanh toán</p>
                         </div>
                         <div className="info-box">
                             <p style={{ fontSize: '15px', textAlign: "center" }}>Tất cả thông tin của card sẽ được mã hoá, bảo mật và bảo vệ</p>
                         </div>
                         <div className="payment-options">
-
-
-                            {data?.methods.map((method,index) => (
+                            {data?.methods.map((method, index) => (
                                 <div className="payment-options-item" key={index}>
                                     <input type="radio" name="payment_method_id" id={method.name} key={method.id} value={method.id} onChange={handleChange} />
                                     <label htmlFor={method.name} >{method.name}</label>
                                 </div>
                             ))}
-
-
-
                         </div>
-
                         <div className="price-summary">
+                            {price && (<p>Giá vé cũ: <span>{formattedPrice} VNĐ</span></p>)}
                             <p>Giá vé: <span>{formattedFare} VNĐ</span></p>
                             <p>Số Ghế: <span>{nameSeat}</span></p>
-                            <p>Mã giảm giá: <span>-</span></p>
+                            <p>Mã giảm giá: <span>{code_voucher ? `${code_voucher} Giảm ${discount}%` : '--'}</span></p>
                             <hr />
-                            <p className="total">Tổng tiền: <span>{formattedTotal_price} VNĐ</span></p>
+                            <p className="total">Tổng tiền: <span>{formattedDiscountedPrice} VNĐ</span></p>
                         </div>
-
                         <p className="agreement-text">
                             Khi nhấp vào "Thanh toán", bạn đồng ý rằng bạn đã đọc và hiểu
                             <a href="/"> Điều khoản sử dụng</a> và
@@ -223,8 +262,7 @@ const Pay = () => {
                                 </tbody>
                             </table>
                             <div className="button-container">
-
-                                <button className="btn-secondary">Hủy thanh toán</button>
+                                <button className="btn-secondary" onClick={handleClosePayment} >Hủy thanh toán</button>
                                 <button className="btn-primary" onClick={handlePayment}>Thanh toán</button>
                             </div>
                         </div>

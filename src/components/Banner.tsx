@@ -11,13 +11,13 @@ const Banner = () => {
   const { getAllBanners, banners } = useBanner();
   const url_image_backend = 'http://doantotnghiep.test/storage/';
   const settings = {
-    infinite: banners.length > 1,  // Tắt infinite nếu chỉ có 1 banner
+    infinite: banners.length > 1,  
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: banners.length > 1,  // Tắt autoplay nếu chỉ có 1 banner
+    autoplay: banners.length > 1, 
     autoplaySpeed: 3000,
-    draggable: banners.length > 1,  // Tắt kéo nếu chỉ có 1 banner
+    draggable: banners.length > 1,  
   };
 
   useEffect(() => {
@@ -37,7 +37,6 @@ const Banner = () => {
           </div>
         ))}
       {/* </Slider> */}
-      
     </div>
   );
 };
