@@ -335,6 +335,63 @@
     text-align: center;
     margin: 0 2%;
   }
+  .booking-section {
+    flex-direction: column; /* Chuyển sang dạng cột trên màn hình nhỏ */
+    padding: 1rem; /* Padding cho nhỏ lại */
+  }
+
+  .booking-steps,
+  .ticket-section {
+    width: 100%; /* Mỗi phần chiếm 100% chiều rộng */
+    margin-bottom: 1rem; /* Khoảng cách giữa các phần tử */
+  }
+
+  .booking-title,
+  .ticket-title {
+    font-size: 1.2rem; /* Giảm kích thước font */
+  }
+
+  .steps-list,
+  .purchase-options {
+    padding-left: 1rem; /* Padding trái */
+  }
+
+  .payment-methods {
+    display: flex;
+    flex-direction: column; /* Xếp dọc các phương thức thanh toán */
+    gap: 0.5rem; /* Khoảng cách giữa các phương thức */
+  }
+
+  .payment-icon {
+    width: 4rem; /* Giảm kích thước icon */
+    height: auto;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .social-icon {
+    width: 4rem; /* Giảm kích thước icon */
+    height: auto;
+  }
+
+  .map-image {
+    width: 100%; /* Đảm bảo hình ảnh chiếm 100% chiều rộng */
+    height: auto;
+  }
+
+  .booking-step-map iframe {
+    width: 100%; /* Đảm bảo iframe chiếm hết chiều rộng */
+    border-radius: 1rem; /* Bo góc */
+  }
+  .hr_center{
+    width: 100%;
+    height: 1px;
+    margin-bottom: 5px;
+  }
+  
 }
 
 @media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
@@ -377,5 +434,52 @@
     font-size: 16px;
     max-width: 140px;
     margin-top: 10px;
+  }
+  .booking-section {
+    flex-direction: row; /* Xếp ngang các phần tử */
+    padding: 1.5rem; /* Padding lớn hơn một chút */
+  }
+
+  .booking-steps,
+  .ticket-section {
+    width: 48%; /* Chiếm 48% chiều rộng */
+  }
+
+  .booking-title,
+  .ticket-title {
+    font-size: 1.4rem; /* Font size lớn hơn */
+  }
+
+  .payment-methods {
+    display: flex;
+    gap: 1rem; /* Khoảng cách giữa các icon */
+  }
+
+  .payment-icon {
+    width: 5rem; /* Đảm bảo kích thước icon hợp lý */
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .social-icon {
+    width: 5rem; /* Giảm kích thước icon */
+  }
+
+  .map-image {
+    width: 100%; /* Đảm bảo hình ảnh chiếm 100% chiều rộng */
+    height: auto;
+  }
+
+  .booking-step-map iframe {
+    width: 100%; /* Đảm bảo iframe chiếm hết chiều rộng */
+    border-radius: 1rem; /* Bo góc */
+  }
+  .hr_center{
+    width: 100%;
+    height: 1px;
+    margin-bottom: 5px;
   }
 }
