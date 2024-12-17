@@ -360,6 +360,35 @@
     flex-direction: column;
     align-items: center;
   }
+  .header-item {
+    font-size: 14px;
+    padding: 5px;
+  }
+
+  .input-text,
+  .submit {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .bus-comp-sort-options {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .bus-comp-sort-options select {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .bus-comp-option{
+    display: flex;
+    flex-direction: column;
+  }
+  .pagination{
+    flex-direction: row;
+        gap: 10px;
+        justify-content: center;
+        margin-right: 120px;
+  }
 }
 
 @media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
@@ -371,5 +400,46 @@
     display: flex;
     flex-direction: column;
     position: relative;
+  }
+  .schedule-price {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .seat {
+    width: 60px;
+    height: 30px;
+  }
+
+  .seats-grid {
+    width: 400px;
+  }
+
+  .input-text,
+  .submit {
+    width: 90%;
+    margin-bottom: 10px;
+  }
+
+  .header-item {
+    font-size: 16px;
+  }
+  .bus-comp-sort-options {
+    padding: 8px;
+  }
+  .bus-comp-option{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bus-comp-sort-options select {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  .pagination{
+    flex-direction: row;
+        gap: 10px;
+        justify-content: center;
+        margin-right: 120px;
   }
 }
