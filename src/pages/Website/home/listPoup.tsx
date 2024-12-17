@@ -27,9 +27,9 @@ const SoDoGhe = () => {
     //states //
     const [selectedSeats, setSelectedSeats] = useState(new Set());
     const [seatsStatus, setSeatsStatus] = useState<SeatsStatus>({});
-    const [userChosen, setUserChosen] = useState('')
-    // const [seatsStatus, setSeatsStatus] = useState<Record<string, "booked" | "chosen" | "selected" | "available">>({});
+    const [seatOwners, setSeatOwners] = useState<{ [seat: string]: string }>({});
 
+    const [userChosen, setUserChosen] = useState('')
     const [fare, setFare] = useState(0);
     const [seatCount, setSeatCount] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -112,16 +112,15 @@ const SoDoGhe = () => {
         var userId = userData.id
     }
     const toggleSeat = async (seat: string) => {
+        const currentOwner = seatOwners[seat]; // Lấy userId của người đã chọn ghế
 
         if (isSeatBooked(seat)) return;
         if (isSeatChosed(seat)) return;
         setUserChosen(userId);
-        console.log('người chọn', userChosen);
 
-        
-        if (seatsStatus[seat] === "selected" && userChosen !== userId) {
+        if (seatsStatus[seat] === "selected" && currentOwner !== userId) {
             Swal.fire({
-                title: "Ghế này không phải của bạn, không thể hủy chọn!",
+                title: "Ghế này đã có người chọn",
                 icon: "warning",
                 showConfirmButton: false,
                 allowEscapeKey: true,
@@ -133,6 +132,15 @@ const SoDoGhe = () => {
             ...prev,
             [seat]: prev[seat] === "selected" ? "available" : "selected",
         }));
+        setSeatOwners((prev) => {
+            const updated = { ...prev };
+            if (newStatus === "available") {
+                delete updated[seat];
+            } else {
+                updated[seat] = userId; 
+            }
+            return updated;
+        });
 
 
         const newSelectedSeats = new Set(selectedSeats);
@@ -179,6 +187,7 @@ const SoDoGhe = () => {
         } catch (error) {
             console.error("Failed to update seat status:", error);
         }
+
     };
 
     useEffect(() => {
@@ -212,7 +221,7 @@ const SoDoGhe = () => {
             pusher.unsubscribe("seat-channel");
             pusher.disconnect();
         };
-    }, [userId, tripId]);
+    }, []);
 
     // const isSeatSelected = (seat: string) => selectedSeats.has(seat);
     const totalPrice = selectedSeats.size * fare;
