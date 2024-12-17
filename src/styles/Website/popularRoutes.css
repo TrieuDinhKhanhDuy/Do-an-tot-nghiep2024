@@ -80,3 +80,98 @@
     display: flex;
     justify-content: space-between;
 }
+
+@media only screen and (max-width: 46.1875em) {
+  .popular-routes {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .route-card {
+    width: 100%;
+  }
+
+  .route-image img {
+    height: 120px;
+  }
+
+  .popular-routes-container h2 {
+    font-size: 24px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+  }
+
+  .route-list {
+    padding: 0 20px 20px;
+  }
+
+  .route-item {
+    font-size: 14px;
+    padding-top: 8px;
+  }
+
+  .route-destination {
+    font-size: 14px;
+  }
+
+  .route-price {
+    font-size: 14px;
+  }
+
+  .route-date {
+    font-size: 11px;
+  }
+
+  .popular-routes-container h4 {
+    font-size: 20px;
+    top: 15%;
+  }
+}
+
+
+@media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+  .popular-routes {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .route-card {
+    width: 48%;
+  }
+
+  .route-image img {
+    height: 140px;
+  }
+
+  .popular-routes-container h2 {
+    font-size: 28px;
+    margin-top: 25px;
+    margin-bottom: 8px;
+  }
+
+  .route-list {
+    padding: 0 25px 20px;
+  }
+
+  .route-item {
+    font-size: 15px;
+    padding-top: 9px;
+  }
+
+  .route-destination {
+    font-size: 15px;
+  }
+
+  .route-price {
+    font-size: 15px;
+  }
+
+  .route-date {
+    font-size: 12px;
+  }
+
+  .popular-routes-container h4 {
+    font-size: 22px;
+    top: 15%;
+  }
+}
