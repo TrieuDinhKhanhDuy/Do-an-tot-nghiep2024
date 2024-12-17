@@ -13,6 +13,8 @@ import { SeatApiResponse, SeatsStatus } from "@/types/IChosesSeat";
 import { DbRecordForm } from "@/types/IBus";
 import { LinearProgress } from "@mui/material";
 import { toast } from "react-toastify";
+import Pusher from 'pusher-js';
+
 
 const SoDoGhe = () => {
     const {
@@ -25,6 +27,9 @@ const SoDoGhe = () => {
     //states //
     const [selectedSeats, setSelectedSeats] = useState(new Set());
     const [seatsStatus, setSeatsStatus] = useState<SeatsStatus>({});
+    const [userChosen, setUserChosen] = useState('')
+    // const [seatsStatus, setSeatsStatus] = useState<Record<string, "booked" | "chosen" | "selected" | "available">>({});
+
     const [fare, setFare] = useState(0);
     const [seatCount, setSeatCount] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -44,7 +49,7 @@ const SoDoGhe = () => {
     const end_stop_name = params.get("end_stop_name");
     const id_change = params.get('id_change') === null ? null : params.get('id_change');
     const total_old_price = params.get('total_old_price') === null ? null : params.get('total_old_price');
-    
+
     const { pathname } = useLocation();
 
     const [email, setEmail] = useState("");
@@ -90,27 +95,68 @@ const SoDoGhe = () => {
         };
 
         fetchSeats();
-        intervalId = setInterval(fetchSeats, 2000);
+        intervalId = setInterval(fetchSeats, 60000);
 
         return () => {
             clearInterval(intervalId);
         };
     }, [pathname, tripId, date]);
 
-
-
     const isSeatBooked = (seat: string) => seatsStatus[seat] === "booked";
-    const isSeatChosed = (seat: string) => seatsStatus[seat] === "lock";
-    const toggleSeat = (seat: string) => {
+    const isSeatChosed = (seat: string) => seatsStatus[seat] === "chosen";
+    const isSeatSelected = (seat: string) => seatsStatus[seat] === "selected";
+
+    const storedUser = localStorage.getItem("userId");
+    if (storedUser) {
+        const userData = JSON.parse(storedUser);
+        var userId = userData.id
+    }
+    const toggleSeat = async (seat: string) => {
 
         if (isSeatBooked(seat)) return;
         if (isSeatChosed(seat)) return;
+        setUserChosen(userId);
+        console.log('người chọn', userChosen);
+
+        
+        if (seatsStatus[seat] === "selected" && userChosen !== userId) {
+            Swal.fire({
+                title: "Ghế này không phải của bạn, không thể hủy chọn!",
+                icon: "warning",
+                showConfirmButton: false,
+                allowEscapeKey: true,
+            });
+            return;
+        }
+
+        setSeatsStatus((prev) => ({
+            ...prev,
+            [seat]: prev[seat] === "selected" ? "available" : "selected",
+        }));
+
+
         const newSelectedSeats = new Set(selectedSeats);
-        if (newSelectedSeats.has(seat)) {
-            newSelectedSeats.delete(seat);
+        const currentSeatStatus = seatsStatus[seat];
+
+        let newStatus = "";
+
+        if (currentSeatStatus === "selected") {
+            if (userChosen === userId) {
+                newSelectedSeats.delete(seat);
+                newStatus = "available";
+            } else {
+                Swal.fire({
+                    title: "Ghế này không phải của bạn, không thể hủy chọn!",
+                    icon: "warning",
+                    showConfirmButton: false,
+                    allowEscapeKey: true,
+                });
+                return;
+            }
         } else {
             if (newSelectedSeats.size < MAX_SELECTED_SEATS) {
                 newSelectedSeats.add(seat);
+                newStatus = "selected";
             } else {
                 Swal.fire({
                     title: `Bạn chỉ được đặt tối đa ${MAX_SELECTED_SEATS} ghế`,
@@ -120,10 +166,55 @@ const SoDoGhe = () => {
                 });
             }
         }
+
         setSelectedSeats(newSelectedSeats);
+        try {
+            await axios.post('http://doantotnghiep.test/api/update-seat-status', {
+                name: seat,
+                status: newStatus,
+                userId,
+                trip_id: tripId,
+                date: date
+            });
+        } catch (error) {
+            console.error("Failed to update seat status:", error);
+        }
     };
 
-    const isSeatSelected = (seat: string) => selectedSeats.has(seat);
+    useEffect(() => {
+        const pusher = new Pusher("8579e6baacda80044680", {
+            cluster: "ap1",
+        });
+
+        pusher.connection.bind("state_change", (states: any) => {
+            console.log("Pusher connection state changed:", states);
+            if (states.current === "closed" || states.current === "disconnected") {
+                pusher.connect();
+            }
+        });
+
+        if (pusher.connection.state === "closed" || pusher.connection.state === "disconnected") {
+            pusher.connect();
+        }
+
+        const channel = pusher.subscribe("seat-channel");
+
+        channel.bind("App\\Events\\SeatUpdatedEvent", (data: any) => {
+            console.log("Nhận được sự kiện update-seat-status", data);
+            if (data?.seat?.name && data?.seat?.status) {
+                if (data?.seat.date === date && data?.seat.trip_id === tripId) {
+                    setSeatsStatus((prev) => ({ ...prev, [data.seat.name]: data.seat.status, }));
+                }
+            }
+        });
+
+        return () => {
+            pusher.unsubscribe("seat-channel");
+            pusher.disconnect();
+        };
+    }, [userId, tripId]);
+
+    // const isSeatSelected = (seat: string) => selectedSeats.has(seat);
     const totalPrice = selectedSeats.size * fare;
 
     useEffect(() => {
@@ -168,9 +259,7 @@ const SoDoGhe = () => {
                                                         ? "booked-seat"
                                                         : isSeatChosed(seat)
                                                             ? "chosen-seat"
-                                                            : isSeatSelected(
-                                                                seat
-                                                            )
+                                                            : isSeatSelected(seat)
                                                                 ? "selected"
                                                                 : ""
                                                         }`}
@@ -227,9 +316,7 @@ const SoDoGhe = () => {
                                                         ? "booked-seat"
                                                         : isSeatChosed(seat)
                                                             ? "chosen-seat"
-                                                            : isSeatSelected(
-                                                                seat
-                                                            )
+                                                            : isSeatSelected(seat)
                                                                 ? "selected"
                                                                 : ""
                                                         }`}
@@ -272,9 +359,7 @@ const SoDoGhe = () => {
                                                         ? "booked-seat"
                                                         : isSeatChosed(seat)
                                                             ? "chosen-seat"
-                                                            : isSeatSelected(
-                                                                seat
-                                                            )
+                                                            : isSeatSelected(seat)
                                                                 ? "selected"
                                                                 : ""
                                                         }`}
@@ -327,9 +412,7 @@ const SoDoGhe = () => {
                                                         ? "booked-seat"
                                                         : isSeatChosed(seat)
                                                             ? "chosen-seat"
-                                                            : isSeatSelected(
-                                                                seat
-                                                            )
+                                                            : isSeatSelected(seat)
                                                                 ? "selected"
                                                                 : ""
                                                         }`}
@@ -338,7 +421,7 @@ const SoDoGhe = () => {
                                                     }
                                                     disabled={isSeatBooked(
                                                         seat
-                                                    )} // Disable ghế đã đặt
+                                                    )}
                                                 >
                                                     {seat}
                                                 </button>
@@ -383,7 +466,7 @@ const SoDoGhe = () => {
                                                     }
                                                     disabled={isSeatBooked(
                                                         seat
-                                                    )} // Disable ghế đã đặt
+                                                    )}
                                                 >
                                                     {seat}
                                                 </button>
@@ -403,9 +486,8 @@ const SoDoGhe = () => {
             );
         }
 
-        return null; // Nếu không có seatCount hợp lệ
+        return null;
     };
-
     useEffect(() => {
         const storedUser = localStorage.getItem("userId");
         if (storedUser) {
@@ -423,24 +505,12 @@ const SoDoGhe = () => {
             }
         }
     }, [setValue]);
-
-
-
-
-    //check voucher
-    // const [result, setResult] = useState<{ code: string; discount: string } | null>(null);
-    // const [voucherCode, setVoucherCode] = useState<string>("");
-
     const onSubmitSeatBooking = async (data: DbRecordForm) => {
         setValue("total_price", totalPrice);
-        // setVoucherCode(data.code_voucher);
-
         try {
             const response = await axios.get("http://doantotnghiep.test/api/promotions");
             const promotionsList = response.data.data;
-
             const allPromotions = promotionsList.flatMap((item: any) => item.promotions);
-
             const matchedVoucher = allPromotions.find(
                 (promotion: any) => promotion.code === data.code_voucher
             );
@@ -449,8 +519,6 @@ const SoDoGhe = () => {
                     code: matchedVoucher.code,
                     discount: matchedVoucher.discount,
                 };
-                // setResult(localResult);
-
                 toast.success("Đã xác thực mã!", {
                     position: "top-right",
                     autoClose: 3000,
@@ -459,8 +527,6 @@ const SoDoGhe = () => {
                     pauseOnHover: true,
                     draggable: true,
                 });
-                
-                // Gọi API apply voucher nếu cần
                 const storedUser = localStorage.getItem("userId");
                 if (storedUser) {
                     const userData = JSON.parse(storedUser);
@@ -469,8 +535,6 @@ const SoDoGhe = () => {
                         route_id: routeId,
                         user_id: userData.id
                     };
-                    
-
                     try {
                         await axios.post('http://doantotnghiep.test/api/voucher/apply', voucherApply);
                         toast.success("Đã áp dụng mã!", {
@@ -503,8 +567,6 @@ const SoDoGhe = () => {
             window.location.href = `/pay?id_change=${id_change}&total_old_price=${total_old_price}&userId=${data.id}&trip_id=${tripId}&bus_id=${busId}&fare=${fare}&route_id=${routeId}&time_start=${timeStart}&date=${date}&name_seat=${data?.seat}&location_start=${data?.location_start}&id_start_stop=${id_start_stop}&location_end=${data?.location_end}&id_end_stop=${id_end_stop}&name=${data?.name}&phone=${data?.phone}&email=${data?.email}&total_price=${data?.total_price}&note=${data?.note}&vouchercode=&discount=`;
         }
     };
-
-
     return (
         <>
             {loading ? (<> <LinearProgress /></>) : (<></>)}
@@ -567,7 +629,7 @@ const SoDoGhe = () => {
                                         <div className="right-section">
                                             <h3>Thông tin đặt vé</h3>
                                             <form onSubmit={handleSubmit(onSubmitSeatBooking)}>
-                                                <label>Mã Chuyến: {tripId} - {timeStart}</label>
+                                                <label>Thời gian xuất bến: - {timeStart}</label>
 
                                                 <label>Ghế đã chọn:</label>
                                                 <div className="input-container">
