@@ -68,6 +68,10 @@ const Pay = () => {
     const formattedDiscountedPrice = numeral(discountOldPrice).format('0,0');
 
     useEffect(() => {
+        if (!tripId || !date) return;
+    
+        let intervalId: NodeJS.Timeout;
+    
         const fetchStops = async () => {
             try {
                 const response = await axios.get('http://doantotnghiep.test/api/stops', {
@@ -76,15 +80,21 @@ const Pay = () => {
                         date: date,
                     },
                 });
-                // Lưu dữ liệu vào state
                 setData(response.data);
             } catch (error) {
+                console.error(error);
                 setError('Đã xảy ra lỗi khi lấy dữ liệu');
             }
         };
-
+    
         fetchStops();
+        intervalId = setInterval(fetchStops, 1000);
+    
+        return () => {
+            clearInterval(intervalId);
+        };
     }, [tripId, date]);
+    
 
     // Hàm xử lý khi nhấn nút "Thanh toán"
     const handlePayment = async () => {
@@ -121,7 +131,7 @@ const Pay = () => {
             code_voucher: code_voucher,
             discount: discount,
             id_change: id_change,
-            price: price
+            price: discountedPrice
         };
         console.log(paymentInfo);
 
