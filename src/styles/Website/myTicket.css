@@ -144,21 +144,25 @@
 }
 /* Đặt popup ẩn mặc định */
 .modal {
-    display: none; /* Ẩn modal */
+    display: none;
+    /* Ẩn modal */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Màu nền đen mờ */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Màu nền đen mờ */
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Đảm bảo popup nằm trên mọi thành phần khác */
+    z-index: 1000;
+    /* Đảm bảo popup nằm trên mọi thành phần khác */
 }
 
 /* Nội dung của modal */
 .modal-content {
     background: #fff;
+    border: 1px solid #ddd;
     padding: 20px;
     border-radius: 8px;
     width: 90%;
@@ -167,6 +171,7 @@
     position: relative;
     animation: fadeIn 0.3s ease-in-out;
 }
+
 /* Modal container */
 .modal-content {
     position: relative;
@@ -174,7 +179,8 @@
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 600px; /* Độ rộng modal */
+    width: 600px;
+    /* Độ rộng modal */
     margin: 0 auto;
     font-family: Arial, sans-serif;
 }
@@ -188,23 +194,28 @@
     color: #888;
 }
 
-
-/* Form group */
 .form-group {
     margin-bottom: 1rem;
 }
 
+.formgroup_modal input {
+    border: 1px solid #ddd;
+    padding: 5px 5px 5px 15px;
+}
 
-/* Error messages */
+.formgroup_modal textarea {
+    border: 1px solid #ddd;
+    padding: 5px 5px 5px 15px;
+}
+
 .text-red-500 {
-    color: #ef4444; /* Màu đỏ lỗi */
+    color: #ef4444;
 }
 
 .text-red-500.hidden {
     display: none;
 }
 
-/* Button actions */
 .form-action {
     display: flex;
     justify-content: flex-end;
@@ -217,7 +228,7 @@
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    background-color: #10b981; /* Màu xanh nút Xác nhận */
+    background-color: #405187;
     color: #fff;
     font-size: 0.875rem;
     font-weight: 600;
@@ -225,18 +236,19 @@
 }
 
 .cancel-btn:hover {
-    background-color: #059669; /* Màu đậm hơn khi hover */
+    background-color: #6175b6;
 }
 
 .cancel-btn.secondary {
-    background-color: #e5e7eb; /* Màu xám cho nút Hủy */
+    background-color: #e5e7eb;
     color: #111827;
 }
 
 .cancel-btn.secondary:hover {
     background-color: #d1d5db;
 }
-.header_modal{
+
+.header_modal {
     display: flex;
     justify-content: space-between;
     position: absolute;
@@ -245,24 +257,29 @@
     width: 100%;
     padding: 20px;
     border-radius: 8px 8px 0px 0px;
-    background-color: rgb(226, 239, 207);
+    color: white;
+    background-color: #405187;
 }
-.modal-tilte{
+
+.modal-tilte {
     font-size: 20px;
     font-weight: bold;
 }
+
 /* Hiệu ứng fade-in */
 @keyframes fadeIn {
     from {
         opacity: 0;
         transform: scale(0.9);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
     }
 }
-.form-cancel{
+
+.form-cancel {
     margin-top: 70px;
 }
 
@@ -275,6 +292,7 @@
     display: flex;
 }
 
+/* Responsive for mobile *
 /* Responsive for mobile */
 @media only screen and (max-width: 46.1875em) {
     .tickets-container {
