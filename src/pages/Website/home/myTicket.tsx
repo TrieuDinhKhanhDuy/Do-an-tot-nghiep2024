@@ -19,7 +19,7 @@ interface BusOption {
     image: string;
     order_code: string;
     route_name: string;
-    status: "paid" | "unpaid" | "refunded" | "overdue" | "failed";
+    status: "paid" | "unpaid" | "refunded" | "overdue" | "failed" | "requested";
     time_start: string;
     total_price: string;
     total_tickets: number;
@@ -149,7 +149,7 @@ const MyTicket = () => {
     const onSubmit = async (data: cancelTicketType) => {
 
         try {
-             await axios.post('http://doantotnghiep.test/api/home', data);
+            await axios.post('http://doantotnghiep.test/api/home', data);
             setIsModalOpen(false);
             Swal.fire({
                 title: "Gửi yêu cầu hủy vé thành công",
@@ -250,7 +250,7 @@ const MyTicket = () => {
                                                 ticketItem.status === "unpaid" ? "Chưa thanh toán" :
                                                     ticketItem.status === "refunded" ? "Đã hủy" :
                                                         ticketItem.status === "overdue" ? "Vé hết hạn" :
-                                                            ticketItem.status === "failed" ? "Thất bại" : "Trạng thái không xác định"
+                                                                ticketItem.status === "failed" ? "Thất bại" : "Trạng thái không xác định"
                                         }
                                     </div>
                                     <div className="bus-comp-info-header">

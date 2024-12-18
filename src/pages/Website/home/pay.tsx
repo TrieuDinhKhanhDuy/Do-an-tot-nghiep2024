@@ -192,9 +192,9 @@ const Pay = () => {
                         </div>
                         <div className="payment-options">
                             {data?.methods.map((method, index) => (
-                                <div className="payment-options-item" key={index}>
-                                    <input type="radio" name="payment_method_id" id={method.name} key={method.id} value={method.id} onChange={handleChange} />
-                                    <label htmlFor={method.name} >{method.name}</label>
+                                <div className={method.id === 1 ? "hidden" : "payment-options-item"} key={index}>
+                                    <input type={method.id === 1 ? "hidden" : "radio"}  name="payment_method_id" id={method.name} key={method.id} value={method.id} onChange={handleChange} />
+                                    <label htmlFor={method.name} className={method.id === 1 ? "hidden" : ""}>{method.name}</label>
                                 </div>
                             ))}
                         </div>
