@@ -8,7 +8,6 @@ import { LinearProgress } from '@mui/material';
 const PopularRoutes = () => {
     const [popular, setPopular] = useState<RoutePopularType[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
     const today = new Date().toISOString().split('T')[0];
 
     useEffect(() => {
@@ -18,7 +17,7 @@ const PopularRoutes = () => {
                 setPopular(response.data.data);
                 setLoading(true);
             } catch (error) {
-                setError('Error fetching promotions');
+                console.error(error)
             } finally {
                 setLoading(false);
             }

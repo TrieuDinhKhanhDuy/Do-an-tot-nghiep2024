@@ -54,7 +54,6 @@ const Pay = () => {
 
     const nav = useNavigate();
 
-    const [error, setError] = useState<string | null>(null);
     const [data, setData] = useState<SeatApiResponse | null>(null);
     const [payment_method_id, setPayment_method_id] = useState<number | null>(null);
 
@@ -83,7 +82,6 @@ const Pay = () => {
                 setData(response.data);
             } catch (error) {
                 console.error(error);
-                setError('Đã xảy ra lỗi khi lấy dữ liệu');
             }
         };
     
@@ -158,7 +156,6 @@ const Pay = () => {
                 icon: "error",
                 showCancelButton: false,
             });
-            setError('Đã xảy ra lỗi khi thanh toán');
             console.error('Lỗi thanh toán:', error);
         }
     };

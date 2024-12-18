@@ -16,19 +16,11 @@ const DetailVoucher = () => {
         { nhan: 'Giảm đến 25% cho...', duongDan: 'voucherdetail' },
     ];
     const [promotionsDetail, setPromotionsDeatil] = useState<Promotion | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
     const params = new URLSearchParams(location.search);
     const promotions_id = params.get('id');
     useEffect(() => {
 
         const fetchPromotions = async () => {
-            
-            if (!promotions_id) {
-                setError('Promotion ID is missing in URL.');
-                setLoading(false);
-                return;
-              }
         
             try {
                 const response = await axios.get(`http://doantotnghiep.test/api/promotion-detail/${promotions_id}`);
@@ -36,10 +28,8 @@ const DetailVoucher = () => {
                 console.log(promotionsDetail);
                 
             } catch (error) {
-                setError('Error fetching promotions');
-            } finally {
-                setLoading(false);
-            }
+                console.error(error)
+            } 
         };
 
 

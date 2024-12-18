@@ -19,7 +19,6 @@ interface BookingFormProps {
 const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
     const [formData, setFormData] = useState<any[]>([]);
     const [minDate, setMinDate] = useState<string>("");
-    const [loading, setLoading] = useState(true);
 
     const { register, handleSubmit, control, setValue } = useForm<BookingFormData>();
 
@@ -59,16 +58,11 @@ const BookingFormComponent: React.FC<BookingFormProps> = ({ onSearch }) => {
             const fullData = {
                 ...data,
             };
-            setLoading(true)
-            // Lưu vào localStorage
             localStorage.setItem("bookingForm", JSON.stringify(fullData));
             onSearch(fullData);
         } catch (error) {
-
-        } finally {
-            setLoading(false)
+            console.error(error);
         }
-
     };
 
     useEffect(() => {

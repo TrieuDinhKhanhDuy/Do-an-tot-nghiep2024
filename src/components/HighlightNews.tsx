@@ -3,9 +3,6 @@ import "../styles/Website/mainContent.css";
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import tintuc1 from "../assets/image/tin tuc 1.png";
-import tintuc2 from "../assets/image/tin tuc 2.png";
-import tintuc3 from "../assets/image/tin tuc 3.png";
 import { useEffect, useState } from "react";
 import { NewsType } from "@/types/INew";
 import axios from "axios";
@@ -38,8 +35,6 @@ const HighlightNews = () => {
         ],
     };
     const [news, setNews] = useState<NewsType[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         // Fetch all news
@@ -47,11 +42,9 @@ const HighlightNews = () => {
             .get('http://doantotnghiep.test/api/information')
             .then((response) => {
                 setNews(response.data.data); // Assuming the response data is an array of news
-                setLoading(false);
             })
             .catch((err) => {
-                setError('Error fetching news');
-                setLoading(false);
+                console.error(err)
             });
     }, []);
     const formatDate = (date: string): string => {

@@ -149,7 +149,7 @@ const MyTicket = () => {
     const onSubmit = async (data: cancelTicketType) => {
 
         try {
-            const res = await axios.post('http://doantotnghiep.test/api/home', data);
+             await axios.post('http://doantotnghiep.test/api/home', data);
             setIsModalOpen(false);
             Swal.fire({
                 title: "Gửi yêu cầu hủy vé thành công",
