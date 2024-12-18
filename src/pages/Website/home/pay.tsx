@@ -68,9 +68,9 @@ const Pay = () => {
 
     useEffect(() => {
         if (!tripId || !date) return;
-    
+
         let intervalId: NodeJS.Timeout;
-    
+
         const fetchStops = async () => {
             try {
                 const response = await axios.get('http://doantotnghiep.test/api/stops', {
@@ -84,15 +84,15 @@ const Pay = () => {
                 console.error(error);
             }
         };
-    
+
         fetchStops();
         intervalId = setInterval(fetchStops, 1000);
-    
+
         return () => {
             clearInterval(intervalId);
         };
     }, [tripId, date]);
-    
+
 
     // Hàm xử lý khi nhấn nút "Thanh toán"
     const handlePayment = async () => {
@@ -105,9 +105,10 @@ const Pay = () => {
                 icon: "error",
                 showCancelButton: false,
             });
-            return; // Prevent the payment process
+            return; 
         }
-        const paymentInfo = {
+
+        let paymentInfo = {
             trip_id: tripId,
             bus_id: busId,
             route_id: routeId,
@@ -129,18 +130,37 @@ const Pay = () => {
             code_voucher: code_voucher,
             discount: discount,
             id_change: id_change,
-            price: discountedPrice
+            price: discountedPrice,
+            pay_url: "", 
         };
-        console.log(paymentInfo);
+
+        console.log("Initial Payment Info:", paymentInfo);
 
         try {
             if (paymentInfo.payment_method_id !== null) {
                 const response = await axios.post('http://doantotnghiep.test/api/stops', paymentInfo);
+
+                let redirectUrl = ""; 
                 if (response.data.redirect_url) {
-                    window.location.href = response.data.redirect_url;
+                    redirectUrl = response.data.redirect_url;
+                } else if (response.data.payUrl) {
+                    redirectUrl = response.data.payUrl;
                 }
-                if (response.data.payUrl) {
-                    window.location.href = response.data.payUrl;
+
+                if (redirectUrl) {
+                    paymentInfo = {
+                        ...paymentInfo,
+                        pay_url: redirectUrl,
+                    };
+
+                    window.location.href = redirectUrl;
+                } else {
+                    Swal.fire({
+                        title: "Không tìm thấy URL thanh toán",
+                        text: "Hãy thử lại sau.",
+                        icon: "error",
+                        showCancelButton: false,
+                    });
                 }
             } else {
                 Swal.fire({
@@ -156,9 +176,10 @@ const Pay = () => {
                 icon: "error",
                 showCancelButton: false,
             });
-            console.error('Lỗi thanh toán:', error);
+            console.error("Lỗi thanh toán:", error);
         }
     };
+
 
     const handleClosePayment = () => {
         Swal.fire({
@@ -193,7 +214,7 @@ const Pay = () => {
                         <div className="payment-options">
                             {data?.methods.map((method, index) => (
                                 <div className={method.id === 1 ? "hidden" : "payment-options-item"} key={index}>
-                                    <input type={method.id === 1 ? "hidden" : "radio"}  name="payment_method_id" id={method.name} key={method.id} value={method.id} onChange={handleChange} />
+                                    <input type={method.id === 1 ? "hidden" : "radio"} name="payment_method_id" id={method.name} key={method.id} value={method.id} onChange={handleChange} />
                                     <label htmlFor={method.name} className={method.id === 1 ? "hidden" : ""}>{method.name}</label>
                                 </div>
                             ))}

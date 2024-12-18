@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { cancelTicketType } from "@/types/IUser";
 import Swal from "sweetalert2";
 
-interface BusOption {
+type BusOption = {
     ticket_booking_id: string;
     cancelbtn: string;
     date_start: string;
@@ -23,6 +23,7 @@ interface BusOption {
     time_start: string;
     total_price: string;
     total_tickets: number;
+    pay_url: string
 }
 
 const MyTicket = () => {
@@ -132,18 +133,6 @@ const MyTicket = () => {
     const closeModal = () => {
         setIsModalOpen(false);
     };
-    // const cancelFormSchema = z.object({
-    //     name: z.string().nonempty("Họ và tên không được để trống").min(6, "Họ và tên phải có ít nhất 6 ký tự"),
-    //     email: z.string().nonempty("Email không được để trống").email("Email không hợp lệ"),
-    //     bank: z.string().nonempty("Nội dung bắt buộc nhập"),
-    //     account_number: z.string().nonempty("Nội dung bắt buộc nhập"),
-    //     ticket_booking_id: z.string().nonempty("Nội dung bắt buộc nhập"),
-    //     order_code: z.string().nonempty("Nội dung bắt buộc nhập"),
-    // });
-
-    // const { register, handleSubmit,formState: { errors} ,reset , setValue} = useForm<cancelTicketType>({
-    //     resolver: zodResolver(cancelFormSchema),
-    // });
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<cancelTicketType>();
 
     const onSubmit = async (data: cancelTicketType) => {
@@ -172,7 +161,9 @@ const MyTicket = () => {
             reset();
         }
     };
-
+    const handlePayment = (pay_url: string) => {
+        window.location.href = pay_url;
+    }
     return (
         <>
             {loading ? <LinearProgress /> : null}
@@ -217,7 +208,7 @@ const MyTicket = () => {
                                 className={`header-item ${selectedStatus === "failed" ? "active" : "step2"}`}
                                 onClick={() => setSelectedStatus("failed")}
                             >
-                                Thanh toán lỗi
+                                Thất Bại
                             </div>
                         </div>
                         {filteredTickets.map((ticketItem) => (
@@ -234,7 +225,7 @@ const MyTicket = () => {
                                 <div className="bus-comp-info">
                                     <div className="bus-comp-info-header">
                                         <h3>{ticketItem.route_name}</h3>
-                                        {isBeforeStartDate(ticketItem.date_start) && ticketItem.status !== 'refunded' && (ticketItem.status === 'paid' || ticketItem.status === 'unpaid') && (
+                                        {isBeforeStartDate(ticketItem.date_start) && ticketItem.status !== 'refunded' && ticketItem.status == 'paid' && (
                                             <p className="bus-comp-cancelBtn" onClick={() => openModal(ticketItem)}>Hủy</p>
                                         )}
 
@@ -250,7 +241,7 @@ const MyTicket = () => {
                                                 ticketItem.status === "unpaid" ? "Chưa thanh toán" :
                                                     ticketItem.status === "refunded" ? "Đã hủy" :
                                                         ticketItem.status === "overdue" ? "Vé hết hạn" :
-                                                                ticketItem.status === "failed" ? "Thất bại" : "Trạng thái không xác định"
+                                                            ticketItem.status === "failed" ? "Thất bại" : "Trạng thái không xác định"
                                         }
                                     </div>
                                     <div className="bus-comp-info-header">
@@ -258,6 +249,9 @@ const MyTicket = () => {
                                         <div className="bus-comp-action">
                                             {isBeforeStartDate(ticketItem.date_start) && ticketItem.status == 'paid' && (
                                                 <button onClick={() => handleChangeTicket(ticketItem)}>Đổi chuyến</button>
+                                            )}
+                                            {isBeforeStartDate(ticketItem.date_start) && ticketItem.status == 'unpaid' && (
+                                                <button onClick={() => handlePayment(ticketItem.pay_url)}>Thanh Toán</button>
                                             )}
                                             <Link to={'/billdetail?order_code=' + ticketItem.order_code}>
                                                 <button>Chi Tiết</button>
