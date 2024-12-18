@@ -204,6 +204,8 @@
 }
 
 .booked-seat {
+  color: white;
+  border: 1px solid yellow;
   background-color: yellow;
   width: 80px;
   height: 45px;
@@ -212,6 +214,8 @@
 }
 
 .chosen-seat {
+  color: white;
+  border: 1px solid red;
   background-color: red;
   width: 80px;
   height: 45px;
