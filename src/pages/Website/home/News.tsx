@@ -29,6 +29,8 @@ const News = () => {
     const formatDate = (date: string): string => {
         return moment(date).format("DD/MM/YYYY");
     };
+    const url_image_backend = "http://doantotnghiep.test/storage/";
+
     return (
         <>
             <Breadcrumb items={duongDan} />
@@ -100,7 +102,7 @@ const News = () => {
                         <a href={`/newsdetail?id=${item.id}`} key={item.id}>
                             <div className="news-list-items">
                                 <div className="new-list-items-image">
-                                    <img src={item.thumbnail_image} alt="" />
+                                    <img src={url_image_backend+item.thumbnail_image} alt="" />
                                 </div>
                                 <div className="news-list-items-content">
                                     <h4>{item.title}</h4>

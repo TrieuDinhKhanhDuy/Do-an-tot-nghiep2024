@@ -53,6 +53,7 @@ const DetailVoucher = () => {
           });
       };
 
+      const url_image_backend = "http://doantotnghiep.test/storage/";
 
     return (
         <>
@@ -66,7 +67,7 @@ const DetailVoucher = () => {
                 </div>
 
                 <div className="newDetails-container-main voucherDetails-container-main">
-                    <img src={promotionsDetail?.image} alt="Di tích Đền Hạ Tuyên Quang" />
+                    <img src={url_image_backend+promotionsDetail?.image} alt="Di tích Đền Hạ Tuyên Quang" />
                     <h3>{promotionsDetail?.description}</h3>
                     <br />
                     <ul>

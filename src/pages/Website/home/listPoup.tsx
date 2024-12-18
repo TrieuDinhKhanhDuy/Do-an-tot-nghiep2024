@@ -543,7 +543,7 @@ const SoDoGhe = () => {
                         user_id: userData.id
                     };
                     try {
-                        await axios.post('http://doantotnghiep.test/api/voucher/apply', voucherApply);
+                        await axios.post('http://doantotnghiep.test/api/apply-voucher', voucherApply);
                         toast.success("Đã áp dụng mã!", {
                             position: "top-right",
                             autoClose: 3000,

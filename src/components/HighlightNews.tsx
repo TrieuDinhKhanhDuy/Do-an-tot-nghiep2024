@@ -50,6 +50,7 @@ const HighlightNews = () => {
     const formatDate = (date: string): string => {
         return moment(date).format("DD/MM/YYYY");
     };
+    const url_image_backend = "http://doantotnghiep.test/storage/";
     return (
         <div className="mainContent-bottom">
             <a href="/news"><h2 className="link-h2" >Tin tức mới nhất</h2></a>
@@ -59,7 +60,7 @@ const HighlightNews = () => {
                     <div className="magin_outside" key={item.id}>
                         <a className="mainContent-bottom-content" href={`/newsdetail?id=${item.id}`}  >
                             <div className="mainContent-bottom-items">
-                                <img src={item.thumbnail_image} alt="" />
+                                <img src={url_image_backend+item.thumbnail_image} alt="" />
                                 <p>{item.title}
                                 </p>
                                 <div className="flex-route-price">
@@ -71,8 +72,6 @@ const HighlightNews = () => {
                     </div>
                 ))}
             </Slider>
-
-
         </div>
     )
 }

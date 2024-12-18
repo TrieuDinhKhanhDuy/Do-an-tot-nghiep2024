@@ -104,7 +104,11 @@
 
 }
 .new-list-items-image{
-    width: 400px;
+    width: 200px;
+}
+.new-list-items-image img{
+    height: 110px;
+    width: 200px;
 }
 .news-list-items-content p{
     opacity: 0.7;

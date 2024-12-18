@@ -39,63 +39,6 @@ const ListVoucher = () => {
         ],
     };
 
-    const settings2 = {
-        centerPadding: '20px',
-        dots: true,
-        infinite: true,
-        speed: 600,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 4000,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                },
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                },
-            },
-        ],
-    };
-
-    const settings3 = {
-        centerPadding: '20px',
-        dots: true,
-        infinite: true,
-        speed: 600,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 5000,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                },
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                },
-            },
-        ],
-    };
-    const handleClickLinkDetailVoucher = () => {
-        window.location.href = 'listvoucher/voucherdetail';
-    };
-
     const duongDan = [
         { nhan: "Trang Chủ", duongDan: "/" },
         { nhan: "Voucher", duongDan: "/listvoucher" },

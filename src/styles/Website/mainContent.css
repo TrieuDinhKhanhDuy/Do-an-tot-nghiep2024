@@ -263,7 +263,7 @@
 }
 .mainContent-container .mainContent-bottom .mainContent-bottom-content .mainContent-bottom-items img {
     width: 100%;
-    max-height: 200px;
+    height: 200px;
     border-radius: 20px 20px 0 0 ;
 }
 .mainContent-bottom-items .flex-route-price{
