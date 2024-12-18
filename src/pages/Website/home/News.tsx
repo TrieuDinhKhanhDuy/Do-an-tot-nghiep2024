@@ -1,17 +1,34 @@
 import Breadcrumb from "@/components/Breadcrumb";
-import {
-    faChevronLeft,
-    faChevronRight,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import news2 from "../../../assets/image/news2.png";
 import "../../../styles/Website/News.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import moment from "moment";
+import { NewsType } from "@/types/INew";
 
 const News = () => {
     const duongDan = [
         { nhan: "Trang Chủ", duongDan: "/" },
         { nhan: "Tin Tức", duongDan: "news" },
     ];
+
+    const [news, setNews] = useState<NewsType[]>([]);
+
+    useEffect(() => {
+        // Fetch all news
+        axios
+            .get('http://doantotnghiep.test/api/information')
+            .then((response) => {
+                setNews(response.data.data);
+                console.log('jehehe', response.data.data);
+
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+    const formatDate = (date: string): string => {
+        return moment(date).format("DD/MM/YYYY");
+    };
     return (
         <>
             <Breadcrumb items={duongDan} />
@@ -22,7 +39,7 @@ const News = () => {
                     <div className="news__main">
                         <a href="/newsdetail">
                             <img
-                                src={news2}
+                                src={'https://baotuyenquang.com.vn/media/images/megastory/img_20210626083553.jpg'}
                                 alt="Main News"
                                 className="news__main-image"
                             />
@@ -47,7 +64,7 @@ const News = () => {
 
                     <div className="news__related">
                         <div className="news-related-items">
-                            <img src={news2} alt="" />
+                            <img src={'https://i1-dulich.vnecdn.net/2022/07/03/2-Thanh-Xuong-Giang-1656785461.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=jYgqMdJmZYXHTXVhNqv59A'} alt="" />
                             <div className="news-related-items-content">
                                 <h4>
                                     ĐỀN HẠ TUYÊN QUANG VÀ NHỮNG CÂU CHUYỆN XUNG
@@ -57,7 +74,7 @@ const News = () => {
                             </div>
                         </div>
                         <div className="news-related-items">
-                            <img src={news2} alt="" />
+                            <img src={'https://dulichviet.com.vn/images/bandidau/check-in-18-dia-diem-du-lich-bac-giang-so-huu-canh-dep-an-tuong-nhat.jpg'} alt="" />
                             <div className="news-related-items-content">
                                 <h4>
                                     ĐỀN HẠ TUYÊN QUANG VÀ NHỮNG CÂU CHUYỆN XUNG
@@ -67,7 +84,7 @@ const News = () => {
                             </div>
                         </div>
                         <div className="news-related-items">
-                            <img src={news2} alt="" />
+                            <img src={'https://dulichviet.com.vn/images/bandidau/ho-cam-son-bac-giang.jpg'} alt="" />
                             <div className="news-related-items-content">
                                 <h4>
                                     ĐỀN HẠ TUYÊN QUANG VÀ NHỮNG CÂU CHUYỆN XUNG
@@ -79,101 +96,27 @@ const News = () => {
                     </div>
                 </div>
                 <div className="news-list">
-                    <a href="/newsdetail">
-                        <div className="news-list-items">
-                            <div className="new-list-items-image">
-                                <img src={news2} alt="" />
+                    {news.map((item) => (
+                        <a href={`/newsdetail?id=${item.id}`} key={item.id}>
+                            <div className="news-list-items">
+                                <div className="new-list-items-image">
+                                    <img src={item.thumbnail_image} alt="" />
+                                </div>
+                                <div className="news-list-items-content">
+                                    <h4>{item.title}</h4>
+                                    <div
+                                        dangerouslySetInnerHTML={{
+                                            __html: item.content,
+                                        }}
+                                    />
+                                    <br />
+                                    <p>Ngày đăng: {formatDate(item.created_at)}</p>
+                                </div>
                             </div>
-                            <div className="news-list-items-content">
-                                <h4>SUỐI KHOÁNG MỸ LÂM</h4>
-                                <p>
-                                    Nhắc đến Tuyên Quang, ta thường nhớ ngay đến
-                                    đình Hồng Thái, cây đa Tân Trào, đến lán Nà
-                                    Lừa… Song không mấy người biết đến suối
-                                    khoáng Mỹ Lâm, một trong số ít những mỏ nước
-                                    khoáng tốt nhất miền Bắc, Việt Nam.
-                                </p>
-                                <p>Ngày đăng: 20-11-2023</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="/newsdetail">
-                        <div className="news-list-items">
-                            <div className="new-list-items-image">
-                                <img src={news2} alt="" />
-                            </div>
-                            <div className="news-list-items-content">
-                                <h4>SUỐI KHOÁNG MỸ LÂM</h4>
-                                <p>
-                                    Nhắc đến Tuyên Quang, ta thường nhớ ngay đến
-                                    đình Hồng Thái, cây đa Tân Trào, đến lán Nà
-                                    Lừa… Song không mấy người biết đến suối
-                                    khoáng Mỹ Lâm, một trong số ít những mỏ nước
-                                    khoáng tốt nhất miền Bắc, Việt Nam.
-                                </p>
-                                <p>Ngày đăng: 20-11-2023</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="/newsdetail">
-                        <div className="news-list-items">
-                            <div className="new-list-items-image">
-                                <img src={news2} alt="" />
-                            </div>
-                            <div className="news-list-items-content">
-                                <h4>SUỐI KHOÁNG MỸ LÂM</h4>
-                                <p>
-                                    Nhắc đến Tuyên Quang, ta thường nhớ ngay đến
-                                    đình Hồng Thái, cây đa Tân Trào, đến lán Nà
-                                    Lừa… Song không mấy người biết đến suối
-                                    khoáng Mỹ Lâm, một trong số ít những mỏ nước
-                                    khoáng tốt nhất miền Bắc, Việt Nam.
-                                </p>
-                                <p>Ngày đăng: 20-11-2023</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="/newsdetail">
-                        <div className="news-list-items">
-                            <div className="new-list-items-image">
-                                <img src={news2} alt="" />
-                            </div>
-                            <div className="news-list-items-content">
-                                <h4>SUỐI KHOÁNG MỸ LÂM</h4>
-                                <p>
-                                    Nhắc đến Tuyên Quang, ta thường nhớ ngay đến
-                                    đình Hồng Thái, cây đa Tân Trào, đến lán Nà
-                                    Lừa… Song không mấy người biết đến suối
-                                    khoáng Mỹ Lâm, một trong số ít những mỏ nước
-                                    khoáng tốt nhất miền Bắc, Việt Nam.
-                                </p>
-                                <p>Ngày đăng: 20-11-2023</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="news-pagination">
-                    <a href="#" className="news-pagination-item prev">
-                        <FontAwesomeIcon icon={faChevronLeft} style={{fontSize:'13px', padding:'6px 2px'}}/>
-                    </a>
-                    <a href="#" className="news-pagination-item">
-                        1
-                    </a>
-                    <a href="#" className="news-pagination-item">
-                        2
-                    </a>
-                    <a href="#" className="news-pagination-item">
-                        3
-                    </a>
-                    <a href="#" className="news-pagination-item">
-                        4
-                    </a>
-                    <a href="#" className="news-pagination-item">
-                        5
-                    </a>
-                    <a href="#" className="news-pagination-item next">
-                        <FontAwesomeIcon icon={faChevronRight} style={{fontSize:'13px', padding:'6px 2px'}}/>
-                    </a>
+                        </a>
+                    ))}
+
+
                 </div>
             </div>
         </>

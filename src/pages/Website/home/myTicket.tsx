@@ -1,15 +1,17 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import LeftBar from "@/components/leftBar_user";
-import { cancelTicketType } from "@/types/IUser";
 import { LinearProgress } from "@mui/material";
-import axios from "axios";
-import moment from "moment"; // Import moment.js for date/time formatting
 import numeral from "numeral";
-import { useEffect, useState } from "react";
+import moment from "moment"; // Import moment.js for date/time formatting
+import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { cancelTicketType } from "@/types/IUser";
 import Swal from "sweetalert2";
 import "../../../styles/Website/myTicket.css";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 interface BusOption {
     ticket_booking_id: string;
@@ -47,6 +49,8 @@ const MyTicket = () => {
 
     const userId = getUserId();
     useEffect(() => {
+        let intervalId: NodeJS.Timeout;
+
         const fetchMyTicket = async () => {
             try {
                 const response = await axios.get(
@@ -75,6 +79,11 @@ const MyTicket = () => {
         };
 
         fetchMyTicket();
+        intervalId = setInterval(fetchMyTicket, 2000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
     }, []);
 
     const duongDan = [
@@ -82,8 +91,8 @@ const MyTicket = () => {
         { nhan: "Vé Của Tôi", duongDan: "myticket" },
     ];
 
-    const handleChangeTicket = async (order_id: string) => {
-        nav(`/changeticket?id_change=${order_id}`);
+    const handleChangeTicket = async (ticketItem: BusOption) => {
+        nav(`/changeticket?id_change=${ticketItem.ticket_booking_id}`);
     };
 
     const isBeforeStartDate = (date_start: string): boolean => {
@@ -106,10 +115,10 @@ const MyTicket = () => {
 
     const filteredTickets = ticket.filter((ticketItem) => {
         if (selectedStatus === "all") return true;
-        if (selectedStatus === "overdue") {
-            const today = new Date();
-            return new Date(ticketItem.date_start) < today;
-        }
+        // if (selectedStatus === "overdue") {
+        //     const today = new Date();
+        //     return new Date(ticketItem.date_start) < today;
+        // }
         return ticketItem.status === selectedStatus;
     });
 
@@ -125,8 +134,6 @@ const MyTicket = () => {
     const closeModal = () => {
         setIsModalOpen(false);
     };
-
-
     // const cancelFormSchema = z.object({
     //     name: z.string().nonempty("Họ và tên không được để trống").min(6, "Họ và tên phải có ít nhất 6 ký tự"),
     //     email: z.string().nonempty("Email không được để trống").email("Email không hợp lệ"),
@@ -144,7 +151,7 @@ const MyTicket = () => {
     const onSubmit = async (data: cancelTicketType) => {
 
         try {
-            const res = await axios.post('http://doantotnghiep.test/api/home', data);            
+            const res = await axios.post('http://doantotnghiep.test/api/home', data);
             setIsModalOpen(false);
             Swal.fire({
                 title: "Gửi yêu cầu hủy vé thành công",
@@ -171,11 +178,7 @@ const MyTicket = () => {
     return (
         <>
             {loading ? <LinearProgress /> : null}
-
             <Breadcrumb items={duongDan} />
-
-
-
             <div className="tickets-container">
                 <div className="bus-comp-container">
                     <LeftBar />
@@ -212,6 +215,12 @@ const MyTicket = () => {
                             >
                                 Vé Hết Hạn
                             </div>
+                            <div
+                                className={`header-item ${selectedStatus === "failed" ? "active" : "step2"}`}
+                                onClick={() => setSelectedStatus("failed")}
+                            >
+                                Thanh toán lỗi
+                            </div>
                         </div>
                         {filteredTickets.map((ticketItem) => (
                             <div key={ticketItem.order_code} className="bus-comp-option">
@@ -227,9 +236,10 @@ const MyTicket = () => {
                                 <div className="bus-comp-info">
                                     <div className="bus-comp-info-header">
                                         <h3>{ticketItem.route_name}</h3>
-                                        {isBeforeStartDate(ticketItem.date_start) && ticketItem.status !== 'refunded' && (
+                                        {isBeforeStartDate(ticketItem.date_start) && ticketItem.status !== 'refunded' && (ticketItem.status === 'paid' || ticketItem.status === 'unpaid') && (
                                             <p className="bus-comp-cancelBtn" onClick={() => openModal(ticketItem)}>Hủy</p>
                                         )}
+
                                     </div>
                                     <div className="bus-comp-info-header">
                                         <p>🕒 {formatTime(ticketItem.time_start)} - {formatDate(ticketItem.date_start)}</p>
@@ -237,13 +247,19 @@ const MyTicket = () => {
                                     </div>
                                     <div className="bus-comp-info-header">
                                         <p>{formatPrice(ticketItem.total_price)}</p>
-                                        {ticketItem.status}
+                                        {
+                                            ticketItem.status === "paid" ? "Đã thanh toán" :
+                                                ticketItem.status === "unpaid" ? "Chưa thanh toán" :
+                                                    ticketItem.status === "refunded" ? "Đã hủy" :
+                                                        ticketItem.status === "overdue" ? "Vé hết hạn" :
+                                                            ticketItem.status === "failed" ? "Thất bại" : "Trạng thái không xác định"
+                                        }
                                     </div>
                                     <div className="bus-comp-info-header">
                                         <p>Số Vé: {ticketItem.total_tickets}</p>
                                         <div className="bus-comp-action">
-                                            {isBeforeStartDate(ticketItem.date_start) && ticketItem.status !== 'refunded' && (
-                                                <button onClick={() => handleChangeTicket(ticketItem.ticket_booking_id)}>Đổi chuyến</button>
+                                            {isBeforeStartDate(ticketItem.date_start) && ticketItem.status == 'paid' && (
+                                                <button onClick={() => handleChangeTicket(ticketItem)}>Đổi chuyến</button>
                                             )}
                                             <Link to={'/billdetail?order_code=' + ticketItem.order_code}>
                                                 <button>Chi Tiết</button>
@@ -290,7 +306,7 @@ const MyTicket = () => {
                             />
                             {errors.name && <div className="text-sm text-red-500">{errors.name.message}</div>}
                         </div>
-                        <div className="form-group">
+                        <div className="form-group formgroup_modal">
                             <input
                                 id="email"
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -301,7 +317,7 @@ const MyTicket = () => {
                             />
                             {errors.email && <div className="text-sm text-red-500">{errors.email.message}</div>}
                         </div>
-                        <div className="form-group">
+                        <div className="form-group formgroup_modal">
                             <input
                                 id="phone"
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -312,7 +328,7 @@ const MyTicket = () => {
                             />
                             {errors.email && <div className="text-sm text-red-500">{errors.email.message}</div>}
                         </div>
-                        <div className="form-group">
+                        <div className="form-group formgroup_modal">
                             <input
                                 id="bankNumber"
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -323,7 +339,7 @@ const MyTicket = () => {
                             />
                             {errors.account_number && <div className="text-sm text-red-500">{errors.account_number.message}</div>}
                         </div>
-                        <div className="form-group">
+                        <div className="form-group formgroup_modal">
                             <input
                                 id="bank"
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -334,7 +350,7 @@ const MyTicket = () => {
                             />
                             {errors.bank && <div className="text-sm text-red-500">{errors.bank.message}</div>}
                         </div>
-                        <div className="form-group">
+                        <div className="form-group formgroup_modal">
                             <textarea
                                 id="bank"
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -346,8 +362,13 @@ const MyTicket = () => {
                             {errors.ticket_booking_id && <div className="text-sm text-red-500">{errors.ticket_booking_id.message}</div>}
                             {errors.order_code && <div className="text-sm text-red-500">{errors.order_code.message}</div>}
                         </div>
+                        <div className="changeTicket__info-note">
+                            Khi nhấp vào "Gửi yêu cầu hủy chuyến", bạn đồng ý rằng bạn đã đọc và hiểu{" "}
+                            <a href="#" className="changeTicket__info-link">Điều khoản sử dụng</a> và{" "}
+                            <a href="#" className="changeTicket__info-link">Chính sách hoàn hủy</a>.
+                        </div>
                         <div className="form-action">
-                            <button type="submit" className="cancel-btn">Xác nhận hủy</button>
+                            <button type="submit" className="cancel-btn">Gửi yêu cầu hủy</button>
                         </div>
                     </form>
                 </div>

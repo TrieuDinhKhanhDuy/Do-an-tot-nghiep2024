@@ -49,11 +49,8 @@ const Pay = () => {
     const discount = params.get('discount') ? parseFloat(params.get('discount')!) : 0;
     const id_change = params.get('id_change') === 'null' ? null : params.get('id_change');
     const price = params.get('total_old_price') === 'null' ? null : params.get('total_old_price');
-
-
-    // console.log('nuldl nhé'), price;
-
-
+    const start_stop_name = params.get("start_stop_name");
+    const end_stop_name = params.get("end_stop_name");
 
     const nav = useNavigate();
 
@@ -61,14 +58,13 @@ const Pay = () => {
     const [data, setData] = useState<SeatApiResponse | null>(null);
     const [payment_method_id, setPayment_method_id] = useState<number | null>(null);
 
-    // Tính toán giá vé ban đầu và tổng tiền
     const formattedFare = numeral(fare).format('0,0');
     const formattedPrice = numeral(price).format('0,0');
     const priceNumber = price ? parseFloat(price) : 0;
 
-    // Tính tổng tiền sau khi áp dụng giảm giá (nếu có)
     const discountedPrice = discount > 0 ? total_price * (1 - discount / 100) : total_price;
     const discountOldPrice = discountedPrice - priceNumber;
+    const formatteddiscountedPrice = numeral(discountedPrice).format('0,0');
     const formattedDiscountedPrice = numeral(discountOldPrice).format('0,0');
 
     useEffect(() => {
@@ -108,7 +104,7 @@ const Pay = () => {
             bus_id: busId,
             route_id: routeId,
             time_start: timeStart,
-            total_price: discountedPrice,
+            total_price: discountOldPrice,
             date: date,
             name_seat: nameSeat,
             location_start: locationStart,
@@ -127,21 +123,24 @@ const Pay = () => {
             id_change: id_change,
             price: price
         };
-
         console.log(paymentInfo);
 
         try {
-            // Gửi thông tin thanh toán lên API
-            const response = await axios.post('http://doantotnghiep.test/api/stops', paymentInfo);
-
-            if (response.data.redirect_url) {
-                window.location.href = response.data.redirect_url;
+            if (paymentInfo.payment_method_id !== null) {
+                const response = await axios.post('http://doantotnghiep.test/api/stops', paymentInfo);
+                if (response.data.redirect_url) {
+                    window.location.href = response.data.redirect_url;
+                }
+                if (response.data.payUrl) {
+                    window.location.href = response.data.payUrl;
+                }
+            } else {
+                Swal.fire({
+                    title: "Vui Lòng Chọn Phương Thức Thanh Toán",
+                    icon: "error",
+                    showCancelButton: false,
+                });
             }
-            if (response.data.payUrl) {
-                window.location.href = response.data.payUrl;
-            }
-            // console.log('day la',paymentInfo);
-
         } catch (error) {
             Swal.fire({
                 title: "Đặt vé không thành công",
@@ -193,12 +192,14 @@ const Pay = () => {
                             ))}
                         </div>
                         <div className="price-summary">
-                            {price && (<p>Giá vé cũ: <span>{formattedPrice} VNĐ</span></p>)}
-                            <p>Giá vé: <span>{formattedFare} VNĐ</span></p>
                             <p>Số Ghế: <span>{nameSeat}</span></p>
+                            <p>Giá vé: <span>{formattedFare} VNĐ</span></p>
+                            {price && (<p>Tổng tiền: <span>{formatteddiscountedPrice} VNĐ</span></p>)}
+                            {price && (<p>Tổng tiền vé cũ: <span>- {formattedPrice} VNĐ</span></p>)}
+
                             <p>Mã giảm giá: <span>{code_voucher ? `${code_voucher} Giảm ${discount}%` : '--'}</span></p>
                             <hr />
-                            <p className="total">Tổng tiền: <span>{formattedDiscountedPrice} VNĐ</span></p>
+                            <p className="total">Tổng tiền phải trả: <span>{formattedDiscountedPrice} VNĐ</span></p>
                         </div>
                         <p className="agreement-text">
                             Khi nhấp vào "Thanh toán", bạn đồng ý rằng bạn đã đọc và hiểu
@@ -240,12 +241,12 @@ const Pay = () => {
                                     </tr>
                                     <tr>
                                         <td>Điểm đi:</td>
-                                        <td>{idStartStop}({locationStart})</td>
+                                        <td>{start_stop_name}({locationStart})</td>
                                     </tr>
 
                                     <tr>
                                         <td>Điểm đến:</td>
-                                        <td>{idEndStop}({locationEnd})</td>
+                                        <td>{end_stop_name}({locationEnd})</td>
                                     </tr>
                                     <tr>
                                         <td>Vị trí ghế:</td>

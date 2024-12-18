@@ -21,8 +21,6 @@ import { BookingFormData } from "@/types/IBooking";
 const BookingForm = () => {
     const navigate = useNavigate();
     const handleSearch = (data: BookingFormData) => {        
-        // console.log(data);
-        // window.location.href = (`/list?start=${data.startLocation}&end=${data.endLocation}&date=${data.departureDate}`);
         navigate(`/list?start=${data.startLocation}&end=${data.endLocation}&date=${data.departureDate}`);
     };
 

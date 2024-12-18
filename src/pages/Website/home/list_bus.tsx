@@ -3,7 +3,6 @@ import {
 
     faChevronLeft,
     faChevronRight,
-    faL,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
@@ -90,14 +89,7 @@ const List_BusFix = () => {
                 setSeatPrice(parseFloat(firstBus.fare));
             }
             setLoading(true);
-            toast.success("Lấy dữ liệu chuyến thành công", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
+            
         } catch (error) {
             console.error("Error fetching data:", error);
             Swal.fire({
@@ -112,16 +104,28 @@ const List_BusFix = () => {
                 `/list?start=${searchParams.startLocation}&end=${searchParams.endLocation}&date=${searchParams.departureDate}&&page=${page}&sort=${sortOrder}`,
             );
             setLoading(false);
+            toast.success("Lấy dữ liệu chuyến thành công", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
         }
     };
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
-        const startLocation = queryParams.get("start");
-        const endLocation = queryParams.get("end");
+        const priceNumber1 = queryParams.get("start");
+        const priceNumber2 = queryParams.get("end");
         const departureDate = queryParams.get("date");
+
+        
         const page_query = queryParams.get("page") || "1";
         const sort_query = queryParams.get("sort") || "default";
+        const startLocation = priceNumber1 ? parseFloat(priceNumber1) : 0;
+        const endLocation = priceNumber2 ? parseFloat(priceNumber2) : 0;
         if (startLocation && endLocation && departureDate) {
             setSearchParams({
                 startLocation,
@@ -135,7 +139,9 @@ const List_BusFix = () => {
     }, [location.search]);
 
     useEffect(() => {
-        fetchFilteredTrips();
+        if (searchParams) {
+            fetchFilteredTrips();
+        }    
     }, [searchParams, page, sortOrder]);
 
     const handleSearch = (data: BookingFormData) => {
@@ -332,13 +338,13 @@ const List_BusFix = () => {
                                                 <div className="bus-comp-info-header">
                                                     <p>🕒 {formattedTime}</p>
                                                     <p>
-                                                        sale 20%
+                                                        Hỗ trợ thanh toán online
                                                     </p>
                                                 </div>
                                                 <div className="bus-comp-info-header">
-                                                    <p>{bus.name_bus} - {bus.license_plate} </p>
+                                                    <p>{bus.name_bus} </p>
                                                     <p>
-                                                        Hỗ trợ thanh toán online
+                                                    Biển số : {bus.license_plate}
                                                     </p>
                                                 </div>
                                                 <div className="bus-comp-info-header">

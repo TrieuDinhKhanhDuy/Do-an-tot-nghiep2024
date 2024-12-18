@@ -1,6 +1,6 @@
 export type  BookingFormData = {
-    startLocation: string;
-    endLocation: string;
+    startLocation: number;
+    endLocation: number;
     departureDate: string;
     page_query:string
 }

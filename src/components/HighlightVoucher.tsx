@@ -73,7 +73,7 @@ const HighlightVoucher = () => {
         {promotions.map(promotions_item => (<>
           <h3 className="link-h2" onClick={handleClickLinkVoucher} >{promotions_item.name}</h3>
 
-          <Slider {...settings}>
+          {/* <Slider {...settings}>
 
             {promotions_item.promotions.map(item => (
               <div className="magin_outside">
@@ -84,7 +84,7 @@ const HighlightVoucher = () => {
             ))}
 
 
-          </Slider>
+          </Slider> */}
 
 
         </>))}

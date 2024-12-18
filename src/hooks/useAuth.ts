@@ -95,6 +95,15 @@ const useAuth = () => {
         setError(null);
         try {
             const response = await handleRegister(userData);
+            Swal.fire({
+                title: "Đăng Ký Thành Công",
+                text: "Đang chuyến sang trang đăng nhập...",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500,
+            }).then(() => {
+                window.location.href = "/login";
+            });
             return response;
         } catch (error) {
             setError('Đăng ký không thành công');

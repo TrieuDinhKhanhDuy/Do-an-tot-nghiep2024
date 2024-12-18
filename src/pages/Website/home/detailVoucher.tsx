@@ -1,6 +1,5 @@
 import "../../../styles/Website/NewsDetail.css";
 import Breadcrumb from "@/components/Breadcrumb";
-import image1 from "../../../assets/image/banner_voucher.jfif";
 import HighlightVoucher from "@/components/HighlightVoucher";
 import "../../../styles/Website/mainContent.css";
 import "../../../styles/Website/voucher.css"
@@ -77,7 +76,7 @@ const DetailVoucher = () => {
                 </div>
 
                 <div className="newDetails-container-main voucherDetails-container-main">
-                    <img src={image1} alt="Di tích Đền Hạ Tuyên Quang" />
+                    <img src={promotionsDetail?.image} alt="Di tích Đền Hạ Tuyên Quang" />
                     <h3>{promotionsDetail?.description}</h3>
                     <br />
                     <ul>
@@ -90,12 +89,6 @@ const DetailVoucher = () => {
                             </div>
                         </li>
                     </ul>
-                    {/* <h3>Lưu ý</h3>
-                    <ul>
-                        <li>• Mỗi mã giảm giá có giá trị giảm 25% hoặc 15% cho một lần đặt dịch vụ xe khách (có giá trị giảm tối đa).</li>
-                        <li>• Chỉ áp dụng cho khách hàng lần đầu đặt dịch vụ tại HONGNHUNG (Mỗi booking tối đa 2 vé).</li>
-                        <li>• HONGNHUNG có quyền áp dụng chặn sử dụng mã khuyến mại đối với các Khách hàng mà HONGNHUNG phát hiện hoặc đã từng phát hiện có hành vi hoặc dấu hiệu của việc gian lận hoặc trục lợi Chương trình khuyến mại. </li>
-                    </ul> */}
                 </div>
                 <div className="divider-container">
                     <div className="divider-line"></div>

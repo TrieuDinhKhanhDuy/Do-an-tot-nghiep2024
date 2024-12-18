@@ -6,13 +6,12 @@ import 'slick-carousel/slick/slick-theme.css';
 import tintuc1 from "../assets/image/tin tuc 1.png";
 import tintuc2 from "../assets/image/tin tuc 2.png";
 import tintuc3 from "../assets/image/tin tuc 3.png";
+import { useEffect, useState } from "react";
+import { NewsType } from "@/types/INew";
+import axios from "axios";
+import moment from "moment";
 
 const HighlightNews = () => {
-
-
-    const handleClickLinkDetailNews = () => {
-        window.location.href = '/newsdetail';
-    };
     const settings = {
         dots: true,
         infinite: true,
@@ -20,7 +19,7 @@ const HighlightNews = () => {
         slidesToShow: 3,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 3000, 
+        autoplaySpeed: 3000,
         responsive: [
             {
                 breakpoint: 1024,
@@ -38,83 +37,50 @@ const HighlightNews = () => {
             },
         ],
     };
+    const [news, setNews] = useState<NewsType[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        // Fetch all news
+        axios
+            .get('http://doantotnghiep.test/api/information')
+            .then((response) => {
+                setNews(response.data.data); // Assuming the response data is an array of news
+                setLoading(false);
+            })
+            .catch((err) => {
+                setError('Error fetching news');
+                setLoading(false);
+            });
+    }, []);
+    const formatDate = (date: string): string => {
+        return moment(date).format("DD/MM/YYYY");
+    };
     return (
-            <div className="mainContent-bottom">
-                <a href="/news"><h2 className="link-h2" >Tin tức mới nhất</h2></a>
-                <Slider {...settings}>
+        <div className="mainContent-bottom">
+            <a href="/news"><h2 className="link-h2" >Tin tức mới nhất</h2></a>
+            <Slider {...settings}>
+                {news.map((item) => (
 
-                    <div className="magin_outside">
-                        <div className="mainContent-bottom-content" onClick={handleClickLinkDetailNews}>
+                    <div className="magin_outside" key={item.id}>
+                        <a className="mainContent-bottom-content" href={`/newsdetail?id=${item.id}`}  >
                             <div className="mainContent-bottom-items">
-                                <img src={tintuc1} alt="" />
-                                <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
+                                <img src={item.thumbnail_image} alt="" />
+                                <p>{item.title}
                                 </p>
                                 <div className="flex-route-price">
-                                    <a href="">18/10/2024</a>
+                                    <a href="">{formatDate(item.created_at)}</a>
                                     <a href=""><span>Chi tiết</span></a>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
+                ))}
+            </Slider>
 
-                    <div className="magin_outside">
-                        <div className="mainContent-bottom-content" onClick={handleClickLinkDetailNews}>
-                            <div className="mainContent-bottom-items">
-                                <img src={tintuc2} alt="" />
-                                <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
-                                </p>
-                                <div className="flex-route-price">
-                                    <a href="">18/10/2024</a>
-                                    <a href=""><span>Chi tiết</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div className="magin_outside">
-                        <div className="mainContent-bottom-content" onClick={handleClickLinkDetailNews}>
-                            <div className="mainContent-bottom-items">
-                                <img src={tintuc3} alt="" />
-                                <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
-                                </p>
-                                <div className="flex-route-price">
-                                    <a href="">18/10/2024</a>
-                                    <a href=""><span>Chi tiết</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="magin_outside">
-                        <div className="mainContent-bottom-content" onClick={handleClickLinkDetailNews}>
-                            <div className="mainContent-bottom-items">
-                                <img src={tintuc2} alt="" />
-                                <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
-                                </p>
-                                <div className="flex-route-price">
-                                    <a href="">18/10/2024</a>
-                                    <a href=""><span>Chi tiết</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="magin_outside">
-                        <div className="mainContent-bottom-content" onClick={handleClickLinkDetailNews}>
-                            <div className="mainContent-bottom-items">
-                                <img src={tintuc3} alt="" />
-                                <p>Thác Mơ Tuyên Quang - Thiếu nữ duyên dáng giữa núi rừng Na Hang
-                                </p>
-                                <div className="flex-route-price">
-                                    <a href="">18/10/2024</a>
-                                    <a href=""><span>Chi tiết</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </Slider>
-
-            </div>
+        </div>
     )
 }
 
