@@ -23,10 +23,10 @@ export interface OrderData {
   name_seat: string[]; // Danh sách tên ghế đã đặt.
   note: string | null; // Ghi chú (có thể null).
   ticket_price: string; // Giá vé (dạng chuỗi để xử lý giá tiền chính xác hơn).
-  total_price: string; 
+  total_price: string;
   status: string;
   order_code: string;
-  ticket_codes: string[]; 
+  ticket_codes: string[];
   ticket_code: string;
   discount: number;
   code_voucher: string;
@@ -62,6 +62,7 @@ export interface OrderDataDetail {
   location_start: string;
   discount: number;
   code_voucher: string;
+  note: string;
 };
 
 export interface BillDetailResponse {

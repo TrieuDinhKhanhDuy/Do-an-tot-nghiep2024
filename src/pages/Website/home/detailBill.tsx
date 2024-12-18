@@ -148,7 +148,7 @@ const DetailBill = () => {
                                         <td className="right-section-bill">
                                             <strong>Thông tin thêm</strong>
                                             <p>Mã khuyến mãi: {billData.code_voucher}</p>
-                                            <p>Ghi chú: lai xe an toan</p>
+                                            <p>Ghi chú: {billData.note}</p>
                                         </td>
                                     </tr>
                                 ))}

@@ -52,6 +52,7 @@ const Pay = () => {
     const start_stop_name = params.get("start_stop_name");
     const end_stop_name = params.get("end_stop_name");
 
+
     const nav = useNavigate();
 
     const [data, setData] = useState<SeatApiResponse | null>(null);
