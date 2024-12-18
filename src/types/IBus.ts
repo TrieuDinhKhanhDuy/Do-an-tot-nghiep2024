@@ -44,3 +44,16 @@ export type DbRecordForm = {
   phone: string;
   address: string;
 }
+
+export type RoutePopularType = {
+  route_id: number;
+  count: number;
+  route_name: string;
+  start_stop: string;
+  start_route_id: number;
+  end_route_id: number;
+  end_stop: string;
+  cycle: number;
+  route_price: string;
+  length: string;
+};

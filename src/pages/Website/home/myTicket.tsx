@@ -1,17 +1,15 @@
+import { Link, useNavigate } from "react-router-dom";
+import "../../../styles/Website/myTicket.css";
 import Breadcrumb from "@/components/Breadcrumb";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import LeftBar from "@/components/leftBar_user";
 import { LinearProgress } from "@mui/material";
 import numeral from "numeral";
-import moment from "moment"; // Import moment.js for date/time formatting
-import { z } from "zod";
+import moment from "moment";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { cancelTicketType } from "@/types/IUser";
 import Swal from "sweetalert2";
-import "../../../styles/Website/myTicket.css";
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
 interface BusOption {
     ticket_booking_id: string;
@@ -184,7 +182,7 @@ const MyTicket = () => {
                     <LeftBar />
 
                     <div className="bus-comp-list">
-                        <div className="schedule-header">
+                        <div className="schedule-header ">
                             <div
                                 className={`header-item ${selectedStatus === "all" ? "active" : "step2"}`}
                                 onClick={() => setSelectedStatus("all")}

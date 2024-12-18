@@ -104,14 +104,7 @@ const List_BusFix = () => {
                 `/list?start=${searchParams.startLocation}&end=${searchParams.endLocation}&date=${searchParams.departureDate}&&page=${page}&sort=${sortOrder}`,
             );
             setLoading(false);
-            toast.success("Lấy dữ liệu chuyến thành công", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
+            
         }
     };
 
@@ -193,7 +186,7 @@ const List_BusFix = () => {
                 <BookingFormComponent onSearch={handleSearch} />
                 <div className="bus-schedule-container">
                     {/* Group 1: Header Group */}
-                    <div className="schedule-header">
+                    <div className="schedule-header schedule-header-none">
                         <div className="header-item">Chọn chỗ</div>
                         <div className="header-item step2">Thanh Toán</div>
                         <div className="header-item step2">Hoàn Thành</div>
