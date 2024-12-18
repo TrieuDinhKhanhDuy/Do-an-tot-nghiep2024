@@ -104,14 +104,7 @@ const List_BusFix = () => {
                 `/list?start=${searchParams.startLocation}&end=${searchParams.endLocation}&date=${searchParams.departureDate}&&page=${page}&sort=${sortOrder}`,
             );
             setLoading(false);
-            toast.success("Lấy dữ liệu chuyến thành công", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
+            
         }
     };
 
