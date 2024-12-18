@@ -80,3 +80,13 @@
     display: flex;
     justify-content: space-between;
 }
+.btn-searchNow{
+  background-color: #405187;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  border-radius: 10px;
+}
