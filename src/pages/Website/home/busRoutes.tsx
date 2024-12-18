@@ -1,4 +1,4 @@
-import '../../../styles/Website/locationTable.css';
+  import '../../../styles/Website/locationTable.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Breadcrumb from '@/components/Breadcrumb';

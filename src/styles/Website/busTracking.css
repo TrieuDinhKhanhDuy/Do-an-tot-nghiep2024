@@ -6,7 +6,7 @@
   width: 1200px;
   border: 1px solid #DFF0D8;
   border-radius: 5px;
-  min-height: 1200px;
+  max-height: 1200px;
 }
 
 .ticket-form-section {
@@ -14,7 +14,7 @@
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  height: 500px;
+  height: 600px;
 }
 
 .ticket-form-title {
@@ -68,6 +68,7 @@
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  height: 600px;
 }
 
 .ticket-info-table {
