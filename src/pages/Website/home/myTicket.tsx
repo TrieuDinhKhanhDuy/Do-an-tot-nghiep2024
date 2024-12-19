@@ -215,9 +215,7 @@ const MyTicket = () => {
                             <div key={ticketItem.order_code} className="bus-comp-option">
                                 <div className="bus-comp-image-container">
                                     <img
-                                        src={
-                                            'https://tophomestay.vn/upload/img/9fba44d71932a89fa06a21703c0bfbed/2020/08/28/xe_giuong_nam_1598597002820.jpg'
-                                        }
+                                        src={ticketItem.image}
                                         alt={ticketItem.route_name}
                                         className="bus-comp-image"
                                     />
