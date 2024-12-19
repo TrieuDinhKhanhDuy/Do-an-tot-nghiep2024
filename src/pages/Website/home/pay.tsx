@@ -283,7 +283,7 @@ const Pay = () => {
                                     </tr>
                                     <tr>
                                         <td>Mã khuyến mãi:</td>
-                                        <td>-</td>
+                                        <td>{code_voucher}</td>
                                     </tr>
                                     <tr>
                                         <td>Ghi chú:</td>
